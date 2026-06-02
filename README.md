@@ -91,7 +91,7 @@ You can also open `index.html` directly; a local server is recommended for fonts
 ├── index.html          # Course page (hero, mission, lessons, nav)
 ├── styles.css          # Design system & layout
 ├── script.js           # Nav, search, scroll spy, TTS
-├── favicon.svg         # Tab icon
+├── favicon.png         # Tab icon (brain: biological + AI)
 ├── days/               # Source notes (one file per day)
 │   ├── day1
 │   ├── day2
