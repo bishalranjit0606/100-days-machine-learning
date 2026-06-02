@@ -1,0 +1,24 @@
+Day 2: AI vs ML vs Deep Learning
+AI: Artificial Intelligence
+AI is a large term.
+It can include simple if else rules. This is also known as symbolic AI or an expert system.
+Expert system means we take knowledge from an expert, like a chess player, and write code using that knowledge.
+But an expert system works only for a specific problem. In this case, it works only for chess.
+It does not work well with fuzzy data.
+ML: Machine Learning
+ML works with fuzzy data.
+It finds patterns. We do not write the rules.
+It uses statistics and math tools.
+Deep Learning
+Deep learning is a part of machine learning.
+In ML, we define the features.
+Example:
+For a dog and cat image classifier, we may give features like:
+Ears up = dog
+Ears down = cat
+Long tail = dog
+But in deep learning, it detects the features by itself.
+Deep learning is inspired by our biology.
+It is best for fuzzy data.
+If we have very large data, we use deep learning. But most of the time, we use ML.
+

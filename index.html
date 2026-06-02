@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="100 Days of Machine Learning — a community course on the full ML life cycle: preprocessing, analysis, model selection, feature selection, and the bias-variance trade-off.">
+  <meta name="theme-color" content="#eef6fc">
+  <meta name="color-scheme" content="light">
+  <title>100 Days of Machine Learning — ML Life Cycle Course</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to lessons</a>
+
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress__fill" id="reading-progress-fill"></div>
+  </div>
+
+  <header class="mobile-header" role="banner">
+    <span class="mobile-header__brand">100 Days ML</span>
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="sidebar-nav" aria-label="Open lesson menu">
+      <i data-lucide="panel-right" aria-hidden="true"></i>
+    </button>
+  </header>
+
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <nav class="sidebar" id="sidebar-nav" aria-label="Course table of contents">
+    <div class="sidebar__brand">100 Days ML</div>
+    <a class="sidebar__about" href="#about-series">About this series</a>
+    <div class="sidebar__search-wrap">
+      <input type="search" class="sidebar__search" id="toc-search" placeholder="Search lessons…" aria-label="Search lessons">
+    </div>
+    <div class="sidebar__toc" id="sidebar-toc">
+      <div class="toc-chapter" data-chapter="day-1">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-1">
+          <span class="toc-chapter__pill">Day 1</span>
+          <span class="toc-chapter__name">Introduction to ML</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-1" hidden>
+          <li><a class="toc-link" href="#section-1" data-section="1">What is Machine Learning?</a></li>
+          <li><a class="toc-link" href="#section-2" data-section="2">Traditional Programming vs ML</a></li>
+          <li><a class="toc-link" href="#section-3" data-section="3">Learning Patterns from Examples</a></li>
+          <li><a class="toc-link" href="#section-4" data-section="4">Why Rules Break: Spam Detection</a></li>
+          <li><a class="toc-link" href="#section-5" data-section="5">Scale and Learning Over Time</a></li>
+          <li><a class="toc-link" href="#section-6" data-section="6">Data Mining and Applications</a></li>
+        </ul>
+      </div>
+      <div class="toc-chapter" data-chapter="day-2">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-2">
+          <span class="toc-chapter__pill">Day 2</span>
+          <span class="toc-chapter__name">AI vs ML vs Deep Learning</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-2" hidden>
+          <li><a class="toc-link" href="#section-7" data-section="7">Artificial Intelligence Overview</a></li>
+          <li><a class="toc-link" href="#section-8" data-section="8">Expert Systems &amp; Symbolic AI</a></li>
+          <li><a class="toc-link" href="#section-9" data-section="9">Machine Learning with Fuzzy Data</a></li>
+          <li><a class="toc-link" href="#section-10" data-section="10">Deep Learning</a></li>
+        </ul>
+      </div>
+      <div class="toc-chapter" data-chapter="day-3">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-3">
+          <span class="toc-chapter__pill">Day 3</span>
+          <span class="toc-chapter__name">Types of Machine Learning</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-3" hidden>
+          <li><a class="toc-link" href="#section-11" data-section="11">Supervised Learning</a></li>
+          <li><a class="toc-link" href="#section-12" data-section="12">Regression</a></li>
+          <li><a class="toc-link" href="#section-13" data-section="13">Classification</a></li>
+          <li><a class="toc-link" href="#section-14" data-section="14">Unsupervised Learning</a></li>
+          <li><a class="toc-link" href="#section-15" data-section="15">Clustering &amp; Dimensionality</a></li>
+          <li><a class="toc-link" href="#section-16" data-section="16">Anomaly &amp; Association Rules</a></li>
+          <li><a class="toc-link" href="#section-17" data-section="17">Semi-Supervised Learning</a></li>
+          <li><a class="toc-link" href="#section-18" data-section="18">Reinforcement Learning</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <span class="hero__badge">For the community · New topic every day</span>
+        <h1 class="hero__title" id="hero-title"><em>100 Days</em> of Machine Learning</h1>
+        <p class="hero__subtitle">A complete path through the <strong>Machine Learning Life Cycle</strong> — from raw data to deployed insight. Built for beginners and intermediate learners who want proficiency, not just algorithms in isolation.</p>
+        <a class="hero__cta" href="#about-series">Why this series <i data-lucide="arrow-down" aria-hidden="true"></i></a>
+        <a class="hero__cta hero__cta--secondary" href="#chapter-day-1">Start Day 1</a>
+        <div class="hero__stats">
+          <span class="hero__stat">100-day series</span>
+          <span class="hero__stat">Full ML life cycle</span>
+          <span class="hero__stat">Beginner → proficient</span>
+          <span class="hero__stat">Day 3 published</span>
+        </div>
+      </div>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__visual-grid">
+          <div class="hero__visual-cell hero__visual-cell--teal">
+            <i data-lucide="bar-chart-3" aria-hidden="true"></i>
+          </div>
+          <div class="hero__visual-cell hero__visual-cell--violet">
+            <i data-lucide="brain" aria-hidden="true"></i>
+          </div>
+          <div class="hero__visual-cell hero__visual-cell--teal">
+            <i data-lucide="binary" aria-hidden="true"></i>
+          </div>
+          <div class="hero__visual-cell hero__visual-cell--rose">
+            <i data-lucide="line-chart" aria-hidden="true"></i>
+          </div>
+          <div class="hero__visual-cell hero__visual-cell--violet">
+            <i data-lucide="target" aria-hidden="true"></i>
+          </div>
+          <div class="hero__visual-cell hero__visual-cell--teal">
+            <i data-lucide="zap" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="course-mission reveal" id="about-series" aria-labelledby="mission-title">
+      <div class="course-mission__inner">
+        <header class="course-mission__header">
+          <span class="course-mission__eyebrow">Why this website exists</span>
+          <h2 class="course-mission__title" id="mission-title">Teaching the full ML life cycle — together</h2>
+        </header>
+
+        <div class="course-mission__body">
+          <p>This course is an introduction to a new series titled <strong>“100 Days of Machine Learning.”</strong> Each day, a new topic is added for 100 days, building a complete learning path for the community.</p>
+          <p>The goal is an <strong>end-to-end understanding of the Machine Learning Life Cycle</strong> (also called the Product Life Cycle). Unlike algorithm-specific tutorials, this series follows the entire process from start to finish — how real ML work actually happens.</p>
+          <p>It is designed for <strong>beginners and intermediate learners</strong> who want to reach a proficient level: confident with data, models, and decisions — not just memorizing model names.</p>
+        </div>
+
+        <div class="course-mission__grid" aria-label="Topics covered in this series">
+          <article class="mission-topic">
+            <i data-lucide="filter" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Data preprocessing</h3>
+            <p class="mission-topic__desc">Clean, transform, and prepare data before modeling.</p>
+          </article>
+          <article class="mission-topic">
+            <i data-lucide="wand-2" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Imputation</h3>
+            <p class="mission-topic__desc">Handle missing values thoughtfully.</p>
+          </article>
+          <article class="mission-topic">
+            <i data-lucide="search" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Data analysis</h3>
+            <p class="mission-topic__desc">Explore patterns before you train.</p>
+          </article>
+          <article class="mission-topic">
+            <i data-lucide="git-branch" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Model selection</h3>
+            <p class="mission-topic__desc">Choose the right approach for the problem.</p>
+          </article>
+          <article class="mission-topic">
+            <i data-lucide="sliders-horizontal" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Feature selection</h3>
+            <p class="mission-topic__desc">Focus on inputs that actually matter.</p>
+          </article>
+          <article class="mission-topic">
+            <i data-lucide="scale" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Bias–variance trade-off</h3>
+            <p class="mission-topic__desc">Balance fit and generalization.</p>
+          </article>
+        </div>
+
+        <aside class="course-mission__note">
+          <i data-lucide="info" class="course-mission__note-icon" aria-hidden="true"></i>
+          <div>
+            <h3 class="course-mission__note-title">What this series is not</h3>
+            <p>Specific machine learning algorithms are <strong>not covered in depth here</strong> — on purpose. Excellent resources already exist for individual algorithms. This site fills the gap: the <strong>full life cycle</strong> and how all the pieces connect.</p>
+          </div>
+        </aside>
+
+        <p class="course-mission__cta-line">
+          <a class="course-mission__start" href="#chapter-day-1">Begin with Day 1 — Introduction to ML <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </p>
+      </div>
+    </section>
+
+    <main class="main" id="main">
+      <!-- DAY 1 -->
+      <div class="chapter-divider reveal" id="chapter-day-1" data-chapter="day-1">
+        <span class="chapter-divider__pill">Day 1</span>
+        <h2 class="chapter-divider__title">Introduction to ML</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-1" data-section="1" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">1</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What is Machine Learning?</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Machine learning</strong> means learning from data. In traditional programming, we write code for every possible outcome — the program produces the output directly.</p>
+            <p>In machine learning, we do not write every rule. The relationship looks like this:</p>
+            <ul>
+              <li><strong>Traditional programming:</strong> data + program = output</li>
+              <li><strong>Machine learning:</strong> data + output = pattern</li>
+            </ul>
+            <p>Or simply: <code>ML = data + algorithm → pattern</code></p>
+
+            <div class="workflow reveal" aria-label="ML workflow">
+              <p class="workflow__title">Typical ML workflow</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Question</span>
+                  <span class="workflow__step-desc">Define the problem</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data</span>
+                  <span class="workflow__step-desc">Collect examples</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Train</span>
+                  <span class="workflow__step-desc">Fit a model</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="line-chart" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Evaluate</span>
+                  <span class="workflow__step-desc">Check performance</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Iterate</span>
+                  <span class="workflow__step-desc">Improve and repeat</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-2" data-section="2" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">2</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traditional Programming vs Machine Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In traditional programming, you explicitly encode logic. The computer follows your instructions step by step.</p>
+            <p>In ML, you provide examples and let the system discover the rules. The algorithm generalizes from what it has seen to handle new cases it was never explicitly programmed for.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-3" data-section="3" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">3</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Learning Patterns from Examples</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Traditional programming example:</strong></p>
+            <ul>
+              <li><code>2 + 2</code> gives <code>4</code></li>
+              <li><code>2 + 3</code> gives <code>5</code></li>
+            </ul>
+            <p>You hard-code each case. In machine learning, you give thousands of addition examples. The model recognizes the pattern of addition — so even with 3- or 4-digit numbers it can answer correctly without you writing rules for every length.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-4" data-section="4" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">4</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mail-warning" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Rules Break: Spam Detection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In traditional programming you might write:</p>
+            <p><em>If an email has words like "big" or "discount", classify it as spam.</em></p>
+            <p>Companies can change wording — "big" to "huge", "discount" to "offer" — and brittle rules fail. ML recognizes underlying patterns in language instead of matching fixed keywords.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-5" data-section="5" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">5</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trending-up" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Scale and Learning Over Time</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>ML learns from data over time. The bigger and more representative the dataset, the better the model can generalize — as long as the data quality stays high.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-6" data-section="6" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">6</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pickaxe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Mining and Applications</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Data mining</strong> extracts useful information from large datasets. Machine learning supplies the patterns; data mining turns those patterns into actionable insight for business, science, and product decisions.</p>
+            <aside class="summary-callout">
+              <h3>Day 1 takeaways</h3>
+              <ul>
+                <li>ML learns patterns from data instead of hand-written rules.</li>
+                <li>Traditional code maps inputs to outputs; ML maps data + labels to a reusable model.</li>
+                <li>More quality data usually means better generalization.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 2 -->
+      <div class="chapter-divider reveal" id="chapter-day-2" data-chapter="day-2">
+        <span class="chapter-divider__pill">Day 2</span>
+        <h2 class="chapter-divider__title">AI vs ML vs Deep Learning</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-7" data-section="7" data-chapter="day-2">
+        <span class="lesson-card__marker" aria-hidden="true">7</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Artificial Intelligence Overview</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>AI (Artificial Intelligence)</strong> is a broad term. It can include simple <code>if/else</code> rule systems — also called <strong>symbolic AI</strong> or <strong>expert systems</strong>.</p>
+            <p>Expert systems encode knowledge from human specialists (e.g. a chess master) into explicit rules. They work well for narrow, well-defined problems but struggle with noisy, real-world data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-8" data-section="8" data-chapter="day-2">
+        <span class="lesson-card__marker" aria-hidden="true">8</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="crown" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Expert Systems &amp; Symbolic AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An expert system captures domain knowledge as rules. It excels at chess-like domains with clear logic but does not adapt when data is fuzzy or constantly changing.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-9" data-section="9" data-chapter="day-2">
+        <span class="lesson-card__marker" aria-hidden="true">9</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scatter-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Machine Learning with Fuzzy Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>ML</strong> works with fuzzy, messy data. You do not hand-write every rule — the model finds statistical patterns using math and optimization.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Concept</th>
+                    <th scope="col">Simple meaning</th>
+                    <th scope="col">Use when</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Concept"><strong>AI</strong></td>
+                    <td data-label="Simple meaning">Any system that mimics intelligent behavior</td>
+                    <td data-label="Use when">You need broad automation or reasoning frameworks</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Concept"><strong>ML</strong></td>
+                    <td data-label="Simple meaning">Learns patterns from data without explicit rules</td>
+                    <td data-label="Use when">You have labeled or unlabeled examples and fuzzy inputs</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Concept"><strong>Deep Learning</strong></td>
+                    <td data-label="Simple meaning">ML with neural networks that learn features automatically</td>
+                    <td data-label="Use when">You have very large datasets and complex perception tasks</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-10" data-section="10" data-chapter="day-2">
+        <span class="lesson-card__marker" aria-hidden="true">10</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Deep Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Deep learning</strong> is a subset of machine learning inspired by biology (neural networks). In classic ML you often define features manually — e.g. for cats vs dogs: ears up, long tail.</p>
+            <p>Deep learning discovers features automatically. It shines on very large datasets and complex inputs (images, audio, text). For many everyday problems, traditional ML is still the practical choice.</p>
+            <aside class="summary-callout">
+              <h3>Day 2 takeaways</h3>
+              <ul>
+                <li>AI is the umbrella; ML learns from data; deep learning learns representations with neural nets.</li>
+                <li>Expert systems use explicit rules; ML handles fuzzy real-world data.</li>
+                <li>Choose deep learning when data scale and complexity justify it.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 3 -->
+      <div class="chapter-divider reveal" id="chapter-day-3" data-chapter="day-3">
+        <span class="chapter-divider__pill">Day 3</span>
+        <h2 class="chapter-divider__title">Types of Machine Learning</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-11" data-section="11" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">11</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Supervised Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In <strong>supervised learning</strong>, you have both input and output (labels). The model learns the mapping between them.</p>
+
+            <ul class="concept-grid" aria-label="ML learning types at a glance">
+              <li class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Supervised</p>
+                <p class="concept-card__desc">Input + known output; learns mapping</p>
+              </li>
+              <li class="concept-card concept-card--unsupervised">
+                <p class="concept-card__name">Unsupervised</p>
+                <p class="concept-card__desc">Input only; finds structure</p>
+              </li>
+              <li class="concept-card concept-card--semi">
+                <p class="concept-card__name">Semi-supervised</p>
+                <p class="concept-card__desc">Mix of labeled and unlabeled data</p>
+              </li>
+              <li class="concept-card concept-card--reinforcement">
+                <p class="concept-card__name">Reinforcement</p>
+                <p class="concept-card__desc">Agent learns via rewards and mistakes</p>
+              </li>
+              <li class="concept-card concept-card--feature">
+                <p class="concept-card__name">Feature</p>
+                <p class="concept-card__desc">Measurable input attribute (e.g. CGPA)</p>
+              </li>
+              <li class="concept-card concept-card--label">
+                <p class="concept-card__name">Label</p>
+                <p class="concept-card__desc">Target output you want to predict</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-12" data-section="12" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">12</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="chart-line" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Regression</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Regression</strong> — both input and output are numeric. Used for prediction.</p>
+            <p><strong>Example:</strong> Input: IA = 99, CGPA = 7.5 → Output: Package = 14 lakh</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-13" data-section="13" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">13</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tags" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Classification</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Classification</strong> — input can be numeric, but output is a category or decision.</p>
+            <p><strong>Examples:</strong></p>
+            <ul>
+              <li>Will rain happen or not?</li>
+              <li>Input: IA = 99, CGPA = 7.5 → Output: Placement = Yes</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-14" data-section="14" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">14</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shapes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Unsupervised Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In <strong>unsupervised learning</strong>, you only have input — no output labels. Common goals: grouping similar items or simplifying high-dimensional data.</p>
+            <p><strong>Example:</strong> Student records grouped into high-IQ vs low-IQ clusters without predefined labels.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-15" data-section="15" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">15</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="component" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Clustering &amp; Dimensionality Reduction</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Clustering</strong> — categorize items into groups (e.g. customer segments).</p>
+            <p><strong>Dimensionality reduction</strong> — compress many columns into fewer meaningful ones. Example: combine separate "room" and "washroom" features into one housing-quality score.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-16" data-section="16" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">16</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-alert" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Anomaly Detection &amp; Association Rules</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Anomaly detection</strong> — find fraud or unusual events (email fraud, manufacturing defects).</p>
+            <p><strong>Association rule learning</strong> — discover patterns for recommendations (e.g. bread buyers often buy eggs).</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-17" data-section="17" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">17</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Semi-Supervised Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Semi-supervised learning</strong> blends supervised and unsupervised approaches. Labeling data is expensive — it takes time, money, and expertise.</p>
+            <p>You label only some examples (e.g. "dad", "mom" in photos) and let the model propagate labels to similar unlabeled data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-18" data-section="18" data-chapter="day-3">
+        <span class="lesson-card__marker" aria-hidden="true">18</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gamepad-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Reinforcement Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In <strong>reinforcement learning</strong>, an agent starts from scratch and learns through trial and error. Rewards and penalties shape behavior.</p>
+            <p><strong>Example:</strong> An AI agent moves near fire → points decrease → next time it avoids fire.</p>
+            <aside class="summary-callout">
+              <h3>Course summary</h3>
+              <ul>
+                <li>Supervised: labeled data → regression or classification.</li>
+                <li>Unsupervised: find groups, reduce dimensions, detect anomalies, or mine associations.</li>
+                <li>Semi-supervised and reinforcement learning cover label-scarce and interactive settings.</li>
+              </ul>
+              <p>You now have a map from foundations (Day 1) through AI/ML/DL (Day 2) to learning paradigms (Day 3).</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
+      <p>New lessons added daily · Day 3 of 100 published · Last updated June 2026</p>
+    </footer>
+  </div>
+
+  <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
+    <i data-lucide="arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <div class="tts-dock" id="tts-dock" role="toolbar" aria-label="Listen to lessons" hidden>
+    <span class="tts-dock__status" id="tts-status" aria-live="polite">Ready</span>
+    <button type="button" class="tts-dock__btn tts-dock__btn--primary" id="tts-listen-here" aria-label="Listen from current lesson" title="Listen here">
+      <i data-lucide="headphones" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="tts-dock__btn tts-dock__btn--primary" id="tts-listen-all" aria-label="Listen to all lessons" title="Listen all">
+      <i data-lucide="list-music" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="tts-dock__btn" id="tts-pause" aria-label="Pause" title="Pause" disabled>
+      <i data-lucide="pause" id="tts-pause-icon" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="tts-dock__btn" id="tts-stop" aria-label="Stop" title="Stop" disabled>
+      <i data-lucide="square" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
