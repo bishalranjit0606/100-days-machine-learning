@@ -137,7 +137,12 @@
       var target = document.getElementById(id);
       if (!target) return;
       e.preventDefault();
-      smoothScrollTo(target);
+      var sectionMatch = id.match(/^section-(\d+)$/);
+      if (sectionMatch && document.documentElement.classList.contains("is-mobile-ux")) {
+        goToLesson(sectionMatch[1]);
+      } else {
+        smoothScrollTo(target);
+      }
       if (link.classList.contains("toc-link")) closeMobileNav();
     });
   }
@@ -279,6 +284,7 @@
       if (!searchInput || !searchInput.value.trim()) {
         openChapterForSection(sid);
       }
+      updateMobileBar(sid);
     }
 
     var observer = new IntersectionObserver(
@@ -528,6 +534,15 @@
       clearSpeakingCard();
       currentCard = card;
       if (card) {
+        if (document.documentElement.classList.contains("is-mobile-ux")) {
+          var sid = card.getAttribute("data-section");
+          document.querySelectorAll(".lesson-card.is-collapsible").forEach(function (c) {
+            var on = c.getAttribute("data-section") === sid;
+            c.classList.toggle("is-expanded", on);
+            var b = c.querySelector(".lesson-card__toggle");
+            if (b) b.setAttribute("aria-expanded", on ? "true" : "false");
+          });
+        }
         card.classList.add("is-speaking");
         wrapWordsInBody(card);
         var num = card.getAttribute("data-section");
@@ -670,6 +685,204 @@
     window.addEventListener("beforeunload", cleanup);
   }
 
+  /* --- Mobile UX: collapsible lessons, bottom bar, compact mission --- */
+  var mobileBarInited = false;
+
+  function updateMobileBar(sectionId) {
+    if (!MOBILE_MQ.matches) return;
+    var label = document.getElementById("mobile-bar-label");
+    var prevBtn = document.getElementById("mobile-bar-prev");
+    var nextBtn = document.getElementById("mobile-bar-next");
+    var cards = document.querySelectorAll(".lesson-card[data-section]");
+    var n = parseInt(sectionId, 10);
+    var card = document.querySelector('.lesson-card[data-section="' + sectionId + '"]');
+    var titleEl = card ? card.querySelector(".lesson-card__title") : null;
+    var title = titleEl ? titleEl.textContent.trim() : "";
+    if (title.length > 28) title = title.slice(0, 25) + "\u2026";
+    if (label) {
+      label.textContent = title ? "Lesson " + n + " \u00b7 " + title : "Lesson " + n;
+    }
+    if (prevBtn) prevBtn.disabled = n <= 1;
+    if (nextBtn) nextBtn.disabled = n >= cards.length;
+  }
+
+  function collapseAllLessonsExcept(sectionId) {
+    document.querySelectorAll(".lesson-card.is-collapsible").forEach(function (card) {
+      var on = card.getAttribute("data-section") === String(sectionId);
+      card.classList.toggle("is-expanded", on);
+      var btn = card.querySelector(".lesson-card__toggle");
+      if (btn) btn.setAttribute("aria-expanded", on ? "true" : "false");
+    });
+  }
+
+  function expandAllLessonsDesktop() {
+    document.querySelectorAll(".lesson-card").forEach(function (card) {
+      card.classList.add("is-expanded");
+      card.classList.remove("is-collapsible");
+    });
+  }
+
+  function goToLesson(sectionId) {
+    currentSectionId = String(sectionId);
+    if (document.documentElement.classList.contains("is-mobile-ux")) {
+      collapseAllLessonsExcept(sectionId);
+    }
+    var el = document.getElementById("section-" + sectionId);
+    if (el) smoothScrollTo(el);
+    updateMobileBar(sectionId);
+    document.querySelectorAll(".toc-link").forEach(function (l) {
+      l.classList.toggle("is-active", l.getAttribute("data-section") === String(sectionId));
+    });
+  }
+
+  function wrapLessonCard(card) {
+    if (card.dataset.mobileWrap === "1") return;
+    var inner = card.querySelector(".lesson-card__inner");
+    var header = inner && inner.querySelector(".lesson-card__header");
+    var body = inner && inner.querySelector(".lesson-card__body");
+    if (!inner || !header || !body) return;
+
+    var sectionId = card.getAttribute("data-section");
+    body.id = "lesson-body-" + sectionId;
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "lesson-card__toggle";
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", body.id);
+
+    var marker = card.querySelector(".lesson-card__marker");
+    if (marker && marker.parentNode === card) {
+      btn.appendChild(marker);
+    }
+
+    header.parentNode.insertBefore(btn, header);
+    btn.appendChild(header);
+
+    var chevron = document.createElement("i");
+    chevron.setAttribute("data-lucide", "chevron-down");
+    chevron.className = "lesson-card__chevron";
+    chevron.setAttribute("aria-hidden", "true");
+    btn.appendChild(chevron);
+
+    btn.addEventListener("click", function () {
+      var willExpand = !card.classList.contains("is-expanded");
+      if (willExpand) {
+        collapseAllLessonsExcept(sectionId);
+      } else {
+        card.classList.remove("is-expanded");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    card.classList.add("is-collapsible");
+    card.dataset.mobileWrap = "1";
+  }
+
+  function unwrapLessonCard(card) {
+    if (card.dataset.mobileWrap !== "1") return;
+    var btn = card.querySelector(".lesson-card__toggle");
+    var inner = card.querySelector(".lesson-card__inner");
+    var body = inner && inner.querySelector(".lesson-card__body");
+    if (!btn || !inner) return;
+
+    var header = btn.querySelector(".lesson-card__header");
+    var marker = btn.querySelector(".lesson-card__marker");
+    var chevron = btn.querySelector(".lesson-card__chevron");
+
+    if (header) {
+      inner.insertBefore(header, body);
+    }
+    if (marker) {
+      card.insertBefore(marker, inner);
+    }
+    btn.remove();
+    if (chevron) chevron.remove();
+
+    card.classList.remove("is-collapsible", "is-expanded");
+    delete card.dataset.mobileWrap;
+    if (body) body.removeAttribute("id");
+  }
+
+  function applyMobileLayout(isMobile) {
+    document.documentElement.classList.toggle("is-mobile-ux", isMobile);
+    var bar = document.getElementById("mobile-lesson-bar");
+    if (bar) {
+      bar.classList.toggle("is-active", isMobile);
+      bar.hidden = !isMobile;
+    }
+
+    if (isMobile) {
+      document.querySelectorAll(".lesson-card").forEach(wrapLessonCard);
+      document.querySelectorAll(".lesson-card.is-collapsible").forEach(function (card) {
+        card.classList.remove("is-expanded");
+        var btn = card.querySelector(".lesson-card__toggle");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      });
+      initIcons();
+    } else {
+      document.querySelectorAll(".lesson-card").forEach(unwrapLessonCard);
+      expandAllLessonsDesktop();
+    }
+    updateMobileBar(currentSectionId);
+  }
+
+  function initMissionMobileToggle() {
+    var toggle = document.getElementById("mission-toggle");
+    var inner = toggle && toggle.closest(".course-mission__inner");
+    if (!toggle || !inner || toggle.dataset.inited === "1") return;
+    toggle.dataset.inited = "1";
+
+    toggle.addEventListener("click", function () {
+      if (!MOBILE_MQ.matches) return;
+      var open = inner.classList.toggle("is-mission-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  function initMobileLessonBar() {
+    if (mobileBarInited) return;
+    mobileBarInited = true;
+
+    var menuBtn = document.getElementById("mobile-bar-menu");
+    var prevBtn = document.getElementById("mobile-bar-prev");
+    var nextBtn = document.getElementById("mobile-bar-next");
+
+    if (menuBtn) {
+      menuBtn.addEventListener("click", openMobileNav);
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        var n = parseInt(currentSectionId, 10);
+        if (n > 1) goToLesson(n - 1);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        var n = parseInt(currentSectionId, 10);
+        var total = document.querySelectorAll(".lesson-card[data-section]").length;
+        if (n < total) goToLesson(n + 1);
+      });
+    }
+  }
+
+  function initMobileUx() {
+    initMissionMobileToggle();
+    initMobileLessonBar();
+    applyMobileLayout(MOBILE_MQ.matches);
+
+    MOBILE_MQ.addEventListener("change", function (e) {
+      applyMobileLayout(e.matches);
+      if (!e.matches) closeMobileNav();
+    });
+
+    var hash = window.location.hash;
+    if (hash && /^#section-\d+$/.test(hash) && MOBILE_MQ.matches) {
+      var id = hash.replace("#section-", "");
+      goToLesson(id);
+    }
+  }
+
   /* --- Boot --- */
   function boot() {
     initIcons();
@@ -683,6 +896,7 @@
     initScrollSpy();
     initScrollHandlers();
     initTextToSpeech();
+    initMobileUx();
     scrollOffsetMobile = getScrollOffset();
   }
 

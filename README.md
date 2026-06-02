@@ -53,6 +53,7 @@ New days are added as notes land in `days/day4`, `days/day5`, …
 ## Features
 
 - **Readable course layout** — chapter cards and full-width lesson cards
+- **Mobile UX** — collapsible lessons (tap to expand), bottom prev/next bar, compact “About” section
 - **Right sidebar** — collapsible days, lesson search, scroll-spy highlighting
 - **Mission section** — explains why the series exists
 - **Accessibility** — landmarks, keyboard nav, reduced-motion support

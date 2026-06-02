@@ -126,6 +126,15 @@
 
     <section class="course-mission reveal" id="about-series" aria-labelledby="mission-title">
       <div class="course-mission__inner">
+        <button type="button" class="course-mission__compact-toggle" id="mission-toggle" aria-expanded="false" aria-controls="mission-details">
+          <span class="course-mission__compact-text">
+            <span class="course-mission__compact-title">About this series</span>
+            <span class="course-mission__compact-hint">Tap to see why this course exists</span>
+          </span>
+          <i data-lucide="chevron-down" class="course-mission__compact-chevron" aria-hidden="true"></i>
+        </button>
+
+        <div class="course-mission__details" id="mission-details">
         <header class="course-mission__header">
           <span class="course-mission__eyebrow">Why this website exists</span>
           <h2 class="course-mission__title" id="mission-title">Teaching the full ML life cycle — together</h2>
@@ -181,6 +190,7 @@
         <p class="course-mission__cta-line">
           <a class="course-mission__start" href="#chapter-day-1">Begin with Day 1 — Introduction to ML <i data-lucide="arrow-right" aria-hidden="true"></i></a>
         </p>
+        </div>
       </div>
     </section>
 
@@ -582,6 +592,19 @@
       <p>New lessons added daily · Day 3 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
+
+  <nav class="mobile-lesson-bar" id="mobile-lesson-bar" aria-label="Lesson navigation" hidden>
+    <button type="button" class="mobile-lesson-bar__btn" id="mobile-bar-menu" aria-label="Open lesson menu">
+      <i data-lucide="list" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="mobile-lesson-bar__btn" id="mobile-bar-prev" aria-label="Previous lesson" disabled>
+      <i data-lucide="chevron-left" aria-hidden="true"></i>
+    </button>
+    <p class="mobile-lesson-bar__label" id="mobile-bar-label">Lesson 1</p>
+    <button type="button" class="mobile-lesson-bar__btn" id="mobile-bar-next" aria-label="Next lesson">
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+    </button>
+  </nav>
 
   <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
     <i data-lucide="arrow-up" aria-hidden="true"></i>
