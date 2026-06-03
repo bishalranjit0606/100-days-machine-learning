@@ -1,0 +1,31 @@
+Day 4: Batch Machine Learning. Offline vs online.
+
+This is also a type of machine learning. It is based on how the model is trained in production. This concept is important because we need to deploy models on a server.
+
+Batch vs online ML
+
+1. Batch learning is also known as offline ML.
+Here we use all data to train the ML model.
+There is no incremental training.
+
+As we know, data will be large. When we try to use all data on the server, it is expensive.
+So we train the model on an offline system. Once the model is trained, we put it on the server.
+
+Data -> model -> test -> put on the server
+
+The problem with batch machine learning:
+The model knowledge will be static. What it learns stays the same. There will be no evolution.
+Example: On Netflix they keep adding movies. The old model becomes bad.
+We need to retrain the model frequently.
+
+We need to use updated data plus the previous model, then train again so we get a new trained model.
+This happens on a schedule. Mainly people do it per week or per day.
+
+Batch learning: we train on a large amount of data offline, then put the model on the server. We do this continually.
+
+Disadvantages of batch ML:
+If there is a very large amount of data, our tools might not process it. We cannot train the ML model.
+There can be hardware limitations.
+If there is no connectivity, it is hard to train data or send the newly trained model.
+
+Example: On social media, if we use batch processing and the latest news comes in, we may not see it in the feed quickly. The system might respond after 24 hours. After 24 hours we get the updated data.

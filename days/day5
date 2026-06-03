@@ -1,0 +1,60 @@
+Day 5: Online Machine Learning
+
+If you have heard that the more you use a product the better it gets, that is often online ML.
+
+Online learning is done incrementally.
+We feed small batches to the model.
+Every small batch makes the ML model smarter.
+Because of this we can train on the server.
+
+Small amount of data -> ML -> test -> server.
+The server gets new data every time.
+We train the ML model on the server.
+
+Examples: chatbots on devices like Alexa and Google. They read chat data and train on the server.
+If we use an online keyboard, the more we use it the more personalized it gets. YouTube gives real time suggestions.
+
+Online learning is popular nowadays.
+
+When to use batch learning and online learning
+
+The main idea is concept drift: when the nature or context changes rapidly, use online learning. Examples: stock, sales, ecommerce.
+
+Use online learning to reduce cost in some setups.
+
+Online learning is very fast. It helps make the system fast.
+
+We can use scikit learn or dedicated libraries like River, or Vowpal Wabbit.
+
+Scikit learn supports batch learning more as the default.
+
+Learning rate: how often we update the model with new data. We need to pick the best learning rate. This is one of the hardest parts of online learning.
+
+Out of core learning: when the data is so huge we cannot train it all at once.
+In this case we use online learning and give the system small chunks of data.
+
+Big data -> split to small data -> model -> test -> server.
+
+Disadvantages of online learning:
+It is tricky to use. It is easy to start training but risky.
+If the server is hacked or we get spam data, someone could control the incoming data. That is risky.
+We need a monitoring system to detect bad data.
+If we get hacked or bad data arrives, we should be able to roll back and pause online learning.
+
+Online vs offline
+
+Offline is not complex.
+Online is complex.
+
+Computation power: batch training often uses strong local machines. Online needs strong server computation too.
+
+In production, batch is easier and online is harder.
+
+In application:
+If the data pattern is mostly constant, batch learning can work.
+If the pattern changes fast, online learning fits better.
+
+Tools:
+Batch learning: Spark, TensorFlow, PyTorch.
+
+Online learning: Storm, MOA, scikit-multiflow, and similar tools.

@@ -5,7 +5,7 @@
 
 > A free, community-focused course on the **full Machine Learning life cycle** — one new lesson every day for 100 days.
 
-**Live site:** _Add your GitHub Pages URL after deploy, e.g. `https://yourusername.github.io/100-days-ml/`_
+**Live site:** [https://bishalranjitkar.tech/100-days-machine-learning/](https://bishalranjitkar.tech/100-days-machine-learning/)
 
 ---
 
@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 3** (18 lessons) |
+| Published | **Day 5** (31 lessons) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -45,8 +45,10 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 1 | Introduction to ML | 1–6 |
 | 2 | AI vs ML vs Deep Learning | 7–10 |
 | 3 | Types of Machine Learning | 11–18 |
+| 4 | Batch Machine Learning | 19–23 |
+| 5 | Online Machine Learning | 24–31 |
 
-New days are added as notes land in `days/day4`, `days/day5`, …
+New days are added as notes land in `days/day6`, …
 
 ---
 

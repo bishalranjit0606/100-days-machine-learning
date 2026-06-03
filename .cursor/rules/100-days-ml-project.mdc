@@ -1,0 +1,78 @@
+---
+description: 100 Days of Machine Learning site — content, copy, and UI standards (always on)
+alwaysApply: true
+---
+
+# 100 Days of Machine Learning — Project Rules
+
+These rules apply to **every prompt** in this repository. Follow them even when the user only asks for a small change.
+
+## Project purpose
+
+This site teaches the **full Machine Learning life cycle** to the community (100 Days of Machine Learning). The user **teaches**; copy should sound like teaching, not "I am learning alongside you."
+
+Live site context: static HTML/CSS/JS (`index.html`, `styles.css`, `script.js`), notes in `days/`, Lucide icons, `favicon.png`, mobile collapsible lessons.
+
+---
+
+## Writing and copy (strict)
+
+### Simple words
+- Use **plain, simple English** suitable for beginners.
+- Prefer short sentences. Avoid jargon unless the day's notes introduce it, then explain it simply.
+- The user **teaches** the community; tone is clear, warm, and direct.
+
+### No hyphens or dashes in user facing text
+- In **lesson prose, hero copy, mission text, captions, social posts, README marketing lines, and UI labels**: do **not** use the hyphen character `-` or en/em dashes.
+- Use alternatives: "day by day", "beginner to proficient", "bias variance trade off", "end to end", "100 day".
+- **Allowed** where required by syntax: code (`if/else`), CSS, URLs, file paths, HTML attributes, `data-*`, Git branch names, and hashtag tokens like `#100DaysOfMachineLearning` (no hyphen inside hashtags is fine).
+
+### No emoji
+- **Never** use emoji in the site, captions, or lesson content.
+- Use **Lucide icons** via `data-lucide` (already used in the project) for visual interest. Match existing premium style (icon in card headers, workflow steps, hero grid on desktop only).
+
+---
+
+## Day content from user notes
+
+When the user adds or updates a day file under `days/`:
+
+1. **Include their material fully** — turn their notes into lessons without cutting important points. Each distinct idea should become a lesson section or clear paragraph.
+2. **Do not invent filler** — never pad lessons with generic fluff, repeated summaries, or "AI voice" padding just to increase length.
+3. **Fix only real issues** — correct grammar, clarity, and structure errors. Do not rewrite their meaning or add topics they did not provide.
+4. **Preserve global lesson numbering** — numbers continue across days (Day 2 does not restart at 1).
+5. **Wire the site** — update `index.html` (chapter, articles, sidebar TOC), keeping `data-chapter` and `data-section` conventions.
+
+---
+
+## Visual and UX (when editing the site)
+
+- Keep the existing design system (Sora/Lora, teal/violet accents). Do not reintroduce banned reference palettes or emoji grids.
+- Maintain **mobile UX**: collapsible lessons on small screens, bottom lesson bar, compact "About" on mobile.
+- Sidebar: collapsible days; lesson titles without number prefix in nav (numbers stay on cards).
+- Lesson cards should match chapter card width on desktop.
+
+---
+
+## Technical constraints
+
+- HTML + CSS + vanilla JS only unless the user explicitly asks for a framework or build step.
+- No cheap clip art or emoji; icons = Lucide only.
+- Site must work on GitHub Pages / static host (open `index.html` or `python3 -m http.server`).
+
+---
+
+## Social captions (when asked)
+
+- Simple words, teaching focus, link to https://bishalranjitkar.tech/100-days-machine-learning/
+- Hashtags allowed; **no emoji**; **no `-`** in the caption body (rephrase as above).
+
+---
+
+## Before finishing any task
+
+- [ ] User facing text has no `-` or dashes (except allowed technical cases).
+- [ ] No emoji anywhere in content or UI.
+- [ ] New day content reflects the user's notes fully without filler.
+- [ ] Icons are Lucide, not emoji.
+- [ ] Copy sounds like teaching the community.

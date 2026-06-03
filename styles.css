@@ -14,6 +14,8 @@
   --chapter-day-1: #0d9488;
   --chapter-day-2: #7c3aed;
   --chapter-day-3: #db2777;
+  --chapter-day-4: #d97706;
+  --chapter-day-5: #2563eb;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -309,6 +311,14 @@ a:hover {
   border-left: 3px solid var(--chapter-day-3);
 }
 
+.toc-chapter[data-chapter="day-4"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-4);
+}
+
+.toc-chapter[data-chapter="day-5"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-5);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -327,6 +337,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-3"] .toc-chapter__pill {
   background: var(--chapter-day-3);
+}
+
+.toc-chapter[data-chapter="day-4"] .toc-chapter__pill {
+  background: var(--chapter-day-4);
+}
+
+.toc-chapter[data-chapter="day-5"] .toc-chapter__pill {
+  background: var(--chapter-day-5);
 }
 
 .toc-chapter__name {
@@ -397,6 +415,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-3"] .toc-link.is-active {
   border-color: var(--chapter-day-3);
+}
+
+.toc-chapter[data-chapter="day-4"] .toc-link.is-active {
+  border-color: var(--chapter-day-4);
+}
+
+.toc-chapter[data-chapter="day-5"] .toc-link.is-active {
+  border-color: var(--chapter-day-5);
 }
 
 .toc-link.hidden,
@@ -853,6 +879,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-3);
 }
 
+.chapter-divider[data-chapter="day-4"] {
+  border-left: 5px solid var(--chapter-day-4);
+}
+
+.chapter-divider[data-chapter="day-5"] {
+  border-left: 5px solid var(--chapter-day-5);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -873,6 +907,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-3"] .chapter-divider__pill {
   background: var(--chapter-day-3);
+}
+
+.chapter-divider[data-chapter="day-4"] .chapter-divider__pill {
+  background: var(--chapter-day-4);
+}
+
+.chapter-divider[data-chapter="day-5"] .chapter-divider__pill {
+  background: var(--chapter-day-5);
 }
 
 .chapter-divider__title {
@@ -910,6 +952,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-3);
 }
 
+.lesson-card[data-chapter="day-4"] {
+  border-left: 5px solid var(--chapter-day-4);
+}
+
+.lesson-card[data-chapter="day-5"] {
+  border-left: 5px solid var(--chapter-day-5);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -939,6 +989,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-3"] .lesson-card__marker {
   background: var(--chapter-day-3);
+}
+
+.lesson-card[data-chapter="day-4"] .lesson-card__marker {
+  background: var(--chapter-day-4);
+}
+
+.lesson-card[data-chapter="day-5"] .lesson-card__marker {
+  background: var(--chapter-day-5);
 }
 
 .lesson-card__inner {
@@ -981,6 +1039,16 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-3"] .lesson-card__icon {
   color: var(--chapter-day-3);
   background: rgba(219, 39, 119, 0.1);
+}
+
+.lesson-card[data-chapter="day-4"] .lesson-card__icon {
+  color: var(--chapter-day-4);
+  background: rgba(217, 119, 6, 0.12);
+}
+
+.lesson-card[data-chapter="day-5"] .lesson-card__icon {
+  color: var(--chapter-day-5);
+  background: rgba(37, 99, 235, 0.1);
 }
 
 .lesson-card__title {
