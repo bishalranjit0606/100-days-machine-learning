@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 5** (31 lessons) |
+| Published | **Day 6** (37 lessons) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -47,8 +47,9 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 3 | Types of Machine Learning | 11–18 |
 | 4 | Batch Machine Learning | 19–23 |
 | 5 | Online Machine Learning | 24–31 |
+| 6 | Instance vs Model Based | 32–37 |
 
-New days are added as notes land in `days/day6`, …
+New days are added as notes land in `days/day7`, …
 
 ---
 
@@ -68,15 +69,28 @@ New days are added as notes land in `days/day6`, …
 
 ### Run locally
 
+Static site only (HTML, CSS, JS). No build step on the server.
+
+**Option A — local server (recommended for development)**
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+cd /path/to/ml
 python3 -m http.server 8080
 ```
 
-Open [http://localhost:8080](http://localhost:8080).
+Open [http://localhost:8080](http://localhost:8080)
 
-You can also open `index.html` directly; a local server is recommended for fonts and CDN assets.
+**Option B — open `index.html` directly**
+
+Brave and Chrome often block `styles.css` on `file://` URLs. This repo embeds a copy of `styles.css` inside `index.html` so double click still works.
+
+After you edit `styles.css`, run:
+
+```bash
+./embed-css.sh
+```
+
+**Live site:** [https://bishalranjitkar.tech/100-days-machine-learning/](https://bishalranjitkar.tech/100-days-machine-learning/)
 
 ### Deploy to GitHub Pages
 

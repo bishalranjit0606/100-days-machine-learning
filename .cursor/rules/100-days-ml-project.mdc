@@ -58,7 +58,7 @@ When the user adds or updates a day file under `days/`:
 
 - HTML + CSS + vanilla JS only unless the user explicitly asks for a framework or build step.
 - No cheap clip art or emoji; icons = Lucide only.
-- Site must work on GitHub Pages / static host (open `index.html` or `python3 -m http.server`).
+- Site must work on GitHub Pages / static host (HTML, CSS, JS only; no Python or build step).
 
 ---
 
