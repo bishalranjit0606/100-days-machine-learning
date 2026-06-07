@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <style id="site-styles-embed">
+    <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -33,6 +33,7 @@
   --chapter-day-4: #d97706;
   --chapter-day-5: #2563eb;
   --chapter-day-6: #059669;
+  --chapter-day-7: #be123c;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -340,6 +341,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-6);
 }
 
+.toc-chapter[data-chapter="day-7"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-7);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -370,6 +375,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-6"] .toc-chapter__pill {
   background: var(--chapter-day-6);
+}
+
+.toc-chapter[data-chapter="day-7"] .toc-chapter__pill {
+  background: var(--chapter-day-7);
 }
 
 .toc-chapter__name {
@@ -452,6 +461,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-6"] .toc-link.is-active {
   border-color: var(--chapter-day-6);
+}
+
+.toc-chapter[data-chapter="day-7"] .toc-link.is-active {
+  border-color: var(--chapter-day-7);
 }
 
 .toc-link.hidden,
@@ -920,6 +933,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-6);
 }
 
+.chapter-divider[data-chapter="day-7"] {
+  border-left: 5px solid var(--chapter-day-7);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -952,6 +969,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-6"] .chapter-divider__pill {
   background: var(--chapter-day-6);
+}
+
+.chapter-divider[data-chapter="day-7"] .chapter-divider__pill {
+  background: var(--chapter-day-7);
 }
 
 .chapter-divider__title {
@@ -1001,6 +1022,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-6);
 }
 
+.lesson-card[data-chapter="day-7"] {
+  border-left: 5px solid var(--chapter-day-7);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1042,6 +1067,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-6"] .lesson-card__marker {
   background: var(--chapter-day-6);
+}
+
+.lesson-card[data-chapter="day-7"] .lesson-card__marker {
+  background: var(--chapter-day-7);
 }
 
 .lesson-card__inner {
@@ -1099,6 +1128,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-6"] .lesson-card__icon {
   color: var(--chapter-day-6);
   background: rgba(5, 150, 105, 0.1);
+}
+
+.lesson-card[data-chapter="day-7"] .lesson-card__icon {
+  color: var(--chapter-day-7);
+  background: rgba(190, 18, 60, 0.1);
 }
 
 .lesson-card__title {
@@ -1283,6 +1317,7 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .concept-card--semi { border-top: 3px solid #d97706; }
 .concept-card--feature { border-top: 3px solid #2563eb; }
 .concept-card--label { border-top: 3px solid #059669; }
+.concept-card--challenge { border-top: 3px solid #be123c; }
 
 .concept-card__name {
   margin: 0 0 0.35rem;
@@ -1961,6 +1996,25 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <li><a class="toc-link" href="#section-37" data-section="37">Comparing Both Approaches</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-7">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-7">
+          <span class="toc-chapter__pill">Day 7</span>
+          <span class="toc-chapter__name">Challenges of ML</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-7" hidden>
+          <li><a class="toc-link" href="#section-38" data-section="38">Data Collection</a></li>
+          <li><a class="toc-link" href="#section-39" data-section="39">Insufficient Labeled Data</a></li>
+          <li><a class="toc-link" href="#section-40" data-section="40">Non Representative Data</a></li>
+          <li><a class="toc-link" href="#section-41" data-section="41">Poor Quality Data</a></li>
+          <li><a class="toc-link" href="#section-42" data-section="42">Irrelevant Features</a></li>
+          <li><a class="toc-link" href="#section-43" data-section="43">Overfitting</a></li>
+          <li><a class="toc-link" href="#section-44" data-section="44">Underfitting</a></li>
+          <li><a class="toc-link" href="#section-45" data-section="45">Software Integration</a></li>
+          <li><a class="toc-link" href="#section-46" data-section="46">Deployment and Updates</a></li>
+          <li><a class="toc-link" href="#section-47" data-section="47">Cost and End to End Mindset</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -1976,8 +2030,8 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">37 lessons live</span>
-          <span class="hero__stat">Day 6 published</span>
+          <span class="hero__stat">47 lessons live</span>
+          <span class="hero__stat">Day 7 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -2927,11 +2981,241 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           </div>
         </div>
       </article>
+
+      <!-- DAY 7 -->
+      <div class="chapter-divider reveal" id="chapter-day-7" data-chapter="day-7">
+        <span class="chapter-divider__pill">Day 7</span>
+        <h2 class="chapter-divider__title">Challenges of Machine Learning</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-38" data-section="38" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">38</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Collection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If there is <strong>no data</strong>, there is no point in doing machine learning.</p>
+            <p>Small projects often use ready datasets (for example <strong>Kaggle</strong>). In a real company, <strong>gathering data is very hard</strong>. This is one of the main ML problems.</p>
+
+            <div class="workflow reveal" aria-label="Ways to collect data">
+              <p class="workflow__title">Common ways to get data</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="download" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Open datasets</span>
+                  <span class="workflow__step-desc">Kaggle, small projects</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plug" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">API</span>
+                  <span class="workflow__step-desc">Fetch from services</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="globe" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Web scraping</span>
+                  <span class="workflow__step-desc">Pull from websites</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-39" data-section="39" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">39</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bar-chart-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Insufficient Labeled Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose algorithm A is better in theory but has only <strong>100 rows</strong>. Algorithm B is weaker but has <strong>1 lakh rows</strong>. B often wins in practice because it has more data.</p>
+            <p>With <strong>huge data</strong>, which algorithm you pick matters less. In real life we usually have <strong>small or medium</strong> datasets.</p>
+            <p>When data or labels are scarce, machine learning becomes much harder.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-40" data-section="40" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">40</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Non Representative Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If your data covers only part of the real world, your model reflects only that part.</p>
+            <p><strong>Example:</strong> You survey only Spain about who will win the World Cup. Most answers pick Spain, so the model says Spain will win. You needed data from <strong>all countries</strong> in the tournament.</p>
+            <p>Watch for <strong>sampling noise</strong> (random luck in a small sample) and <strong>sampling bias</strong> (sample does not match the full population).</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-41" data-section="41" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">41</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eraser" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Poor Quality Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A funny truth: we often spend about <strong>60% of our time cleaning data</strong>.</p>
+            <p>The <strong>purer</strong> the data, the better the model. Dirty data leads to weak or wrong results no matter how fancy the algorithm is.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-42" data-section="42" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">42</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="filter-x" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Irrelevant Features</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Garbage in, garbage out.</strong> Some columns never help the model.</p>
+            <p><strong>Example:</strong> Predicting a marathon winner from a survey with age, height, weight, and location.</p>
+            <ul>
+              <li><strong>Age and weight</strong> can matter.</li>
+              <li><strong>Location</strong> alone cannot tell you that people from Pokhara will win.</li>
+              <li><strong>Height and weight</strong> can be merged into <strong>BMI</strong> instead of keeping both.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-43" data-section="43" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">43</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain-circuit" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Overfitting</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The model <strong>memorizes</strong> training data. It does well on old examples but fails on new ones.</p>
+            <p><strong>Example:</strong> One cinema ticket in Kathmandu costs 120. The model learns that every hall ticket everywhere is 120. That is wrong generalization.</p>
+            <p>When the model tries to be <strong>too accurate on training data only</strong>, that is overfitting.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-44" data-section="44" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">44</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trending-down" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Underfitting</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The model is <strong>too simple</strong> or not trained well. It is weak on training data and weak on new data.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Problem</th>
+                    <th scope="col">What happens</th>
+                    <th scope="col">Training accuracy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Problem"><strong>Overfitting</strong></td>
+                    <td data-label="What happens">Memorizes training, fails on new data</td>
+                    <td data-label="Training accuracy">Very high (often near 100%)</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Problem"><strong>Underfitting</strong></td>
+                    <td data-label="What happens">Too simple, misses patterns</td>
+                    <td data-label="Training accuracy">Low</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Problem"><strong>Good fit</strong></td>
+                    <td data-label="What happens">Learns real patterns, generalizes</td>
+                    <td data-label="Training accuracy">Strong but not perfect</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-45" data-section="45" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">45</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="puzzle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Software Integration</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>After you build a model, you must <strong>plug it into real software</strong>. The ML part must work with the app, APIs, and user flows.</p>
+            <p>Check <strong>compatibility</strong> and keep versions aligned. Software integration is often very hard.</p>
+            <p><strong>Tip:</strong> always aim to ship an <strong>end to end product</strong>, not just a notebook.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-46" data-section="46" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">46</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud-upload" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Deployment and Offline Updates</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Once the model is live, <strong>data keeps changing</strong>. You often retrain offline, test again, then push to the server. That loop is hard to run smoothly.</p>
+            <p><strong>Deployment</strong> is one of the toughest steps in the ML life cycle.</p>
+            <p>Cloud platforms like <strong>AWS</strong> and <strong>Azure</strong> help, but production ML is still not always stable.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-47" data-section="47" data-chapter="day-7">
+        <span class="lesson-card__marker" aria-hidden="true">47</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="coins" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Cost and End to End Mindset</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When many people use your ML system, <strong>cost can grow fast</strong>. Hosting on your own server can bring <strong>hidden costs</strong> (compute, storage, traffic).</p>
+            <p><strong>Monetizing</strong> ML products is also hard.</p>
+
+            <ul class="concept-grid" aria-label="ML life cycle skills beyond models">
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">MLOps</p>
+                <p class="concept-card__desc">Deploy and monitor models in production</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Cost optimization</p>
+                <p class="concept-card__desc">Control compute and storage spend</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Load balancing</p>
+                <p class="concept-card__desc">Handle many users without crashes</p>
+              </li>
+            </ul>
+
+            <aside class="summary-callout">
+              <h3>Day 7 takeaways</h3>
+              <ul>
+                <li>Data collection, quality, and representation come before fancy models.</li>
+                <li>Overfitting and underfitting show why we tune models carefully.</li>
+                <li>Integration, deployment, and cost are why we build end to end products.</li>
+              </ul>
+              <p>Learning ML means learning the full life cycle, not only algorithms.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 6 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 7 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 
