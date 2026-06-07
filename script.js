@@ -370,6 +370,7 @@
     var currentCard = null;
     var boundaryTimer = null;
     var wordSpans = [];
+    var chunkWordStarts = [];
     var selectedVoice = null;
 
     function pickVoice() {
@@ -408,22 +409,43 @@
       );
     }
 
-    function extractSectionText(card) {
-      var num = card.getAttribute("data-section");
-      var titleEl = card.querySelector(".lesson-card__title");
-      var title = titleEl ? titleEl.textContent.trim() : "";
-      var prefix = "Lesson " + num + ". " + title + ". ";
-
+    function getBodyPlainText(card) {
       var clone = card.querySelector(".lesson-card__body");
-      if (!clone) return prefix;
+      if (!clone) return "";
       clone = clone.cloneNode(true);
       clone.querySelectorAll("svg, button, .lesson-card__icon, [hidden]").forEach(function (n) {
         n.remove();
       });
-      var body = (clone.innerText || clone.textContent || "")
-        .replace(/\s+/g, " ")
-        .trim();
-      return prefix + body;
+      return (clone.innerText || clone.textContent || "").replace(/\s+/g, " ").trim();
+    }
+
+    function extractSectionText(card) {
+      var num = card.getAttribute("data-section");
+      var titleEl = card.querySelector(".lesson-card__title");
+      var title = titleEl ? titleEl.textContent.trim() : "";
+      var prefix = "Lesson " + num + ". ";
+      var body = getBodyPlainText(card);
+      return (prefix + title + ". " + body).replace(/\s+/g, " ").trim();
+    }
+
+    function countWords(text) {
+      var m = text.match(/\S+/g);
+      return m ? m.length : 0;
+    }
+
+    function charIndexToWordIndex(text, charIndex) {
+      var slice = text.slice(0, Math.max(0, charIndex));
+      return countWords(slice);
+    }
+
+    function buildChunkWordStarts(chunks) {
+      var starts = [];
+      var offset = 0;
+      chunks.forEach(function (chunk) {
+        starts.push(offset);
+        offset += countWords(chunk);
+      });
+      return starts;
     }
 
     function splitChunks(text, maxLen) {
@@ -451,27 +473,29 @@
       return result.length ? result : [text];
     }
 
-    function unwrapWords() {
-      wordSpans.forEach(function (span) {
-        var parent = span.parentNode;
-        if (!parent) return;
-        parent.replaceChild(document.createTextNode(span.textContent), span);
-        parent.normalize();
+    function appendWordSpans(container, text) {
+      var parts = text.split(/(\s+)/);
+      parts.forEach(function (part) {
+        if (/^\s+$/.test(part)) {
+          container.appendChild(document.createTextNode(part));
+        } else if (part) {
+          var span = document.createElement("span");
+          span.className = "tts-word";
+          span.textContent = part;
+          wordSpans.push(span);
+          container.appendChild(span);
+        }
       });
-      wordSpans = [];
     }
 
-    function wrapWordsInBody(card) {
-      unwrapWords();
-      var body = card.querySelector(".lesson-card__body");
-      if (!body) return;
-
+    function wrapTextNodesInElement(el) {
+      if (!el) return;
       function walk(node) {
         if (node.nodeType === Node.TEXT_NODE) {
           var text = node.textContent;
           if (!text.trim()) return;
-          var parts = text.split(/(\s+)/);
           var frag = document.createDocumentFragment();
+          var parts = text.split(/(\s+)/);
           parts.forEach(function (part) {
             if (/^\s+$/.test(part)) frag.appendChild(document.createTextNode(part));
             else if (part) {
@@ -489,14 +513,55 @@
           Array.prototype.slice.call(node.childNodes).forEach(walk);
         }
       }
+      Array.prototype.slice.call(el.childNodes).forEach(walk);
+    }
 
-      Array.prototype.slice.call(body.childNodes).forEach(walk);
+    function unwrapWordsInCard(card) {
+      if (!card) return;
+      card.querySelectorAll(".tts-word").forEach(function (span) {
+        var parent = span.parentNode;
+        if (!parent) return;
+        parent.replaceChild(document.createTextNode(span.textContent), span);
+        parent.normalize();
+      });
+      card.querySelectorAll(".tts-intro, .tts-bridge").forEach(function (el) {
+        el.remove();
+      });
+      wordSpans = [];
+    }
+
+    function wrapWordsInCard(card) {
+      unwrapWordsInCard(card);
+      var num = card.getAttribute("data-section");
+      var inner = card.querySelector(".lesson-card__inner");
+      var header = card.querySelector(".lesson-card__header");
+      var titleEl = card.querySelector(".lesson-card__title");
+      var bodyEl = card.querySelector(".lesson-card__body");
+      if (!inner || !header) return;
+
+      wordSpans = [];
+
+      if (titleEl) {
+        var intro = document.createElement("span");
+        intro.className = "tts-intro";
+        titleEl.insertBefore(intro, titleEl.firstChild);
+        appendWordSpans(intro, "Lesson " + num + ". ");
+        wrapTextNodesInElement(titleEl);
+        var bridge = document.createElement("span");
+        bridge.className = "tts-bridge";
+        titleEl.appendChild(bridge);
+        appendWordSpans(bridge, ". ");
+      }
+
+      wrapTextNodesInElement(bodyEl);
     }
 
     function highlightWord(index) {
+      if (!wordSpans.length) return;
+      index = Math.max(0, Math.min(index, wordSpans.length - 1));
       wordSpans.forEach(function (span, i) {
+        span.classList.toggle("is-read", i <= index);
         span.classList.toggle("is-active", i === index);
-        span.classList.toggle("is-read", i < index);
       });
       var active = wordSpans[index];
       if (active) {
@@ -507,19 +572,21 @@
       }
     }
 
-    var wordIndex = 0;
     var fallbackInterval = null;
 
-    function startFallbackHighlight(durationMs) {
+    function startFallbackHighlightForChunk(chunkText, startWordIndex) {
       clearInterval(fallbackInterval);
-      if (!wordSpans.length) return;
-      var msPerWord = Math.max(80, durationMs / wordSpans.length);
-      wordIndex = 0;
+      var chunkWordCount = countWords(chunkText);
+      if (!chunkWordCount) return;
+      var estimatedMs = (chunkText.length / 14) * 1000;
+      var msPerWord = Math.max(160, estimatedMs / chunkWordCount);
+      var local = 0;
       fallbackInterval = setInterval(function () {
         if (state !== "playing") return;
-        highlightWord(wordIndex);
-        wordIndex++;
-        if (wordIndex >= wordSpans.length) clearInterval(fallbackInterval);
+        var globalIndex = startWordIndex + local;
+        highlightWord(globalIndex);
+        local++;
+        if (local >= chunkWordCount) clearInterval(fallbackInterval);
       }, msPerWord);
     }
 
@@ -544,7 +611,7 @@
           });
         }
         card.classList.add("is-speaking");
-        wrapWordsInBody(card);
+        wrapWordsInCard(card);
         var num = card.getAttribute("data-section");
         var title = card.querySelector(".lesson-card__title");
         var t = title ? title.textContent.trim() : "";
@@ -560,7 +627,7 @@
       if (state === "paused") return;
       clearInterval(fallbackInterval);
       clearTimeout(boundaryTimer);
-      unwrapWords();
+      if (currentCard) unwrapWordsInCard(currentCard);
 
       if (queueIndex >= queue.length) {
         cleanup();
@@ -571,6 +638,7 @@
       var item = queue[queueIndex];
       setSpeakingCard(item.card);
       chunks = splitChunks(item.text);
+      chunkWordStarts = buildChunkWordStarts(chunks);
       chunkIndex = 0;
       speakChunk();
     }
@@ -583,7 +651,9 @@
         return;
       }
 
-      var utter = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+      var chunkText = chunks[chunkIndex];
+      var chunkStart = chunkWordStarts[chunkIndex] || 0;
+      var utter = new SpeechSynthesisUtterance(chunkText);
       if (selectedVoice) utter.voice = selectedVoice;
       utter.rate = 1;
       utter.lang = "en-US";
@@ -591,29 +661,36 @@
       var gotBoundary = false;
       var boundaryFallback = setTimeout(function () {
         if (!gotBoundary && wordSpans.length) {
-          startFallbackHighlight(Math.max(3000, chunks[chunkIndex].length * 55));
+          startFallbackHighlightForChunk(chunkText, chunkStart);
         }
-      }, 1000);
+      }, 1200);
+
+      utter.onstart = function () {
+        highlightWord(chunkStart);
+      };
 
       utter.onboundary = function (ev) {
-        if (ev.name === "word" || ev.charIndex >= 0) {
-          gotBoundary = true;
-          clearTimeout(boundaryFallback);
-          var ratio = ev.charIndex / Math.max(1, chunks[chunkIndex].length);
-          var wi = Math.floor(ratio * wordSpans.length);
-          highlightWord(Math.min(wi, wordSpans.length - 1));
-        }
+        if (ev.name && ev.name !== "word" && ev.name !== "sentence") return;
+        gotBoundary = true;
+        clearTimeout(boundaryFallback);
+        clearInterval(fallbackInterval);
+        var localWi = charIndexToWordIndex(chunkText, ev.charIndex);
+        var globalWi = chunkStart + localWi;
+        highlightWord(globalWi);
       };
 
       utter.onend = function () {
         clearTimeout(boundaryFallback);
         clearInterval(fallbackInterval);
+        var endIndex = chunkStart + countWords(chunkText) - 1;
+        if (endIndex >= 0) highlightWord(Math.min(endIndex, wordSpans.length - 1));
         chunkIndex++;
         speakChunk();
       };
 
       utter.onerror = function () {
         clearTimeout(boundaryFallback);
+        clearInterval(fallbackInterval);
         chunkIndex++;
         speakChunk();
       };
@@ -641,7 +718,7 @@
       speechSynthesis.cancel();
       clearInterval(fallbackInterval);
       clearTimeout(boundaryTimer);
-      unwrapWords();
+      if (currentCard) unwrapWordsInCard(currentCard);
       clearSpeakingCard();
       currentCard = null;
       queue = [];
@@ -676,7 +753,8 @@
       } else if (state === "paused") {
         state = "playing";
         setUiState("playing");
-        speakNext();
+        statusEl.textContent = "Playing…";
+        speakChunk();
       }
     });
 

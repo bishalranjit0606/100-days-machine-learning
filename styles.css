@@ -1079,6 +1079,22 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   margin-bottom: 1rem;
 }
 
+.tts-intro,
+.tts-bridge {
+  display: none;
+}
+
+.lesson-card.is-speaking .tts-intro,
+.lesson-card.is-speaking .tts-bridge {
+  display: inline;
+}
+
+.lesson-card.is-speaking .lesson-card__title .tts-intro,
+.lesson-card.is-speaking .lesson-card__title .tts-bridge {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
 .lesson-card__icon {
   flex-shrink: 0;
   width: 2.25rem;
@@ -1182,16 +1198,45 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 /* TTS word highlight */
 .tts-word {
-  transition: background 0.1s;
-}
-
-.tts-word.is-active {
-  background: rgba(13, 148, 136, 0.35);
-  border-radius: 2px;
+  border-radius: 3px;
+  padding: 0 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition:
+    background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    color 0.4s ease,
+    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .tts-word.is-read {
-  color: var(--text-muted);
+  background: rgba(13, 148, 136, 0.14);
+  color: var(--text);
+}
+
+.tts-word.is-active {
+  background: linear-gradient(
+    90deg,
+    rgba(13, 148, 136, 0.22) 0%,
+    rgba(13, 148, 136, 0.42) 55%,
+    rgba(124, 58, 237, 0.22) 100%
+  );
+  color: var(--text);
+  box-shadow: 0 0 10px rgba(13, 148, 136, 0.12);
+}
+
+.tts-word.is-read.is-active {
+  background: linear-gradient(
+    90deg,
+    rgba(13, 148, 136, 0.28) 0%,
+    rgba(13, 148, 136, 0.48) 55%,
+    rgba(124, 58, 237, 0.28) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tts-word {
+    transition: background 0.08s ease, color 0.08s ease, box-shadow 0.08s ease;
+  }
 }
 
 /* Rich blocks */
