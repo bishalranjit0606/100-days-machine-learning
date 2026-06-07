@@ -29,6 +29,189 @@
     initIcons(parent || document);
   }
 
+  /* --- Hero layer glow bounds --- */
+  function initHeroLayerGlows() {
+    var padding = 10;
+    var pairs = [
+      { glow: ".hero__layer-glow--input", layer: ".hero__layer--input" },
+      { glow: ".hero__layer-glow--hidden", layer: ".hero__layer--hidden" },
+      { glow: ".hero__layer-glow--output", layer: ".hero__layer--output" }
+    ];
+
+    pairs.forEach(function (pair) {
+      var glowRect = document.querySelector(pair.glow);
+      var layer = document.querySelector(pair.layer);
+      if (!glowRect || !layer) return;
+
+      var minX = Infinity;
+      var minY = Infinity;
+      var maxX = -Infinity;
+      var maxY = -Infinity;
+
+      layer.querySelectorAll(".hero__node").forEach(function (node) {
+        var transform = node.getAttribute("transform") || "";
+        var match = transform.match(/translate\(([\d.]+)\s+([\d.]+)\)/);
+        if (!match) return;
+
+        var cx = parseFloat(match[1]);
+        var cy = parseFloat(match[2]);
+        var ring = node.querySelector(".hero__node-ring");
+        var r = ring ? parseFloat(ring.getAttribute("r") || "16") : 16;
+        r += 1.75;
+
+        minX = Math.min(minX, cx - r);
+        maxX = Math.max(maxX, cx + r);
+        minY = Math.min(minY, cy - r);
+        maxY = Math.max(maxY, cy + r);
+      });
+
+      if (!isFinite(minX)) return;
+
+      glowRect.setAttribute("x", (minX - padding).toFixed(1));
+      glowRect.setAttribute("y", (minY - padding).toFixed(1));
+      glowRect.setAttribute("width", (maxX - minX + padding * 2).toFixed(1));
+      glowRect.setAttribute("height", (maxY - minY + padding * 2).toFixed(1));
+    });
+  }
+
+  /* --- Hero training loop --- */
+  function initHeroTraining() {
+    var visual = document.querySelector(".hero__visual");
+    var epochEl = document.getElementById("hero-epoch");
+    var accFill = document.getElementById("hero-acc-fill");
+    var accPct = document.getElementById("hero-acc-pct");
+    var lossLine = document.getElementById("hero-loss-line");
+    var lossArea = document.getElementById("hero-loss-area");
+    var lossValLine = document.getElementById("hero-loss-val-line");
+    var lossReadout = document.getElementById("hero-loss-val");
+    var nodeVals = document.querySelectorAll(".hero__node-val");
+    if (!visual) return;
+
+    var CYCLE = 3000;
+    var LIVE_DELAY = 300;
+    var POINTS = 12;
+    var CHART = { x0: 28, x1: 276, yTop: 16, yBase: 48, minV: 0.08, maxV: 1.0 };
+    var epoch = 1;
+    var acc = 72;
+    var bases = [0.82, 0.41, 0.67, 0.21, 0.93, 0.55, 0.14, 0.78, 0.61];
+    var trainLoss = [0.94, 0.91, 0.89, 0.86, 0.84, 0.82, 0.8, 0.79, 0.77, 0.76, 0.74, 0.73];
+    var valLoss = [0.98, 0.95, 0.93, 0.9, 0.88, 0.86, 0.85, 0.83, 0.82, 0.81, 0.8, 0.79];
+
+    function fmt(n) {
+      return n.toFixed(2);
+    }
+
+    function drift(base, index, ep) {
+      var wave = Math.sin((ep + index) * 0.65) * 0.05;
+      var nudge = Math.cos((ep * 0.4) + index) * 0.03;
+      return Math.max(0.08, Math.min(0.98, base + wave + nudge));
+    }
+
+    function lossNoise(ep, slot) {
+      return Math.sin(ep * 1.35 + slot * 0.85) * 0.016 + Math.cos(ep * 0.55 + slot * 1.2) * 0.012;
+    }
+
+    function nextLoss(prev, ep, slot, floor, bias) {
+      var drop = 0.006 + ((ep % 5) * 0.002);
+      return Math.max(floor, prev - drop + lossNoise(ep, slot) + bias);
+    }
+
+    function valueToY(v) {
+      var span = CHART.maxV - CHART.minV;
+      return CHART.yBase - ((v - CHART.minV) / span) * (CHART.yBase - CHART.yTop);
+    }
+
+    function seriesToLine(values) {
+      var step = (CHART.x1 - CHART.x0) / (values.length - 1);
+      var parts = [];
+      values.forEach(function (v, i) {
+        var x = CHART.x0 + (i * step);
+        parts.push((i === 0 ? "M" : "L") + x.toFixed(1) + " " + valueToY(v).toFixed(1));
+      });
+      return parts.join(" ");
+    }
+
+    function seriesToArea(values) {
+      return seriesToLine(values) + " L" + CHART.x1 + " " + CHART.yBase + " L" + CHART.x0 + " " + CHART.yBase + " Z";
+    }
+
+    function renderChart() {
+      if (lossLine) lossLine.setAttribute("d", seriesToLine(trainLoss));
+      if (lossArea) lossArea.setAttribute("d", seriesToArea(trainLoss));
+      if (lossValLine) lossValLine.setAttribute("d", seriesToLine(valLoss));
+      if (lossReadout) lossReadout.textContent = fmt(trainLoss[trainLoss.length - 1]);
+    }
+
+    function advanceChart() {
+      trainLoss.shift();
+      valLoss.shift();
+      trainLoss.push(nextLoss(trainLoss[trainLoss.length - 1], epoch, POINTS, 0.12, 0));
+      valLoss.push(nextLoss(valLoss[valLoss.length - 1], epoch, POINTS + 7, 0.16, 0.035));
+      renderChart();
+    }
+
+    function seedChartForEpoch(ep) {
+      trainLoss = [];
+      valLoss = [];
+      var t = 0.94;
+      var v = 0.98;
+      var i;
+      for (i = 0; i < POINTS; i += 1) {
+        t = nextLoss(t, ep - (POINTS - i), i, 0.12, 0);
+        v = nextLoss(v, ep - (POINTS - i), i + 4, 0.16, 0.035);
+        trainLoss.push(t);
+        valLoss.push(v);
+      }
+      renderChart();
+    }
+
+    function setAcc(val) {
+      if (accFill) accFill.style.setProperty("--acc-scale", (val / 100).toFixed(2));
+      if (accPct) accPct.textContent = val + "%";
+    }
+
+    function updateActivations() {
+      nodeVals.forEach(function (el, i) {
+        el.textContent = fmt(drift(bases[i], i, epoch));
+      });
+    }
+
+    function tick() {
+      epoch = epoch >= 24 ? 1 : epoch + 1;
+      acc = acc >= 94 ? 72 : acc + 1;
+      if (epochEl) epochEl.textContent = "Epoch " + epoch;
+      setAcc(acc);
+      updateActivations();
+      advanceChart();
+    }
+
+    if (REDUCED_MOTION.matches) {
+      visual.classList.add("hero__visual--live");
+      epoch = 12;
+      if (epochEl) epochEl.textContent = "Epoch 12";
+      setAcc(91);
+      nodeVals.forEach(function (el, i) {
+        el.textContent = fmt(bases[i]);
+      });
+      seedChartForEpoch(12);
+      return;
+    }
+
+    setAcc(acc);
+    renderChart();
+    updateActivations();
+
+    setTimeout(function () {
+      visual.classList.add("hero__visual--live");
+      updateActivations();
+    }, LIVE_DELAY);
+
+    setTimeout(function () {
+      tick();
+      setInterval(tick, CYCLE);
+    }, LIVE_DELAY + CYCLE);
+  }
+
   /* --- Hero ready --- */
   function initHeroReadyClass() {
     requestAnimationFrame(function () {
@@ -1027,6 +1210,8 @@
   function boot() {
     initIcons();
     initHeroReadyClass();
+    initHeroLayerGlows();
+    initHeroTraining();
     initReveals();
     initWorkflowAnimation();
     initSmoothScrollLinks();
