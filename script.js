@@ -368,10 +368,18 @@
     var chunkIndex = 0;
     var chunks = [];
     var currentCard = null;
-    var boundaryTimer = null;
     var wordSpans = [];
     var chunkWordStarts = [];
+    var spokenWordCount = 0;
+    var lastHighlightIndex = -1;
+    var lastBoundaryAt = 0;
+    var highlightLagTimer = null;
+    var paceBackstopTimer = null;
+    var chunkSpeakStartedAt = 0;
     var selectedVoice = null;
+    var HIGHLIGHT_LAG_MS = 420;
+    var PACE_BACKSTOP_MS = 680;
+    var SPEECH_CHARS_PER_SEC = 9.5;
 
     function pickVoice() {
       var voices = speechSynthesis.getVoices();
@@ -435,7 +443,21 @@
 
     function charIndexToWordIndex(text, charIndex) {
       var slice = text.slice(0, Math.max(0, charIndex));
-      return countWords(slice);
+      return Math.max(0, countWords(slice) - 1);
+    }
+
+    function maxIndexFromElapsed(chunkText, chunkStart, elapsedMs) {
+      var words = countWords(chunkText);
+      if (!words) return chunkStart;
+      var duration = (chunkText.length / SPEECH_CHARS_PER_SEC) * 1000;
+      var progress = Math.min(1, elapsedMs / Math.max(duration, 1));
+      return chunkStart + Math.floor(progress * words);
+    }
+
+    function capHighlightIndex(requested, chunkText, chunkStart) {
+      var elapsed = performance.now() - chunkSpeakStartedAt;
+      var timeCap = maxIndexFromElapsed(chunkText, chunkStart, elapsed);
+      return Math.min(requested, timeCap);
     }
 
     function buildChunkWordStarts(chunks) {
@@ -510,6 +532,14 @@
         } else if (node.nodeType === Node.ELEMENT_NODE) {
           var tag = node.tagName.toLowerCase();
           if (tag === "script" || tag === "style") return;
+          if (
+            node.classList &&
+            (node.classList.contains("tts-word") ||
+              node.classList.contains("tts-intro") ||
+              node.classList.contains("tts-bridge"))
+          ) {
+            return;
+          }
           Array.prototype.slice.call(node.childNodes).forEach(walk);
         }
       }
@@ -554,6 +584,64 @@
       }
 
       wrapTextNodesInElement(bodyEl);
+      spokenWordCount = countWords(extractSectionText(card));
+    }
+
+    function clearHighlightTimers() {
+      clearTimeout(highlightLagTimer);
+      clearTimeout(paceBackstopTimer);
+    }
+
+    function scheduleHighlight(index, chunkText, chunkStart) {
+      clearTimeout(highlightLagTimer);
+      highlightLagTimer = setTimeout(function () {
+        if (state !== "playing") return;
+        var capped = capHighlightIndex(index, chunkText, chunkStart);
+        if (capped > lastHighlightIndex) {
+          lastHighlightIndex = capped;
+          highlightWord(capped);
+        }
+      }, HIGHLIGHT_LAG_MS);
+    }
+
+    function resetPaceBackstop(chunkText, chunkStart) {
+      clearTimeout(paceBackstopTimer);
+      function tick() {
+        if (state !== "playing") return;
+        var chunkEnd = chunkStart + countWords(chunkText) - 1;
+        var idle = Date.now() - lastBoundaryAt;
+        if (idle < PACE_BACKSTOP_MS) {
+          paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS - idle + 40);
+          return;
+        }
+        if (lastHighlightIndex < chunkEnd) {
+          var next = capHighlightIndex(lastHighlightIndex + 1, chunkText, chunkStart);
+          if (next > lastHighlightIndex) {
+            lastHighlightIndex = next;
+            scheduleHighlight(lastHighlightIndex, chunkText, chunkStart);
+          }
+        }
+        if (lastHighlightIndex < chunkEnd) {
+          paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS);
+        }
+      }
+      paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS);
+    }
+
+    function advanceFromBoundary(chunkText, chunkStart, charIndex) {
+      var localWi = charIndexToWordIndex(chunkText, charIndex);
+      var globalWi = chunkStart + localWi;
+      var maxIndex = Math.min(
+        wordSpans.length - 1,
+        spokenWordCount ? spokenWordCount - 1 : wordSpans.length - 1
+      );
+      globalWi = Math.min(globalWi, maxIndex);
+      var target = Math.min(globalWi, lastHighlightIndex + 1);
+      target = Math.max(chunkStart, target);
+      if (target > lastHighlightIndex) {
+        lastBoundaryAt = Date.now();
+        scheduleHighlight(target, chunkText, chunkStart);
+      }
     }
 
     function highlightWord(index) {
@@ -570,24 +658,6 @@
           active.scrollIntoView({ block: "nearest", behavior: REDUCED_MOTION.matches ? "auto" : "smooth" });
         }
       }
-    }
-
-    var fallbackInterval = null;
-
-    function startFallbackHighlightForChunk(chunkText, startWordIndex) {
-      clearInterval(fallbackInterval);
-      var chunkWordCount = countWords(chunkText);
-      if (!chunkWordCount) return;
-      var estimatedMs = (chunkText.length / 14) * 1000;
-      var msPerWord = Math.max(160, estimatedMs / chunkWordCount);
-      var local = 0;
-      fallbackInterval = setInterval(function () {
-        if (state !== "playing") return;
-        var globalIndex = startWordIndex + local;
-        highlightWord(globalIndex);
-        local++;
-        if (local >= chunkWordCount) clearInterval(fallbackInterval);
-      }, msPerWord);
     }
 
     function clearSpeakingCard() {
@@ -625,8 +695,7 @@
 
     function speakNext() {
       if (state === "paused") return;
-      clearInterval(fallbackInterval);
-      clearTimeout(boundaryTimer);
+      clearHighlightTimers();
       if (currentCard) unwrapWordsInCard(currentCard);
 
       if (queueIndex >= queue.length) {
@@ -653,44 +722,37 @@
 
       var chunkText = chunks[chunkIndex];
       var chunkStart = chunkWordStarts[chunkIndex] || 0;
+      lastHighlightIndex = chunkStart - 1;
+      lastBoundaryAt = Date.now();
+
       var utter = new SpeechSynthesisUtterance(chunkText);
       if (selectedVoice) utter.voice = selectedVoice;
       utter.rate = 1;
       utter.lang = "en-US";
 
-      var gotBoundary = false;
-      var boundaryFallback = setTimeout(function () {
-        if (!gotBoundary && wordSpans.length) {
-          startFallbackHighlightForChunk(chunkText, chunkStart);
-        }
-      }, 1200);
-
       utter.onstart = function () {
-        highlightWord(chunkStart);
+        chunkSpeakStartedAt = performance.now();
+        resetPaceBackstop(chunkText, chunkStart);
       };
 
       utter.onboundary = function (ev) {
-        if (ev.name && ev.name !== "word" && ev.name !== "sentence") return;
-        gotBoundary = true;
-        clearTimeout(boundaryFallback);
-        clearInterval(fallbackInterval);
-        var localWi = charIndexToWordIndex(chunkText, ev.charIndex);
-        var globalWi = chunkStart + localWi;
-        highlightWord(globalWi);
+        if (ev.name && ev.name !== "word") return;
+        advanceFromBoundary(chunkText, chunkStart, ev.charIndex);
       };
 
       utter.onend = function () {
-        clearTimeout(boundaryFallback);
-        clearInterval(fallbackInterval);
+        clearHighlightTimers();
         var endIndex = chunkStart + countWords(chunkText) - 1;
-        if (endIndex >= 0) highlightWord(Math.min(endIndex, wordSpans.length - 1));
+        if (endIndex >= 0) {
+          lastHighlightIndex = Math.min(endIndex, wordSpans.length - 1);
+          highlightWord(lastHighlightIndex);
+        }
         chunkIndex++;
         speakChunk();
       };
 
       utter.onerror = function () {
-        clearTimeout(boundaryFallback);
-        clearInterval(fallbackInterval);
+        clearHighlightTimers();
         chunkIndex++;
         speakChunk();
       };
@@ -716,8 +778,8 @@
 
     function cleanup() {
       speechSynthesis.cancel();
-      clearInterval(fallbackInterval);
-      clearTimeout(boundaryTimer);
+      clearHighlightTimers();
+      lastHighlightIndex = -1;
       if (currentCard) unwrapWordsInCard(currentCard);
       clearSpeakingCard();
       currentCard = null;
