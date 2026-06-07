@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 7** (47 lessons) |
+| Published | **Day 8** (53 lessons) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -49,8 +49,9 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 5 | Online Machine Learning | 24–31 |
 | 6 | Instance vs Model Based | 32–37 |
 | 7 | Challenges of ML | 38–47 |
+| 8 | Applications of ML | 48–53 |
 
-New days are added as notes land in `days/day8`, …
+New days are added as notes land in `days/day9`, …
 
 ---
 
