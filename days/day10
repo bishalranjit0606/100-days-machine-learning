@@ -1,0 +1,93 @@
+Day 10: Data Analyst, Data Engineer, Data Scientist, ML Engineer
+
+Visit Recruit Nepal if you want a job, or Intern Nepal for internships.
+(Small promotion: this is where I work as of June 2026.)
+
+4 main job profiles
+
+Why 4 main job profiles?
+
+The answer is hidden in the previous days. We learnt about MDLC.
+MDLC is large. It has 9 steps. One person cannot do all steps alone.
+
+1. Data Engineer
+
+A data engineer brings all the data for making ML models.
+
+In big companies they use OLTP (online transaction processing).
+Example: Flipkart. From OLTP we get OLAP (online analytical processing).
+OLTP holds the actual running data in the database. OLAP is for analysis. OLAP can be called a data warehouse. OLTP can be called the database.
+
+Data engineer tasks:
+Scrape data from given sources
+Move and store data in OLAP, secure servers, or warehouse
+Build data pipelines and APIs for easy access to data
+Handle database and data warehouse
+
+This is the most important job role when we have a large scale of data.
+Data is gold.
+
+Skills for data engineer:
+Software development, database, data structures and algorithms
+Programming languages, RDBMS, big data tools
+Cloud platforms like AWS and GCP
+Distributed systems and data pipelines
+
+It is very difficult. It is hardcore software work.
+
+2. Data Analyst
+
+In MDLC, the first steps like data gathering are done with help from the data engineer.
+Then the analyst cleans and organizes the data.
+Summarize past data. Example: why did a particular product fail in the business?
+Create data visualization
+Produce and maintain reports
+Collaborate with teams and colleagues based on insight
+Optimize data collection procedures
+
+Data analyst and business analyst are almost similar. Just the tools are different.
+
+Skills:
+Statistical programming and programming languages
+Creative and analytical thinking
+Strong communication skills
+Data mining and cleaning
+Data visualization and data storytelling
+SQL
+Advanced Microsoft Excel
+Domain skills for the field you work in. Example: if you work in medical field, know the medical domain.
+
+3. Data Scientist
+
+A person who is better at statistics than any software engineer, and better at software engineering than any statistician.
+
+The data scientist can do almost every work in MDLC.
+
+The data analyst looks at the past.
+The data scientist works for the future.
+Works on recommendations from point A to point B.
+The data analyst gives a summary.
+
+The ultimate goal should be to become a data scientist.
+It is also called ML fullstack.
+
+We need communication skills as well.
+Very good at maths.
+
+4. ML Engineer
+
+Once the model is ready, the ML engineer deploys it.
+Scaling and optimizing the model for production.
+Does monitoring and optimization of the model.
+
+Skills:
+Mathematics, programming language, distributed systems
+Data, model, and evaluation
+Software engineering and system design
+
+Comparing all of these:
+
+Data Analyst: Analytical HIGH, Business MEDIUM TO HIGH, Data Storytelling HIGH, Soft Skills MEDIUM TO HIGH, Software MEDIUM
+Data Engineer: Analytical MEDIUM, Business LOW, Data Storytelling LOW, Soft Skills MEDIUM, Software HIGH
+Data Scientist: Analytical HIGH, Business HIGH, Data Storytelling HIGH, Soft Skills HIGH, Software MEDIUM
+ML Engineer: Analytical MEDIUM TO HIGH, Business MEDIUM, Data Storytelling LOW, Soft Skills HIGH, Software HIGH

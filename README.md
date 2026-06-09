@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 9** (63 lessons) |
+| Published | **Day 10** (69 lessons) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -51,8 +51,9 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 7 | Challenges of ML | 38–47 |
 | 8 | Applications of ML | 48–53 |
 | 9 | ML Life Cycle (MDLC) | 54–63 |
+| 10 | Data Roles | 64–69 |
 
-New days are added as notes land in `days/day10`, …
+New days are added as notes land in `days/day11`, …
 
 ---
 

@@ -36,6 +36,7 @@
   --chapter-day-7: #be123c;
   --chapter-day-8: #0891b2;
   --chapter-day-9: #4f46e5;
+  --chapter-day-10: #b45309;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -355,6 +356,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-9);
 }
 
+.toc-chapter[data-chapter="day-10"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-10);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -397,6 +402,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-9"] .toc-chapter__pill {
   background: var(--chapter-day-9);
+}
+
+.toc-chapter[data-chapter="day-10"] .toc-chapter__pill {
+  background: var(--chapter-day-10);
 }
 
 .toc-chapter__name {
@@ -491,6 +500,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-9"] .toc-link.is-active {
   border-color: var(--chapter-day-9);
+}
+
+.toc-chapter[data-chapter="day-10"] .toc-link.is-active {
+  border-color: var(--chapter-day-10);
 }
 
 .toc-link.hidden,
@@ -1367,6 +1380,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-9);
 }
 
+.chapter-divider[data-chapter="day-10"] {
+  border-left: 5px solid var(--chapter-day-10);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1411,6 +1428,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-9"] .chapter-divider__pill {
   background: var(--chapter-day-9);
+}
+
+.chapter-divider[data-chapter="day-10"] .chapter-divider__pill {
+  background: var(--chapter-day-10);
 }
 
 .chapter-divider__title {
@@ -1472,6 +1493,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-9);
 }
 
+.lesson-card[data-chapter="day-10"] {
+  border-left: 5px solid var(--chapter-day-10);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1525,6 +1550,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-9"] .lesson-card__marker {
   background: var(--chapter-day-9);
+}
+
+.lesson-card[data-chapter="day-10"] .lesson-card__marker {
+  background: var(--chapter-day-10);
 }
 
 .lesson-card__inner {
@@ -1613,6 +1642,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-9"] .lesson-card__icon {
   color: var(--chapter-day-9);
   background: rgba(79, 70, 229, 0.1);
+}
+
+.lesson-card[data-chapter="day-10"] .lesson-card__icon {
+  color: var(--chapter-day-10);
+  background: rgba(180, 83, 9, 0.12);
 }
 
 .lesson-card__title {
@@ -2558,6 +2592,21 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <li><a class="toc-link" href="#section-63" data-section="63">Optimization</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-10">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-10">
+          <span class="toc-chapter__pill">Day 10</span>
+          <span class="toc-chapter__name">Data Roles</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-10" hidden>
+          <li><a class="toc-link" href="#section-64" data-section="64">Why Four Job Profiles</a></li>
+          <li><a class="toc-link" href="#section-65" data-section="65">Data Engineer</a></li>
+          <li><a class="toc-link" href="#section-66" data-section="66">Data Analyst</a></li>
+          <li><a class="toc-link" href="#section-67" data-section="67">Data Scientist</a></li>
+          <li><a class="toc-link" href="#section-68" data-section="68">ML Engineer</a></li>
+          <li><a class="toc-link" href="#section-69" data-section="69">Comparing All Four Roles</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -2576,8 +2625,8 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">63 lessons live</span>
-          <span class="hero__stat">Day 9 published</span>
+          <span class="hero__stat">69 lessons live</span>
+          <span class="hero__stat">Day 10 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -4242,11 +4291,207 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           </div>
         </div>
       </article>
+
+      <!-- DAY 10 -->
+      <div class="chapter-divider reveal" id="chapter-day-10" data-chapter="day-10">
+        <span class="chapter-divider__pill">Day 10</span>
+        <h2 class="chapter-divider__title">Data Analyst, Engineer, Scientist, and ML Engineer</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-64" data-section="64" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">64</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Four Job Profiles</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are <strong>4 main job profiles</strong> in the data and ML world. Why four? The answer links back to <strong>MDLC</strong>.</p>
+            <p>MDLC has <strong>9 steps</strong>. It is too large for <strong>one person to do everything alone</strong>. Teams split the work.</p>
+            <p>Each role owns part of the life cycle. Together they build the full product.</p>
+
+            <aside class="summary-callout">
+              <h3>Looking for work in Nepal?</h3>
+              <p>Visit <strong>Recruit Nepal</strong> for jobs and <strong>Intern Nepal</strong> for internships. Small note from me: this is where I work as of June 2026.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-65" data-section="65" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">65</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Engineer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A data engineer <strong>brings all the data</strong> needed to build ML models.</p>
+            <p>Big companies use <strong>OLTP</strong> (online transaction processing). Example: Flipkart. From OLTP we get <strong>OLAP</strong> (online analytical processing).</p>
+            <ul>
+              <li><strong>OLTP:</strong> actual running data in the database</li>
+              <li><strong>OLAP:</strong> data for analysis, often called a <strong>data warehouse</strong></li>
+            </ul>
+            <p>Main tasks:</p>
+            <ul>
+              <li>Scrape or collect data from given sources</li>
+              <li>Move and store data in OLAP, secure servers, or warehouse</li>
+              <li>Build <strong>data pipelines</strong> and <strong>APIs</strong> for easy access</li>
+              <li>Handle <strong>database</strong> and <strong>data warehouse</strong></li>
+            </ul>
+            <p>This is the most important role when data is <strong>large scale</strong>. <strong>Data is gold.</strong></p>
+            <p><strong>Skills:</strong> software development, databases, data structures and algorithms, programming languages, RDBMS, big data tools, cloud platforms (AWS, GCP), distributed systems, and data pipelines.</p>
+            <p>It is very difficult. This is <strong>hardcore software</strong> work.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-66" data-section="66" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">66</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="line-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Analyst</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In MDLC, early steps like <strong>data gathering</strong> happen with help from the data engineer. The analyst then <strong>cleans and organizes</strong> the data.</p>
+            <p>Main work:</p>
+            <ul>
+              <li><strong>Summarize past data</strong>. Example: why did a product fail in the business?</li>
+              <li>Create <strong>data visualization</strong></li>
+              <li>Produce and maintain <strong>reports</strong></li>
+              <li><strong>Collaborate</strong> with teams based on insight</li>
+              <li><strong>Optimize</strong> data collection procedures</li>
+            </ul>
+            <p>Data analyst and <strong>business analyst</strong> are almost similar. The tools are different.</p>
+            <p><strong>Skills:</strong> statistical programming, programming languages, creative and analytical thinking, strong communication, data mining and cleaning, data visualization, <strong>data storytelling</strong>, SQL, advanced Microsoft Excel.</p>
+            <p>You also need <strong>domain skills</strong>. Example: if you work in the medical field, know the medical domain.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-67" data-section="67" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">67</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="microscope" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Scientist</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A classic line: better at <strong>statistics than any software engineer</strong>, and better at <strong>software engineering than any statistician</strong>.</p>
+            <p>The data scientist can do <strong>almost every step</strong> in MDLC.</p>
+            <ul>
+              <li><strong>Data analyst</strong> looks at the <strong>past</strong> and gives a summary</li>
+              <li><strong>Data scientist</strong> works for the <strong>future</strong></li>
+              <li>Builds <strong>recommendations</strong> from point A to point B</li>
+            </ul>
+            <p>The ultimate goal for many learners is to become a data scientist. It is also called <strong>ML fullstack</strong>.</p>
+            <p>You need <strong>communication skills</strong> and to be <strong>very good at maths</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-68" data-section="68" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">68</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="rocket" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ML Engineer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Once the model is ready, the <strong>ML engineer deploys it</strong>.</p>
+            <p>Main work:</p>
+            <ul>
+              <li><strong>Scaling</strong> and <strong>optimizing</strong> the model for production</li>
+              <li><strong>Monitoring</strong> the model in production</li>
+              <li>Keeping the model healthy over time</li>
+            </ul>
+            <p><strong>Skills:</strong> mathematics, programming languages, distributed systems, data, model, and evaluation, software engineering, and system design.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-69" data-section="69" data-chapter="day-10">
+        <span class="lesson-card__marker" aria-hidden="true">69</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Comparing All Four Roles</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each role needs different strengths. Use this table to see where you fit.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Role</th>
+                    <th scope="col">Analytical</th>
+                    <th scope="col">Business</th>
+                    <th scope="col">Data Storytelling</th>
+                    <th scope="col">Soft Skills</th>
+                    <th scope="col">Software</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Role"><strong>Data Analyst</strong></td>
+                    <td data-label="Analytical">High</td>
+                    <td data-label="Business">Medium to high</td>
+                    <td data-label="Data Storytelling">High</td>
+                    <td data-label="Soft Skills">Medium to high</td>
+                    <td data-label="Software">Medium</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Role"><strong>Data Engineer</strong></td>
+                    <td data-label="Analytical">Medium</td>
+                    <td data-label="Business">Low</td>
+                    <td data-label="Data Storytelling">Low</td>
+                    <td data-label="Soft Skills">Medium</td>
+                    <td data-label="Software">High</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Role"><strong>Data Scientist</strong></td>
+                    <td data-label="Analytical">High</td>
+                    <td data-label="Business">High</td>
+                    <td data-label="Data Storytelling">High</td>
+                    <td data-label="Soft Skills">High</td>
+                    <td data-label="Software">Medium</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Role"><strong>ML Engineer</strong></td>
+                    <td data-label="Analytical">Medium to high</td>
+                    <td data-label="Business">Medium</td>
+                    <td data-label="Data Storytelling">Low</td>
+                    <td data-label="Soft Skills">High</td>
+                    <td data-label="Software">High</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <figure class="lesson-figure">
+              <img src="assets/day10-roles-comparison.png" alt="Comparison chart of analytical skills, business acumen, data storytelling, soft skills, and software skills across data analyst, data engineer, data scientist, and ML engineer roles" width="1200" height="675" loading="lazy">
+              <figcaption>Skill comparison across the four data and ML roles</figcaption>
+            </figure>
+
+            <aside class="summary-callout">
+              <h3>Day 10 takeaways</h3>
+              <ul>
+                <li>MDLC is too big for one person. Four roles split the work.</li>
+                <li>Data engineer builds pipelines. Analyst explains the past. Scientist predicts the future. ML engineer ships to production.</li>
+                <li>Data scientist sits at the center of MDLC. ML engineer owns deployment and scale.</li>
+              </ul>
+              <p>Pick a role that matches your skills today, then grow toward the full life cycle.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 9 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 10 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 
