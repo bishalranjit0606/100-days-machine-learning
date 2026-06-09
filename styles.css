@@ -997,17 +997,6 @@ html.is-ready .hero__layer--output {
   66%, 88% { stroke-width: 2.5; filter: drop-shadow(0 0 6px rgba(219, 39, 119, 0.45)); }
 }
 
-@media (hover: hover) and (min-width: 1025px) {
-  .hero__visual:hover {
-    box-shadow: var(--shadow-float);
-  }
-
-  .hero__visual:hover .hero__visual-scene {
-    transform: perspective(900px) rotateY(-2.5deg) rotateX(1.5deg) scale(1.012);
-    transition: transform 0.55s var(--ease-out);
-  }
-}
-
 .hero__copy > * {
   opacity: 0;
   transform: translateY(12px);
@@ -1067,10 +1056,6 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
   .hero__layer-glow {
     opacity: 0.35;
-  }
-
-  .hero__visual:hover .hero__visual-scene {
-    transform: none;
   }
 }
 
