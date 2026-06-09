@@ -19,6 +19,7 @@
   --chapter-day-6: #059669;
   --chapter-day-7: #be123c;
   --chapter-day-8: #0891b2;
+  --chapter-day-9: #4f46e5;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -334,6 +335,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-8);
 }
 
+.toc-chapter[data-chapter="day-9"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-9);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -372,6 +377,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-8"] .toc-chapter__pill {
   background: var(--chapter-day-8);
+}
+
+.toc-chapter[data-chapter="day-9"] .toc-chapter__pill {
+  background: var(--chapter-day-9);
 }
 
 .toc-chapter__name {
@@ -462,6 +471,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-8"] .toc-link.is-active {
   border-color: var(--chapter-day-8);
+}
+
+.toc-chapter[data-chapter="day-9"] .toc-link.is-active {
+  border-color: var(--chapter-day-9);
 }
 
 .toc-link.hidden,
@@ -1334,6 +1347,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-8);
 }
 
+.chapter-divider[data-chapter="day-9"] {
+  border-left: 5px solid var(--chapter-day-9);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1374,6 +1391,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-8"] .chapter-divider__pill {
   background: var(--chapter-day-8);
+}
+
+.chapter-divider[data-chapter="day-9"] .chapter-divider__pill {
+  background: var(--chapter-day-9);
 }
 
 .chapter-divider__title {
@@ -1431,6 +1452,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-8);
 }
 
+.lesson-card[data-chapter="day-9"] {
+  border-left: 5px solid var(--chapter-day-9);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1480,6 +1505,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-8"] .lesson-card__marker {
   background: var(--chapter-day-8);
+}
+
+.lesson-card[data-chapter="day-9"] .lesson-card__marker {
+  background: var(--chapter-day-9);
 }
 
 .lesson-card__inner {
@@ -1563,6 +1592,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-8"] .lesson-card__icon {
   color: var(--chapter-day-8);
   background: rgba(8, 145, 178, 0.1);
+}
+
+.lesson-card[data-chapter="day-9"] .lesson-card__icon {
+  color: var(--chapter-day-9);
+  background: rgba(79, 70, 229, 0.1);
 }
 
 .lesson-card__title {

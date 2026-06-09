@@ -35,6 +35,7 @@
   --chapter-day-6: #059669;
   --chapter-day-7: #be123c;
   --chapter-day-8: #0891b2;
+  --chapter-day-9: #4f46e5;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -350,6 +351,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-8);
 }
 
+.toc-chapter[data-chapter="day-9"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-9);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -388,6 +393,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-8"] .toc-chapter__pill {
   background: var(--chapter-day-8);
+}
+
+.toc-chapter[data-chapter="day-9"] .toc-chapter__pill {
+  background: var(--chapter-day-9);
 }
 
 .toc-chapter__name {
@@ -478,6 +487,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-8"] .toc-link.is-active {
   border-color: var(--chapter-day-8);
+}
+
+.toc-chapter[data-chapter="day-9"] .toc-link.is-active {
+  border-color: var(--chapter-day-9);
 }
 
 .toc-link.hidden,
@@ -1350,6 +1363,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-8);
 }
 
+.chapter-divider[data-chapter="day-9"] {
+  border-left: 5px solid var(--chapter-day-9);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1390,6 +1407,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-8"] .chapter-divider__pill {
   background: var(--chapter-day-8);
+}
+
+.chapter-divider[data-chapter="day-9"] .chapter-divider__pill {
+  background: var(--chapter-day-9);
 }
 
 .chapter-divider__title {
@@ -1447,6 +1468,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-8);
 }
 
+.lesson-card[data-chapter="day-9"] {
+  border-left: 5px solid var(--chapter-day-9);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1496,6 +1521,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-8"] .lesson-card__marker {
   background: var(--chapter-day-8);
+}
+
+.lesson-card[data-chapter="day-9"] .lesson-card__marker {
+  background: var(--chapter-day-9);
 }
 
 .lesson-card__inner {
@@ -1579,6 +1608,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-8"] .lesson-card__icon {
   color: var(--chapter-day-8);
   background: rgba(8, 145, 178, 0.1);
+}
+
+.lesson-card[data-chapter="day-9"] .lesson-card__icon {
+  color: var(--chapter-day-9);
+  background: rgba(79, 70, 229, 0.1);
 }
 
 .lesson-card__title {
@@ -2505,6 +2539,25 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <li><a class="toc-link" href="#section-53" data-section="53">Social Media</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-9">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-9">
+          <span class="toc-chapter__pill">Day 9</span>
+          <span class="toc-chapter__name">ML Life Cycle</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-9" hidden>
+          <li><a class="toc-link" href="#section-54" data-section="54">What Is MDLC</a></li>
+          <li><a class="toc-link" href="#section-55" data-section="55">Framing the Problem</a></li>
+          <li><a class="toc-link" href="#section-56" data-section="56">Gathering the Data</a></li>
+          <li><a class="toc-link" href="#section-57" data-section="57">Data Processing</a></li>
+          <li><a class="toc-link" href="#section-58" data-section="58">Exploratory Data Analysis</a></li>
+          <li><a class="toc-link" href="#section-59" data-section="59">Feature Engineering</a></li>
+          <li><a class="toc-link" href="#section-60" data-section="60">Model Training and Selection</a></li>
+          <li><a class="toc-link" href="#section-61" data-section="61">Model Deployment</a></li>
+          <li><a class="toc-link" href="#section-62" data-section="62">Testing</a></li>
+          <li><a class="toc-link" href="#section-63" data-section="63">Optimization</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -2523,8 +2576,8 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">53 lessons live</span>
-          <span class="hero__stat">Day 8 published</span>
+          <span class="hero__stat">63 lessons live</span>
+          <span class="hero__stat">Day 9 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -3937,11 +3990,263 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           </div>
         </div>
       </article>
+
+      <!-- DAY 9 -->
+      <div class="chapter-divider reveal" id="chapter-day-9" data-chapter="day-9">
+        <span class="chapter-divider__pill">Day 9</span>
+        <h2 class="chapter-divider__title">Machine Learning Life Cycle</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-54" data-section="54" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">54</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is MDLC</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This day is different from earlier topics. About <strong>90% of what we cover next</strong> comes from here.</p>
+            <p><strong>MDLC</strong> means Machine Learning Development Life Cycle. It is similar to <strong>SDLC</strong>. When we build software, we follow SDLC. MDLC teaches us how to build machine learning from <strong>idea to product</strong>.</p>
+            <p>As students we often only <strong>train the model</strong>. Companies need an <strong>end to end product</strong>.</p>
+            <p>MDLC has <strong>9 steps</strong>. Most future lessons in this series will grow from these steps. The steps are not fixed forever. They can change. The main idea: build ML <strong>end to end</strong>.</p>
+
+            <div class="workflow reveal" aria-label="Nine steps of MDLC">
+              <p class="workflow__title">The 9 steps of MDLC</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Framing</span>
+                  <span class="workflow__step-desc">Define the problem</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Gather</span>
+                  <span class="workflow__step-desc">Collect data</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="eraser" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Process</span>
+                  <span class="workflow__step-desc">Clean and format</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bar-chart-3" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">EDA</span>
+                  <span class="workflow__step-desc">Explore patterns</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="columns-3" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Features</span>
+                  <span class="workflow__step-desc">Engineer and select</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Train</span>
+                  <span class="workflow__step-desc">Evaluate models</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cloud-upload" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Deploy</span>
+                  <span class="workflow__step-desc">Ship to users</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="flask-conical" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Test</span>
+                  <span class="workflow__step-desc">Beta and A/B</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="gauge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Optimize</span>
+                  <span class="workflow__step-desc">Scale and retrain</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-55" data-section="55" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">55</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="target" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Framing the Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Step 1 happens before any code. It is our job to find all the important details.</p>
+            <ul>
+              <li><strong>Cost:</strong> what budget and resources do we have?</li>
+              <li><strong>Supervised or not:</strong> do we have labels for training?</li>
+              <li><strong>Algorithm:</strong> which approach might fit this problem?</li>
+              <li><strong>Data:</strong> how will we get the data we need?</li>
+            </ul>
+            <p>Good framing saves time later. A vague problem leads to a weak product.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-56" data-section="56" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">56</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Gathering the Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is one of the <strong>most important steps</strong>. We rarely get data exactly as we want.</p>
+            <p><strong>Without data we cannot go further.</strong></p>
+            <p>Data can come from many sources:</p>
+            <ul>
+              <li><strong>API</strong> (often JSON)</li>
+              <li><strong>Web scraping</strong></li>
+              <li><strong>Surveys</strong></li>
+              <li>Company <strong>databases</strong>, sometimes built into a <strong>data warehouse</strong></li>
+              <li>Data stored in a <strong>cluster</strong></li>
+            </ul>
+            <p>Bringing data together is a critical stage in the life cycle.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-57" data-section="57" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">57</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eraser" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Processing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Raw data is <strong>not clean</strong>. It can be noisy. Columns may not match. We must <strong>preprocess</strong> the data.</p>
+            <p>Common tasks:</p>
+            <ul>
+              <li>Remove <strong>duplicates</strong></li>
+              <li>Handle <strong>missing data</strong></li>
+              <li>Remove <strong>outliers</strong></li>
+              <li><strong>Scale values</strong> (one column may be very big, another very small)</li>
+            </ul>
+            <p>The key idea: <strong>clean and format the data</strong>. This step is also called <strong>data preprocessing</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-58" data-section="58" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">58</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bar-chart-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Exploratory Data Analysis</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>EDA</strong> means we read the input and output. We <strong>experiment with the data</strong> before modeling.</p>
+            <p>We make graphs and study patterns:</p>
+            <ul>
+              <li><strong>Univariate:</strong> mean, median, and curve of each column alone</li>
+              <li><strong>Bivariate:</strong> relationship between two columns</li>
+              <li><strong>Multivariate:</strong> more than two columns together</li>
+            </ul>
+            <p><strong>Imbalance:</strong> handle unbalanced data. Example: dog vs cat classification where <strong>cat images far outnumber dog images</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-59" data-section="59" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">59</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Feature Engineering and Selection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We <strong>create new columns</strong> or <strong>remove useless ones</strong>.</p>
+            <p><strong>Example:</strong> a house pricing model has number of rooms and washrooms but not square feet. We may drop those columns because we need <strong>square feet</strong> to predict price well.</p>
+            <p>We decide <strong>which features to use and when</strong>. Good features often matter more than a fancy algorithm.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-60" data-section="60" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">60</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cpu" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Training, Evaluation, and Selection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We try <strong>multiple algorithms</strong>. Not every algorithm fits every problem.</p>
+            <p>In <strong>evaluation</strong> we compare different models. This helps us pick which algorithm to use.</p>
+            <p><strong>Ensemble learning:</strong> join multiple ML models to make a stronger result.</p>
+            <p><strong>Hyperparameter tuning:</strong> adjust settings to improve the model.</p>
+            <p>This is one of the most important things we do in the life cycle.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-61" data-section="61" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">61</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud-upload" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Deployment</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Turn the model into <strong>real software</strong>: website, desktop app, and more.</p>
+            <p>Typical flow:</p>
+            <p><code>train model → save binary file → expose API → return JSON</code></p>
+            <p>The user gives input. The Python app gets the data. The model returns a <strong>JSON answer</strong>.</p>
+            <p>We build an <strong>end to end website</strong>. Platforms like <strong>Heroku</strong>, <strong>GCP</strong>, and <strong>AWS</strong> help host it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-62" data-section="62" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">62</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="flask-conical" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Testing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Beta testing:</strong> only a limited group gets the latest feature. We collect feedback before a full launch.</p>
+            <p><strong>A/B testing:</strong> run two versions. If the new model is good, it stays. If it is bad, we go back to the step that needs fixing.</p>
+            <p>Testing keeps bad models from reaching all users.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-63" data-section="63" data-chapter="day-9">
+        <span class="lesson-card__marker" aria-hidden="true">63</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gauge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Optimization</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>After launch, we keep the system healthy. Common work:</p>
+            <ul>
+              <li><strong>Backup</strong> and <strong>rollback</strong></li>
+              <li><strong>Automation</strong> setup</li>
+              <li><strong>Load balancing</strong> and <strong>concurrent processes</strong> so many people can use it</li>
+              <li><strong>Retrain</strong> when the model gets old and unreliable (the model has "rotten")</li>
+              <li>Set <strong>how often to retrain</strong></li>
+              <li><strong>Optimize cost</strong>, tokens, and more</li>
+            </ul>
+
+            <aside class="summary-callout">
+              <h3>Day 9 takeaways</h3>
+              <ul>
+                <li>MDLC is the roadmap from idea to product, like SDLC for software.</li>
+                <li>Nine steps: frame, gather, process, explore, engineer features, train, deploy, test, optimize.</li>
+                <li>Most of this series builds on these steps. Train the model is only one part.</li>
+              </ul>
+              <p>Companies hire for end to end skills. This life cycle is what separates a notebook from a real product.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 8 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 9 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 
