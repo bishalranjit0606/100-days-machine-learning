@@ -37,6 +37,7 @@
   --chapter-day-8: #0891b2;
   --chapter-day-9: #4f46e5;
   --chapter-day-10: #b45309;
+  --chapter-day-11: #6366f1;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -360,6 +361,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-10);
 }
 
+.toc-chapter[data-chapter="day-11"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-11);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -406,6 +411,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-10"] .toc-chapter__pill {
   background: var(--chapter-day-10);
+}
+
+.toc-chapter[data-chapter="day-11"] .toc-chapter__pill {
+  background: var(--chapter-day-11);
 }
 
 .toc-chapter__name {
@@ -504,6 +513,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-10"] .toc-link.is-active {
   border-color: var(--chapter-day-10);
+}
+
+.toc-chapter[data-chapter="day-11"] .toc-link.is-active {
+  border-color: var(--chapter-day-11);
 }
 
 .toc-link.hidden,
@@ -1369,6 +1382,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-10);
 }
 
+.chapter-divider[data-chapter="day-11"] {
+  border-left: 5px solid var(--chapter-day-11);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1417,6 +1434,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-10"] .chapter-divider__pill {
   background: var(--chapter-day-10);
+}
+
+.chapter-divider[data-chapter="day-11"] .chapter-divider__pill {
+  background: var(--chapter-day-11);
 }
 
 .chapter-divider__title {
@@ -1482,6 +1503,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-10);
 }
 
+.lesson-card[data-chapter="day-11"] {
+  border-left: 5px solid var(--chapter-day-11);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1539,6 +1564,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-10"] .lesson-card__marker {
   background: var(--chapter-day-10);
+}
+
+.lesson-card[data-chapter="day-11"] .lesson-card__marker {
+  background: var(--chapter-day-11);
 }
 
 .lesson-card__inner {
@@ -1632,6 +1661,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-10"] .lesson-card__icon {
   color: var(--chapter-day-10);
   background: rgba(180, 83, 9, 0.12);
+}
+
+.lesson-card[data-chapter="day-11"] .lesson-card__icon {
+  color: var(--chapter-day-11);
+  background: rgba(99, 102, 241, 0.1);
 }
 
 .lesson-card__title {
@@ -2592,6 +2626,22 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <li><a class="toc-link" href="#section-69" data-section="69">Comparing All Four Roles</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-11">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-11">
+          <span class="toc-chapter__pill">Day 11</span>
+          <span class="toc-chapter__name">Tensors</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-11" hidden>
+          <li><a class="toc-link" href="#section-70" data-section="70">What Is a Tensor</a></li>
+          <li><a class="toc-link" href="#section-71" data-section="71">Scalar to 5D Tensor</a></li>
+          <li><a class="toc-link" href="#section-72" data-section="72">Rank, Axes, and Shape</a></li>
+          <li><a class="toc-link" href="#section-73" data-section="73">NumPy in Google Colab</a></li>
+          <li><a class="toc-link" href="#section-74" data-section="74">1D and 2D Examples</a></li>
+          <li><a class="toc-link" href="#section-75" data-section="75">3D Tensors</a></li>
+          <li><a class="toc-link" href="#section-76" data-section="76">4D and 5D Tensors</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -2610,8 +2660,8 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">69 lessons live</span>
-          <span class="hero__stat">Day 10 published</span>
+          <span class="hero__stat">76 lessons live</span>
+          <span class="hero__stat">Day 11 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -4467,11 +4517,207 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           </div>
         </div>
       </article>
+
+      <!-- DAY 11 -->
+      <div class="chapter-divider reveal" id="chapter-day-11" data-chapter="day-11">
+        <span class="chapter-divider__pill">Day 11</span>
+        <h2 class="chapter-divider__title">Tensors</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-70" data-section="70" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">70</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Tensor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>tensor</strong> is a data structure. Libraries like <strong>scikit learn</strong> and <strong>TensorFlow</strong> use tensors to hold data.</p>
+            <p>In almost any ML problem today, tensors matter. They support both <strong>machine learning</strong> and <strong>deep learning</strong>.</p>
+            <p>One famous library is even named after it: <strong>TensorFlow</strong>.</p>
+            <p>A tensor is a <strong>container for numbers</strong>. Sometimes we store text too, but <strong>99% of the time it is numbers</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-71" data-section="71" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">71</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Scalar to 5D Tensor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <ul>
+              <li><strong>0 dimensions:</strong> scalar (0D tensor)</li>
+              <li><strong>1 dimension:</strong> vector (1D tensor)</li>
+              <li><strong>2 dimensions:</strong> matrix (2D tensor)</li>
+              <li><strong>3 or more dimensions:</strong> tensor (3D, 4D, 5D, and so on)</li>
+            </ul>
+            <p><strong>3D tensor:</strong> a stack of matrices. It has 3 axes.</p>
+            <p><strong>4D tensor:</strong> a collection of 3D tensors.</p>
+            <p><strong>5D tensor:</strong> a collection of 4D tensors.</p>
+            <p>In machine learning we often work from <strong>1D up to 5D</strong> tensors.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-72" data-section="72" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">72</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ruler" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Rank, Axes, and Shape</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Rank</strong> = number of dimensions = number of axes.</p>
+            <p><strong>Shape</strong> tells how many items sit along each axis.</p>
+            <p>Example: a <strong>2 x 3 matrix</strong> has shape <code>(2, 3)</code>. Total size = 2 x 3 = <strong>6</strong> items.</p>
+            <ul>
+              <li><strong>Scalar:</strong> size is always 1</li>
+              <li><strong>Vector</strong> <code>(1, 2, 3)</code>: shape is <code>(3,)</code></li>
+            </ul>
+            <p>Number of dimensions = number of axes. A 2D tensor has <strong>rows</strong> and <strong>columns</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-73" data-section="73" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">73</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="terminal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">NumPy in Google Colab</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Try this in <strong>Google Colab</strong>:</p>
+            <pre><code>import numpy as np
+
+a = np.array(4)
+print(a)        # array(4)
+print(a.ndim)   # 0</code></pre>
+            <p><code>ndim</code> means <strong>number of dimensions</strong>. So <code>4</code> alone is a <strong>0D tensor</strong> (scalar).</p>
+            <pre><code>arr = np.array([1, 2, 3])
+print(arr)        # array([1, 2, 3])
+print(arr.ndim)   # 1</code></pre>
+            <p>This is a <strong>1D tensor</strong> (vector) with <strong>3 elements</strong>.</p>
+            <pre><code>matrix = np.array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
+print(matrix.ndim)   # 2</code></pre>
+            <p>A matrix is a <strong>collection of vectors</strong> with <strong>2 axes</strong>: rows and columns.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-74" data-section="74" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">74</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="table" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">1D and 2D Examples</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>1D example:</strong> predict student placement for 10k students.</p>
+            <p>Kathmandu = 0, Pokhara = 1. Placement yes = 1, no = 0.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">cgpa</th>
+                    <th scope="col">iq</th>
+                    <th scope="col">state</th>
+                    <th scope="col">placement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="cgpa">8.1</td>
+                    <td data-label="iq">91</td>
+                    <td data-label="state">0</td>
+                    <td data-label="placement">1</td>
+                  </tr>
+                  <tr>
+                    <td data-label="cgpa">7.2</td>
+                    <td data-label="iq">100</td>
+                    <td data-label="state">1</td>
+                    <td data-label="placement">0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p><code>[8.1, 91, 0]</code> is a <strong>1D tensor</strong> with 3 values: cgpa, iq, and state. It is a <strong>3 element vector</strong> but still <strong>1D</strong>. With 50 values it is a 50 element vector, still 1D.</p>
+            <p><strong>2D example:</strong> the full table is 2D. One row alone is 1D.</p>
+            <pre><code>[[1, 2, 3],
+ [4, 5, 6],
+ [7, 8, 9]]</code></pre>
+            <p>This is a <strong>2D tensor</strong>: many rows, many columns.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-75" data-section="75" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">75</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">3D Tensors</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>NLP example:</strong> sentences with one hot encoding.</p>
+            <p>Words: hi | Bishal | ranjit | tester</p>
+            <ul>
+              <li>hi = <code>[1, 0, 0, 0]</code> (1D)</li>
+              <li>Bishal = <code>[0, 1, 0, 0]</code> (1D)</li>
+              <li>ranjit = <code>[0, 0, 1, 0]</code> (1D)</li>
+              <li>tester = <code>[0, 0, 0, 1]</code> (1D)</li>
+            </ul>
+            <p>"Hi Bishal" = <code>[[1,0,0,0], [0,1,0,0]]</code> → <strong>2D tensor</strong></p>
+            <p>"Hi ranjit" = <code>[[1,0,0,0], [0,0,1,0]]</code> → <strong>2D tensor</strong></p>
+            <p>"Hi tester" = <code>[[1,0,0,0], [0,0,0,1]]</code> → <strong>2D tensor</strong></p>
+            <p>Combining all sentences gives a <strong>3D tensor</strong>.</p>
+            <p><strong>Time series example:</strong> stock high and low prices.</p>
+            <ul>
+              <li>1 year: shape <code>(365, 2)</code> → <strong>2D tensor</strong></li>
+              <li>10 years: shape <code>(10, 365, 2)</code> → <strong>3D tensor</strong> (365 is the time axis)</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-76" data-section="76" data-chapter="day-11">
+        <span class="lesson-card__marker" aria-hidden="true">76</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="image" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">4D and 5D Tensors</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>4D example: images.</strong> An image is pixels. Each pixel is a number.</p>
+            <p>A color image uses <strong>3 channels</strong>: red, green, blue.</p>
+            <p>One image: shape <code>(3, 1200, 800)</code> → <strong>3D tensor</strong></p>
+            <p>50 images: shape <code>(50, 3, 1200, 800)</code> → <strong>4D tensor</strong></p>
+            <p><strong>5D example: video.</strong> A 60 second clip at 30 fps, 480p, 3 channels. A batch of many videos becomes a <strong>5D tensor</strong>.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 11 takeaways</h3>
+              <ul>
+                <li>A tensor is a container for numbers. Rank tells how many axes it has.</li>
+                <li>0D scalar, 1D vector, 2D matrix, 3D+ tensor for richer data.</li>
+                <li>Real examples: student rows (1D/2D), NLP sentences (3D), stock time series (3D), images (4D), video (5D).</li>
+              </ul>
+              <p>Understanding shape and rank early makes TensorFlow and deep learning much easier.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 10 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 11 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 
