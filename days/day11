@@ -60,14 +60,20 @@ It is a combination of matrices. It has 3 axes.
 
 In machine learning we usually go up to 5D tensor from 1D.
 
-Rank, axes, and shape:
-Rank = number of dimensions = number of axes
+Key terms in simple words:
 
-Shape: for example in a 2x3 matrix, shape is (2, 3).
-Size of items = 2 x 3 = 6
+Tensor: a box that holds numbers in an organized way.
+Element: one single number inside the tensor.
+Dimension: how many levels the data has (0D, 1D, 2D, and so on).
+Rank: same as dimension. Rank 0 = scalar, rank 1 = vector, rank 2 = matrix.
+Axis (axes): one direction in the tensor. A table has rows and columns as two axes.
+Shape: how many slots on each axis. Example (2, 3) means 2 rows and 3 columns.
+Size: total number of elements. Multiply shape numbers. (2, 3) gives size 6.
+
+Rank = number of dimensions = number of axes.
 
 For scalar, size is always 1.
-For vector (1, 2, 3), shape = 3
+For vector (1, 2, 3), shape = (3,) and size = 3.
 
 Example of 1D tensor:
 

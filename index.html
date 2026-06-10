@@ -2635,7 +2635,7 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
         <ul class="toc-chapter__links" id="toc-panel-day-11" hidden>
           <li><a class="toc-link" href="#section-70" data-section="70">What Is a Tensor</a></li>
           <li><a class="toc-link" href="#section-71" data-section="71">Scalar to 5D Tensor</a></li>
-          <li><a class="toc-link" href="#section-72" data-section="72">Rank, Axes, and Shape</a></li>
+          <li><a class="toc-link" href="#section-72" data-section="72">Key Terms in Simple Words</a></li>
           <li><a class="toc-link" href="#section-73" data-section="73">NumPy in Google Colab</a></li>
           <li><a class="toc-link" href="#section-74" data-section="74">1D and 2D Examples</a></li>
           <li><a class="toc-link" href="#section-75" data-section="75">3D Tensors</a></li>
@@ -4566,18 +4566,80 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
         <span class="lesson-card__marker" aria-hidden="true">72</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="ruler" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Rank, Axes, and Shape</h2>
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Key Terms in Simple Words</h2>
           </header>
           <div class="lesson-card__body">
-            <p><strong>Rank</strong> = number of dimensions = number of axes.</p>
-            <p><strong>Shape</strong> tells how many items sit along each axis.</p>
-            <p>Example: a <strong>2 x 3 matrix</strong> has shape <code>(2, 3)</code>. Total size = 2 x 3 = <strong>6</strong> items.</p>
-            <ul>
-              <li><strong>Scalar:</strong> size is always 1</li>
-              <li><strong>Vector</strong> <code>(1, 2, 3)</code>: shape is <code>(3,)</code></li>
+            <p>These words sound similar. Here is what each one means.</p>
+
+            <ul class="concept-grid" aria-label="Tensor terms explained">
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Tensor</p>
+                <p class="concept-card__desc">A box that holds numbers in an organized way. A list, table, or stack of tables can all be tensors.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Element</p>
+                <p class="concept-card__desc">One single number inside the tensor. The smallest piece. In <code>[1, 2, 3]</code> the elements are 1, 2, and 3.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Dimension</p>
+                <p class="concept-card__desc">How many levels the data has. One number = 0D. A list = 1D. A table = 2D. More levels = 3D, 4D, and so on.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Rank</p>
+                <p class="concept-card__desc">Same idea as dimension. Rank tells how many axes the tensor has. Rank 0 = scalar, rank 1 = vector, rank 2 = matrix.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Axis (axes)</p>
+                <p class="concept-card__desc">One direction in the tensor. A table has 2 axes: rows and columns. Axis 0 is usually rows. Axis 1 is usually columns.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Shape</p>
+                <p class="concept-card__desc">How many slots sit on each axis. Shape <code>(2, 3)</code> means 2 rows and 3 columns.</p>
+              </li>
+              <li class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Size</p>
+                <p class="concept-card__desc">Total number of elements. Multiply the shape numbers. Shape <code>(2, 3)</code> → size = 6.</p>
+              </li>
             </ul>
-            <p>Number of dimensions = number of axes. A 2D tensor has <strong>rows</strong> and <strong>columns</strong>.</p>
+
+            <p><strong>Quick memory trick:</strong> rank and dimension mean the same thing. Axes are the directions. Shape counts slots per direction. Size counts all numbers inside.</p>
+
+            <p><strong>Example 1: scalar</strong></p>
+            <pre><code>4</code></pre>
+            <ul>
+              <li>Tensor: yes (0D tensor)</li>
+              <li>Elements: 1 (just the number 4)</li>
+              <li>Rank / dimension: 0</li>
+              <li>Axes: none (it is a single point)</li>
+              <li>Shape: <code>()</code></li>
+              <li>Size: 1</li>
+            </ul>
+
+            <p><strong>Example 2: vector</strong></p>
+            <pre><code>[1, 2, 3]</code></pre>
+            <ul>
+              <li>Tensor: yes (1D tensor)</li>
+              <li>Elements: 1, 2, 3 (three elements)</li>
+              <li>Rank / dimension: 1</li>
+              <li>Axes: 1 axis (the line of numbers)</li>
+              <li>Shape: <code>(3,)</code></li>
+              <li>Size: 3</li>
+            </ul>
+
+            <p><strong>Example 3: matrix</strong></p>
+            <pre><code>[[1, 2, 3],
+ [4, 5, 6]]</code></pre>
+            <ul>
+              <li>Tensor: yes (2D tensor)</li>
+              <li>Elements: 1, 2, 3, 4, 5, 6 (six elements)</li>
+              <li>Rank / dimension: 2</li>
+              <li>Axes: axis 0 = rows (2), axis 1 = columns (3)</li>
+              <li>Shape: <code>(2, 3)</code></li>
+              <li>Size: 6</li>
+            </ul>
+
+            <p>In NumPy, <code>ndim</code> gives rank, <code>shape</code> gives shape, and <code>size</code> gives total elements.</p>
           </div>
         </div>
       </article>
