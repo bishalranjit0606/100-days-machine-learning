@@ -38,6 +38,7 @@
   --chapter-day-9: #4f46e5;
   --chapter-day-10: #b45309;
   --chapter-day-11: #6366f1;
+  --chapter-day-12: #0e7490;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -365,6 +366,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-11);
 }
 
+.toc-chapter[data-chapter="day-12"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-12);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -415,6 +420,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-11"] .toc-chapter__pill {
   background: var(--chapter-day-11);
+}
+
+.toc-chapter[data-chapter="day-12"] .toc-chapter__pill {
+  background: var(--chapter-day-12);
 }
 
 .toc-chapter__name {
@@ -517,6 +526,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-11"] .toc-link.is-active {
   border-color: var(--chapter-day-11);
+}
+
+.toc-chapter[data-chapter="day-12"] .toc-link.is-active {
+  border-color: var(--chapter-day-12);
 }
 
 .toc-link.hidden,
@@ -1386,6 +1399,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-11);
 }
 
+.chapter-divider[data-chapter="day-12"] {
+  border-left: 5px solid var(--chapter-day-12);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1438,6 +1455,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-11"] .chapter-divider__pill {
   background: var(--chapter-day-11);
+}
+
+.chapter-divider[data-chapter="day-12"] .chapter-divider__pill {
+  background: var(--chapter-day-12);
 }
 
 .chapter-divider__title {
@@ -1507,6 +1528,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-11);
 }
 
+.lesson-card[data-chapter="day-12"] {
+  border-left: 5px solid var(--chapter-day-12);
+}
+
 .lesson-card.is-visible {
   opacity: 1;
   transform: none;
@@ -1568,6 +1593,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-11"] .lesson-card__marker {
   background: var(--chapter-day-11);
+}
+
+.lesson-card[data-chapter="day-12"] .lesson-card__marker {
+  background: var(--chapter-day-12);
 }
 
 .lesson-card__inner {
@@ -1666,6 +1695,11 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-11"] .lesson-card__icon {
   color: var(--chapter-day-11);
   background: rgba(99, 102, 241, 0.1);
+}
+
+.lesson-card[data-chapter="day-12"] .lesson-card__icon {
+  color: var(--chapter-day-12);
+  background: rgba(14, 116, 144, 0.1);
 }
 
 .lesson-card__title {
@@ -2642,6 +2676,19 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <li><a class="toc-link" href="#section-76" data-section="76">4D and 5D Tensors</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-12">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-12">
+          <span class="toc-chapter__pill">Day 12</span>
+          <span class="toc-chapter__name">Anaconda Setup</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-12" hidden>
+          <li><a class="toc-link" href="#section-77" data-section="77">Anaconda and Jupyter</a></li>
+          <li><a class="toc-link" href="#section-78" data-section="78">Datasets and Pandas</a></li>
+          <li><a class="toc-link" href="#section-79" data-section="79">Virtual Environments</a></li>
+          <li><a class="toc-link" href="#section-80" data-section="80">Kaggle and Google Colab</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -2660,8 +2707,8 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">76 lessons live</span>
-          <span class="hero__stat">Day 11 published</span>
+          <span class="hero__stat">80 lessons live</span>
+          <span class="hero__stat">Day 12 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -4775,11 +4822,115 @@ print(matrix.ndim)   # 2</code></pre>
           </div>
         </div>
       </article>
+
+      <!-- DAY 12 -->
+      <div class="chapter-divider reveal" id="chapter-day-12" data-chapter="day-12">
+        <span class="chapter-divider__pill">Day 12</span>
+        <h2 class="chapter-divider__title">Installing Anaconda</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-77" data-section="77" data-chapter="day-12">
+        <span class="lesson-card__marker" aria-hidden="true">77</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Anaconda and Jupyter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Anaconda</strong> is a great choice for data science right now. It comes with most data science packages already installed.</p>
+            <p>Inside Anaconda you can use <strong>Jupyter Notebook</strong>.</p>
+            <p>In Jupyter you can:</p>
+            <ul>
+              <li>Run <strong>Python code</strong> cell by cell</li>
+              <li>Write <strong>markdown</strong> notes between code</li>
+              <li>Use <strong>interactive widgets</strong> like buttons and forms</li>
+            </ul>
+            <p>This mix of code and notes is why Jupyter is popular for learning and experiments.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-78" data-section="78" data-chapter="day-12">
+        <span class="lesson-card__marker" aria-hidden="true">78</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-spreadsheet" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Datasets and Pandas</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>99% of the time</strong> we get datasets from <strong>Kaggle</strong>.</p>
+            <p>To load a CSV file into Jupyter, use <strong>pandas</strong>:</p>
+            <pre><code>import pandas as pd
+
+df = pd.read_csv("filename.csv")
+df.head()</code></pre>
+            <p><code>read_csv</code> reads the file into a table called a <strong>DataFrame</strong>. <code>head()</code> shows the first few rows so you can check the data quickly.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-79" data-section="79" data-chapter="day-12">
+        <span class="lesson-card__marker" aria-hidden="true">79</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-cog" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Virtual Environments</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When you start Jupyter, it often uses a default environment with many packages.</p>
+            <p>A <strong>virtual environment</strong> lets you create a fresh space and install <strong>only what you need</strong>.</p>
+            <p>From the command line with Anaconda:</p>
+            <pre><code>conda create --name test
+conda activate test
+conda install -c anaconda jupyter
+conda deactivate</code></pre>
+            <p><strong>Jupyter Notebook</strong> itself is also a library you install inside the environment.</p>
+            <p>Use a new env when a project needs specific package versions and you do not want to break other projects.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-80" data-section="80" data-chapter="day-12">
+        <span class="lesson-card__marker" aria-hidden="true">80</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Kaggle and Google Colab</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>For beginners</strong>, you do not need to install everything on your laptop right away. Start with <strong>Kaggle</strong> or <strong>Google Colab</strong>.</p>
+
+            <p><strong>Using Kaggle:</strong></p>
+            <ul>
+              <li>Create a free account at kaggle.com</li>
+              <li>Search for a dataset or notebook</li>
+              <li>Open a notebook in the browser and run code online</li>
+            </ul>
+
+            <p><strong>Using Google Colab:</strong></p>
+            <ul>
+              <li>Go to colab.research.google.com</li>
+              <li>Create a new notebook</li>
+              <li>Run Python in the cloud with no local install</li>
+            </ul>
+
+            <aside class="summary-callout">
+              <h3>Day 12 takeaways</h3>
+              <ul>
+                <li>Anaconda bundles data science tools. Jupyter mixes code and notes in one place.</li>
+                <li>Use pandas and read_csv to load CSV files. Kaggle is the main source for datasets.</li>
+                <li>Virtual envs keep projects clean. Beginners can start on Kaggle or Colab without setup stress.</li>
+              </ul>
+              <p>Pick local Anaconda when you want full control. Pick Colab or Kaggle when you want to start fast.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 11 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 12 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 

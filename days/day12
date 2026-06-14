@@ -1,0 +1,46 @@
+Day 12: Installing Anaconda
+
+Anaconda is best for data science for now.
+It has most data science packages already installed.
+
+Or use Jupyter Notebook.
+
+In Jupyter you can run Python code or write markdown notes.
+You can also use interactive widgets like buttons and forms.
+
+How to set up a dataset:
+
+99% of the time we go to Kaggle.
+
+To import a dataset into Jupyter Notebook, use pandas:
+
+import pandas as pd
+pd.read_csv("filename")
+
+How to create a virtual environment:
+
+When we start Jupyter Notebook, there is already an environment with many packages.
+
+Sometimes we want a new environment so we download only the packages we need.
+
+From command line (for Anaconda):
+
+conda create --name test
+
+To activate the conda env:
+conda activate test
+
+Jupyter Notebook itself is a library.
+
+conda install -c anaconda jupyter
+
+To deactivate, just write:
+conda deactivate
+
+For beginners, use Kaggle or Google Colab.
+
+Using Kaggle:
+Create an account, find a dataset, and open a notebook in the browser.
+
+Using Google Colab:
+Open colab.research.google.com, create a new notebook, and run Python in the cloud.
