@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 12** (80 lessons) |
+| Published | **Day 13** (87 lessons) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -54,8 +54,9 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 10 | Data Roles | 64–69 |
 | 11 | Tensors | 70–76 |
 | 12 | Anaconda Setup | 77–80 |
+| 13 | End to End Project | 81–87 |
 
-New days are added as notes land in `days/day13`, …
+New days are added as notes land in `days/day14`, …
 
 ---
 
