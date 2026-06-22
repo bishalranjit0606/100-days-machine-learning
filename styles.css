@@ -24,6 +24,7 @@
   --chapter-day-11: #6366f1;
   --chapter-day-12: #0e7490;
   --chapter-day-13: #9333ea;
+  --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -359,6 +360,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-13);
 }
 
+.toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-numpy);
+}
+
 .toc-chapter__pill {
   flex-shrink: 0;
   padding: 0.2rem 0.55rem;
@@ -417,6 +422,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-13"] .toc-chapter__pill {
   background: var(--chapter-day-13);
+}
+
+.toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
+  background: var(--chapter-numpy);
 }
 
 .toc-chapter__name {
@@ -527,6 +536,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-13"] .toc-link.is-active {
   border-color: var(--chapter-day-13);
+}
+
+.toc-chapter[data-chapter="numpy"] .toc-link.is-active {
+  border-color: var(--chapter-numpy);
 }
 
 .toc-link.hidden,
@@ -1404,6 +1417,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-13);
 }
 
+.chapter-divider[data-chapter="numpy"] {
+  border-left: 5px solid var(--chapter-numpy);
+}
+
 .chapter-divider__pill {
   display: inline-block;
   margin-bottom: 0.35rem;
@@ -1466,12 +1483,244 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   background: var(--chapter-day-13);
 }
 
+.chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
+  background: var(--chapter-numpy);
+}
+
 .chapter-divider__title {
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.chapter-divider__note {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.code-result {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.98rem;
+}
+
+.code-io {
+  margin: 1.25rem 0;
+}
+
+.code-io__label {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.code-io__label--input {
+  color: var(--accent-primary);
+}
+
+.code-io__label--output {
+  color: var(--accent-secondary);
+  margin-top: 0.85rem;
+}
+
+.code-io__note {
+  margin: 0.65rem 0 0;
+  font-size: 0.98rem;
+  color: var(--text-muted);
+}
+
+pre.code-input,
+pre.code-output {
+  margin: 0 0 0.25rem;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+}
+
+pre.code-input {
+  background: rgba(13, 148, 136, 0.1);
+  border: 1px solid rgba(13, 148, 136, 0.35);
+  border-left: 4px solid var(--accent-primary);
+}
+
+pre.code-output {
+  background: rgba(124, 58, 237, 0.09);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-left: 4px solid var(--accent-secondary);
+}
+
+pre.code-input code,
+pre.code-output code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+.broadcast-diagram {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.broadcast-diagram__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.broadcast-diagram__caption {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.broadcast-row {
+  margin-bottom: 1.5rem;
+}
+
+.broadcast-row:last-child {
+  margin-bottom: 0;
+}
+
+.broadcast-row__code {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.broadcast-row__visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.broadcast-row__visual--stack {
+  align-items: flex-start;
+}
+
+.broadcast-array {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.broadcast-array--ghost {
+  opacity: 0.45;
+}
+
+.broadcast-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 2.5rem);
+  gap: 0.35rem;
+}
+
+.broadcast-matrix--col {
+  grid-template-columns: repeat(3, 2.5rem);
+}
+
+.broadcast-broadcast-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.broadcast-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+
+.broadcast-cell--solid {
+  background: rgba(13, 148, 136, 0.15);
+  border: 2px solid var(--accent-primary);
+  color: var(--text);
+}
+
+.broadcast-cell--ghost {
+  background: transparent;
+  border: 2px dashed var(--border);
+  color: var(--text-muted);
+}
+
+.broadcast-cell--result {
+  background: rgba(124, 58, 237, 0.12);
+  border: 2px solid var(--accent-secondary);
+  color: var(--text);
+}
+
+.broadcast-op {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  padding: 0 0.15rem;
+}
+
+.numpy-plot {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.numpy-plot__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.numpy-plot__svg {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+.numpy-plot__caption {
+  margin: 0.6rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.numpy-plot__axis-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  fill: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .broadcast-row__visual {
+    gap: 0.4rem;
+  }
+
+  .broadcast-cell {
+    min-width: 2rem;
+    min-height: 2rem;
+    font-size: 0.72rem;
+  }
+
+  .broadcast-matrix {
+    grid-template-columns: repeat(3, 2rem);
+  }
 }
 
 /* Lesson cards — full width, same shell as chapter dividers */
@@ -1539,6 +1788,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-13"] {
   border-left: 5px solid var(--chapter-day-13);
+}
+
+.lesson-card[data-chapter="numpy"] {
+  border-left: 5px solid var(--chapter-numpy);
 }
 
 .lesson-card.is-visible {
@@ -1610,6 +1863,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .lesson-card[data-chapter="day-13"] .lesson-card__marker {
   background: var(--chapter-day-13);
+}
+
+.lesson-card[data-chapter="numpy"] .lesson-card__marker {
+  background: var(--chapter-numpy);
 }
 
 .lesson-card__inner {
@@ -1718,6 +1975,26 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .lesson-card[data-chapter="day-13"] .lesson-card__icon {
   color: var(--chapter-day-13);
   background: rgba(147, 51, 234, 0.1);
+}
+
+.lesson-card[data-chapter="numpy"] .lesson-card__icon {
+  color: var(--chapter-numpy);
+  background: rgba(234, 88, 12, 0.1);
+}
+
+.lesson-figure {
+  margin: 1.25rem 0;
+}
+
+.lesson-figure img {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.lesson-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .lesson-card__title {

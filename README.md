@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 13** (87 lessons) |
+| Published | **Day 13** (102 lessons, incl. bonus NumPy) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -54,9 +54,10 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 10 | Data Roles | 64–69 |
 | 11 | Tensors | 70–76 |
 | 12 | Anaconda Setup | 77–80 |
-| 13 | End to End Project | 81–87 |
+| — | **Bonus: Learning NumPy** (before Day 13, not Day 14) | 81–95 |
+| 13 | End to End Project | 96–102 |
 
-New days are added as notes land in `days/day14`, …
+Bonus chapters in `days/numpy` extend topics without advancing the 100 day count. New numbered days land in `days/day14`, …
 
 ---
 
