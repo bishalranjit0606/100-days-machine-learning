@@ -413,6 +413,35 @@
     openChapterForSection("1");
   }
 
+  function initChapterHash() {
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    var id = hash.slice(1);
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    if (id.indexOf("chapter-") === 0) {
+      var slug = id.slice("chapter-".length);
+      var chapter = document.querySelector('.toc-chapter[data-chapter="' + slug + '"]');
+      if (chapter) {
+        document.querySelectorAll(".toc-chapter").forEach(function (ch) {
+          setChapterOpen(ch, ch === chapter);
+        });
+        setChapterOpen(chapter, true);
+      }
+    } else if (/^section-\d+$/.test(id)) {
+      openChapterForSection(id.replace("section-", ""));
+    }
+
+    requestAnimationFrame(function () {
+      if (id.indexOf("section-") === 0 && MOBILE_MQ.matches) {
+        goToLesson(id.replace("section-", ""));
+      } else {
+        smoothScrollTo(target);
+      }
+    });
+  }
+
   /* --- TOC search --- */
   function initTocSearch() {
     var input = document.getElementById("toc-search");
@@ -1198,12 +1227,6 @@
       applyMobileLayout(e.matches);
       if (!e.matches) closeMobileNav();
     });
-
-    var hash = window.location.hash;
-    if (hash && /^#section-\d+$/.test(hash) && MOBILE_MQ.matches) {
-      var id = hash.replace("#section-", "");
-      goToLesson(id);
-    }
   }
 
   /* --- Boot --- */
@@ -1217,6 +1240,7 @@
     initSmoothScrollLinks();
     initMobileNav();
     initTocAccordion();
+    initChapterHash();
     initTocSearch();
     initScrollSpy();
     initScrollHandlers();
