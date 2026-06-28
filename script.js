@@ -581,17 +581,10 @@
     var chunks = [];
     var currentCard = null;
     var wordSpans = [];
-    var chunkWordStarts = [];
-    var spokenWordCount = 0;
     var lastHighlightIndex = -1;
-    var lastBoundaryAt = 0;
-    var highlightLagTimer = null;
-    var paceBackstopTimer = null;
-    var chunkSpeakStartedAt = 0;
     var selectedVoice = null;
-    var HIGHLIGHT_LAG_MS = 420;
-    var PACE_BACKSTOP_MS = 680;
-    var SPEECH_CHARS_PER_SEC = 9.5;
+    var useWordByWord = /Safari\//.test(navigator.userAgent) && !/Chrome\//.test(navigator.userAgent);
+    var resumeWordIndex = -1;
 
     function pickVoice() {
       var voices = speechSynthesis.getVoices();
@@ -629,82 +622,69 @@
       );
     }
 
-    function getBodyPlainText(card) {
-      var clone = card.querySelector(".lesson-card__body");
-      if (!clone) return "";
-      clone = clone.cloneNode(true);
-      clone.querySelectorAll("svg, button, .lesson-card__icon, [hidden]").forEach(function (n) {
-        n.remove();
+    function getTokensFromSpans() {
+      return wordSpans.map(function (span) {
+        return span.textContent;
       });
-      return (clone.innerText || clone.textContent || "").replace(/\s+/g, " ").trim();
     }
 
-    function extractSectionText(card) {
-      var num = card.getAttribute("data-section");
-      var titleEl = card.querySelector(".lesson-card__title");
-      var title = titleEl ? titleEl.textContent.trim() : "";
-      var prefix = "Lesson " + num + ". ";
-      var body = getBodyPlainText(card);
-      return (prefix + title + ". " + body).replace(/\s+/g, " ").trim();
-    }
-
-    function countWords(text) {
-      var m = text.match(/\S+/g);
-      return m ? m.length : 0;
-    }
-
-    function charIndexToWordIndex(text, charIndex) {
-      var slice = text.slice(0, Math.max(0, charIndex));
-      return Math.max(0, countWords(slice) - 1);
-    }
-
-    function maxIndexFromElapsed(chunkText, chunkStart, elapsedMs) {
-      var words = countWords(chunkText);
-      if (!words) return chunkStart;
-      var duration = (chunkText.length / SPEECH_CHARS_PER_SEC) * 1000;
-      var progress = Math.min(1, elapsedMs / Math.max(duration, 1));
-      return chunkStart + Math.floor(progress * words);
-    }
-
-    function capHighlightIndex(requested, chunkText, chunkStart) {
-      var elapsed = performance.now() - chunkSpeakStartedAt;
-      var timeCap = maxIndexFromElapsed(chunkText, chunkStart, elapsed);
-      return Math.min(requested, timeCap);
-    }
-
-    function buildChunkWordStarts(chunks) {
+    function buildCharStarts(text) {
       var starts = [];
-      var offset = 0;
-      chunks.forEach(function (chunk) {
-        starts.push(offset);
-        offset += countWords(chunk);
-      });
+      var re = /\S+/g;
+      var match;
+      while ((match = re.exec(text)) !== null) {
+        starts.push(match.index);
+      }
       return starts;
     }
 
-    function splitChunks(text, maxLen) {
+    function charIndexToLocalWord(charStarts, charIndex) {
+      var wi = 0;
+      for (var i = 0; i < charStarts.length; i++) {
+        if (charStarts[i] <= charIndex) wi = i;
+        else break;
+      }
+      return wi;
+    }
+
+    function buildChunksFromTokens(tokens, maxLen) {
       maxLen = maxLen || 300;
       var result = [];
-      var sentences = text.match(/[^.!?]+[.!?]+|\S+/g) || [text];
-      var buf = "";
-      sentences.forEach(function (sent) {
-        sent = sent.trim();
-        if (!sent) return;
-        if ((buf + " " + sent).trim().length <= maxLen) {
-          buf = (buf + " " + sent).trim();
+      var buf = [];
+      var bufLen = 0;
+      var startIdx = 0;
+
+      tokens.forEach(function (token, i) {
+        var addition = (buf.length ? 1 : 0) + token.length;
+        if (buf.length && bufLen + addition > maxLen) {
+          var text = buf.join(" ");
+          result.push({
+            tokens: buf.slice(),
+            startIndex: startIdx,
+            text: text,
+            charStarts: buildCharStarts(text),
+          });
+          buf = [token];
+          bufLen = token.length;
+          startIdx = i;
         } else {
-          if (buf) result.push(buf);
-          if (sent.length <= maxLen) buf = sent;
-          else {
-            for (var i = 0; i < sent.length; i += maxLen) {
-              result.push(sent.slice(i, i + maxLen));
-            }
-            buf = "";
-          }
+          if (!buf.length) startIdx = i;
+          bufLen += addition;
+          buf.push(token);
         }
       });
-      if (buf) result.push(buf);
-      return result.length ? result : [text];
+
+      if (buf.length) {
+        var lastText = buf.join(" ");
+        result.push({
+          tokens: buf.slice(),
+          startIndex: startIdx,
+          text: lastText,
+          charStarts: buildCharStarts(lastText),
+        });
+      }
+
+      return result.length ? result : [{ tokens: tokens.slice(), startIndex: 0, text: tokens.join(" "), charStarts: buildCharStarts(tokens.join(" ")) }];
     }
 
     function appendWordSpans(container, text) {
@@ -720,6 +700,46 @@
           container.appendChild(span);
         }
       });
+    }
+
+    function shouldSkipTtsElement(node) {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return false;
+      var tag = node.tagName.toLowerCase();
+      if (tag === "script" || tag === "style") return true;
+      if (tag === "pre" || tag === "table" || tag === "svg" || tag === "figure" || tag === "img") {
+        return true;
+      }
+      if (node.hasAttribute("hidden")) return true;
+      if (node.getAttribute("aria-hidden") === "true") return true;
+
+      var cls = node.classList;
+      if (cls) {
+        if (
+          cls.contains("tts-skip") ||
+          cls.contains("workflow") ||
+          cls.contains("code-io") ||
+          cls.contains("comparison-table-wrap") ||
+          cls.contains("comparison-table") ||
+          cls.contains("lesson-figure") ||
+          cls.contains("broadcast-diagram") ||
+          cls.contains("broadcast-matrix") ||
+          cls.contains("broadcast-row__visual") ||
+          cls.contains("lesson-card__icon") ||
+          cls.contains("workflow__step-icon")
+        ) {
+          return true;
+        }
+      }
+
+      if (tag === "code") {
+        var parentTag = node.parentElement ? node.parentElement.tagName.toLowerCase() : "";
+        if (parentTag === "pre") return true;
+        var codeText = (node.textContent || "").trim();
+        if (codeText.length > 48) return true;
+        if (codeText.length > 20 && /[=;{}()]/.test(codeText)) return true;
+      }
+
+      return false;
     }
 
     function wrapTextNodesInElement(el) {
@@ -742,8 +762,6 @@
           });
           node.parentNode.replaceChild(frag, node);
         } else if (node.nodeType === Node.ELEMENT_NODE) {
-          var tag = node.tagName.toLowerCase();
-          if (tag === "script" || tag === "style") return;
           if (
             node.classList &&
             (node.classList.contains("tts-word") ||
@@ -752,6 +770,7 @@
           ) {
             return;
           }
+          if (shouldSkipTtsElement(node)) return;
           Array.prototype.slice.call(node.childNodes).forEach(walk);
         }
       }
@@ -796,64 +815,20 @@
       }
 
       wrapTextNodesInElement(bodyEl);
-      spokenWordCount = countWords(extractSectionText(card));
     }
 
-    function clearHighlightTimers() {
-      clearTimeout(highlightLagTimer);
-      clearTimeout(paceBackstopTimer);
+    function applyHighlight(globalIndex) {
+      if (globalIndex <= lastHighlightIndex) return;
+      lastHighlightIndex = globalIndex;
+      highlightWord(globalIndex);
     }
 
-    function scheduleHighlight(index, chunkText, chunkStart) {
-      clearTimeout(highlightLagTimer);
-      highlightLagTimer = setTimeout(function () {
-        if (state !== "playing") return;
-        var capped = capHighlightIndex(index, chunkText, chunkStart);
-        if (capped > lastHighlightIndex) {
-          lastHighlightIndex = capped;
-          highlightWord(capped);
-        }
-      }, HIGHLIGHT_LAG_MS);
-    }
-
-    function resetPaceBackstop(chunkText, chunkStart) {
-      clearTimeout(paceBackstopTimer);
-      function tick() {
-        if (state !== "playing") return;
-        var chunkEnd = chunkStart + countWords(chunkText) - 1;
-        var idle = Date.now() - lastBoundaryAt;
-        if (idle < PACE_BACKSTOP_MS) {
-          paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS - idle + 40);
-          return;
-        }
-        if (lastHighlightIndex < chunkEnd) {
-          var next = capHighlightIndex(lastHighlightIndex + 1, chunkText, chunkStart);
-          if (next > lastHighlightIndex) {
-            lastHighlightIndex = next;
-            scheduleHighlight(lastHighlightIndex, chunkText, chunkStart);
-          }
-        }
-        if (lastHighlightIndex < chunkEnd) {
-          paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS);
-        }
-      }
-      paceBackstopTimer = setTimeout(tick, PACE_BACKSTOP_MS);
-    }
-
-    function advanceFromBoundary(chunkText, chunkStart, charIndex) {
-      var localWi = charIndexToWordIndex(chunkText, charIndex);
+    function advanceFromBoundary(charStarts, chunkStart, charIndex) {
+      var localWi = charIndexToLocalWord(charStarts, charIndex);
       var globalWi = chunkStart + localWi;
-      var maxIndex = Math.min(
-        wordSpans.length - 1,
-        spokenWordCount ? spokenWordCount - 1 : wordSpans.length - 1
-      );
-      globalWi = Math.min(globalWi, maxIndex);
-      var target = Math.min(globalWi, lastHighlightIndex + 1);
-      target = Math.max(chunkStart, target);
-      if (target > lastHighlightIndex) {
-        lastBoundaryAt = Date.now();
-        scheduleHighlight(target, chunkText, chunkStart);
-      }
+      var maxIndex = wordSpans.length - 1;
+      if (globalWi > maxIndex) globalWi = maxIndex;
+      applyHighlight(globalWi);
     }
 
     function highlightWord(index) {
@@ -907,7 +882,6 @@
 
     function speakNext() {
       if (state === "paused") return;
-      clearHighlightTimers();
       if (currentCard) unwrapWordsInCard(currentCard);
 
       if (queueIndex >= queue.length) {
@@ -918,10 +892,58 @@
 
       var item = queue[queueIndex];
       setSpeakingCard(item.card);
-      chunks = splitChunks(item.text);
-      chunkWordStarts = buildChunkWordStarts(chunks);
+      var tokens = getTokensFromSpans();
+      chunks = buildChunksFromTokens(tokens, 300);
       chunkIndex = 0;
+      resumeWordIndex = -1;
+      lastHighlightIndex = -1;
       speakChunk();
+    }
+
+    function findChunkForWord(wordIndex) {
+      for (var i = 0; i < chunks.length; i++) {
+        var c = chunks[i];
+        var end = c.startIndex + c.tokens.length - 1;
+        if (wordIndex <= end) return i;
+      }
+      return chunks.length - 1;
+    }
+
+    function speakWordSequence(tokens, chunkStart, onComplete) {
+      var wordIdx = 0;
+
+      function speakNextWord() {
+        if (state !== "playing") return;
+        if (wordIdx >= tokens.length) {
+          if (onComplete) onComplete();
+          return;
+        }
+
+        var utter = new SpeechSynthesisUtterance(tokens[wordIdx]);
+        if (selectedVoice) utter.voice = selectedVoice;
+        utter.rate = 1;
+        utter.lang = "en-US";
+
+        var globalIdx = chunkStart + wordIdx;
+
+        utter.onstart = function () {
+          applyHighlight(globalIdx);
+        };
+
+        utter.onend = function () {
+          wordIdx++;
+          speakNextWord();
+        };
+
+        utter.onerror = function () {
+          wordIdx++;
+          speakNextWord();
+        };
+
+        speechSynthesis.speak(utter);
+      }
+
+      speakNextWord();
     }
 
     function speakChunk() {
@@ -932,44 +954,85 @@
         return;
       }
 
-      var chunkText = chunks[chunkIndex];
-      var chunkStart = chunkWordStarts[chunkIndex] || 0;
-      lastHighlightIndex = chunkStart - 1;
-      lastBoundaryAt = Date.now();
+      var chunk = chunks[chunkIndex];
+      var chunkStart = chunk.startIndex;
+      var tokens = chunk.tokens;
+      var chunkText = chunk.text;
+      var charStarts = chunk.charStarts;
 
+      if (resumeWordIndex >= 0) {
+        var localOffset = resumeWordIndex - chunk.startIndex;
+        if (localOffset > 0 && localOffset < tokens.length) {
+          tokens = tokens.slice(localOffset);
+          chunkStart = resumeWordIndex;
+          chunkText = tokens.join(" ");
+          charStarts = buildCharStarts(chunkText);
+        } else if (localOffset >= tokens.length) {
+          resumeWordIndex = -1;
+          chunkIndex++;
+          speakChunk();
+          return;
+        }
+        resumeWordIndex = -1;
+      }
+
+      if (!tokens.length) {
+        chunkIndex++;
+        speakChunk();
+        return;
+      }
+
+      if (useWordByWord) {
+        speakWordSequence(tokens, chunkStart, function () {
+          var endIndex = chunkStart + tokens.length - 1;
+          applyHighlight(endIndex);
+          chunkIndex++;
+          speakChunk();
+        });
+        return;
+      }
+
+      var boundariesReceived = false;
       var utter = new SpeechSynthesisUtterance(chunkText);
       if (selectedVoice) utter.voice = selectedVoice;
       utter.rate = 1;
       utter.lang = "en-US";
 
-      utter.onstart = function () {
-        chunkSpeakStartedAt = performance.now();
-        resetPaceBackstop(chunkText, chunkStart);
-      };
-
       utter.onboundary = function (ev) {
-        if (ev.name && ev.name !== "word") return;
-        advanceFromBoundary(chunkText, chunkStart, ev.charIndex);
+        if (ev.name && ev.name !== "word" && ev.name !== "sentence") return;
+        boundariesReceived = true;
+        advanceFromBoundary(charStarts, chunkStart, ev.charIndex);
       };
 
       utter.onend = function () {
-        clearHighlightTimers();
-        var endIndex = chunkStart + countWords(chunkText) - 1;
-        if (endIndex >= 0) {
-          lastHighlightIndex = Math.min(endIndex, wordSpans.length - 1);
-          highlightWord(lastHighlightIndex);
-        }
+        if (!boundariesReceived) useWordByWord = true;
+        var endIndex = chunkStart + tokens.length - 1;
+        applyHighlight(endIndex);
         chunkIndex++;
         speakChunk();
       };
 
       utter.onerror = function () {
-        clearHighlightTimers();
         chunkIndex++;
         speakChunk();
       };
 
       speechSynthesis.speak(utter);
+    }
+
+    function resumePlayback() {
+      if (!currentCard || !chunks.length) {
+        speakChunk();
+        return;
+      }
+      resumeWordIndex = lastHighlightIndex + 1;
+      if (resumeWordIndex >= wordSpans.length) {
+        queueIndex++;
+        speakNext();
+        return;
+      }
+      chunkIndex = findChunkForWord(resumeWordIndex);
+      speakChunk();
     }
 
     function buildQueue(fromSectionId, all) {
@@ -983,20 +1046,23 @@
       }
       var list = [];
       for (var i = startIdx; i < sections.length; i++) {
-        list.push({ card: sections[i], text: extractSectionText(sections[i]) });
+        list.push({ card: sections[i] });
       }
       return list;
     }
 
     function cleanup() {
       speechSynthesis.cancel();
-      clearHighlightTimers();
       lastHighlightIndex = -1;
+      resumeWordIndex = -1;
+      useWordByWord = /Safari\//.test(navigator.userAgent) && !/Chrome\//.test(navigator.userAgent);
       if (currentCard) unwrapWordsInCard(currentCard);
       clearSpeakingCard();
       currentCard = null;
       queue = [];
       queueIndex = 0;
+      chunks = [];
+      chunkIndex = 0;
       setUiState("idle");
       statusEl.textContent = "Ready";
     }
@@ -1028,7 +1094,7 @@
         state = "playing";
         setUiState("playing");
         statusEl.textContent = "Playing…";
-        speakChunk();
+        resumePlayback();
       }
     });
 

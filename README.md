@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 14** (111 lessons, incl. bonus NumPy) |
+| Published | **Day 15** (120 lessons, incl. bonus NumPy) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -57,6 +57,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | — | **Bonus: Learning NumPy** (before Day 13, not Day 14) | 81–95 |
 | 13 | End to End Project | 96–102 |
 | 14 | Framing ML Problems | 103–111 |
+| 15 | Working with CSV | 112–120 |
 
 Bonus chapters in `days/numpy` extend topics without advancing the 100 day count. New numbered days land in `days/day14`, …
 

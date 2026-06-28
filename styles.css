@@ -25,6 +25,7 @@
   --chapter-day-12: #0e7490;
   --chapter-day-13: #9333ea;
   --chapter-day-14: #c026d3;
+  --chapter-day-15: #0284c7;
   --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
@@ -365,6 +366,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-14);
 }
 
+.toc-chapter[data-chapter="day-15"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-15);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
 }
@@ -431,6 +436,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-14"] .toc-chapter__pill {
   background: var(--chapter-day-14);
+}
+
+.toc-chapter[data-chapter="day-15"] .toc-chapter__pill {
+  background: var(--chapter-day-15);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
@@ -551,6 +560,10 @@ a:hover {
   border-color: var(--chapter-day-14);
 }
 
+.toc-chapter[data-chapter="day-15"] .toc-link.is-active {
+  border-color: var(--chapter-day-15);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
   border-color: var(--chapter-numpy);
 }
@@ -569,7 +582,11 @@ a:hover {
 
 @media (min-width: 1025px) {
   .page-wrap {
-    width: calc(100% - var(--nav-rail-size));
+    margin-right: var(--nav-rail-size);
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
 
@@ -1448,6 +1465,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-14);
 }
 
+.chapter-divider[data-chapter="day-15"] {
+  border-left: 5px solid var(--chapter-day-15);
+}
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1516,6 +1537,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-14"] .chapter-divider__pill {
   background: var(--chapter-day-14);
+}
+
+.chapter-divider[data-chapter="day-15"] .chapter-divider__pill {
+  background: var(--chapter-day-15);
 }
 
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
@@ -1831,6 +1856,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-14);
 }
 
+.lesson-card[data-chapter="day-15"] {
+  border-left: 5px solid var(--chapter-day-15);
+}
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1908,6 +1937,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-14"] .lesson-card__marker {
   background: var(--chapter-day-14);
+}
+
+.lesson-card[data-chapter="day-15"] .lesson-card__marker {
+  background: var(--chapter-day-15);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
@@ -2028,6 +2061,11 @@ pre.code-output code {
   background: rgba(192, 38, 211, 0.1);
 }
 
+.lesson-card[data-chapter="day-15"] .lesson-card__icon {
+  color: var(--chapter-day-15);
+  background: rgba(2, 132, 199, 0.1);
+}
+
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
   color: var(--chapter-numpy);
   background: rgba(234, 88, 12, 0.1);
@@ -2062,14 +2100,17 @@ pre.code-output code {
   line-height: 1.72;
   max-width: 100%;
   min-width: 0;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
 .lesson-card__body p,
 .lesson-card__body li,
 .lesson-card__body td,
 .lesson-card__body th {
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .lesson-card__body p {
@@ -2124,10 +2165,7 @@ pre.code-output code {
   padding: 0 0.06em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition:
-    background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    color 0.4s ease,
-    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background 0.06s ease, color 0.06s ease, box-shadow 0.06s ease;
 }
 
 .tts-word.is-read {
@@ -2168,6 +2206,9 @@ pre.code-output code {
   background: var(--surface-elevated);
   border-radius: var(--radius-md);
   border: 1px dashed var(--border);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .workflow__title {
@@ -2185,11 +2226,14 @@ pre.code-output code {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .workflow__step {
   flex: 1 1 120px;
-  min-width: 100px;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.85rem;
   text-align: center;
   background: var(--surface);
@@ -2197,6 +2241,7 @@ pre.code-output code {
   border: 1px solid var(--border);
   opacity: 0;
   transform: translateY(8px);
+  box-sizing: border-box;
 }
 
 .workflow.is-animated .workflow__step {
@@ -2244,6 +2289,7 @@ pre.code-output code {
   font-size: 0.72rem;
   color: var(--text-muted);
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .concept-grid {
@@ -2828,5 +2874,99 @@ pre.code-output code {
 
   .course-mission__header {
     display: block;
+  }
+}
+
+/* Sidebar-safe main column + prose wrap */
+.page-wrap p,
+.page-wrap li,
+.page-wrap td,
+.page-wrap th,
+.page-wrap h2,
+.page-wrap h3,
+.page-wrap .tts-word {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+.page-wrap .main,
+.page-wrap .hero,
+.page-wrap .course-mission,
+.page-wrap .chapter-divider,
+.page-wrap .lesson-card,
+.page-wrap .lesson-card__inner,
+.page-wrap .lesson-card__body,
+.page-wrap .workflow,
+.page-wrap .summary-callout,
+.page-wrap .concept-grid,
+.page-wrap .code-io,
+.page-wrap .comparison-table-wrap {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tts-word {
+  white-space: normal;
+}
+
+.lesson-card__header {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.lesson-card__title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.lesson-card__body pre,
+.comparison-table-wrap {
+  max-width: 100%;
+}
+
+.concept-grid {
+  min-width: 0;
+}
+
+.concept-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.site-footer {
+  max-width: min(var(--content-max), 100%);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1025px) {
+  .reading-progress {
+    right: var(--nav-rail-size);
+  }
+
+  .hero,
+  .course-mission,
+  .main,
+  .site-footer {
+    width: 100%;
+    max-width: min(var(--content-max), 100%);
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .chapter-divider,
+  .lesson-card {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .tts-dock {
+    left: calc((100vw - var(--nav-rail-size)) / 2);
+    transform: translateX(-50%);
+    max-width: min(36rem, calc(100vw - var(--nav-rail-size) - 2rem));
   }
 }

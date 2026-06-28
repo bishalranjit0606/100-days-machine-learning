@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                            <style id="site-styles-embed">
+                              <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -41,6 +41,7 @@
   --chapter-day-12: #0e7490;
   --chapter-day-13: #9333ea;
   --chapter-day-14: #c026d3;
+  --chapter-day-15: #0284c7;
   --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
@@ -381,6 +382,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-14);
 }
 
+.toc-chapter[data-chapter="day-15"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-15);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
 }
@@ -447,6 +452,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-14"] .toc-chapter__pill {
   background: var(--chapter-day-14);
+}
+
+.toc-chapter[data-chapter="day-15"] .toc-chapter__pill {
+  background: var(--chapter-day-15);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
@@ -567,6 +576,10 @@ a:hover {
   border-color: var(--chapter-day-14);
 }
 
+.toc-chapter[data-chapter="day-15"] .toc-link.is-active {
+  border-color: var(--chapter-day-15);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
   border-color: var(--chapter-numpy);
 }
@@ -585,7 +598,11 @@ a:hover {
 
 @media (min-width: 1025px) {
   .page-wrap {
-    width: calc(100% - var(--nav-rail-size));
+    margin-right: var(--nav-rail-size);
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
 
@@ -1464,6 +1481,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-14);
 }
 
+.chapter-divider[data-chapter="day-15"] {
+  border-left: 5px solid var(--chapter-day-15);
+}
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1532,6 +1553,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-14"] .chapter-divider__pill {
   background: var(--chapter-day-14);
+}
+
+.chapter-divider[data-chapter="day-15"] .chapter-divider__pill {
+  background: var(--chapter-day-15);
 }
 
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
@@ -1847,6 +1872,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-14);
 }
 
+.lesson-card[data-chapter="day-15"] {
+  border-left: 5px solid var(--chapter-day-15);
+}
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1924,6 +1953,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-14"] .lesson-card__marker {
   background: var(--chapter-day-14);
+}
+
+.lesson-card[data-chapter="day-15"] .lesson-card__marker {
+  background: var(--chapter-day-15);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
@@ -2044,6 +2077,11 @@ pre.code-output code {
   background: rgba(192, 38, 211, 0.1);
 }
 
+.lesson-card[data-chapter="day-15"] .lesson-card__icon {
+  color: var(--chapter-day-15);
+  background: rgba(2, 132, 199, 0.1);
+}
+
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
   color: var(--chapter-numpy);
   background: rgba(234, 88, 12, 0.1);
@@ -2078,14 +2116,17 @@ pre.code-output code {
   line-height: 1.72;
   max-width: 100%;
   min-width: 0;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
 .lesson-card__body p,
 .lesson-card__body li,
 .lesson-card__body td,
 .lesson-card__body th {
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .lesson-card__body p {
@@ -2140,10 +2181,7 @@ pre.code-output code {
   padding: 0 0.06em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition:
-    background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    color 0.4s ease,
-    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background 0.06s ease, color 0.06s ease, box-shadow 0.06s ease;
 }
 
 .tts-word.is-read {
@@ -2184,6 +2222,9 @@ pre.code-output code {
   background: var(--surface-elevated);
   border-radius: var(--radius-md);
   border: 1px dashed var(--border);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .workflow__title {
@@ -2201,11 +2242,14 @@ pre.code-output code {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .workflow__step {
   flex: 1 1 120px;
-  min-width: 100px;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.85rem;
   text-align: center;
   background: var(--surface);
@@ -2213,6 +2257,7 @@ pre.code-output code {
   border: 1px solid var(--border);
   opacity: 0;
   transform: translateY(8px);
+  box-sizing: border-box;
 }
 
 .workflow.is-animated .workflow__step {
@@ -2260,6 +2305,7 @@ pre.code-output code {
   font-size: 0.72rem;
   color: var(--text-muted);
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .concept-grid {
@@ -2847,6 +2893,100 @@ pre.code-output code {
   }
 }
 
+/* Sidebar-safe main column + prose wrap */
+.page-wrap p,
+.page-wrap li,
+.page-wrap td,
+.page-wrap th,
+.page-wrap h2,
+.page-wrap h3,
+.page-wrap .tts-word {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+.page-wrap .main,
+.page-wrap .hero,
+.page-wrap .course-mission,
+.page-wrap .chapter-divider,
+.page-wrap .lesson-card,
+.page-wrap .lesson-card__inner,
+.page-wrap .lesson-card__body,
+.page-wrap .workflow,
+.page-wrap .summary-callout,
+.page-wrap .concept-grid,
+.page-wrap .code-io,
+.page-wrap .comparison-table-wrap {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tts-word {
+  white-space: normal;
+}
+
+.lesson-card__header {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.lesson-card__title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.lesson-card__body pre,
+.comparison-table-wrap {
+  max-width: 100%;
+}
+
+.concept-grid {
+  min-width: 0;
+}
+
+.concept-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.site-footer {
+  max-width: min(var(--content-max), 100%);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1025px) {
+  .reading-progress {
+    right: var(--nav-rail-size);
+  }
+
+  .hero,
+  .course-mission,
+  .main,
+  .site-footer {
+    width: 100%;
+    max-width: min(var(--content-max), 100%);
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .chapter-divider,
+  .lesson-card {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .tts-dock {
+    left: calc((100vw - var(--nav-rail-size)) / 2);
+    transform: translateX(-50%);
+    max-width: min(36rem, calc(100vw - var(--nav-rail-size) - 2rem));
+  }
+}
+
   </style>
 </head>
 <body>
@@ -3118,6 +3258,24 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-111" data-section="111">Framing Steps Recap</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-15">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-15">
+          <span class="toc-chapter__pill">Day 15</span>
+          <span class="toc-chapter__name">Working with CSV</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-15" hidden>
+          <li><a class="toc-link" href="#section-112" data-section="112">Four Ways to Gather Data</a></li>
+          <li><a class="toc-link" href="#section-113" data-section="113">read_csv Basics</a></li>
+          <li><a class="toc-link" href="#section-114" data-section="114">index_col and header</a></li>
+          <li><a class="toc-link" href="#section-115" data-section="115">usecols and squeeze</a></li>
+          <li><a class="toc-link" href="#section-116" data-section="116">skiprows and nrows</a></li>
+          <li><a class="toc-link" href="#section-117" data-section="117">encoding and Bad Lines</a></li>
+          <li><a class="toc-link" href="#section-118" data-section="118">dtype and parse_dates</a></li>
+          <li><a class="toc-link" href="#section-119" data-section="119">converters and na_values</a></li>
+          <li><a class="toc-link" href="#section-120" data-section="120">Loading Data in Chunks</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3137,8 +3295,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">111 lessons live</span>
-          <span class="hero__stat">Day 14 published</span>
+          <span class="hero__stat">120 lessons live</span>
+          <span class="hero__stat">Day 15 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -3333,38 +3491,38 @@ pre.code-output code {
             <p><strong>Machine learning</strong> means learning from data. In traditional programming, we write code for every possible outcome — the program produces the output directly.</p>
             <p>In machine learning, we do not write every rule. The relationship looks like this:</p>
             <ul>
-              <li><strong>Traditional programming:</strong> data + program = output</li>
-              <li><strong>Machine learning:</strong> data + output = pattern</li>
+              <li><strong>Traditional programming:</strong> data + program = output.</li>
+              <li><strong>Machine learning:</strong> data + output = pattern.</li>
             </ul>
-            <p>Or simply: <code>ML = data + algorithm → pattern</code></p>
+            <p>Or simply: <code>ML = data + algorithm → pattern</code>.</p>
 
             <div class="workflow reveal" aria-label="ML workflow">
-              <p class="workflow__title">Typical ML workflow</p>
+              <p class="workflow__title">Typical ML workflow.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Question</span>
-                  <span class="workflow__step-desc">Define the problem</span>
+                  <span class="workflow__step-desc">Define the problem.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Data</span>
-                  <span class="workflow__step-desc">Collect examples</span>
+                  <span class="workflow__step-desc">Collect examples.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Train</span>
-                  <span class="workflow__step-desc">Fit a model</span>
+                  <span class="workflow__step-desc">Fit a model.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="line-chart" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Evaluate</span>
-                  <span class="workflow__step-desc">Check performance</span>
+                  <span class="workflow__step-desc">Check performance.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Iterate</span>
-                  <span class="workflow__step-desc">Improve and repeat</span>
+                  <span class="workflow__step-desc">Improve and repeat.</span>
                 </li>
               </ol>
             </div>
@@ -3396,8 +3554,8 @@ pre.code-output code {
           <div class="lesson-card__body">
             <p><strong>Traditional programming example:</strong></p>
             <ul>
-              <li><code>2 + 2</code> gives <code>4</code></li>
-              <li><code>2 + 3</code> gives <code>5</code></li>
+              <li><code>2 + 2</code> gives <code>4</code>.</li>
+              <li><code>2 + 3</code> gives <code>5</code>.</li>
             </ul>
             <p>You hard-code each case. In machine learning, you give thousands of addition examples. The model recognizes the pattern of addition — so even with 3- or 4-digit numbers it can answer correctly without you writing rules for every length.</p>
           </div>
@@ -3568,28 +3726,28 @@ pre.code-output code {
 
             <ul class="concept-grid" aria-label="ML learning types at a glance">
               <li class="concept-card concept-card--supervised">
-                <p class="concept-card__name">Supervised</p>
-                <p class="concept-card__desc">Input + known output; learns mapping</p>
+                <p class="concept-card__name">Supervised.</p>
+                <p class="concept-card__desc">Input + known output; learns mapping.</p>
               </li>
               <li class="concept-card concept-card--unsupervised">
-                <p class="concept-card__name">Unsupervised</p>
-                <p class="concept-card__desc">Input only; finds structure</p>
+                <p class="concept-card__name">Unsupervised.</p>
+                <p class="concept-card__desc">Input only; finds structure.</p>
               </li>
               <li class="concept-card concept-card--semi">
-                <p class="concept-card__name">Semi-supervised</p>
-                <p class="concept-card__desc">Mix of labeled and unlabeled data</p>
+                <p class="concept-card__name">Semi-supervised.</p>
+                <p class="concept-card__desc">Mix of labeled and unlabeled data.</p>
               </li>
               <li class="concept-card concept-card--reinforcement">
-                <p class="concept-card__name">Reinforcement</p>
-                <p class="concept-card__desc">Agent learns via rewards and mistakes</p>
+                <p class="concept-card__name">Reinforcement.</p>
+                <p class="concept-card__desc">Agent learns via rewards and mistakes.</p>
               </li>
               <li class="concept-card concept-card--feature">
-                <p class="concept-card__name">Feature</p>
-                <p class="concept-card__desc">Measurable input attribute (e.g. CGPA)</p>
+                <p class="concept-card__name">Feature.</p>
+                <p class="concept-card__desc">Measurable input attribute (e.g. CGPA).</p>
               </li>
               <li class="concept-card concept-card--label">
-                <p class="concept-card__name">Label</p>
-                <p class="concept-card__desc">Target output you want to predict</p>
+                <p class="concept-card__name">Label.</p>
+                <p class="concept-card__desc">Target output you want to predict.</p>
               </li>
             </ul>
           </div>
@@ -3605,7 +3763,7 @@ pre.code-output code {
           </header>
           <div class="lesson-card__body">
             <p><strong>Regression</strong> — both input and output are numeric. Used for prediction.</p>
-            <p><strong>Example:</strong> Input: IA = 99, CGPA = 7.5 → Output: Package = 14 lakh</p>
+            <p><strong>Example:</strong> Input: IA = 99, CGPA = 7.5 → Output: Package = 14 lakh.</p>
           </div>
         </div>
       </article>
@@ -3622,7 +3780,7 @@ pre.code-output code {
             <p><strong>Examples:</strong></p>
             <ul>
               <li>Will rain happen or not?</li>
-              <li>Input: IA = 99, CGPA = 7.5 → Output: Placement = Yes</li>
+              <li>Input: IA = 99, CGPA = 7.5 → Output: Placement = Yes.</li>
             </ul>
           </div>
         </div>
@@ -3752,27 +3910,27 @@ pre.code-output code {
           <div class="lesson-card__body">
             <p>The usual batch flow:</p>
             <div class="workflow reveal" aria-label="Batch ML workflow">
-              <p class="workflow__title">Batch workflow</p>
+              <p class="workflow__title">Batch workflow.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Data</span>
-                  <span class="workflow__step-desc">Collect full dataset</span>
+                  <span class="workflow__step-desc">Collect full dataset.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Model</span>
-                  <span class="workflow__step-desc">Train offline</span>
+                  <span class="workflow__step-desc">Train offline.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="check-circle" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Test</span>
-                  <span class="workflow__step-desc">Check quality</span>
+                  <span class="workflow__step-desc">Check quality.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="upload-cloud" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Server</span>
-                  <span class="workflow__step-desc">Deploy model</span>
+                  <span class="workflow__step-desc">Deploy model.</span>
                 </li>
               </ol>
             </div>
@@ -3852,7 +4010,7 @@ pre.code-output code {
           </header>
           <div class="lesson-card__body">
             <p>Online flow in simple steps:</p>
-            <p><code>small data → ML → test → server</code></p>
+            <p><code>small data → ML → test → server</code>.</p>
             <p>The server keeps receiving <strong>new data</strong>. The model learns from each new small batch on the server itself.</p>
             <p>This is different from batch learning, where training usually happens offline in one big run.</p>
           </div>
@@ -3947,7 +4105,7 @@ pre.code-output code {
           <div class="lesson-card__body">
             <p>When data is <strong>too big to load at once</strong>, we use <strong>out of core learning</strong>.</p>
             <p>Split huge data into <strong>small chunks</strong>, train step by step, test, and serve on the server.</p>
-            <p><code>big data → small chunks → model → test → server</code></p>
+            <p><code>big data → small chunks → model → test → server</code>.</p>
             <p>Online style training fits this pattern well.</p>
           </div>
         </div>
@@ -3986,8 +4144,8 @@ pre.code-output code {
             </ul>
             <p><strong>Tools (examples from notes):</strong></p>
             <ul>
-              <li>Batch: Spark, TensorFlow, PyTorch</li>
-              <li>Online: Storm, MOA, scikit-multiflow</li>
+              <li>Batch: Spark, TensorFlow, PyTorch.</li>
+              <li>Online: Storm, MOA, scikit-multiflow.</li>
             </ul>
             <aside class="summary-callout">
               <h3>Day 5 takeaways</h3>
@@ -4056,14 +4214,14 @@ pre.code-output code {
               </thead>
               <tbody>
                 <tr>
-                  <td>80</td>
-                  <td>8</td>
-                  <td>Yes</td>
+                  <td>80.</td>
+                  <td>8.</td>
+                  <td>Yes.</td>
                 </tr>
                 <tr>
-                  <td>70</td>
-                  <td>7</td>
-                  <td>No</td>
+                  <td>70.</td>
+                  <td>7.</td>
+                  <td>No.</td>
                 </tr>
               </tbody>
             </table>
@@ -4187,22 +4345,22 @@ pre.code-output code {
             <p>Small projects often use ready datasets (for example <strong>Kaggle</strong>). In a real company, <strong>gathering data is very hard</strong>. This is one of the main ML problems.</p>
 
             <div class="workflow reveal" aria-label="Ways to collect data">
-              <p class="workflow__title">Common ways to get data</p>
+              <p class="workflow__title">Common ways to get data.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="download" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Open datasets</span>
-                  <span class="workflow__step-desc">Kaggle, small projects</span>
+                  <span class="workflow__step-desc">Kaggle, small projects.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="plug" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">API</span>
-                  <span class="workflow__step-desc">Fetch from services</span>
+                  <span class="workflow__step-desc">Fetch from services.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="globe" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Web scraping</span>
-                  <span class="workflow__step-desc">Pull from websites</span>
+                  <span class="workflow__step-desc">Pull from websites.</span>
                 </li>
               </ol>
             </div>
@@ -4373,16 +4531,16 @@ pre.code-output code {
 
             <ul class="concept-grid" aria-label="ML life cycle skills beyond models">
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">MLOps</p>
-                <p class="concept-card__desc">Deploy and monitor models in production</p>
+                <p class="concept-card__name">MLOps.</p>
+                <p class="concept-card__desc">Deploy and monitor models in production.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Cost optimization</p>
-                <p class="concept-card__desc">Control compute and storage spend</p>
+                <p class="concept-card__name">Cost optimization.</p>
+                <p class="concept-card__desc">Control compute and storage spend.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Load balancing</p>
-                <p class="concept-card__desc">Handle many users without crashes</p>
+                <p class="concept-card__name">Load balancing.</p>
+                <p class="concept-card__desc">Handle many users without crashes.</p>
               </li>
             </ul>
 
@@ -4447,8 +4605,8 @@ pre.code-output code {
             <p>When you apply for a <strong>loan</strong>, the bank analyzes your profile. It compares you to people who did not pay back. If there is an <strong>80% match</strong>, they may not give you the loan.</p>
             <p>Other banking uses of ML:</p>
             <ul>
-              <li>Deciding <strong>where to open new branches</strong></li>
-              <li><strong>Stock market</strong> analysis</li>
+              <li>Deciding <strong>where to open new branches</strong>.</li>
+              <li><strong>Stock market</strong> analysis.</li>
             </ul>
           </div>
         </div>
@@ -4481,22 +4639,22 @@ pre.code-output code {
             <p>Machines do not break all at once. <strong>Damage happens gradually.</strong> ML helps find problems early using <strong>sensor data</strong> like heat. This is called <strong>predictive maintenance</strong>.</p>
 
             <div class="workflow reveal" aria-label="Predictive maintenance flow">
-              <p class="workflow__title">How predictive maintenance works</p>
+              <p class="workflow__title">How predictive maintenance works.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="thermometer" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Sensors</span>
-                  <span class="workflow__step-desc">Heat, vibration, and more</span>
+                  <span class="workflow__step-desc">Heat, vibration, and more.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">ML model</span>
-                  <span class="workflow__step-desc">Spots early warning signs</span>
+                  <span class="workflow__step-desc">Spots early warning signs.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Fix early</span>
-                  <span class="workflow__step-desc">Before a full breakdown</span>
+                  <span class="workflow__step-desc">Before a full breakdown.</span>
                 </li>
               </ol>
             </div>
@@ -4518,24 +4676,24 @@ pre.code-output code {
 
             <ul class="concept-grid" aria-label="Five major ML sectors">
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Retail</p>
-                <p class="concept-card__desc">Stock, pricing, and buying patterns</p>
+                <p class="concept-card__name">Retail.</p>
+                <p class="concept-card__desc">Stock, pricing, and buying patterns.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Banking</p>
-                <p class="concept-card__desc">Loans, branches, and markets</p>
+                <p class="concept-card__name">Banking.</p>
+                <p class="concept-card__desc">Loans, branches, and markets.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Ride sharing</p>
-                <p class="concept-card__desc">Demand, supply, and surge pricing</p>
+                <p class="concept-card__name">Ride sharing.</p>
+                <p class="concept-card__desc">Demand, supply, and surge pricing.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Manufacturing</p>
-                <p class="concept-card__desc">Automation and predictive maintenance</p>
+                <p class="concept-card__name">Manufacturing.</p>
+                <p class="concept-card__desc">Automation and predictive maintenance.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Social media</p>
-                <p class="concept-card__desc">Feeds, sentiment, and chatbots</p>
+                <p class="concept-card__name">Social media.</p>
+                <p class="concept-card__desc">Feeds, sentiment, and chatbots.</p>
               </li>
             </ul>
 
@@ -4572,52 +4730,52 @@ pre.code-output code {
             <p>MDLC has <strong>9 steps</strong>. Most future lessons in this series will grow from these steps. The steps are not fixed forever. They can change. The main idea: build ML <strong>end to end</strong>.</p>
 
             <div class="workflow reveal" aria-label="Nine steps of MDLC">
-              <p class="workflow__title">The 9 steps of MDLC</p>
+              <p class="workflow__title">The 9 steps of MDLC.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Framing</span>
-                  <span class="workflow__step-desc">Define the problem</span>
+                  <span class="workflow__step-desc">Define the problem.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Gather</span>
-                  <span class="workflow__step-desc">Collect data</span>
+                  <span class="workflow__step-desc">Collect data.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="eraser" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Process</span>
-                  <span class="workflow__step-desc">Clean and format</span>
+                  <span class="workflow__step-desc">Clean and format.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="bar-chart-3" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">EDA</span>
-                  <span class="workflow__step-desc">Explore patterns</span>
+                  <span class="workflow__step-desc">Explore patterns.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="columns-3" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Features</span>
-                  <span class="workflow__step-desc">Engineer and select</span>
+                  <span class="workflow__step-desc">Engineer and select.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Train</span>
-                  <span class="workflow__step-desc">Evaluate models</span>
+                  <span class="workflow__step-desc">Evaluate models.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="cloud-upload" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Deploy</span>
-                  <span class="workflow__step-desc">Ship to users</span>
+                  <span class="workflow__step-desc">Ship to users.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="flask-conical" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Test</span>
-                  <span class="workflow__step-desc">Beta and A/B</span>
+                  <span class="workflow__step-desc">Beta and A/B.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="gauge" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Optimize</span>
-                  <span class="workflow__step-desc">Scale and retrain</span>
+                  <span class="workflow__step-desc">Scale and retrain.</span>
                 </li>
               </ol>
             </div>
@@ -4657,11 +4815,11 @@ pre.code-output code {
             <p><strong>Without data we cannot go further.</strong></p>
             <p>Data can come from many sources:</p>
             <ul>
-              <li><strong>API</strong> (often JSON)</li>
-              <li><strong>Web scraping</strong></li>
-              <li><strong>Surveys</strong></li>
-              <li>Company <strong>databases</strong>, sometimes built into a <strong>data warehouse</strong></li>
-              <li>Data stored in a <strong>cluster</strong></li>
+              <li><strong>API</strong> (often JSON).</li>
+              <li><strong>Web scraping</strong>.</li>
+              <li><strong>Surveys</strong>.</li>
+              <li>Company <strong>databases</strong>, sometimes built into a <strong>data warehouse</strong>.</li>
+              <li>Data stored in a <strong>cluster</strong>.</li>
             </ul>
             <p>Bringing data together is a critical stage in the life cycle.</p>
           </div>
@@ -4679,10 +4837,10 @@ pre.code-output code {
             <p>Raw data is <strong>not clean</strong>. It can be noisy. Columns may not match. We must <strong>preprocess</strong> the data.</p>
             <p>Common tasks:</p>
             <ul>
-              <li>Remove <strong>duplicates</strong></li>
-              <li>Handle <strong>missing data</strong></li>
-              <li>Remove <strong>outliers</strong></li>
-              <li><strong>Scale values</strong> (one column may be very big, another very small)</li>
+              <li>Remove <strong>duplicates</strong>.</li>
+              <li>Handle <strong>missing data</strong>.</li>
+              <li>Remove <strong>outliers</strong>.</li>
+              <li><strong>Scale values</strong> (one column may be very big, another very small).</li>
             </ul>
             <p>The key idea: <strong>clean and format the data</strong>. This step is also called <strong>data preprocessing</strong>.</p>
           </div>
@@ -4700,9 +4858,9 @@ pre.code-output code {
             <p><strong>EDA</strong> means we read the input and output. We <strong>experiment with the data</strong> before modeling.</p>
             <p>We make graphs and study patterns:</p>
             <ul>
-              <li><strong>Univariate:</strong> mean, median, and curve of each column alone</li>
-              <li><strong>Bivariate:</strong> relationship between two columns</li>
-              <li><strong>Multivariate:</strong> more than two columns together</li>
+              <li><strong>Univariate:</strong> mean, median, and curve of each column alone.</li>
+              <li><strong>Bivariate:</strong> relationship between two columns.</li>
+              <li><strong>Multivariate:</strong> more than two columns together.</li>
             </ul>
             <p><strong>Imbalance:</strong> handle unbalanced data. Example: dog vs cat classification where <strong>cat images far outnumber dog images</strong>.</p>
           </div>
@@ -4751,7 +4909,7 @@ pre.code-output code {
           <div class="lesson-card__body">
             <p>Turn the model into <strong>real software</strong>: website, desktop app, and more.</p>
             <p>Typical flow:</p>
-            <p><code>train model → save binary file → expose API → return JSON</code></p>
+            <p><code>train model → save binary file → expose API → return JSON</code>.</p>
             <p>The user gives input. The Python app gets the data. The model returns a <strong>JSON answer</strong>.</p>
             <p>We build an <strong>end to end website</strong>. Platforms like <strong>Heroku</strong>, <strong>GCP</strong>, and <strong>AWS</strong> help host it.</p>
           </div>
@@ -4783,12 +4941,12 @@ pre.code-output code {
           <div class="lesson-card__body">
             <p>After launch, we keep the system healthy. Common work:</p>
             <ul>
-              <li><strong>Backup</strong> and <strong>rollback</strong></li>
-              <li><strong>Automation</strong> setup</li>
-              <li><strong>Load balancing</strong> and <strong>concurrent processes</strong> so many people can use it</li>
-              <li><strong>Retrain</strong> when the model gets old and unreliable (the model has "rotten")</li>
-              <li>Set <strong>how often to retrain</strong></li>
-              <li><strong>Optimize cost</strong>, tokens, and more</li>
+              <li><strong>Backup</strong> and <strong>rollback</strong>.</li>
+              <li><strong>Automation</strong> setup.</li>
+              <li><strong>Load balancing</strong> and <strong>concurrent processes</strong> so many people can use it.</li>
+              <li><strong>Retrain</strong> when the model gets old and unreliable (the model has "rotten").</li>
+              <li>Set <strong>how often to retrain</strong>.</li>
+              <li><strong>Optimize cost</strong>, tokens, and more.</li>
             </ul>
 
             <aside class="summary-callout">
@@ -4841,15 +4999,15 @@ pre.code-output code {
             <p>A data engineer <strong>brings all the data</strong> needed to build ML models.</p>
             <p>Big companies use <strong>OLTP</strong> (online transaction processing). Example: Flipkart. From OLTP we get <strong>OLAP</strong> (online analytical processing).</p>
             <ul>
-              <li><strong>OLTP:</strong> actual running data in the database</li>
-              <li><strong>OLAP:</strong> data for analysis, often called a <strong>data warehouse</strong></li>
+              <li><strong>OLTP:</strong> actual running data in the database.</li>
+              <li><strong>OLAP:</strong> data for analysis, often called a <strong>data warehouse</strong>.</li>
             </ul>
             <p>Main tasks:</p>
             <ul>
-              <li>Scrape or collect data from given sources</li>
-              <li>Move and store data in OLAP, secure servers, or warehouse</li>
-              <li>Build <strong>data pipelines</strong> and <strong>APIs</strong> for easy access</li>
-              <li>Handle <strong>database</strong> and <strong>data warehouse</strong></li>
+              <li>Scrape or collect data from given sources.</li>
+              <li>Move and store data in OLAP, secure servers, or warehouse.</li>
+              <li>Build <strong>data pipelines</strong> and <strong>APIs</strong> for easy access.</li>
+              <li>Handle <strong>database</strong> and <strong>data warehouse</strong>.</li>
             </ul>
             <p>This is the most important role when data is <strong>large scale</strong>. <strong>Data is gold.</strong></p>
             <p><strong>Skills:</strong> software development, databases, data structures and algorithms, programming languages, RDBMS, big data tools, cloud platforms (AWS, GCP), distributed systems, and data pipelines.</p>
@@ -4870,10 +5028,10 @@ pre.code-output code {
             <p>Main work:</p>
             <ul>
               <li><strong>Summarize past data</strong>. Example: why did a product fail in the business?</li>
-              <li>Create <strong>data visualization</strong></li>
-              <li>Produce and maintain <strong>reports</strong></li>
-              <li><strong>Collaborate</strong> with teams based on insight</li>
-              <li><strong>Optimize</strong> data collection procedures</li>
+              <li>Create <strong>data visualization</strong>.</li>
+              <li>Produce and maintain <strong>reports</strong>.</li>
+              <li><strong>Collaborate</strong> with teams based on insight.</li>
+              <li><strong>Optimize</strong> data collection procedures.</li>
             </ul>
             <p>Data analyst and <strong>business analyst</strong> are almost similar. The tools are different.</p>
             <p><strong>Skills:</strong> statistical programming, programming languages, creative and analytical thinking, strong communication, data mining and cleaning, data visualization, <strong>data storytelling</strong>, SQL, advanced Microsoft Excel.</p>
@@ -4893,9 +5051,9 @@ pre.code-output code {
             <p>A classic line: better at <strong>statistics than any software engineer</strong>, and better at <strong>software engineering than any statistician</strong>.</p>
             <p>The data scientist can do <strong>almost every step</strong> in MDLC.</p>
             <ul>
-              <li><strong>Data analyst</strong> looks at the <strong>past</strong> and gives a summary</li>
-              <li><strong>Data scientist</strong> works for the <strong>future</strong></li>
-              <li>Builds <strong>recommendations</strong> from point A to point B</li>
+              <li><strong>Data analyst</strong> looks at the <strong>past</strong> and gives a summary.</li>
+              <li><strong>Data scientist</strong> works for the <strong>future</strong>.</li>
+              <li>Builds <strong>recommendations</strong> from point A to point B.</li>
             </ul>
             <p>The ultimate goal for many learners is to become a data scientist. It is also called <strong>ML fullstack</strong>.</p>
             <p>You need <strong>communication skills</strong> and to be <strong>very good at maths</strong>.</p>
@@ -4914,9 +5072,9 @@ pre.code-output code {
             <p>Once the model is ready, the <strong>ML engineer deploys it</strong>.</p>
             <p>Main work:</p>
             <ul>
-              <li><strong>Scaling</strong> and <strong>optimizing</strong> the model for production</li>
-              <li><strong>Monitoring</strong> the model in production</li>
-              <li>Keeping the model healthy over time</li>
+              <li><strong>Scaling</strong> and <strong>optimizing</strong> the model for production.</li>
+              <li><strong>Monitoring</strong> the model in production.</li>
+              <li>Keeping the model healthy over time.</li>
             </ul>
             <p><strong>Skills:</strong> mathematics, programming languages, distributed systems, data, model, and evaluation, software engineering, and system design.</p>
           </div>
@@ -5026,10 +5184,10 @@ pre.code-output code {
           </header>
           <div class="lesson-card__body">
             <ul>
-              <li><strong>0 dimensions:</strong> scalar (0D tensor)</li>
-              <li><strong>1 dimension:</strong> vector (1D tensor)</li>
-              <li><strong>2 dimensions:</strong> matrix (2D tensor)</li>
-              <li><strong>3 or more dimensions:</strong> tensor (3D, 4D, 5D, and so on)</li>
+              <li><strong>0 dimensions:</strong> scalar (0D tensor).</li>
+              <li><strong>1 dimension:</strong> vector (1D tensor).</li>
+              <li><strong>2 dimensions:</strong> matrix (2D tensor).</li>
+              <li><strong>3 or more dimensions:</strong> tensor (3D, 4D, 5D, and so on).</li>
             </ul>
             <p><strong>3D tensor:</strong> a stack of matrices. It has 3 axes.</p>
             <p><strong>4D tensor:</strong> a collection of 3D tensors.</p>
@@ -5051,69 +5209,69 @@ pre.code-output code {
 
             <ul class="concept-grid" aria-label="Tensor terms explained">
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Tensor</p>
+                <p class="concept-card__name">Tensor.</p>
                 <p class="concept-card__desc">A box that holds numbers in an organized way. A list, table, or stack of tables can all be tensors.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Element</p>
+                <p class="concept-card__name">Element.</p>
                 <p class="concept-card__desc">One single number inside the tensor. The smallest piece. In <code>[1, 2, 3]</code> the elements are 1, 2, and 3.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Dimension</p>
+                <p class="concept-card__name">Dimension.</p>
                 <p class="concept-card__desc">How many levels the data has. One number = 0D. A list = 1D. A table = 2D. More levels = 3D, 4D, and so on.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Rank</p>
+                <p class="concept-card__name">Rank.</p>
                 <p class="concept-card__desc">Same idea as dimension. Rank tells how many axes the tensor has. Rank 0 = scalar, rank 1 = vector, rank 2 = matrix.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Axis (axes)</p>
+                <p class="concept-card__name">Axis (axes).</p>
                 <p class="concept-card__desc">One direction in the tensor. A table has 2 axes: rows and columns. Axis 0 is usually rows. Axis 1 is usually columns.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Shape</p>
+                <p class="concept-card__name">Shape.</p>
                 <p class="concept-card__desc">How many slots sit on each axis. Shape <code>(2, 3)</code> means 2 rows and 3 columns.</p>
               </li>
               <li class="concept-card concept-card--challenge">
-                <p class="concept-card__name">Size</p>
+                <p class="concept-card__name">Size.</p>
                 <p class="concept-card__desc">Total number of elements. Multiply the shape numbers. Shape <code>(2, 3)</code> → size = 6.</p>
               </li>
             </ul>
 
             <p><strong>Quick memory trick:</strong> rank and dimension mean the same thing. Axes are the directions. Shape counts slots per direction. Size counts all numbers inside.</p>
 
-            <p><strong>Example 1: scalar</strong></p>
+            <p><strong>Example 1: scalar</strong>.</p>
             <pre><code>4</code></pre>
             <ul>
-              <li>Tensor: yes (0D tensor)</li>
-              <li>Elements: 1 (just the number 4)</li>
-              <li>Rank / dimension: 0</li>
-              <li>Axes: none (it is a single point)</li>
-              <li>Shape: <code>()</code></li>
-              <li>Size: 1</li>
+              <li>Tensor: yes (0D tensor).</li>
+              <li>Elements: 1 (just the number 4).</li>
+              <li>Rank / dimension: 0.</li>
+              <li>Axes: none (it is a single point).</li>
+              <li>Shape: <code>()</code>.</li>
+              <li>Size: 1.</li>
             </ul>
 
-            <p><strong>Example 2: vector</strong></p>
+            <p><strong>Example 2: vector</strong>.</p>
             <pre><code>[1, 2, 3]</code></pre>
             <ul>
-              <li>Tensor: yes (1D tensor)</li>
-              <li>Elements: 1, 2, 3 (three elements)</li>
-              <li>Rank / dimension: 1</li>
-              <li>Axes: 1 axis (the line of numbers)</li>
-              <li>Shape: <code>(3,)</code></li>
-              <li>Size: 3</li>
+              <li>Tensor: yes (1D tensor).</li>
+              <li>Elements: 1, 2, 3 (three elements).</li>
+              <li>Rank / dimension: 1.</li>
+              <li>Axes: 1 axis (the line of numbers).</li>
+              <li>Shape: <code>(3,)</code>.</li>
+              <li>Size: 3.</li>
             </ul>
 
-            <p><strong>Example 3: matrix</strong></p>
+            <p><strong>Example 3: matrix</strong>.</p>
             <pre><code>[[1, 2, 3],
  [4, 5, 6]]</code></pre>
             <ul>
-              <li>Tensor: yes (2D tensor)</li>
-              <li>Elements: 1, 2, 3, 4, 5, 6 (six elements)</li>
-              <li>Rank / dimension: 2</li>
-              <li>Axes: axis 0 = rows (2), axis 1 = columns (3)</li>
-              <li>Shape: <code>(2, 3)</code></li>
-              <li>Size: 6</li>
+              <li>Tensor: yes (2D tensor).</li>
+              <li>Elements: 1, 2, 3, 4, 5, 6 (six elements).</li>
+              <li>Rank / dimension: 2.</li>
+              <li>Axes: axis 0 = rows (2), axis 1 = columns (3).</li>
+              <li>Shape: <code>(2, 3)</code>.</li>
+              <li>Size: 6.</li>
             </ul>
 
             <p>In NumPy, <code>ndim</code> gives rank, <code>shape</code> gives shape, and <code>size</code> gives total elements.</p>
@@ -5206,21 +5364,21 @@ print(matrix.ndim)   # 2</code></pre>
           </header>
           <div class="lesson-card__body">
             <p><strong>NLP example:</strong> sentences with one hot encoding.</p>
-            <p>Words: hi | Bishal | ranjit | tester</p>
+            <p>Words: hi | Bishal | ranjit | tester.</p>
             <ul>
-              <li>hi = <code>[1, 0, 0, 0]</code> (1D)</li>
-              <li>Bishal = <code>[0, 1, 0, 0]</code> (1D)</li>
-              <li>ranjit = <code>[0, 0, 1, 0]</code> (1D)</li>
-              <li>tester = <code>[0, 0, 0, 1]</code> (1D)</li>
+              <li>hi = <code>[1, 0, 0, 0]</code> (1D).</li>
+              <li>Bishal = <code>[0, 1, 0, 0]</code> (1D).</li>
+              <li>ranjit = <code>[0, 0, 1, 0]</code> (1D).</li>
+              <li>tester = <code>[0, 0, 0, 1]</code> (1D).</li>
             </ul>
-            <p>"Hi Bishal" = <code>[[1,0,0,0], [0,1,0,0]]</code> → <strong>2D tensor</strong></p>
-            <p>"Hi ranjit" = <code>[[1,0,0,0], [0,0,1,0]]</code> → <strong>2D tensor</strong></p>
-            <p>"Hi tester" = <code>[[1,0,0,0], [0,0,0,1]]</code> → <strong>2D tensor</strong></p>
+            <p>"Hi Bishal" = <code>[[1,0,0,0], [0,1,0,0]]</code> → <strong>2D tensor</strong>.</p>
+            <p>"Hi ranjit" = <code>[[1,0,0,0], [0,0,1,0]]</code> → <strong>2D tensor</strong>.</p>
+            <p>"Hi tester" = <code>[[1,0,0,0], [0,0,0,1]]</code> → <strong>2D tensor</strong>.</p>
             <p>Combining all sentences gives a <strong>3D tensor</strong>.</p>
             <p><strong>Time series example:</strong> stock high and low prices.</p>
             <ul>
-              <li>1 year: shape <code>(365, 2)</code> → <strong>2D tensor</strong></li>
-              <li>10 years: shape <code>(10, 365, 2)</code> → <strong>3D tensor</strong> (365 is the time axis)</li>
+              <li>1 year: shape <code>(365, 2)</code> → <strong>2D tensor</strong>.</li>
+              <li>10 years: shape <code>(10, 365, 2)</code> → <strong>3D tensor</strong> (365 is the time axis).</li>
             </ul>
           </div>
         </div>
@@ -5236,8 +5394,8 @@ print(matrix.ndim)   # 2</code></pre>
           <div class="lesson-card__body">
             <p><strong>4D example: images.</strong> An image is pixels. Each pixel is a number.</p>
             <p>A color image uses <strong>3 channels</strong>: red, green, blue.</p>
-            <p>One image: shape <code>(3, 1200, 800)</code> → <strong>3D tensor</strong></p>
-            <p>50 images: shape <code>(50, 3, 1200, 800)</code> → <strong>4D tensor</strong></p>
+            <p>One image: shape <code>(3, 1200, 800)</code> → <strong>3D tensor</strong>.</p>
+            <p>50 images: shape <code>(50, 3, 1200, 800)</code> → <strong>4D tensor</strong>.</p>
             <p><strong>5D example: video.</strong> A 60 second clip at 30 fps, 480p, 3 channels. A batch of many videos becomes a <strong>5D tensor</strong>.</p>
 
             <aside class="summary-callout">
@@ -5271,9 +5429,9 @@ print(matrix.ndim)   # 2</code></pre>
             <p>Inside Anaconda you can use <strong>Jupyter Notebook</strong>.</p>
             <p>In Jupyter you can:</p>
             <ul>
-              <li>Run <strong>Python code</strong> cell by cell</li>
-              <li>Write <strong>markdown</strong> notes between code</li>
-              <li>Use <strong>interactive widgets</strong> like buttons and forms</li>
+              <li>Run <strong>Python code</strong> cell by cell.</li>
+              <li>Write <strong>markdown</strong> notes between code.</li>
+              <li>Use <strong>interactive widgets</strong> like buttons and forms.</li>
             </ul>
             <p>This mix of code and notes is why Jupyter is popular for learning and experiments.</p>
           </div>
@@ -5332,16 +5490,16 @@ conda deactivate</code></pre>
 
             <p><strong>Using Kaggle:</strong></p>
             <ul>
-              <li>Create a free account at kaggle.com</li>
-              <li>Search for a dataset or notebook</li>
-              <li>Open a notebook in the browser and run code online</li>
+              <li>Create a free account at kaggle.com.</li>
+              <li>Search for a dataset or notebook.</li>
+              <li>Open a notebook in the browser and run code online.</li>
             </ul>
 
             <p><strong>Using Google Colab:</strong></p>
             <ul>
-              <li>Go to colab.research.google.com</li>
-              <li>Create a new notebook</li>
-              <li>Run Python in the cloud with no local install</li>
+              <li>Go to colab.research.google.com.</li>
+              <li>Create a new notebook.</li>
+              <li>Run Python in the cloud with no local install.</li>
             </ul>
 
             <aside class="summary-callout">
@@ -5377,10 +5535,10 @@ conda deactivate</code></pre>
             <p>Many languages have built in arrays. Python has <strong>lists</strong>, but lists are slow when you work with millions of numbers. They also store mixed types easily, which is not ideal for pure number crunching.</p>
             <p>NumPy gives you:</p>
             <ul>
-              <li>Powerful <strong>n dimension arrays</strong> (1D, 2D, 3D, and more)</li>
-              <li>Easy syntax for math on whole arrays at once</li>
-              <li>Open source code used across data science</li>
-              <li>Tools for linear algebra, random numbers, and statistics</li>
+              <li>Powerful <strong>n dimension arrays</strong> (1D, 2D, 3D, and more).</li>
+              <li>Easy syntax for math on whole arrays at once.</li>
+              <li>Open source code used across data science.</li>
+              <li>Tools for linear algebra, random numbers, and statistics.</li>
             </ul>
             <p><strong>Pandas</strong> builds on NumPy. The Day 13 placement project starts with <code>import numpy as np</code> for a reason.</p>
             <p><strong>Python</strong> is an application language. It was made easy on purpose. <strong>C</strong> is a system language used near hardware: operating systems, robots, and low level work.</p>
@@ -5789,7 +5947,7 @@ plt.show()</code></pre>
             </div>
 
             <figure class="numpy-plot" aria-label="Graph of sin x from 0 to 12">
-              <p class="numpy-plot__title">np.sin(x) from 0 to 12</p>
+              <p class="numpy-plot__title">np.sin(x) from 0 to 12.</p>
               <svg class="numpy-plot__svg" viewBox="0 0 400 180" role="img" aria-hidden="true">
                 <line x1="24" y1="156" x2="376" y2="156" stroke="#c8dce8" stroke-width="1"/>
                 <line x1="24" y1="24" x2="24" y2="156" stroke="#c8dce8" stroke-width="1"/>
@@ -5824,7 +5982,7 @@ plt.show()</code></pre>
             </div>
 
             <figure class="numpy-plot" aria-label="Graph of exp x from 0 to 11 log scale">
-              <p class="numpy-plot__title">np.exp(x) from 0 to 11 (log scale on y)</p>
+              <p class="numpy-plot__title">np.exp(x) from 0 to 11 (log scale on y).</p>
               <svg class="numpy-plot__svg" viewBox="0 0 400 180" role="img" aria-hidden="true">
                 <line x1="24" y1="156" x2="376" y2="156" stroke="#c8dce8" stroke-width="1"/>
                 <line x1="24" y1="24" x2="24" y2="156" stroke="#c8dce8" stroke-width="1"/>
@@ -5846,7 +6004,7 @@ plt.show()</code></pre>
             <p><code>np.median(arr4)</code> is the middle value when all numbers are sorted. For 6, 7, 8, 9, 10, 11 the median is <strong>8.5</strong> (halfway between 8 and 9).</p>
 
             <figure class="numpy-plot" aria-label="Median of arr4 on number line">
-              <p class="numpy-plot__title">np.median(arr4) = 8.5</p>
+              <p class="numpy-plot__title">np.median(arr4) = 8.5.</p>
               <svg class="numpy-plot__svg" viewBox="0 0 400 100" role="img" aria-hidden="true">
                 <line x1="30" y1="55" x2="370" y2="55" stroke="#c8dce8" stroke-width="2"/>
                 <line x1="30" y1="45" x2="30" y2="65" stroke="#4d6478" stroke-width="1.5"/>
@@ -6094,10 +6252,10 @@ arr1 + arr2</code></pre>
             <p>Rule: sizes must match, or one side must be 1 along that axis.</p>
 
             <div class="broadcast-diagram" aria-label="NumPy broadcasting explained with grids">
-              <p class="broadcast-diagram__title">How broadcasting stretches shapes (built in HTML, not a copied image)</p>
+              <p class="broadcast-diagram__title">How broadcasting stretches shapes (built in HTML, not a copied image).</p>
 
               <div class="broadcast-row">
-                <p class="broadcast-row__code"><code>np.arange(3) + 5</code></p>
+                <p class="broadcast-row__code"><code>np.arange(3) + 5</code>.</p>
                 <div class="broadcast-row__visual">
                   <div class="broadcast-array">
                     <span class="broadcast-cell broadcast-cell--solid">0</span>
@@ -6120,7 +6278,7 @@ arr1 + arr2</code></pre>
               </div>
 
               <div class="broadcast-row">
-                <p class="broadcast-row__code"><code>np.ones((3, 3)) + np.arange(3)</code></p>
+                <p class="broadcast-row__code"><code>np.ones((3, 3)) + np.arange(3)</code>.</p>
                 <div class="broadcast-row__visual broadcast-row__visual--stack">
                   <div class="broadcast-matrix">
                     <span class="broadcast-cell broadcast-cell--solid">1</span><span class="broadcast-cell broadcast-cell--solid">1</span><span class="broadcast-cell broadcast-cell--solid">1</span>
@@ -6155,7 +6313,7 @@ arr1 + arr2</code></pre>
               </div>
 
               <div class="broadcast-row">
-                <p class="broadcast-row__code"><code>column + row → 3x3 grid</code></p>
+                <p class="broadcast-row__code"><code>column + row → 3x3 grid</code>.</p>
                 <div class="broadcast-row__visual broadcast-row__visual--stack">
                   <div class="broadcast-matrix broadcast-matrix--col">
                     <span class="broadcast-cell broadcast-cell--solid">0</span><span class="broadcast-cell broadcast-cell--ghost">0</span><span class="broadcast-cell broadcast-cell--ghost">0</span>
@@ -6246,7 +6404,7 @@ b = np.random.randint(1, 100, 10)
 b[b % 2 == 1] = -1
 b</code></pre>
             </div>
-            <p class="code-result"><strong>Output:</strong> <code>array([38, -1, -1, 10, 76,  6, 80, -1, -1,  2])</code> (odd values replaced)</p>
+            <p class="code-result"><strong>Output:</strong> <code>array([38, -1, -1, 10, 76,  6, 80, -1, -1,  2])</code> (odd values replaced).</p>
             <div class="code-io">
               <p class="code-io__label code-io__label--input">Input</p>
               <pre class="code-input"><code>np.random.seed(1)
@@ -6254,8 +6412,10 @@ c = np.random.randint(1, 100, 10)
 d = np.where(c % 2 == 1, -1, c)
 d</code></pre>
             </div>
-            <p class="code-result"><strong>Output:</strong> <code>array([38, -1, -1, 10, 76,  6, 80, -1, -1,  2])</code></p>
-            <pre><code>np.random.seed(1)
+            <p class="code-result"><strong>Output:</strong> <code>array([38, -1, -1, 10, 76,  6, 80, -1, -1,  2])</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>np.random.seed(1)
 e = np.random.randint(1, 100, 10)
 np.sort(e)
 np.percentile(e, 25)
@@ -6352,37 +6512,37 @@ plt.show()</code></pre>
             <p>We keep <strong>cgpa</strong> and <strong>iq</strong> as input features. <strong>placement</strong> is the target we want to predict.</p>
 
             <div class="workflow reveal" aria-label="Project steps">
-              <p class="workflow__title">Six steps in this project</p>
+              <p class="workflow__title">Six steps in this project.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="eraser" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 0</span>
-                  <span class="workflow__step-desc">Preprocess + EDA</span>
+                  <span class="workflow__step-desc">Preprocess + EDA.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="columns-3" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 1</span>
-                  <span class="workflow__step-desc">Extract X and y</span>
+                  <span class="workflow__step-desc">Extract X and y.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="sliders-horizontal" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 2</span>
-                  <span class="workflow__step-desc">Scale values</span>
+                  <span class="workflow__step-desc">Scale values.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="split" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 3</span>
-                  <span class="workflow__step-desc">Train test split</span>
+                  <span class="workflow__step-desc">Train test split.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 4</span>
-                  <span class="workflow__step-desc">Train model</span>
+                  <span class="workflow__step-desc">Train model.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="check-circle" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 5</span>
-                  <span class="workflow__step-desc">Evaluate</span>
+                  <span class="workflow__step-desc">Evaluate.</span>
                 </li>
               </ol>
             </div>
@@ -6506,9 +6666,9 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
             <p>Suppose you are a <strong>data scientist at Netflix</strong>. Leadership asks: how do we <strong>increase revenue</strong>?</p>
             <p>Three business levers come to mind:</p>
             <ul>
-              <li><strong>Marketing:</strong> bring more new subscribers</li>
-              <li><strong>Pricing:</strong> get existing customers to pay more</li>
-              <li><strong>Retention:</strong> stop existing customers from leaving</li>
+              <li><strong>Marketing:</strong> bring more new subscribers.</li>
+              <li><strong>Pricing:</strong> get existing customers to pay more.</li>
+              <li><strong>Retention:</strong> stop existing customers from leaving.</li>
             </ul>
             <p>All three can grow revenue. As data scientists we often focus on the third: <strong>keep people subscribed</strong>.</p>
             <p>That is step one in framing. Start with the business goal. Then ask which part of it ML can help with.</p>
@@ -6547,9 +6707,9 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
             <p>What we need: find <strong>if a customer is about to leave</strong>.</p>
             <p>Once we know that, the product can act:</p>
             <ul>
-              <li>Send a <strong>50% discount</strong> offer</li>
-              <li>Fix a <strong>bad UI</strong> or help with <strong>no internet</strong> issues</li>
-              <li>Reach out <strong>immediately</strong> when someone shows signs of leaving</li>
+              <li>Send a <strong>50% discount</strong> offer.</li>
+              <li>Fix a <strong>bad UI</strong> or help with <strong>no internet</strong> issues.</li>
+              <li>Reach out <strong>immediately</strong> when someone shows signs of leaving.</li>
             </ul>
             <p>Good framing means you know what the model will <strong>do in production</strong>, not just what it will predict on paper.</p>
           </div>
@@ -6586,10 +6746,10 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
             <p>Getting data is one of the <strong>most important parts</strong> of framing.</p>
             <p>Ask: what signals show that someone might leave? Examples:</p>
             <ul>
-              <li><strong>Watch time</strong> dropping</li>
-              <li><strong>Search but did not find</strong> what they wanted</li>
-              <li><strong>Content left in the middle</strong> of a show</li>
-              <li><strong>Clicks on recommendations</strong> and the order they clicked</li>
+              <li><strong>Watch time</strong> dropping.</li>
+              <li><strong>Search but did not find</strong> what they wanted.</li>
+              <li><strong>Content left in the middle</strong> of a show.</li>
+              <li><strong>Clicks on recommendations</strong> and the order they clicked.</li>
             </ul>
             <p>You rarely pull this data alone. Talk to the <strong>data engineer</strong>.</p>
             <p>They take live app data from <strong>OLTP</strong> systems and build a <strong>data warehouse</strong> where you can train models.</p>
@@ -6624,7 +6784,7 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
           <div class="lesson-card__body">
             <p>Another framing choice: will the model run in <strong>batch</strong> or <strong>online</strong> mode?</p>
             <p>A common pipeline looks like this:</p>
-            <p><strong>OLTP</strong> → <strong>data warehouse</strong> → <strong>model</strong> → <strong>trained model</strong></p>
+            <p><strong>OLTP</strong> → <strong>data warehouse</strong> → <strong>model</strong> → <strong>trained model</strong>.</p>
             <p><strong>Batch learning:</strong> retrain on a schedule (daily or weekly). Good when patterns change slowly.</p>
             <p><strong>Online learning:</strong> update the model as new events arrive. Good when behavior shifts fast.</p>
             <p>For churn, many teams start with batch: pull warehouse data, train overnight, score users the next day. Online can come later if you need faster reactions.</p>
@@ -6662,42 +6822,42 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
             <p>Day 9 introduced MDLC step 1 at a high level. Today we went deep with a real example.</p>
 
             <div class="workflow reveal" aria-label="Framing steps">
-              <p class="workflow__title">Seven steps to frame an ML problem</p>
+              <p class="workflow__title">Seven steps to frame an ML problem.</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="building-2" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 1</span>
-                  <span class="workflow__step-desc">Start with the business goal</span>
+                  <span class="workflow__step-desc">Start with the business goal.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="trending-down" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 2</span>
-                  <span class="workflow__step-desc">Turn it into a math target</span>
+                  <span class="workflow__step-desc">Turn it into a math target.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 3</span>
-                  <span class="workflow__step-desc">Define the end product</span>
+                  <span class="workflow__step-desc">Define the end product.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 4</span>
-                  <span class="workflow__step-desc">Pick problem type</span>
+                  <span class="workflow__step-desc">Pick problem type.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 5</span>
-                  <span class="workflow__step-desc">Plan the data</span>
+                  <span class="workflow__step-desc">Plan the data.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="gauge" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 6</span>
-                  <span class="workflow__step-desc">Set metrics</span>
+                  <span class="workflow__step-desc">Set metrics.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="shield-check" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Step 7</span>
-                  <span class="workflow__step-desc">Check assumptions</span>
+                  <span class="workflow__step-desc">Check assumptions.</span>
                 </li>
               </ol>
             </div>
@@ -6716,11 +6876,210 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
+      <!-- DAY 15 -->
+      <div class="chapter-divider reveal" id="chapter-day-15" data-chapter="day-15">
+        <span class="chapter-divider__pill">Day 15</span>
+        <h2 class="chapter-divider__title">Working with CSV Files</h2>
+        <p class="chapter-divider__note">MDLC step 2: data gathering. Today we focus on comma separated values with pandas.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-112" data-section="112" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">112</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-input" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Ways to Gather Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we start <strong>data gathering</strong>, step 2 in MDLC. We learn how to bring data into our project.</p>
+            <p>There are four common ways to get data:</p>
+            <ol>
+              <li><strong>CSV files:</strong> widely used in the early days of a project.</li>
+              <li><strong>JSON and SQL data:</strong> JSON is widely used in APIs and is a universal data format.</li>
+              <li><strong>Fetch from an API:</strong> pull data and shape it for your needs.</li>
+              <li><strong>Web scraping:</strong> run a parser on a website with Python code.</li>
+            </ol>
+            <p>Today we focus on <strong>CSV</strong>.</p>
+            <p><strong>CSV</strong> means comma separated values. Each value sits between commas.</p>
+            <p><strong>TSV</strong> means tab separated values. Same idea, but values are split by tabs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-113" data-section="113" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">113</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-spreadsheet" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_csv Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with the two imports you already know:</p>
+            <pre><code>import numpy as np
+import pandas as pd</code></pre>
+            <p>Load a CSV from a local file:</p>
+            <pre><code>df = pd.read_csv("file_name.csv")
+df</code></pre>
+            <p>You can also pass a <strong>URL</strong> instead of a file path. Pandas will download and read it.</p>
+            <pre><code>url = "https://example.com/data.csv"
+df = pd.read_csv(url)
+df.head()</code></pre>
+            <p><code>df</code> is a <strong>DataFrame</strong>: a table with rows and columns. We will now look at many <code>read_csv</code> parameters to control how the file is loaded.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-114" data-section="114" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">114</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">index_col and header</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>index_col:</strong> use a column as the row index instead of the auto generated 0, 1, 2… index:</p>
+            <pre><code>df = pd.read_csv("file_name.csv", index_col="col_name")</code></pre>
+            <p>This removes the extra index column pandas would create by default.</p>
+            <p><strong>header:</strong> pick which row becomes the column names:</p>
+            <pre><code>df = pd.read_csv("test.csv", header=1)</code></pre>
+            <p><code>header=0</code> is the default (first row). <code>header=1</code> means the <strong>second row</strong> becomes your header row.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-115" data-section="115" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">115</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">usecols and squeeze</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>usecols:</strong> load only the columns you need:</p>
+            <pre><code>df = pd.read_csv("test.csv", usecols=["enrolled_id", "gender"])</code></pre>
+            <p>This saves memory when the file has many columns but you only need a few.</p>
+            <p><strong>squeeze:</strong> when you load one column, turn the DataFrame into a <strong>Series</strong>:</p>
+            <pre><code>s = pd.read_csv("test.csv", usecols=["enrolled_id"], squeeze=True)</code></pre>
+            <p>A Series is a single column of data with an index. In newer pandas versions you can also call <code>.squeeze()</code> on a one column DataFrame.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-116" data-section="116" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">116</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">skiprows and nrows</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>skiprows:</strong> skip specific rows when reading:</p>
+            <pre><code>df = pd.read_csv("test.csv", skiprows=[0, 5])</code></pre>
+            <p>This skips row 0 and row 5. Useful when the file has junk rows at the top or broken rows in the middle.</p>
+            <p><strong>nrows:</strong> read only the first N rows:</p>
+            <pre><code>df = pd.read_csv("test.csv", nrows=100)</code></pre>
+            <p>Good for quick previews on very large files without loading everything.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-117" data-section="117" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">117</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">encoding and Bad Lines</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>encoding:</strong> some files use a different text encoding. Special characters may break unless you set it:</p>
+            <pre><code>df = pd.read_csv("test.csv", encoding="latin-1")</code></pre>
+            <p>Try <code>latin-1</code> or <code>cp1252</code> when you see strange symbols or read errors.</p>
+            <p><strong>Skip bad lines:</strong> sometimes a row is corrupt. Example: rows 5, 6, or 7 have wrong data.</p>
+            <pre><code>df = pd.read_csv("test.csv", on_bad_lines="skip")</code></pre>
+            <p>If a row expects 8 columns but has 9 values, pandas skips that row instead of crashing. Older pandas used <code>error_bad_lines=False</code>. Newer versions use <code>on_bad_lines="skip"</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-118" data-section="118" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">118</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calendar" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">dtype and parse_dates</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>dtype:</strong> set column types while loading. This helps save memory:</p>
+            <pre><code>df = pd.read_csv("test.csv", dtype={"target": int})</code></pre>
+            <p>Without this, pandas may load numbers as floats or objects. Telling it the type upfront keeps the DataFrame smaller.</p>
+            <p><strong>parse_dates:</strong> dates often arrive as plain strings. Convert them on load:</p>
+            <pre><code>df = pd.read_csv("test.csv", parse_dates=["date"])</code></pre>
+            <p>After this, the <code>date</code> column is a real datetime type. You can filter, sort, and plot dates properly.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-119" data-section="119" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">119</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wand-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">converters and na_values</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>converters:</strong> very powerful in pandas. Run your own function on each value in a column.</p>
+            <p>Example: instead of the full name <strong>Bishal Ranjitkar</strong>, store a short code <strong>br</strong>:</p>
+            <pre><code>def rename(name):
+    if name == "bishal ranjitkar":
+        return "br"
+    else:
+        return "norbr"
+
+df = pd.read_csv("test.csv", converters={"team1": rename})</code></pre>
+            <p><strong>na_values:</strong> tell pandas which values should count as missing (NaN):</p>
+            <pre><code>df = pd.read_csv("test.csv", na_values=["male"])</code></pre>
+            <p>You can pass strings like <code>"-"</code>, <code>"nan"</code>, or any custom token your file uses for empty data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-120" data-section="120" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">120</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Loading Data in Chunks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Sometimes the dataset is so large that loading it all at once fails or slows your machine.</p>
+            <p>Use <strong>chunksize</strong> to read the file in pieces:</p>
+            <pre><code>chunks = pd.read_csv("test.csv", chunksize=100)
+
+for chunk in chunks:
+    print(chunk.shape)
+    # process each chunk here</code></pre>
+            <p>Each chunk is a DataFrame with 100 rows. You can clean, filter, or aggregate chunk by chunk without holding the full file in memory.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 15 takeaways</h3>
+              <ul>
+                <li>Data gathering has four paths: CSV, JSON/SQL, API, and web scraping. CSV is the starting point.</li>
+                <li><code>pd.read_csv</code> works on local files and URLs.</li>
+                <li>Parameters like <code>index_col</code>, <code>header</code>, <code>usecols</code>, and <code>dtype</code> control how data loads.</li>
+                <li>Use <code>encoding</code>, <code>on_bad_lines</code>, <code>converters</code>, and <code>na_values</code> to handle messy real world files.</li>
+                <li>For huge files, use <code>chunksize</code> to process data in batches.</li>
+              </ul>
+              <p>Next we will cover JSON, SQL, APIs, and web scraping. Master CSV first because most projects still start here.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 14 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 15 of 100 published · Last updated June 2026</p>
     </footer>
   </div>
 

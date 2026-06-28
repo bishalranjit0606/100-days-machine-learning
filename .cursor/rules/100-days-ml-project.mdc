@@ -52,6 +52,56 @@ When the user adds or updates a day file under `days/`:
 - Sidebar: collapsible days; lesson titles without number prefix in nav (numbers stay on cards).
 - Lesson cards should match chapter card width on desktop.
 
+### Main content must not go under the right sidebar (desktop)
+
+The right sidebar (`.sidebar`) reserves **340px** on the right. Main content lives in `.page-wrap`. On desktop, **no text, cards, tables, code blocks, workflow grids, or TTS highlights may render underneath the sidebar**.
+
+**How the layout works (do not break this):**
+
+1. **CSS grid on `body`** (desktop only) — two columns: `minmax(0, 1fr)` for main, `var(--nav-rail-size)` for sidebar. `.page-wrap` is column 1; `.sidebar` is column 2 with `position: sticky`. Do **not** rely on `width: calc(100% - 340px)` alone while the sidebar stays `position: fixed` over content.
+2. **Never overlap** — if a line reaches the sidebar edge, it must **wrap to the next line**. Do not use `overflow: hidden` on prose just to hide overlap.
+3. **Constrain every prose and rich block container** — `.main`, `.hero`, `.course-mission`, `.chapter-divider`, `.lesson-card`, `.lesson-card__inner`, `.lesson-card__body`, `.workflow`, `.workflow__steps`, `.summary-callout`, `.concept-grid`, `.comparison-table-wrap`, paragraphs, list items, and table cells all need `max-width: 100%`, `min-width: 0`, and `overflow-wrap: anywhere` (or equivalent).
+4. **Flex and grid children** — any horizontal flex row (e.g. `.workflow__steps`) must use `flex-wrap: wrap`, `min-width: 0` on the row and items, and `max-width: 100%`. Never set a flex `min-width` so large that cards push under the sidebar.
+5. **TTS spans** — word highlight spans must stay inline and wrappable (`white-space: normal`).
+6. **Fixed UI** — `.tts-dock`, footer, and back to top must stay inside the main column on desktop.
+7. **Keep CSS in sync** — `styles.css` is canonical. Mirror the same rules in the embedded `<style id="site-styles-embed">` block in `index.html`.
+
+**Common mistakes to avoid:**
+
+- Fixed sidebar + main column sized only with `calc()` while flex/grid children overflow the column
+- `.workflow__step` or similar cards with rigid `min-width` and no wrap
+- Long paragraphs without `overflow-wrap: anywhere`
+- Using `100vw` for content width on desktop
+
+After layout or lesson content changes, spot check desktop at **1280px** and **1440px** on lessons **109** (long paragraph), **111** (workflow grid), and one table heavy lesson.
+
+### Punctuation for read aloud (TTS)
+
+Lesson HTML is read aloud via the browser speech engine. **Missing punctuation makes speech run together**, especially in bullet lists and short lines.
+
+When adding or editing lesson content in `index.html`:
+
+1. **End complete thoughts with `.`, `?`, or `!`** — especially `li` items, summary bullets, workflow step descriptions, and callout lines.
+2. **Use commas** inside longer list items or sentences where a natural spoken pause is needed.
+3. **Do not rely on TTS delay tuning** to fake pauses when visible punctuation would work.
+4. **Keep on screen text natural** — add punctuation for listening rhythm without over punctuating or changing meaning.
+5. **Test with Listen here** on list heavy lessons after content edits.
+
+### TTS read scope (prose only)
+
+Text to speech reads **teaching prose only**. Code samples, tables, and diagrams stay visible on screen but are **not spoken**.
+
+**Read aloud:** lesson title, paragraphs, list items, summary callout bullets, short inline terms like `CSV` or `df` inside a sentence.
+
+**Skip (handled in `script.js` via `shouldSkipTtsElement`):** `pre` and code blocks, `table` and `.comparison-table`, `.code-io` input/output blocks, `.workflow` step grids, `.lesson-figure`, `.broadcast-diagram` / `.broadcast-matrix`, `svg`, `img`, `[hidden]`, `[aria-hidden="true"]`, and long inline `code` snippets that look like copy paste samples.
+
+When adding new lesson blocks:
+
+1. Put **copy paste code** in `pre` or `.code-io`, not in plain paragraphs.
+2. Put **tabular data** in `table` or `.comparison-table`, not in prose meant to be read aloud.
+3. Use class **`tts-skip`** on any future block that should never be spoken.
+4. **Test with Listen here** after TTS or content changes on lessons that mix prose with code.
+
 ---
 
 ## Technical constraints
@@ -59,6 +109,8 @@ When the user adds or updates a day file under `days/`:
 - HTML + CSS + vanilla JS only unless the user explicitly asks for a framework or build step.
 - No cheap clip art or emoji; icons = Lucide only.
 - Site must work on GitHub Pages / static host (HTML, CSS, JS only; no Python or build step).
+- **CSS source of truth:** edit `styles.css` first, then mirror the same rules in the embedded `<style id="site-styles-embed">` block in `index.html`.
+- **Desktop layout:** use the two column body grid on desktop. Main content in `.page-wrap` must never render underneath the sidebar. Flex rows like `.workflow__steps` must wrap inside the column. Use `min-width: 0`, `max-width: 100%`, and `overflow-wrap: anywhere` on prose blocks.
 
 ---
 
@@ -76,3 +128,6 @@ When the user adds or updates a day file under `days/`:
 - [ ] New day content reflects the user's notes fully without filler.
 - [ ] Icons are Lucide, not emoji.
 - [ ] Copy sounds like teaching the community.
+- [ ] Desktop main content does not render under the right sidebar at 1280px and 1440px (test lessons 109 and 111 for long prose and workflow grids).
+- [ ] Lesson bullets and sentences have punctuation so TTS pauses naturally (periods, commas, question marks where appropriate).
+- [ ] TTS reads prose only; code blocks, tables, and diagrams are skipped (test with Listen here on a code heavy lesson).
