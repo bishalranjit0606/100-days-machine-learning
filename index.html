@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                          <style id="site-styles-embed">
+                            <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -578,14 +578,21 @@ a:hover {
 
 /* Main layout */
 .page-wrap {
-  margin-right: var(--nav-rail-size);
   min-height: 100vh;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+@media (min-width: 1025px) {
+  .page-wrap {
+    width: calc(100% - var(--nav-rail-size));
+  }
 }
 
 /* Hero — split column */
 .hero {
   position: relative;
-  max-width: var(--content-max);
+  max-width: min(var(--content-max), 100%);
   margin: 0 auto;
   padding: 3.5rem 2rem 2.5rem;
   display: grid;
@@ -593,6 +600,7 @@ a:hover {
   gap: 2.5rem;
   align-items: center;
   overflow: hidden;
+  min-width: 0;
 }
 
 .hero__ambient {
@@ -622,6 +630,7 @@ a:hover {
 .hero__visual {
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
 .hero__badge {
@@ -1142,12 +1151,13 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 /* Course mission */
 .course-mission {
-  max-width: var(--content-max);
+  max-width: min(var(--content-max), 100%);
   margin: 0 auto 2rem;
   padding: 0 2rem;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  min-width: 0;
 }
 
 .course-mission.is-visible {
@@ -1371,9 +1381,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 /* Main content */
 .main {
-  max-width: var(--content-max);
+  max-width: min(var(--content-max), 100%);
   margin: 0 auto;
   padding: 0 2rem 5rem;
+  min-width: 0;
 }
 
 /* Chapter divider — banner */
@@ -1387,6 +1398,9 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .chapter-divider.is-visible {
@@ -1766,6 +1780,8 @@ pre.code-output code {
   margin-bottom: 1.5rem;
   padding: 1.25rem 1.5rem;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1922,6 +1938,7 @@ pre.code-output code {
   box-shadow: none;
   max-width: none;
   width: 100%;
+  min-width: 0;
 }
 
 .lesson-card.is-speaking {
@@ -2059,7 +2076,16 @@ pre.code-output code {
 .lesson-card__body {
   font-size: 1.0625rem;
   line-height: 1.72;
-  max-width: none;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.lesson-card__body p,
+.lesson-card__body li,
+.lesson-card__body td,
+.lesson-card__body th {
+  overflow-wrap: break-word;
 }
 
 .lesson-card__body p {
@@ -2478,7 +2504,7 @@ pre.code-output code {
   }
 
   .page-wrap {
-    margin-right: 0;
+    width: 100%;
     padding-top: var(--header-height-mobile);
     padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
   }
