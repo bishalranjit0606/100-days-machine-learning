@@ -1,0 +1,76 @@
+Day 14: How to Frame a Machine Learning Problem
+
+How we convert a business problem into a machine learning problem.
+
+Example: Netflix
+
+Suppose we are data scientists at Netflix and we want to increase revenue.
+
+Three business levers:
+1. Do good marketing and bring more people
+2. Get existing customers to pay more
+3. Stop existing customers from leaving (retention)
+
+Business problem to ML problem:
+
+We can ask: how do we decrease churn rate?
+
+Churn rate example:
+Netflix has subscribers. If 2 out of 100 leave in a period, churn rate is 2%.
+Real Netflix churn is around 4%. We want to push it down to 3.75%.
+
+Our business problem is increase revenue.
+After the meeting we do not think only about revenue in abstract terms.
+We think about how to decrease churn rate.
+Then we convert that into a mathematical problem.
+
+Type of problem:
+
+We have to see the big picture. That is the end product.
+
+We do not have to predict the churn rate number itself.
+
+First find if the customer is leaving the product.
+Suppose we find that this person is leaving.
+We can offer a 50% discount.
+Or the problem might be no internet or a hard UI.
+
+As soon as we find that a person is leaving the platform, we send an immediate discount.
+
+We can also find the amount of feeling: how much the person is trying to leave.
+Example: 90% feeling to leave the platform. Higher percentage might mean a bigger discount.
+
+First we think: is the person leaving or not?
+That is supervised learning classification: yes or no.
+
+Since we also find the feeling in percentage (willingness to leave), we use regression.
+
+Current solution uses both.
+
+Getting data:
+
+How to get the data and what kind of data do we need.
+
+Examples:
+Watch time
+Search but did not find
+Content left in the middle
+Clicked in recommendation (order of recommendations)
+
+This is the most important part.
+
+We have to talk with the data engineer.
+Data engineers take OLTP data and build the data warehouse for us.
+
+Metrics to measure:
+
+We need to define metrics. We must know if what we are doing is good or bad.
+
+Online or batch learning:
+
+OLTP -> data warehouse -> model -> trained
+
+The last thing we have to do is check assumptions:
+
+Check if the data are available
+Check if a single model works for different regions or if we need models based on geography
