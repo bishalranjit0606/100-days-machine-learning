@@ -42,6 +42,8 @@
   --chapter-day-13: #9333ea;
   --chapter-day-14: #c026d3;
   --chapter-day-15: #0284c7;
+  --chapter-day-16: #22c55e;
+  --chapter-day-17: #f43f5e;
   --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
@@ -386,6 +388,14 @@ a:hover {
   border-left: 3px solid var(--chapter-day-15);
 }
 
+.toc-chapter[data-chapter="day-16"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-17);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
 }
@@ -456,6 +466,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-15"] .toc-chapter__pill {
   background: var(--chapter-day-15);
+}
+
+.toc-chapter[data-chapter="day-16"] .toc-chapter__pill {
+  background: var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-chapter__pill {
+  background: var(--chapter-day-17);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
@@ -578,6 +596,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-15"] .toc-link.is-active {
   border-color: var(--chapter-day-15);
+}
+
+.toc-chapter[data-chapter="day-16"] .toc-link.is-active {
+  border-color: var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-link.is-active {
+  border-color: var(--chapter-day-17);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
@@ -1485,6 +1511,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-15);
 }
 
+.chapter-divider[data-chapter="day-16"] {
+  border-left: 5px solid var(--chapter-day-16);
+}
+
+.chapter-divider[data-chapter="day-17"] {
+  border-left: 5px solid var(--chapter-day-17);
+}
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1557,6 +1591,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-15"] .chapter-divider__pill {
   background: var(--chapter-day-15);
+}
+
+.chapter-divider[data-chapter="day-16"] .chapter-divider__pill {
+  background: var(--chapter-day-16);
+}
+
+.chapter-divider[data-chapter="day-17"] .chapter-divider__pill {
+  background: var(--chapter-day-17);
 }
 
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
@@ -1876,6 +1918,14 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-15);
 }
 
+.lesson-card[data-chapter="day-16"] {
+  border-left: 5px solid var(--chapter-day-16);
+}
+
+.lesson-card[data-chapter="day-17"] {
+  border-left: 5px solid var(--chapter-day-17);
+}
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1957,6 +2007,14 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-15"] .lesson-card__marker {
   background: var(--chapter-day-15);
+}
+
+.lesson-card[data-chapter="day-16"] .lesson-card__marker {
+  background: var(--chapter-day-16);
+}
+
+.lesson-card[data-chapter="day-17"] .lesson-card__marker {
+  background: var(--chapter-day-17);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
@@ -2080,6 +2138,16 @@ pre.code-output code {
 .lesson-card[data-chapter="day-15"] .lesson-card__icon {
   color: var(--chapter-day-15);
   background: rgba(2, 132, 199, 0.1);
+}
+
+.lesson-card[data-chapter="day-16"] .lesson-card__icon {
+  color: var(--chapter-day-16);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.lesson-card[data-chapter="day-17"] .lesson-card__icon {
+  color: var(--chapter-day-17);
+  background: rgba(244, 63, 94, 0.1);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
@@ -3276,6 +3344,31 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-120" data-section="120">Loading Data in Chunks</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-16">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-16">
+          <span class="toc-chapter__pill">Day 16</span>
+          <span class="toc-chapter__name">Working with JSON and SQL</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-16" hidden>
+          <li><a class="toc-link" href="#section-121" data-section="121">JSON Basics</a></li>
+          <li><a class="toc-link" href="#section-122" data-section="122">read_json from File</a></li>
+          <li><a class="toc-link" href="#section-123" data-section="123">read_json from URL</a></li>
+          <li><a class="toc-link" href="#section-124" data-section="124">Read SQL into pandas</a></li>
+        </ul>
+      </div>
+      <div class="toc-chapter" data-chapter="day-17">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-17">
+          <span class="toc-chapter__pill">Day 17</span>
+          <span class="toc-chapter__name">Fetching Data from an API</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-17" hidden>
+          <li><a class="toc-link" href="#section-125" data-section="125">What Is an API</a></li>
+          <li><a class="toc-link" href="#section-126" data-section="126">TMDB API to DataFrame</a></li>
+          <li><a class="toc-link" href="#section-127" data-section="127">Collect Many Pages</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3295,8 +3388,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">120 lessons live</span>
-          <span class="hero__stat">Day 15 published</span>
+          <span class="hero__stat">127 lessons live</span>
+          <span class="hero__stat">Day 17 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -7075,11 +7168,190 @@ for chunk in chunks:
         </div>
       </article>
 
+      <!-- DAY 16 -->
+      <div class="chapter-divider reveal" id="chapter-day-16" data-chapter="day-16">
+        <span class="chapter-divider__pill">Day 16</span>
+        <h2 class="chapter-divider__title">Working with JSON and SQL</h2>
+        <p class="chapter-divider__note">Load structured data into pandas from files, URLs, and databases.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-121" data-section="121" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">121</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>JSON</strong> is a universal data structure for sharing data.</p>
+            <p>You see it in APIs, configuration files, and many datasets on the web.</p>
+            <p>In pandas, the main entry point is <code>pd.read_json</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-122" data-section="122" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">122</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_json from File</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start by importing pandas:</p>
+            <pre><code>import pandas as pd</code></pre>
+            <p>Load JSON from a local file:</p>
+            <pre><code>df = pd.read_json("file_name.json")
+df.head()</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-123" data-section="123" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">123</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_json from URL</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can load JSON directly from a URL too:</p>
+            <pre><code>import pandas as pd
+
+url = "https://example.com/data.json"
+df = pd.read_json(url)
+df.head()</code></pre>
+            <p>This is common when a dataset is hosted on GitHub or a public endpoint.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-124" data-section="124" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">124</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Read SQL into pandas</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>SQL</strong> is used to store and query data in databases.</p>
+            <p>One common setup is MySQL. In a notebook, you can install the connector like this:</p>
+            <pre><code>!pip install mysql-connector-python</code></pre>
+            <p>Create a connection:</p>
+            <pre><code>import mysql.connector
+import pandas as pd
+
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="world",
+)</code></pre>
+            <p>Then run a query and load the result into a DataFrame:</p>
+            <pre><code>df = pd.read_sql_query("SELECT * FROM city", conn)
+df.head()</code></pre>
+
+            <aside class="summary-callout">
+              <h3>Day 16 takeaways</h3>
+              <ul>
+                <li>JSON is a common format for sharing structured data.</li>
+                <li><code>pd.read_json</code> loads JSON from a file or a URL.</li>
+                <li>SQL lets you query a database, then bring results into pandas.</li>
+                <li><code>pd.read_sql_query</code> turns a SQL result into a DataFrame.</li>
+              </ul>
+              <p>Next we will fetch data from an API and store it in pandas.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 17 -->
+      <div class="chapter-divider reveal" id="chapter-day-17" data-chapter="day-17">
+        <span class="chapter-divider__pill">Day 17</span>
+        <h2 class="chapter-divider__title">Fetching Data from an API</h2>
+        <p class="chapter-divider__note">Use requests to collect JSON, then build a pandas DataFrame.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-125" data-section="125" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">125</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>API</strong> means application programming interface.</p>
+            <p>Simple meaning: an API helps two software systems talk to each other.</p>
+            <p>In many projects, an API becomes your data pipeline. Your app asks for data, and the API sends it back.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-126" data-section="126" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">126</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="film" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">TMDB API to DataFrame</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We can practice with a movie API like TMDB. You can create an API key at <code>developers.themoviedb.org</code>.</p>
+            <p>Make a request and read the JSON response:</p>
+            <pre><code>import pandas as pd
+import requests
+
+response = requests.get("YOUR_API_URL_HERE")
+data = response.json()
+results = data["results"]</code></pre>
+            <p>Create a DataFrame and pick only the columns you care about:</p>
+            <pre><code>df = pd.DataFrame(results)
+df.head(2)[["id", "popularity", "vote_count", "vote_average"]]</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-127" data-section="127" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">127</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Collect Many Pages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>APIs often return one page at a time. You then loop through pages and combine the results.</p>
+            <p>A clean pattern is to collect small DataFrames in a list, then merge them once:</p>
+            <pre><code>import pandas as pd
+import requests
+
+all_pages = []
+
+for page in range(1, 429):
+    response = requests.get("YOUR_API_URL_HERE", params={"page": page})
+    results = response.json()["results"]
+    all_pages.append(pd.DataFrame(results))
+
+df = pd.concat(all_pages, ignore_index=True)
+df.head()</code></pre>
+
+            <aside class="summary-callout">
+              <h3>Day 17 takeaways</h3>
+              <ul>
+                <li>An API helps software systems exchange data.</li>
+                <li>Many APIs return JSON. You can load it with <code>response.json()</code>.</li>
+                <li>Convert <code>results</code> into a DataFrame and select columns for analysis.</li>
+                <li>For many pages, loop and combine with <code>pd.concat</code>.</li>
+              </ul>
+              <p>Next we can cover web scraping and when it is needed.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 15 of 100 published · Last updated June 2026</p>
+      <p>New lessons added daily · Day 17 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 

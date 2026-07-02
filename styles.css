@@ -26,6 +26,8 @@
   --chapter-day-13: #9333ea;
   --chapter-day-14: #c026d3;
   --chapter-day-15: #0284c7;
+  --chapter-day-16: #22c55e;
+  --chapter-day-17: #f43f5e;
   --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
@@ -370,6 +372,14 @@ a:hover {
   border-left: 3px solid var(--chapter-day-15);
 }
 
+.toc-chapter[data-chapter="day-16"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-17);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
 }
@@ -440,6 +450,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-15"] .toc-chapter__pill {
   background: var(--chapter-day-15);
+}
+
+.toc-chapter[data-chapter="day-16"] .toc-chapter__pill {
+  background: var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-chapter__pill {
+  background: var(--chapter-day-17);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
@@ -562,6 +580,14 @@ a:hover {
 
 .toc-chapter[data-chapter="day-15"] .toc-link.is-active {
   border-color: var(--chapter-day-15);
+}
+
+.toc-chapter[data-chapter="day-16"] .toc-link.is-active {
+  border-color: var(--chapter-day-16);
+}
+
+.toc-chapter[data-chapter="day-17"] .toc-link.is-active {
+  border-color: var(--chapter-day-17);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
@@ -1469,6 +1495,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-15);
 }
 
+.chapter-divider[data-chapter="day-16"] {
+  border-left: 5px solid var(--chapter-day-16);
+}
+
+.chapter-divider[data-chapter="day-17"] {
+  border-left: 5px solid var(--chapter-day-17);
+}
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1541,6 +1575,14 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-15"] .chapter-divider__pill {
   background: var(--chapter-day-15);
+}
+
+.chapter-divider[data-chapter="day-16"] .chapter-divider__pill {
+  background: var(--chapter-day-16);
+}
+
+.chapter-divider[data-chapter="day-17"] .chapter-divider__pill {
+  background: var(--chapter-day-17);
 }
 
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
@@ -1860,6 +1902,14 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-15);
 }
 
+.lesson-card[data-chapter="day-16"] {
+  border-left: 5px solid var(--chapter-day-16);
+}
+
+.lesson-card[data-chapter="day-17"] {
+  border-left: 5px solid var(--chapter-day-17);
+}
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1941,6 +1991,14 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-15"] .lesson-card__marker {
   background: var(--chapter-day-15);
+}
+
+.lesson-card[data-chapter="day-16"] .lesson-card__marker {
+  background: var(--chapter-day-16);
+}
+
+.lesson-card[data-chapter="day-17"] .lesson-card__marker {
+  background: var(--chapter-day-17);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
@@ -2064,6 +2122,16 @@ pre.code-output code {
 .lesson-card[data-chapter="day-15"] .lesson-card__icon {
   color: var(--chapter-day-15);
   background: rgba(2, 132, 199, 0.1);
+}
+
+.lesson-card[data-chapter="day-16"] .lesson-card__icon {
+  color: var(--chapter-day-16);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.lesson-card[data-chapter="day-17"] .lesson-card__icon {
+  color: var(--chapter-day-17);
+  background: rgba(244, 63, 94, 0.1);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
