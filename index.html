@@ -46,6 +46,7 @@
   --chapter-day-17: #f43f5e;
   --chapter-day-18: #f59e0b;
   --chapter-day-19: #06b6d4;
+  --chapter-day-20: #8b5cf6;
   --chapter-numpy: #ea580c;
 
   --font-display: "Sora", system-ui, sans-serif;
@@ -406,6 +407,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-19);
 }
 
+.toc-chapter[data-chapter="day-20"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-20);
+}
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
 }
@@ -492,6 +497,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-19"] .toc-chapter__pill {
   background: var(--chapter-day-19);
+}
+
+.toc-chapter[data-chapter="day-20"] .toc-chapter__pill {
+  background: var(--chapter-day-20);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
@@ -630,6 +639,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-19"] .toc-link.is-active {
   border-color: var(--chapter-day-19);
+}
+
+.toc-chapter[data-chapter="day-20"] .toc-link.is-active {
+  border-color: var(--chapter-day-20);
 }
 
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
@@ -1553,6 +1566,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-19);
 }
 
+.chapter-divider[data-chapter="day-20"] {
+  border-left: 5px solid var(--chapter-day-20);
+}
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -1641,6 +1658,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-19"] .chapter-divider__pill {
   background: var(--chapter-day-19);
+}
+
+.chapter-divider[data-chapter="day-20"] .chapter-divider__pill {
+  background: var(--chapter-day-20);
 }
 
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
@@ -1976,6 +1997,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-19);
 }
 
+.lesson-card[data-chapter="day-20"] {
+  border-left: 5px solid var(--chapter-day-20);
+}
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
 }
@@ -2073,6 +2098,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-19"] .lesson-card__marker {
   background: var(--chapter-day-19);
+}
+
+.lesson-card[data-chapter="day-20"] .lesson-card__marker {
+  background: var(--chapter-day-20);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
@@ -2216,6 +2245,11 @@ pre.code-output code {
 .lesson-card[data-chapter="day-19"] .lesson-card__icon {
   color: var(--chapter-day-19);
   background: rgba(6, 182, 212, 0.12);
+}
+
+.lesson-card[data-chapter="day-20"] .lesson-card__icon {
+  color: var(--chapter-day-20);
+  background: rgba(139, 92, 246, 0.12);
 }
 
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
@@ -3470,6 +3504,24 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-142" data-section="142">Correlation Between Columns</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-20">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-20">
+          <span class="toc-chapter__pill">Day 20</span>
+          <span class="toc-chapter__name">EDA Using Univariate Analysis</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-20" hidden>
+          <li><a class="toc-link" href="#section-143" data-section="143">What Is EDA</a></li>
+          <li><a class="toc-link" href="#section-144" data-section="144">Uni Bi and Multivariate</a></li>
+          <li><a class="toc-link" href="#section-145" data-section="145">Numerical vs Categorical</a></li>
+          <li><a class="toc-link" href="#section-146" data-section="146">Load the Titanic Data</a></li>
+          <li><a class="toc-link" href="#section-147" data-section="147">Countplot for Categories</a></li>
+          <li><a class="toc-link" href="#section-148" data-section="148">Pie Chart for Categories</a></li>
+          <li><a class="toc-link" href="#section-149" data-section="149">Histogram for Numbers</a></li>
+          <li><a class="toc-link" href="#section-150" data-section="150">Displot for Probability</a></li>
+          <li><a class="toc-link" href="#section-151" data-section="151">Boxplot Five Point Summary</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3489,8 +3541,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">142 lessons live</span>
-          <span class="hero__stat">Day 19 published</span>
+          <span class="hero__stat">151 lessons live</span>
+          <span class="hero__stat">Day 20 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -7856,11 +7908,192 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
+      <!-- DAY 20 -->
+      <div class="chapter-divider reveal" id="chapter-day-20" data-chapter="day-20">
+        <span class="chapter-divider__pill">Day 20</span>
+        <h2 class="chapter-divider__title">EDA Using Univariate Analysis</h2>
+        <p class="chapter-divider__note">Explore one column at a time with plots for categories and numbers.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-143" data-section="143" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">143</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is EDA</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>EDA</strong> means exploratory data analysis.</p>
+            <p>Its purpose is to understand the data, both the inputs and the output.</p>
+            <p>This step is one of the most important parts of the machine learning life cycle. You look for patterns, odd values, and the shape of each feature before building a model.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-144" data-section="144" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">144</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Uni Bi and Multivariate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>EDA comes in three common flavors:</p>
+            <ul>
+              <li><strong>Univariate analysis</strong> studies one variable at a time.</li>
+              <li><strong>Bivariate analysis</strong> studies two columns together.</li>
+              <li><strong>Multivariate analysis</strong> studies more than two columns at once.</li>
+            </ul>
+            <p><strong>Uni</strong> means single. <strong>Variate</strong> means variable. So univariate analysis is single variable analysis.</p>
+            <p>When you study every column alone, that is univariate analysis. Today we focus on that type. Bivariate and multivariate come later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-145" data-section="145" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">145</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Numerical vs Categorical</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Data columns usually fall into two types:</p>
+            <ul>
+              <li><strong>Numerical data</strong> like height and age. These are measured as numbers.</li>
+              <li><strong>Categorical data</strong> like name and country. These are labels or groups.</li>
+            </ul>
+            <p>Your plot choice depends on the type. Categories get count plots and pie charts. Numbers get histograms, density plots, and box plots.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-146" data-section="146" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">146</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ship" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Load the Titanic Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We use the Titanic passenger data for practice. Load it from a public URL:</p>
+            <pre><code>import pandas as pd
+
+url = "https://raw.githubusercontent.com/campusx-official/100-days-of-machine-learning/main/day20-univariate-analysis/train.csv"
+df = pd.read_csv(url)
+df.head()</code></pre>
+            <p>This table shows people who were on the Titanic.</p>
+            <p>Key columns include <code>Survived</code>, <code>Pclass</code>, <code>Sex</code>, <code>Age</code>, and <code>Fare</code>. Categorical examples are <code>Survived</code>, <code>Pclass</code>, and <code>Sex</code>. Numerical examples are <code>Age</code> and <code>Fare</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-147" data-section="147" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">147</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bar-chart-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Countplot for Categories</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For categorical columns, start with a count plot. It shows how many rows sit in each group:</p>
+            <pre><code>import seaborn as sns
+
+sns.countplot(x=df["Survived"])
+df["Survived"].value_counts().plot(kind="bar")
+
+sns.countplot(x=df["Pclass"])
+sns.countplot(x=df["Sex"])</code></pre>
+            <p>Use this for columns like surviving or not, passenger class, and sex. You quickly see which group is larger.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-148" data-section="148" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">148</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pie-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pie Chart for Categories</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A pie chart shows the share of each category as a percentage of the whole:</p>
+            <pre><code>df["Survived"].value_counts().plot(kind="pie")
+
+df["Survived"].value_counts().plot(kind="pie", autopct="%.2f%%")</code></pre>
+            <p><code>autopct</code> prints the percent on each slice. Bars and pies answer the same question in two views: counts versus shares.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-149" data-section="149" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">149</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="chart-column" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Histogram for Numbers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For numerical columns, a histogram shows the distribution. It counts how many values fall into each bin:</p>
+            <pre><code>import matplotlib.pyplot as plt
+
+plt.hist(df["Age"])
+plt.hist(df["Age"], bins=50)</code></pre>
+            <p>The whole point of a histogram is to understand how the values spread. More bins give finer detail.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-150" data-section="150" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">150</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="activity" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Displot for Probability</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A density plot shows probability instead of raw counts:</p>
+            <pre><code>sns.displot(df["Age"])</code></pre>
+            <p>A histogram gives exact counts in each bin. A displot shows probability density, so you can compare shapes even when sample sizes differ.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-151" data-section="151" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">151</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Boxplot Five Point Summary</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A box plot gives a five point summary. Think of it like a stock candle chart for one column:</p>
+            <pre><code>sns.boxplot(x=df["Age"])
+
+df["Age"].min()
+df["Age"].max()</code></pre>
+            <p>You see the center, the spread, and points that sit far outside the box. <code>min()</code> and <code>max()</code> confirm the edges of the column.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 20 takeaways</h3>
+              <ul>
+                <li>EDA means exploring the data before modeling.</li>
+                <li>Univariate analysis looks at one column at a time.</li>
+                <li>Use count plots and pies for categorical columns.</li>
+                <li>Use histograms, displots, and box plots for numerical columns.</li>
+                <li>Pick the plot that matches the column type.</li>
+              </ul>
+              <p>Next we can move to bivariate analysis, where two columns are studied together.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 19 of 100 published · Last updated July 2026</p>
+      <p>New lessons added daily · Day 20 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 
