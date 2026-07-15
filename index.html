@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                              <style id="site-styles-embed">
+                                    <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -48,6 +48,7 @@
   --chapter-day-19: #06b6d4;
   --chapter-day-20: #8b5cf6;
   --chapter-numpy: #ea580c;
+  --chapter-pandas: #16a34a;
 
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Lora", Georgia, serif;
@@ -411,8 +412,13 @@ a:hover {
   border-left: 3px solid var(--chapter-day-20);
 }
 
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
+}
+
+.toc-chapter[data-chapter="pandas"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-pandas);
 }
 
 .toc-chapter__pill {
@@ -503,8 +509,13 @@ a:hover {
   background: var(--chapter-day-20);
 }
 
+
 .toc-chapter[data-chapter="numpy"] .toc-chapter__pill {
   background: var(--chapter-numpy);
+}
+
+.toc-chapter[data-chapter="pandas"] .toc-chapter__pill {
+  background: var(--chapter-pandas);
 }
 
 .toc-chapter__name {
@@ -645,8 +656,13 @@ a:hover {
   border-color: var(--chapter-day-20);
 }
 
+
 .toc-chapter[data-chapter="numpy"] .toc-link.is-active {
   border-color: var(--chapter-numpy);
+}
+
+.toc-chapter[data-chapter="pandas"] .toc-link.is-active {
+  border-color: var(--chapter-pandas);
 }
 
 .toc-link.hidden,
@@ -1570,8 +1586,13 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-20);
 }
 
+
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
+}
+
+.chapter-divider[data-chapter="pandas"] {
+  border-left: 5px solid var(--chapter-pandas);
 }
 
 .chapter-divider__pill {
@@ -1664,8 +1685,13 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   background: var(--chapter-day-20);
 }
 
+
 .chapter-divider[data-chapter="numpy"] .chapter-divider__pill {
   background: var(--chapter-numpy);
+}
+
+.chapter-divider[data-chapter="pandas"] .chapter-divider__pill {
+  background: var(--chapter-pandas);
 }
 
 .chapter-divider__title {
@@ -2001,8 +2027,13 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-20);
 }
 
+
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
+}
+
+.lesson-card[data-chapter="pandas"] {
+  border-left: 5px solid var(--chapter-pandas);
 }
 
 .lesson-card.is-visible {
@@ -2104,8 +2135,13 @@ pre.code-output code {
   background: var(--chapter-day-20);
 }
 
+
 .lesson-card[data-chapter="numpy"] .lesson-card__marker {
   background: var(--chapter-numpy);
+}
+
+.lesson-card[data-chapter="pandas"] .lesson-card__marker {
+  background: var(--chapter-pandas);
 }
 
 .lesson-card__inner {
@@ -2252,9 +2288,15 @@ pre.code-output code {
   background: rgba(139, 92, 246, 0.12);
 }
 
+
 .lesson-card[data-chapter="numpy"] .lesson-card__icon {
   color: var(--chapter-numpy);
   background: rgba(234, 88, 12, 0.1);
+}
+
+.lesson-card[data-chapter="pandas"] .lesson-card__icon {
+  color: var(--chapter-pandas);
+  background: rgba(22, 163, 74, 0.1);
 }
 
 .lesson-figure {
@@ -3394,6 +3436,51 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-95" data-section="95">Random and Useful Functions</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="pandas">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-pandas">
+          <span class="toc-chapter__pill">Pandas</span>
+          <span class="toc-chapter__name">Learning Pandas</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-pandas" hidden>
+          <li><a class="toc-link" href="#section-96" data-section="96">What Pandas Is</a></li>
+          <li><a class="toc-link" href="#section-97" data-section="97">Sample Dataset</a></li>
+          <li><a class="toc-link" href="#section-98" data-section="98">Dataset</a></li>
+          <li><a class="toc-link" href="#section-99" data-section="99">DataFrame</a></li>
+          <li><a class="toc-link" href="#section-100" data-section="100">Series</a></li>
+          <li><a class="toc-link" href="#section-101" data-section="101">Rows and Columns</a></li>
+          <li><a class="toc-link" href="#section-102" data-section="102">Index</a></li>
+          <li><a class="toc-link" href="#section-103" data-section="103">Data Types</a></li>
+          <li><a class="toc-link" href="#section-104" data-section="104">Importing and Reading Data</a></li>
+          <li><a class="toc-link" href="#section-105" data-section="105">Viewing and Understanding Structure</a></li>
+          <li><a class="toc-link" href="#section-106" data-section="106">Selecting Columns</a></li>
+          <li><a class="toc-link" href="#section-107" data-section="107">Selecting with loc and iloc</a></li>
+          <li><a class="toc-link" href="#section-108" data-section="108">Filtering Rows</a></li>
+          <li><a class="toc-link" href="#section-109" data-section="109">Multiple Filters and isin</a></li>
+          <li><a class="toc-link" href="#section-110" data-section="110">Filtering Text</a></li>
+          <li><a class="toc-link" href="#section-111" data-section="111">Sorting and Top Bottom Records</a></li>
+          <li><a class="toc-link" href="#section-112" data-section="112">Adding Columns</a></li>
+          <li><a class="toc-link" href="#section-113" data-section="113">Editing Replacing and Renaming</a></li>
+          <li><a class="toc-link" href="#section-114" data-section="114">Deleting Columns and Rows</a></li>
+          <li><a class="toc-link" href="#section-115" data-section="115">Calculations apply and map</a></li>
+          <li><a class="toc-link" href="#section-116" data-section="116">Missing Values</a></li>
+          <li><a class="toc-link" href="#section-117" data-section="117">Duplicates</a></li>
+          <li><a class="toc-link" href="#section-118" data-section="118">Cleaning Text</a></li>
+          <li><a class="toc-link" href="#section-119" data-section="119">Dates and Times</a></li>
+          <li><a class="toc-link" href="#section-120" data-section="120">Aggregation and Groupby</a></li>
+          <li><a class="toc-link" href="#section-121" data-section="121">Value Counts and Percentages</a></li>
+          <li><a class="toc-link" href="#section-122" data-section="122">Concat and Merge</a></li>
+          <li><a class="toc-link" href="#section-123" data-section="123">Pivot and Melt</a></li>
+          <li><a class="toc-link" href="#section-124" data-section="124">Basic EDA</a></li>
+          <li><a class="toc-link" href="#section-125" data-section="125">Exporting Results</a></li>
+          <li><a class="toc-link" href="#section-126" data-section="126">Common Mistakes</a></li>
+          <li><a class="toc-link" href="#section-127" data-section="127">Practical Workflow</a></li>
+          <li><a class="toc-link" href="#section-128" data-section="128">Instructing AI for Pandas</a></li>
+          <li><a class="toc-link" href="#section-129" data-section="129">Pandas Cheat Sheet</a></li>
+          <li><a class="toc-link" href="#section-130" data-section="130">Practical AI Prompts</a></li>
+          <li><a class="toc-link" href="#section-131" data-section="131">Closing Checklist</a></li>
+        </ul>
+      </div>
       <div class="toc-chapter" data-chapter="day-13">
         <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-13">
           <span class="toc-chapter__pill">Day 13</span>
@@ -3401,13 +3488,13 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-13" hidden>
-          <li><a class="toc-link" href="#section-96" data-section="96">The Placement Project</a></li>
-          <li><a class="toc-link" href="#section-97" data-section="97">Explore the Data</a></li>
-          <li><a class="toc-link" href="#section-98" data-section="98">Step 0 EDA</a></li>
-          <li><a class="toc-link" href="#section-99" data-section="99">Input, Output, and Scaling</a></li>
-          <li><a class="toc-link" href="#section-100" data-section="100">Train Test Split</a></li>
-          <li><a class="toc-link" href="#section-101" data-section="101">Train and Evaluate</a></li>
-          <li><a class="toc-link" href="#section-102" data-section="102">Save the Model</a></li>
+          <li><a class="toc-link" href="#section-132" data-section="132">The Placement Project</a></li>
+          <li><a class="toc-link" href="#section-133" data-section="133">Explore the Data</a></li>
+          <li><a class="toc-link" href="#section-134" data-section="134">Step 0 EDA</a></li>
+          <li><a class="toc-link" href="#section-135" data-section="135">Input, Output, and Scaling</a></li>
+          <li><a class="toc-link" href="#section-136" data-section="136">Train Test Split</a></li>
+          <li><a class="toc-link" href="#section-137" data-section="137">Train and Evaluate</a></li>
+          <li><a class="toc-link" href="#section-138" data-section="138">Save the Model</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-14">
@@ -3417,15 +3504,15 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-14" hidden>
-          <li><a class="toc-link" href="#section-103" data-section="103">The Netflix Business Problem</a></li>
-          <li><a class="toc-link" href="#section-104" data-section="104">From Revenue to Churn Rate</a></li>
-          <li><a class="toc-link" href="#section-105" data-section="105">See the End Product First</a></li>
-          <li><a class="toc-link" href="#section-106" data-section="106">Classification and Regression</a></li>
-          <li><a class="toc-link" href="#section-107" data-section="107">Getting the Right Data</a></li>
-          <li><a class="toc-link" href="#section-108" data-section="108">Define Your Metrics</a></li>
-          <li><a class="toc-link" href="#section-109" data-section="109">Online or Batch Learning</a></li>
-          <li><a class="toc-link" href="#section-110" data-section="110">Check Your Assumptions</a></li>
-          <li><a class="toc-link" href="#section-111" data-section="111">Framing Steps Recap</a></li>
+          <li><a class="toc-link" href="#section-139" data-section="139">The Netflix Business Problem</a></li>
+          <li><a class="toc-link" href="#section-140" data-section="140">From Revenue to Churn Rate</a></li>
+          <li><a class="toc-link" href="#section-141" data-section="141">See the End Product First</a></li>
+          <li><a class="toc-link" href="#section-142" data-section="142">Classification and Regression</a></li>
+          <li><a class="toc-link" href="#section-143" data-section="143">Getting the Right Data</a></li>
+          <li><a class="toc-link" href="#section-144" data-section="144">Define Your Metrics</a></li>
+          <li><a class="toc-link" href="#section-145" data-section="145">Online or Batch Learning</a></li>
+          <li><a class="toc-link" href="#section-146" data-section="146">Check Your Assumptions</a></li>
+          <li><a class="toc-link" href="#section-147" data-section="147">Framing Steps Recap</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-15">
@@ -3435,15 +3522,15 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-15" hidden>
-          <li><a class="toc-link" href="#section-112" data-section="112">Four Ways to Gather Data</a></li>
-          <li><a class="toc-link" href="#section-113" data-section="113">read_csv Basics</a></li>
-          <li><a class="toc-link" href="#section-114" data-section="114">index_col and header</a></li>
-          <li><a class="toc-link" href="#section-115" data-section="115">usecols and squeeze</a></li>
-          <li><a class="toc-link" href="#section-116" data-section="116">skiprows and nrows</a></li>
-          <li><a class="toc-link" href="#section-117" data-section="117">encoding and Bad Lines</a></li>
-          <li><a class="toc-link" href="#section-118" data-section="118">dtype and parse_dates</a></li>
-          <li><a class="toc-link" href="#section-119" data-section="119">converters and na_values</a></li>
-          <li><a class="toc-link" href="#section-120" data-section="120">Loading Data in Chunks</a></li>
+          <li><a class="toc-link" href="#section-148" data-section="148">Four Ways to Gather Data</a></li>
+          <li><a class="toc-link" href="#section-149" data-section="149">read_csv Basics</a></li>
+          <li><a class="toc-link" href="#section-150" data-section="150">index_col and header</a></li>
+          <li><a class="toc-link" href="#section-151" data-section="151">usecols and squeeze</a></li>
+          <li><a class="toc-link" href="#section-152" data-section="152">skiprows and nrows</a></li>
+          <li><a class="toc-link" href="#section-153" data-section="153">encoding and Bad Lines</a></li>
+          <li><a class="toc-link" href="#section-154" data-section="154">dtype and parse_dates</a></li>
+          <li><a class="toc-link" href="#section-155" data-section="155">converters and na_values</a></li>
+          <li><a class="toc-link" href="#section-156" data-section="156">Loading Data in Chunks</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-16">
@@ -3453,10 +3540,10 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-16" hidden>
-          <li><a class="toc-link" href="#section-121" data-section="121">JSON Basics</a></li>
-          <li><a class="toc-link" href="#section-122" data-section="122">read_json from File</a></li>
-          <li><a class="toc-link" href="#section-123" data-section="123">read_json from URL</a></li>
-          <li><a class="toc-link" href="#section-124" data-section="124">Read SQL into pandas</a></li>
+          <li><a class="toc-link" href="#section-157" data-section="157">JSON Basics</a></li>
+          <li><a class="toc-link" href="#section-158" data-section="158">read_json from File</a></li>
+          <li><a class="toc-link" href="#section-159" data-section="159">read_json from URL</a></li>
+          <li><a class="toc-link" href="#section-160" data-section="160">Read SQL into pandas</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-17">
@@ -3466,9 +3553,9 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-17" hidden>
-          <li><a class="toc-link" href="#section-125" data-section="125">What Is an API</a></li>
-          <li><a class="toc-link" href="#section-126" data-section="126">TMDB API to DataFrame</a></li>
-          <li><a class="toc-link" href="#section-127" data-section="127">Collect Many Pages</a></li>
+          <li><a class="toc-link" href="#section-161" data-section="161">What Is an API</a></li>
+          <li><a class="toc-link" href="#section-162" data-section="162">TMDB API to DataFrame</a></li>
+          <li><a class="toc-link" href="#section-163" data-section="163">Collect Many Pages</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-18">
@@ -3478,13 +3565,13 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-18" hidden>
-          <li><a class="toc-link" href="#section-128" data-section="128">What Is Web Scraping</a></li>
-          <li><a class="toc-link" href="#section-129" data-section="129">Headers for 403 Errors</a></li>
-          <li><a class="toc-link" href="#section-130" data-section="130">Fetch and Parse HTML</a></li>
-          <li><a class="toc-link" href="#section-131" data-section="131">Find Company Names</a></li>
-          <li><a class="toc-link" href="#section-132" data-section="132">Ratings and Reviews</a></li>
-          <li><a class="toc-link" href="#section-133" data-section="133">One Page to DataFrame</a></li>
-          <li><a class="toc-link" href="#section-134" data-section="134">Scrape Many Pages</a></li>
+          <li><a class="toc-link" href="#section-164" data-section="164">What Is Web Scraping</a></li>
+          <li><a class="toc-link" href="#section-165" data-section="165">Headers for 403 Errors</a></li>
+          <li><a class="toc-link" href="#section-166" data-section="166">Fetch and Parse HTML</a></li>
+          <li><a class="toc-link" href="#section-167" data-section="167">Find Company Names</a></li>
+          <li><a class="toc-link" href="#section-168" data-section="168">Ratings and Reviews</a></li>
+          <li><a class="toc-link" href="#section-169" data-section="169">One Page to DataFrame</a></li>
+          <li><a class="toc-link" href="#section-170" data-section="170">Scrape Many Pages</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-19">
@@ -3494,32 +3581,38 @@ pre.code-output code {
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-19" hidden>
-          <li><a class="toc-link" href="#section-135" data-section="135">Questions After Loading Data</a></li>
-          <li><a class="toc-link" href="#section-136" data-section="136">How Big Is the Data</a></li>
-          <li><a class="toc-link" href="#section-137" data-section="137">How Does the Data Look</a></li>
-          <li><a class="toc-link" href="#section-138" data-section="138">Column Data Types</a></li>
-          <li><a class="toc-link" href="#section-139" data-section="139">Missing Values</a></li>
-          <li><a class="toc-link" href="#section-140" data-section="140">Math Summary with describe</a></li>
-          <li><a class="toc-link" href="#section-141" data-section="141">Duplicate Values</a></li>
-          <li><a class="toc-link" href="#section-142" data-section="142">Correlation Between Columns</a></li>
+          <li><a class="toc-link" href="#section-171" data-section="171">Questions After Loading Data</a></li>
+          <li><a class="toc-link" href="#section-172" data-section="172">How Big Is the Data</a></li>
+          <li><a class="toc-link" href="#section-173" data-section="173">How Does the Data Look</a></li>
+          <li><a class="toc-link" href="#section-174" data-section="174">Column Data Types</a></li>
+          <li><a class="toc-link" href="#section-175" data-section="175">Missing Values</a></li>
+          <li><a class="toc-link" href="#section-176" data-section="176">Math Summary with describe</a></li>
+          <li><a class="toc-link" href="#section-177" data-section="177">Duplicate Values</a></li>
+          <li><a class="toc-link" href="#section-178" data-section="178">Correlation Between Columns</a></li>
         </ul>
       </div>
       <div class="toc-chapter" data-chapter="day-20">
         <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-20">
           <span class="toc-chapter__pill">Day 20</span>
-          <span class="toc-chapter__name">EDA Using Univariate Analysis</span>
+          <span class="toc-chapter__name">Gen AI for Beginners</span>
           <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
         </button>
         <ul class="toc-chapter__links" id="toc-panel-day-20" hidden>
-          <li><a class="toc-link" href="#section-143" data-section="143">What Is EDA</a></li>
-          <li><a class="toc-link" href="#section-144" data-section="144">Uni Bi and Multivariate</a></li>
-          <li><a class="toc-link" href="#section-145" data-section="145">Numerical vs Categorical</a></li>
-          <li><a class="toc-link" href="#section-146" data-section="146">Load the Titanic Data</a></li>
-          <li><a class="toc-link" href="#section-147" data-section="147">Countplot for Categories</a></li>
-          <li><a class="toc-link" href="#section-148" data-section="148">Pie Chart for Categories</a></li>
-          <li><a class="toc-link" href="#section-149" data-section="149">Histogram for Numbers</a></li>
-          <li><a class="toc-link" href="#section-150" data-section="150">Displot for Probability</a></li>
-          <li><a class="toc-link" href="#section-151" data-section="151">Boxplot Five Point Summary</a></li>
+          <li><a class="toc-link" href="#section-179" data-section="179">What Generative AI Is</a></li>
+          <li><a class="toc-link" href="#section-180" data-section="180">Gen AI Changed Creative Work</a></li>
+          <li><a class="toc-link" href="#section-181" data-section="181">From AI to Gen AI</a></li>
+          <li><a class="toc-link" href="#section-182" data-section="182">Impact Areas</a></li>
+          <li><a class="toc-link" href="#section-183" data-section="183">Is Gen AI Successful</a></li>
+          <li><a class="toc-link" href="#section-184" data-section="184">Success Questions</a></li>
+          <li><a class="toc-link" href="#section-185" data-section="185">Why Learning Gen AI Feels Hard</a></li>
+          <li><a class="toc-link" href="#section-186" data-section="186">Problems and Mental Models</a></li>
+          <li><a class="toc-link" href="#section-187" data-section="187">Foundation Models</a></li>
+          <li><a class="toc-link" href="#section-188" data-section="188">LLMs and Multimodal Models</a></li>
+          <li><a class="toc-link" href="#section-189" data-section="189">Build or Use</a></li>
+          <li><a class="toc-link" href="#section-190" data-section="190">User vs Builder Terms</a></li>
+          <li><a class="toc-link" href="#section-191" data-section="191">Builder Learning Path</a></li>
+          <li><a class="toc-link" href="#section-192" data-section="192">User Learning Path</a></li>
+          <li><a class="toc-link" href="#section-193" data-section="193">Do You Need Both</a></li>
         </ul>
       </div>
       </div>
@@ -3541,7 +3634,7 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">151 lessons live</span>
+          <span class="hero__stat">193 lessons live</span>
           <span class="hero__stat">Day 20 published</span>
         </div>
       </div>
@@ -5766,7 +5859,7 @@ conda deactivate</code></pre>
       <div class="chapter-divider reveal" id="chapter-numpy" data-chapter="numpy">
         <span class="chapter-divider__pill">NumPy</span>
         <h2 class="chapter-divider__title">Learning NumPy</h2>
-        <p class="chapter-divider__note">Read this before Day 13. NumPy powers the placement project. This bonus chapter does not count as Day 14.</p>
+        <p class="chapter-divider__note">Read this before the Pandas chapter and Day 13. NumPy powers arrays under Pandas and the placement project. This bonus chapter does not count as Day 14.</p>
       </div>
 
       <article class="lesson-card reveal" id="section-81" data-section="81" data-chapter="numpy">
@@ -6710,24 +6803,1226 @@ np.percentile(e, 100)→ 80.0  (max)</code></pre>
             <aside class="summary-callout">
               <h3>NumPy takeaways</h3>
               <ul>
-                <li>NumPy gives fast n dimension arrays. Day 13 and pandas both need it.</li>
+                <li>NumPy gives fast n dimension arrays. Pandas and Day 13 both need it.</li>
                 <li>Always check the output. Shape, size, and dtype tell you what you got.</li>
                 <li>Broadcasting, boolean masks, and vector math save loops on big data.</li>
               </ul>
-              <p>Read this chapter before Day 13. It does not count toward Day 14.</p>
+              <p>Read this chapter before Pandas and Day 13. It does not count toward Day 14.</p>
             </aside>
           </div>
         </div>
       </article>
+      <!-- PANDAS (bonus chapter after NumPy; read before Day 13) -->
+      <div class="chapter-divider reveal" id="chapter-pandas" data-chapter="pandas">
+        <span class="chapter-divider__pill">Pandas</span>
+        <h2 class="chapter-divider__title">Learning Pandas</h2>
+        <p class="chapter-divider__note">Read this after NumPy and before Day 13. Pandas is the table tool for the end to end project. This bonus chapter does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-96" data-section="96" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">96</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="table" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Pandas Is</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Pandas</strong> is a Python library for working with structured data.</p>
+<p>Structured data usually looks like a table with rows and columns.</p>
+<p>You mainly use Pandas to:</p>
+<ul>
+              <li>Read datasets.</li>
+              <li>View and understand datasets.</li>
+              <li>Select rows and columns.</li>
+              <li>Filter data.</li>
+              <li>Sort data.</li>
+              <li>Add, edit, or remove data.</li>
+              <li>Clean incorrect or missing values.</li>
+              <li>Group and summarize data.</li>
+              <li>Combine multiple datasets.</li>
+              <li>Perform basic exploratory data analysis.</li>
+              <li>Export processed data.</li>
+            </ul>
+<p>You do not need to memorize every Pandas function.</p>
+<p>You need to understand:</p>
+<ul>
+              <li>What your dataset contains.</li>
+              <li>What result you want.</li>
+              <li>Which rows or columns should be used.</li>
+              <li>What conditions should be applied.</li>
+              <li>How the result should be summarized or transformed.</li>
+            </ul>
+<p>Then you can explain the task clearly to an AI.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Explain what Pandas is used for in machine learning work, and list the main tasks it helps with.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-97" data-section="97" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">97</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sample Dataset</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Most examples in this chapter use one employee dataset.</p>
+<p>The variable <code>df</code> is a Pandas DataFrame.</p>
+<pre><code>import pandas as pd
+data = {
+    "name": ["Asha", "Bikash", "Riya", "Suman", "Nisha", "Aman"],
+    "department": ["HR", "IT", "Sales", "IT", "Sales", "HR"],
+    "age": [25, 29, 24, 31, None, 27],
+    "salary": [35000, 60000, 42000, 70000, 45000, None],
+    "city": ["Kathmandu", "Lalitpur", "Kathmandu", "Bhaktapur", "Lalitpur", "Kathmandu"],
+    "experience": [2, 5, 1, 7, 3, 2],
+    "rating": [4.2, 4.8, 3.9, 4.7, 4.1, 4.0]
+}
+df = pd.DataFrame(data)</code></pre>
+<p>Notice that <code>age</code> and <code>salary</code> have some missing values on purpose. You will clean those later.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Explain the structure of this dataset. Identify what each row represents, what each column represents, and what questions I could answer using it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-98" data-section="98" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">98</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Dataset</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>dataset</strong> is a collection of related information.</p>
+<p>A dataset can contain:</p>
+<ul>
+              <li>Employee records.</li>
+              <li>Sales transactions.</li>
+              <li>Job applications.</li>
+              <li>Customer information.</li>
+              <li>Product information.</li>
+              <li>Website activity.</li>
+              <li>Survey responses.</li>
+            </ul>
+<p>A dataset keeps information organized so that it can be analyzed.</p>
+<p>You use a dataset whenever you want to answer questions using data.</p>
+<p>Example questions:</p>
+<ul>
+              <li>Which department has the highest salary?</li>
+              <li>How many applicants have more than three years of experience?</li>
+              <li>Which products generated the most revenue?</li>
+              <li>Are there missing values in the data?</li>
+            </ul>
+<pre><code>print(df)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Explain the structure of this dataset. Identify what each row represents, what each column represents, and what questions I could answer using it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-99" data-section="99" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">99</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">DataFrame</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>DataFrame</strong> is the main Pandas object.</p>
+<p>It is a table containing rows and columns.</p>
+<p>You can think of it as a programmable spreadsheet.</p>
+<p>A DataFrame lets you manipulate and analyze an entire table.</p>
+<p>Use a DataFrame when working with a complete dataset containing multiple columns.</p>
+<pre><code>df = pd.DataFrame(data)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Create a Pandas DataFrame from this employee data. Use columns for name, department, age, salary, city, and experience.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-100" data-section="100" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">100</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Series</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>Series</strong> is one column of a DataFrame.</p>
+<p>For example, the salary column is a Series.</p>
+<p>Many Pandas operations work on individual columns.</p>
+<p>Use a Series when analyzing or changing one column.</p>
+<pre><code>salary_column = df["salary"]
+print(salary_column)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Select the salary column as a Pandas Series and calculate its average.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-101" data-section="101" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">101</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Rows and Columns</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>row</strong> represents one record.</p>
+<p>A <strong>column</strong> represents one type of information.</p>
+<p>In the employee dataset:</p>
+<ul>
+              <li>One row represents one employee.</li>
+              <li>The salary column represents employee salary.</li>
+              <li>The department column represents employee department.</li>
+            </ul>
+<p>Most Pandas tasks involve choosing specific rows, specific columns, or both.</p>
+<p>Use row and column selection when you do not need the entire dataset.</p>
+<pre><code>selected = df[["name", "salary"]]
+print(selected)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Select only the name, department, and salary columns from this DataFrame.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-102" data-section="102" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">102</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Index</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The <strong>index</strong> is the label Pandas uses to identify each row.</p>
+<p>By default, Pandas creates indexes starting from zero.</p>
+<p>The index is not usually part of the actual dataset unless you intentionally make a column the index.</p>
+<p>Pandas uses the index to locate, align, and identify rows.</p>
+<p>You mostly use it when:</p>
+<ul>
+              <li>Selecting a particular row.</li>
+              <li>Resetting row numbers after filtering.</li>
+              <li>Using a meaningful unique value as a row identifier.</li>
+            </ul>
+<pre><code>df = df.reset_index(drop=True)</code></pre>
+<p>This creates fresh row numbers.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Explain what the Pandas index is, and show how to reset it after filtering rows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-103" data-section="103" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">103</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="binary" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Types</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Common Pandas data types include:</p>
+<ul>
+              <li><code>int</code> for whole numbers.</li>
+              <li><code>float</code> for decimal numbers.</li>
+              <li><code>object</code> or string for text.</li>
+              <li><code>bool</code> for true or false.</li>
+              <li><code>datetime</code> for dates and times.</li>
+            </ul>
+<p>Matching types matter. For example:</p>
+<ul>
+              <li>Salary should be numeric.</li>
+              <li>Name should be text.</li>
+              <li>Joining date should be datetime.</li>
+              <li>Active status should be boolean.</li>
+            </ul>
+<p>If types are wrong:</p>
+<ul>
+              <li>Calculations fail.</li>
+              <li>Dates are treated as text.</li>
+              <li>Numbers are stored as text.</li>
+              <li>Filtering produces unexpected results.</li>
+            </ul>
+<pre><code>print(df.dtypes)
+df.info()</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Check the data types in this DataFrame. Tell me which columns may need conversion before analysis.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-104" data-section="104" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">104</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Importing and Reading Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Importing Pandas</h3>
+<p>Most projects start with:</p>
+<pre><code>import pandas as pd</code></pre>
+<p>Common data sources include:</p>
+<ul>
+              <li>CSV files.</li>
+              <li>Excel files.</li>
+              <li>JSON files.</li>
+              <li>Database queries.</li>
+              <li>APIs.</li>
+            </ul>
+<h3>Reading data</h3>
+<pre><code>df = pd.read_csv("employees.csv")
+df = pd.read_excel("employees.xlsx")</code></pre>
+<p>After loading, always look at a small sample before changing anything.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Load this dataset and display the first ten rows and the last five rows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-105" data-section="105" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">105</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Viewing and Understanding Structure</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Viewing the dataset</h3>
+<p>Viewing means checking a small part of the dataset instead of printing everything.</p>
+<pre><code>df.head()
+df.tail()
+df.sample(3)</code></pre>
+<h3>Understanding structure</h3>
+<p>Before analysis, learn:</p>
+<ul>
+              <li>Number of rows.</li>
+              <li>Number of columns.</li>
+              <li>Column names.</li>
+              <li>Data types.</li>
+              <li>Missing values.</li>
+              <li>General numeric statistics.</li>
+            </ul>
+<pre><code>print(df.shape)
+print(df.columns)
+df.info()
+print(df.isna().sum())
+df.describe()</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Inspect this DataFrame. Report shape, column names, data types, missing value counts, and a short numeric summary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-106" data-section="106" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">106</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Selecting Columns</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Selecting fewer columns makes the result clearer.</p>
+<p>Select one column:</p>
+<pre><code>df["salary"]</code></pre>
+<p>Select multiple columns:</p>
+<pre><code>df[["name", "department", "salary"]]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Select the name, city, experience, and salary columns. Store the result in a new DataFrame.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-107" data-section="107" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">107</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mouse-pointer" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Selecting with loc and iloc</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>loc</h3>
+<p><code>loc</code> selects rows and columns by labels, and works well with conditions.</p>
+<p>Common uses:</p>
+<ul>
+              <li>Filtering rows.</li>
+              <li>Selecting specific columns at the same time.</li>
+              <li>Editing values under a condition.</li>
+            </ul>
+<pre><code>result = df.loc[df["department"] == "IT", ["name", "salary"]]</code></pre>
+<h3>iloc</h3>
+<p><code>iloc</code> selects by position (numbers), not labels.</p>
+<p>Common uses:</p>
+<ul>
+              <li>Selecting the first row.</li>
+              <li>Selecting a range of rows.</li>
+              <li>Selecting columns by position.</li>
+            </ul>
+<pre><code>df.iloc[0:3, 0:2]</code></pre>
+<p>That selects the first three rows and first two columns.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Using loc, select IT employees and show only name and salary. Using iloc, show the first three rows and first two columns.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-108" data-section="108" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">108</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Filtering Rows</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Filtering means keeping only rows that match a condition.</p>
+<p>Filtering helps answer specific questions.</p>
+<p>Examples:</p>
+<ul>
+              <li>Employees earning above 50000.</li>
+              <li>Applicants with more than three years of experience.</li>
+              <li>Products with low stock.</li>
+              <li>Transactions from Kathmandu.</li>
+            </ul>
+<pre><code>high_salary = df[df["salary"] &gt; 50000]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Filter employees with salary greater than 50000 and show name, department, and salary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-109" data-section="109" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">109</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multiple Filters and isin</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Multiple conditions</h3>
+<p>Combine conditions with <code>&amp;</code> (and), <code>|</code> (or), and <code>~</code> (not).</p>
+<p>Put each condition in parentheses.</p>
+<p>Examples:</p>
+<ul>
+              <li>IT employees earning above 50000.</li>
+              <li>Candidates from Kathmandu or Lalitpur.</li>
+              <li>Employees who are not in HR.</li>
+              <li>Applicants with experience between two and five years.</li>
+            </ul>
+<pre><code>result = df[
+    (df["department"] == "IT") &amp;
+    (df["experience"] &gt;= 3) &amp;
+    (df["salary"] &gt; 50000)
+]</code></pre>
+<h3>Filtering from a list</h3>
+<p>Use <code>isin</code> when values must match one of several options.</p>
+<pre><code>result = df[df["city"].isin(["Kathmandu", "Lalitpur"])]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Filter employees who work in IT, have at least three years of experience, and earn more than 50000. Also show a version that keeps only Kathmandu or Lalitpur using isin.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-110" data-section="110" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">110</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Filtering Text</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pandas can search inside text columns.</p>
+<p>Text data often needs partial matching.</p>
+<p>Examples:</p>
+<ul>
+              <li>Names containing a word.</li>
+              <li>Job titles containing manager.</li>
+              <li>Email addresses from a certain domain.</li>
+              <li>Product descriptions containing laptop.</li>
+            </ul>
+<pre><code>result = df[df["name"].str.contains("a", case=False, na=False)]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Filter rows where the name contains the letter a. Ignore uppercase and lowercase differences and handle missing values safely.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-111" data-section="111" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">111</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-down-up" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sorting and Top Bottom Records</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Sorting data</h3>
+<p>Sorting arranges rows according to one or more columns.</p>
+<p>Examples: highest salary first, most experience first, newest applications first.</p>
+<pre><code>sorted_df = df.sort_values("salary", ascending=False)
+
+sorted_df = df.sort_values(
+    ["department", "salary"],
+    ascending=[True, False]
+)</code></pre>
+<h3>Top or bottom records</h3>
+<p>Use <code>nlargest</code> and <code>nsmallest</code> when you only need a few extreme values.</p>
+<pre><code>top_three = df.nlargest(3, "salary")</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Sort employees by department alphabetically and then by salary from highest to lowest. Also find the five employees with the highest salaries and show name, department, and salary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-112" data-section="112" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">112</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Adding Columns</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A new column can be created from a fixed value, existing columns, a condition, a calculation, or a transformation.</p>
+<p>Examples: annual salary from monthly salary, eligible status from experience, total price from quantity and unit price.</p>
+<pre><code>df["annual_salary"] = df["salary"] * 12</code></pre>
+<p>Conditional columns classify records:</p>
+<pre><code>import numpy as np
+
+df["level"] = np.where(
+    df["experience"] &gt;= 5,
+    "Senior",
+    "Junior"
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Add an annual_salary column by multiplying monthly salary by 12. Also create a level column that marks employees with five or more years of experience as Senior and everyone else as Junior.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-113" data-section="113" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">113</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Editing Replacing and Renaming</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Editing values</h3>
+<p>Editing means changing existing values when data is incorrect, inconsistent, or outdated.</p>
+<pre><code>df.loc[df["name"] == "Asha", "salary"] = 40000</code></pre>
+<h3>Replacing values</h3>
+<p>Replace inconsistent labels during cleaning.</p>
+<pre><code>df["city"] = df["city"].replace({
+    "KTM": "Kathmandu",
+    "LTP": "Lalitpur"
+})</code></pre>
+<h3>Renaming columns</h3>
+<p>Rename when names have spaces, unclear abbreviations, or inconsistent capitalization.</p>
+<pre><code>df = df.rename(columns={
+    "name": "employee_name",
+    "salary": "monthly_salary"
+})</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Update Asha's salary to 40000 using loc. Standardize city names by replacing KTM with Kathmandu and LTP with Lalitpur. Rename name to employee_name and salary to monthly_salary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-114" data-section="114" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">114</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trash-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Deleting Columns and Rows</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Deleting columns</h3>
+<p>Remove fields you no longer need so analysis stays clear and private data stays out of reports.</p>
+<pre><code>df = df.drop(columns=["rating"])</code></pre>
+<h3>Deleting rows</h3>
+<p>Remove invalid, irrelevant, or incorrect records by index or by condition.</p>
+<pre><code>df = df[df["salary"] &gt;= 20000]</code></pre>
+<p>This keeps only valid salary records.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Remove the rating and age columns without modifying the original DataFrame. Remove rows where salary is below 20000 and reset the index afterward.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-115" data-section="115" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">115</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Calculations apply and map</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Column calculations</h3>
+<p>Pandas can calculate on whole columns without a manual loop.</p>
+<pre><code>df["bonus"] = df["salary"] * 0.10</code></pre>
+<h3>Applying a function</h3>
+<p><code>apply</code> runs a custom function on column values.</p>
+<pre><code>def classify_experience(years):
+    if years &gt;= 5:
+        return "Senior"
+    if years &gt;= 2:
+        return "Mid"
+    return "Entry"
+
+df["experience_level"] = df["experience"].apply(classify_experience)</code></pre>
+<h3>Mapping values</h3>
+<p><code>map</code> converts values with a dictionary.</p>
+<pre><code>department_codes = {
+    "HR": "Human Resources",
+    "IT": "Information Technology",
+    "Sales": "Sales Department"
+}
+df["department_full"] = df["department"].map(department_codes)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Create a bonus column equal to ten percent of salary. Use apply to create experience_level as Entry, Mid, or Senior. Map department codes to full department names in a new column.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-116" data-section="116" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">116</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ban" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Missing Values</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A missing value means data is unavailable. Pandas often shows these as <code>NaN</code> or <code>None</code>.</p>
+<p>Missing values can break calculations, skew averages, hurt models, remove rows from analysis, or reveal collection problems.</p>
+<pre><code>df.isna().sum()</code></pre>
+<h3>Removing missing values</h3>
+<p>Remove rows when the missing field is essential, only a few rows are affected, or filling would mislead.</p>
+<pre><code>clean_df = df.dropna(subset=["salary"])</code></pre>
+<h3>Filling missing values</h3>
+<p>Common choices: median for many numeric columns, mode for categories, Unknown for text.</p>
+<pre><code>df["salary"] = df["salary"].fillna(df["salary"].median())
+df["city"] = df["city"].fillna("Unknown")</code></pre>
+<h3>Mean, median, or mode</h3>
+<ul>
+              <li>Mean is the average. Use it when numeric data is balanced.</li>
+              <li>Median is the middle value after sorting. Use it when there are unusually high or low values.</li>
+              <li>Mode is the most common value. Use it for categories or repeated values.</li>
+            </ul>
+<pre><code>salary_mean = df["salary"].mean()
+salary_median = df["salary"].median()
+city_mode = df["city"].mode()[0]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Count missing values in each column. Fill missing salary with the median and missing city with Unknown. Compare mean and median salary and explain which is better for filling salary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-117" data-section="117" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">117</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Duplicates</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Duplicate rows contain repeated records.</p>
+<p>Duplicates can incorrectly increase totals, averages, and counts.</p>
+<p>Check them when combining files, importing records, collecting forms, working with transactions, or cleaning applicants.</p>
+<pre><code>duplicates = df[df.duplicated()]
+duplicate_count = df.duplicated().sum()</code></pre>
+<p>Removing duplicates keeps one version of repeated records.</p>
+<pre><code>df = df.drop_duplicates()
+
+df = df.drop_duplicates(
+    subset=["name", "department"],
+    keep="first"
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Find all completely duplicated rows and report the count. Remove duplicate employees based on name and department, keep the first record, and reset the index.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-118" data-section="118" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">118</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="type" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Cleaning Text</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Standardizing text</h3>
+<p>Text standardization makes values consistent. Kathmandu, kathmandu, and KATHMANDU should usually become one value.</p>
+<p>Pandas treats differently written values as different categories.</p>
+<pre><code>df["city"] = (
+    df["city"]
+    .str.strip()
+    .str.title()
+)</code></pre>
+<h3>Changing case</h3>
+<p>Use lowercase for emails, uppercase for product codes, and title case for names when that matches your rules.</p>
+<pre><code>df["name"] = df["name"].str.title()</code></pre>
+<h3>Splitting text columns</h3>
+<p>Split one text field into several columns when combined values are hard to analyze.</p>
+<pre><code>email_data = pd.DataFrame({
+    "email": ["asha@example.com", "bikash@company.com"]
+})
+email_data[["username", "domain"]] = email_data["email"].str.split(
+    "@",
+    expand=True
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Clean the city column by removing extra spaces and converting every city to title case. Convert names to title case and departments to uppercase. Split an email column into username and domain while keeping the original email.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-119" data-section="119" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">119</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calendar" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Dates and Times</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Converting text to dates</h3>
+<p>Dates often load as text. Convert them to datetime for correct sorting, filtering, grouping, and calculation.</p>
+<pre><code>df["joining_date"] = pd.to_datetime(
+    df["joining_date"],
+    errors="coerce"
+)</code></pre>
+<p>Invalid dates become missing values.</p>
+<h3>Extracting date parts</h3>
+<pre><code>df["joining_year"] = df["joining_date"].dt.year
+df["joining_month"] = df["joining_date"].dt.month</code></pre>
+<h3>Filtering by date</h3>
+<pre><code>result = df[
+    df["joining_date"] &gt;= "2026-01-01"
+]</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Convert joining_date to datetime with invalid dates becoming missing. Extract year and month. Filter records between July 1, 2026 and July 31, 2026 inclusive.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-120" data-section="120" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">120</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bar-chart-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Aggregation and Groupby</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Aggregation</h3>
+<p>Aggregation reduces many values into a summary such as count, sum, mean, median, minimum, or maximum.</p>
+<pre><code>average_salary = df["salary"].mean()
+highest_salary = df["salary"].max()
+employee_count = df["name"].count()</code></pre>
+<h3>Grouping data</h3>
+<p><code>groupby</code> divides data into categories and calculates a summary for each category.</p>
+<pre><code>result = (
+    df.groupby("department")["salary"]
+    .mean()
+    .reset_index()
+)</code></pre>
+<h3>Multiple aggregations</h3>
+<pre><code>summary = (
+    df.groupby("department")
+    .agg(
+        employee_count=("name", "count"),
+        average_salary=("salary", "mean"),
+        maximum_salary=("salary", "max"),
+        average_experience=("experience", "mean")
+    )
+    .reset_index()
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Group employees by department and calculate employee count, average salary, maximum salary, and average experience with clear column names.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-121" data-section="121" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">121</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pie-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Value Counts and Percentages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>value_counts</code> counts how often each value appears.</p>
+<pre><code>department_counts = df["department"].value_counts()
+
+department_counts = (
+    df["department"]
+    .value_counts()
+    .reset_index()
+)</code></pre>
+<p>Percentages are easier to compare than raw counts in many reports.</p>
+<pre><code>percentages = (
+    df["department"]
+    .value_counts(normalize=True)
+    .mul(100)
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Count employees in each department from largest to smallest. Also calculate the percentage of employees in each department rounded to two decimals.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-122" data-section="122" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">122</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Concat and Merge</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Concatenating DataFrames</h3>
+<p>Concatenation places DataFrames above or beside each other. Most often you stack rows from similar files.</p>
+<pre><code>combined = pd.concat(
+    [january_df, february_df],
+    ignore_index=True
+)</code></pre>
+<h3>Merging DataFrames</h3>
+<p>Merging combines datasets using a shared column. It is like looking up related information from another table.</p>
+<pre><code>merged = pd.merge(
+    employees_df,
+    salaries_df,
+    on="employee_id",
+    how="left"
+)</code></pre>
+<h3>Merge types</h3>
+<ul>
+              <li>Inner merge keeps only matching records.</li>
+              <li>Left merge keeps every record from the first DataFrame.</li>
+              <li>Right merge keeps every record from the second DataFrame.</li>
+              <li>Outer merge keeps every record from both DataFrames.</li>
+            </ul>
+<p>Use inner when only complete matches matter. Use left when your first table is the main dataset. Use outer when you want to detect missing matches from either side.</p>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Combine January and February files by stacking rows. Merge employees with salaries on employee_id using a left merge so every employee remains even when salary is missing.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-123" data-section="123" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">123</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="grid-3x3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pivot and Melt</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Pivot tables</h3>
+<p>A pivot table summarizes values using rows and columns for compact business reports.</p>
+<pre><code>pivot = pd.pivot_table(
+    df,
+    values="salary",
+    index="department",
+    columns="city",
+    aggfunc="mean"
+)</code></pre>
+<h3>Wide data to long data</h3>
+<p>Wide data stores similar measurements in separate columns. Long data stores the measurement type in one column and values in another.</p>
+<p>Long format is often easier for grouping, charting, and machine learning preparation.</p>
+<pre><code>long_df = df.melt(
+    id_vars=["name"],
+    value_vars=["January", "February"],
+    var_name="month",
+    value_name="sales"
+)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Create a pivot table of average salary by department and city, filling missing combinations with zero. Convert a monthly sales table from wide format to long format with month and sales columns.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-124" data-section="124" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">124</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Basic EDA</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>EDA</strong> means exploratory data analysis. It is how you understand a dataset before conclusions or models.</p>
+<p>EDA helps detect missing values, duplicate rows, incorrect data types, unusual values, category distributions, numeric relationships, and quality problems.</p>
+<p>Use EDA before reporting, machine learning, dashboards, business decisions, and deep cleaning.</p>
+<pre><code>print(df.shape)
+print(df.dtypes)
+print(df.isna().sum())
+print(df.duplicated().sum())
+print(df.describe())</code></pre>
+<h3>Descriptive statistics</h3>
+<p>Describe shows count, mean, standard deviation, minimum, maximum, quartiles, and median for numeric columns.</p>
+<pre><code>df[["age", "salary", "experience", "rating"]].describe()</code></pre>
+<h3>Unique values</h3>
+<pre><code>print(df["department"].unique())
+print(df["department"].nunique())</code></pre>
+<h3>Unusual values</h3>
+<p>Examples: negative salary, age of 250, rating above 5, experience greater than age.</p>
+<pre><code>invalid_ratings = df[
+    (df["rating"] &lt; 0) |
+    (df["rating"] &gt; 5)
+]</code></pre>
+<h3>Correlation</h3>
+<p>Correlation measures whether two numeric columns tend to change together. A value near zero means little linear relationship.</p>
+<p>Correlation does not prove that one variable causes another.</p>
+<pre><code>correlation = df[
+    ["age", "salary", "experience", "rating"]
+].corr()
+print(correlation)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Perform basic EDA on this dataset. Show dimensions, types, missing values, duplicates, numeric summaries, unique text values, suspicious values, and correlations. Explain findings in simple language without claiming causation.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-125" data-section="125" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">125</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-down" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Exporting Results</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Exporting to CSV</h3>
+<pre><code>df.to_csv(
+    "cleaned_data.csv",
+    index=False
+)</code></pre>
+<p><code>index=False</code> prevents Pandas row numbers from becoming a file column.</p>
+<h3>Exporting to Excel</h3>
+<pre><code>df.to_excel(
+    "cleaned_data.xlsx",
+    index=False
+)</code></pre>
+<h3>Multiple sheets</h3>
+<pre><code>with pd.ExcelWriter("employee_report.xlsx") as writer:
+    df.to_excel(writer, sheet_name="Employees", index=False)
+    summary.to_excel(writer, sheet_name="Summary", index=False)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Export the cleaned DataFrame to CSV without the index. Also export employee records and a department summary into separate sheets of one Excel file.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-126" data-section="126" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">126</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Common Mistakes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <h3>Incorrect column name</h3>
+<p>Column names are case sensitive. <code>df["Salary"]</code> fails if the real name is <code>salary</code>.</p>
+<pre><code>print(df.columns.tolist())</code></pre>
+<h3>Numbers stored as text</h3>
+<p>Values like <code>"50000"</code>, <code>"NPR 50,000"</code>, or <code>"60k"</code> can break math.</p>
+<pre><code>df["salary"] = (
+    df["salary"]
+    .astype(str)
+    .str.replace(",", "", regex=False)
+    .str.replace("NPR", "", regex=False)
+    .str.strip()
+)
+df["salary"] = pd.to_numeric(df["salary"], errors="coerce")</code></pre>
+<h3>Dates stored as text</h3>
+<p>Text dates may sort alphabetically instead of by time.</p>
+<pre><code>df["date"] = pd.to_datetime(df["date"], errors="coerce")</code></pre>
+<h3>Missing parentheses in filters</h3>
+<p>Wrong:</p>
+<pre><code>df[df["department"] == "IT" &amp; df["salary"] &gt; 50000]</code></pre>
+<p>Correct:</p>
+<pre><code>df[
+    (df["department"] == "IT") &amp;
+    (df["salary"] &gt; 50000)
+]</code></pre>
+<h3>Using and instead of &amp;</h3>
+<p>In Pandas filters use <code>&amp;</code> and <code>|</code>, not Python <code>and</code> / <code>or</code>.</p>
+<h3>Changing the original by accident</h3>
+<p>Prefer a new variable when cleaning.</p>
+<pre><code>clean_df = df.dropna(subset=["salary"])</code></pre>
+<h3>Merge creating extra rows</h3>
+<p>A merge can multiply rows when the merge key is duplicated.</p>
+<pre><code>print(employees_df["employee_id"].duplicated().sum())
+print(salaries_df["employee_id"].duplicated().sum())</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Review this Pandas code for KeyError risk, text numbers, text dates, filter parentheses, and merge duplicates. Fix only the important mistakes and explain each fix briefly.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-127" data-section="127" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">127</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practical Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For most datasets, follow this order.</p>
+<pre><code># 1 Load
+df = pd.read_csv("data.csv")
+
+# 2 Preview
+df.head()
+
+# 3 Inspect
+print(df.shape)
+df.info()
+
+# 4 Check quality
+print(df.isna().sum())
+print(df.duplicated().sum())
+
+# 5 Fix column names
+df.columns = (
+    df.columns
+    .str.strip()
+    .str.lower()
+    .str.replace(" ", "_")
+)
+
+# 6 Fix data types
+df["salary"] = pd.to_numeric(df["salary"], errors="coerce")
+
+# 7 Clean missing values and duplicates
+df = df.drop_duplicates()
+df["salary"] = df["salary"].fillna(df["salary"].median())
+
+# 8 Filter and transform
+result = df[df["experience"] &gt;= 3].copy()
+result["annual_salary"] = result["salary"] * 12
+
+# 9 Group or summarize
+summary = (
+    result.groupby("department")
+    .agg(
+        employee_count=("name", "count"),
+        average_salary=("salary", "mean")
+    )
+    .reset_index()
+)
+
+# 10 Export
+summary.to_csv("department_summary.csv", index=False)</code></pre>
+<p><strong>Try this AI prompt:</strong></p>
+            <p>Write a complete Pandas workflow for this CSV that loads, previews, inspects quality, cleans names and types, handles missing values and duplicates, filters, summarizes by department, and exports without changing unnecessary original intent.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-128" data-section="128" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">128</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Instructing AI for Pandas</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A weak prompt:</p>
+<p><em>Analyze my data.</em></p>
+<p>A better prompt names the file, cleaning rules, filters, grouping, sort order, and export target.</p>
+<pre><code>Load employees.csv using Pandas.
+Inspect the dataset structure and clean the column names.
+Convert salary and experience to numeric values.
+Remove completely duplicated rows.
+Fill missing salary values with the median salary.
+Filter employees with at least three years of experience.
+Group the remaining data by department and calculate employee count and average salary.
+Sort by average salary from highest to lowest.
+Export the final result to department_summary.csv without the index.
+Explain each major step briefly.</code></pre>
+<p>A strong Pandas prompt should mention:</p>
+<ul>
+              <li>Input source.</li>
+              <li>Relevant column names.</li>
+              <li>Required filters.</li>
+              <li>Missing value rules.</li>
+              <li>Duplicate rules.</li>
+              <li>Required calculations.</li>
+              <li>Required grouping.</li>
+              <li>Sort order.</li>
+              <li>Expected output columns.</li>
+              <li>Export format.</li>
+              <li>Whether the original data should remain unchanged.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-129" data-section="129" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">129</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pandas Cheat Sheet</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Keep this compact sheet nearby while you practice.</p>
+<pre><code># Import
+import pandas as pd
+
+# Create / read
+df = pd.DataFrame(data)
+df = pd.read_csv("data.csv")
+df = pd.read_excel("data.xlsx")
+
+# Preview
+df.head()
+df.tail()
+df.shape
+df.columns
+df.info()
+df.dtypes
+df.describe()
+
+# Select / filter / sort
+df["salary"]
+df[["name", "salary"]]
+df[df["salary"] &gt; 50000]
+df[(df["department"] == "IT") &amp; (df["salary"] &gt; 50000)]
+df[df["city"].isin(["Kathmandu", "Lalitpur"])]
+df.sort_values("salary", ascending=False)
+
+# Change data
+df["annual_salary"] = df["salary"] * 12
+df.loc[df["name"] == "Asha", "salary"] = 40000
+df = df.rename(columns={"name": "employee_name"})
+df = df.drop(columns=["rating"])
+
+# Missing / duplicates
+df.isna().sum()
+df = df.dropna(subset=["salary"])
+df["salary"] = df["salary"].fillna(df["salary"].median())
+df[df.duplicated()]
+df = df.drop_duplicates()
+
+# Summarize / combine / export
+df["department"].value_counts()
+df.groupby("department")["salary"].mean()
+df.groupby("department").agg(
+    employee_count=("name", "count"),
+    average_salary=("salary", "mean")
+)
+df["salary"] = pd.to_numeric(df["salary"], errors="coerce")
+df["date"] = pd.to_datetime(df["date"], errors="coerce")
+pd.merge(first_df, second_df, on="id", how="left")
+pd.concat([first_df, second_df], ignore_index=True)
+df.to_csv("result.csv", index=False)
+df.to_excel("result.xlsx", index=False)</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-130" data-section="130" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">130</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practical AI Prompts</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Reuse these prompts when you work with an AI coding assistant.</p>
+<h3>Filter rows</h3>
+<p>Write Pandas code to filter rows where salary is greater than 50000 and experience is at least three years. Return only name, department, salary, and experience. Do not modify the original DataFrame.</p>
+<h3>Basic EDA</h3>
+<p>Perform basic EDA. Show rows and columns, column names, data types, missing counts and percentages, duplicate count, numeric summaries, unique text counts, and possible invalid values. Explain findings in simple language.</p>
+<h3>Remove duplicates</h3>
+<p>Report the number of duplicates, then remove duplicates based on name, email, and phone. Keep the most recent record based on updated_at.</p>
+<h3>Fill missing values</h3>
+<p>Use median for salary and age, mode for department, Unknown for city. Do not fill missing emails. Explain each choice.</p>
+<h3>Group and average</h3>
+<p>Group by category and calculate count, average price, median price, minimum price, and maximum price with clear column names.</p>
+<h3>Select and sort</h3>
+<p>Select name, department, salary, experience, and rating. Sort by rating then experience, both highest first.</p>
+<h3>Clean column names</h3>
+<p>Strip spaces, lowercase names, replace spaces with underscores, and remove unnecessary special characters.</p>
+<h3>Clean numeric values</h3>
+<p>Clean salary values that may contain NPR, commas, spaces, or invalid text. Convert valid values to numeric and invalid values to missing. Show rows that could not convert.</p>
+<h3>Clean text categories</h3>
+<p>Clean city by trimming and making capitalization consistent. Combine KTM, ktm, and Kathmandu into Kathmandu.</p>
+<h3>Merge two tables</h3>
+<p>Merge applications with candidates on candidate_id. Keep every application even if candidate information is missing. Show applications with no match.</p>
+<h3>Date analysis</h3>
+<p>Convert application_date to datetime, remove invalid dates, filter July 2026, and group by day for daily application counts.</p>
+<h3>Validation rules</h3>
+<p>Validate age 16 to 80, positive salary, non negative experience, rating zero to five, and email containing @. Create a DataFrame of invalid rows with a failure reason column.</p>
+<h3>Complete cleaning workflow</h3>
+<p>Load, preview, standardize names, remove empty rows and columns, fix types, report missing values, remove duplicates, standardize text, detect suspicious numbers, keep the original unchanged, and export cleaned data plus rejected rows to separate Excel sheets.</p>
+<h3>Business summary</h3>
+<p>Calculate total employees, employees per department, average and median salary, averages by department, highest paid employee, employees with missing information, and city percentages. Return clean tables and a brief explanation.</p>
+<h3>Debug generated code</h3>
+<p>Check column names, filter parentheses, numeric types, missing value handling, merge duplicates, accidental edits to the original, and final output columns. Correct the code and explain only important changes.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-131" data-section="131" data-chapter="pandas">
+        <span class="lesson-card__marker" aria-hidden="true">131</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="check-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Closing Checklist</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You are ready to use Pandas effectively when you understand these ideas:</p>
+<ul>
+              <li>A DataFrame is a complete table.</li>
+              <li>A Series is one column.</li>
+              <li>Rows are records.</li>
+              <li>Columns are variables or fields.</li>
+              <li>The index identifies rows.</li>
+              <li>Data types control what operations are possible.</li>
+              <li>Filtering keeps rows that match conditions.</li>
+              <li>Selection keeps the columns you need.</li>
+              <li>Transformation creates or changes values.</li>
+              <li>Aggregation summarizes many rows.</li>
+              <li>Grouping calculates summaries for categories.</li>
+              <li>Merging connects related tables.</li>
+              <li>Missing values and duplicates must be checked.</li>
+              <li>EDA helps you understand data quality and patterns.</li>
+              <li>Exporting saves your final result.</li>
+            </ul>
+<p>You do not need to remember every function.</p>
+<p>You need to be able to say:</p>
+<ul>
+              <li>Load this dataset.</li>
+              <li>Check its structure and data quality.</li>
+              <li>Convert these columns to the correct types.</li>
+              <li>Clean missing and duplicate records using these rules.</li>
+              <li>Filter rows using these conditions.</li>
+              <li>Create these calculated columns.</li>
+              <li>Group the data using this category.</li>
+              <li>Calculate these summary values.</li>
+              <li>Sort the result this way.</li>
+              <li>Export these columns to this file format.</li>
+            </ul>
+<p>That is the practical Pandas knowledge required to work effectively with an AI coding assistant.</p>
+<aside class="summary-callout">
+              <h3>Pandas takeaways</h3>
+              <ul>
+                <li>Pandas is the table tool for structured data after NumPy.</li>
+                <li>Always inspect shape, types, missing values, and duplicates before modeling.</li>
+                <li>Clear filter, clean, group, and export language helps both you and AI.</li>
+              </ul>
+              <p>Read this chapter after NumPy and before the Day 13 end to end project.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
       <!-- DAY 13 -->
       <div class="chapter-divider reveal" id="chapter-day-13" data-chapter="day-13">
         <span class="chapter-divider__pill">Day 13</span>
         <h2 class="chapter-divider__title">End to End Project</h2>
-        <p class="chapter-divider__note">Uses NumPy and pandas from the chapter above.</p>
+        <p class="chapter-divider__note">Uses NumPy and Pandas from the chapters above.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-96" data-section="96" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">96</span>
+      <article class="lesson-card reveal" id="section-132" data-section="132" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">132</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="graduation-cap" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6735,7 +8030,7 @@ np.percentile(e, 100)→ 80.0  (max)</code></pre>
           </header>
           <div class="lesson-card__body">
             <p>Open <strong>Google Colab</strong>. Today we build a small <strong>end to end</strong> project: predict student <strong>placement</strong> from <strong>cgpa</strong> and <strong>iq</strong>.</p>
-            <p>If you skipped the NumPy chapter above, go back and read it first. You need <code>import numpy as np</code> for this project.</p>
+            <p>If you skipped the NumPy or Pandas chapters above, go back and read them first. You need <code>import numpy as np</code> and <code>import pandas as pd</code> for this project.</p>
             <p>Always start with these imports:</p>
             <pre><code>import numpy as np
 import pandas as pd</code></pre>
@@ -6751,8 +8046,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-97" data-section="97" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">97</span>
+      <article class="lesson-card reveal" id="section-133" data-section="133" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">133</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6771,8 +8066,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-98" data-section="98" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">98</span>
+      <article class="lesson-card reveal" id="section-134" data-section="134" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">134</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="scatter-chart" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6859,8 +8154,8 @@ plt.show()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-99" data-section="99" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">99</span>
+      <article class="lesson-card reveal" id="section-135" data-section="135" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">135</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="sliders-horizontal" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6878,8 +8173,8 @@ y = df.iloc[:, -1]    # placement</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-100" data-section="100" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">100</span>
+      <article class="lesson-card reveal" id="section-136" data-section="136" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">136</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6904,8 +8199,8 @@ X_test = scaler.transform(X_test)</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-101" data-section="101" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">101</span>
+      <article class="lesson-card reveal" id="section-137" data-section="137" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">137</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="cpu" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6928,8 +8223,8 @@ accuracy_score(y_test, y_pred)   # e.g. 0.9 means 90% correct</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-102" data-section="102" data-chapter="day-13">
-        <span class="lesson-card__marker" aria-hidden="true">102</span>
+      <article class="lesson-card reveal" id="section-138" data-section="138" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">138</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6963,8 +8258,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         <p class="chapter-divider__note">Turn a business goal into a clear ML problem before you write any code.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-103" data-section="103" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">103</span>
+      <article class="lesson-card reveal" id="section-139" data-section="139" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">139</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
@@ -6985,8 +8280,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-104" data-section="104" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">104</span>
+      <article class="lesson-card reveal" id="section-140" data-section="140" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">140</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="trending-down" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7003,8 +8298,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-105" data-section="105" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">105</span>
+      <article class="lesson-card reveal" id="section-141" data-section="141" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">141</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="target" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7025,8 +8320,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-106" data-section="106" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">106</span>
+      <article class="lesson-card reveal" id="section-142" data-section="142" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">142</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7044,8 +8339,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-107" data-section="107" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">107</span>
+      <article class="lesson-card reveal" id="section-143" data-section="143" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">143</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7067,8 +8362,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-108" data-section="108" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">108</span>
+      <article class="lesson-card reveal" id="section-144" data-section="144" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">144</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="gauge" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7083,8 +8378,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-109" data-section="109" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">109</span>
+      <article class="lesson-card reveal" id="section-145" data-section="145" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">145</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7101,8 +8396,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-110" data-section="110" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">110</span>
+      <article class="lesson-card reveal" id="section-146" data-section="146" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">146</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7120,8 +8415,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-111" data-section="111" data-chapter="day-14">
-        <span class="lesson-card__marker" aria-hidden="true">111</span>
+      <article class="lesson-card reveal" id="section-147" data-section="147" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">147</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7192,8 +8487,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         <p class="chapter-divider__note">MDLC step 2: data gathering. Today we focus on comma separated values with pandas.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-112" data-section="112" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">112</span>
+      <article class="lesson-card reveal" id="section-148" data-section="148" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">148</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="folder-input" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7215,8 +8510,8 @@ pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-113" data-section="113" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">113</span>
+      <article class="lesson-card reveal" id="section-149" data-section="149" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">149</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="file-spreadsheet" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7238,8 +8533,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-114" data-section="114" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">114</span>
+      <article class="lesson-card reveal" id="section-150" data-section="150" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">150</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7256,8 +8551,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-115" data-section="115" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">115</span>
+      <article class="lesson-card reveal" id="section-151" data-section="151" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">151</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7274,8 +8569,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-116" data-section="116" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">116</span>
+      <article class="lesson-card reveal" id="section-152" data-section="152" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">152</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="list-filter" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7292,8 +8587,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-117" data-section="117" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">117</span>
+      <article class="lesson-card reveal" id="section-153" data-section="153" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">153</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7310,8 +8605,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-118" data-section="118" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">118</span>
+      <article class="lesson-card reveal" id="section-154" data-section="154" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">154</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="calendar" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7328,8 +8623,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-119" data-section="119" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">119</span>
+      <article class="lesson-card reveal" id="section-155" data-section="155" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">155</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="wand-2" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7352,8 +8647,8 @@ df = pd.read_csv("test.csv", converters={"team1": rename})</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-120" data-section="120" data-chapter="day-15">
-        <span class="lesson-card__marker" aria-hidden="true">120</span>
+      <article class="lesson-card reveal" id="section-156" data-section="156" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">156</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7391,8 +8686,8 @@ for chunk in chunks:
         <p class="chapter-divider__note">Load structured data into pandas from files, URLs, and databases.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-121" data-section="121" data-chapter="day-16">
-        <span class="lesson-card__marker" aria-hidden="true">121</span>
+      <article class="lesson-card reveal" id="section-157" data-section="157" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">157</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7406,8 +8701,8 @@ for chunk in chunks:
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-122" data-section="122" data-chapter="day-16">
-        <span class="lesson-card__marker" aria-hidden="true">122</span>
+      <article class="lesson-card reveal" id="section-158" data-section="158" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">158</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7423,8 +8718,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-123" data-section="123" data-chapter="day-16">
-        <span class="lesson-card__marker" aria-hidden="true">123</span>
+      <article class="lesson-card reveal" id="section-159" data-section="159" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">159</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7442,8 +8737,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-124" data-section="124" data-chapter="day-16">
-        <span class="lesson-card__marker" aria-hidden="true">124</span>
+      <article class="lesson-card reveal" id="section-160" data-section="160" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">160</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7488,8 +8783,8 @@ df.head()</code></pre>
         <p class="chapter-divider__note">Use requests to collect JSON, then build a pandas DataFrame.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-125" data-section="125" data-chapter="day-17">
-        <span class="lesson-card__marker" aria-hidden="true">125</span>
+      <article class="lesson-card reveal" id="section-161" data-section="161" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">161</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="plug" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7503,8 +8798,8 @@ df.head()</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-126" data-section="126" data-chapter="day-17">
-        <span class="lesson-card__marker" aria-hidden="true">126</span>
+      <article class="lesson-card reveal" id="section-162" data-section="162" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">162</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="film" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7526,8 +8821,8 @@ df.head(2)[["id", "popularity", "vote_count", "vote_average"]]</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-127" data-section="127" data-chapter="day-17">
-        <span class="lesson-card__marker" aria-hidden="true">127</span>
+      <article class="lesson-card reveal" id="section-163" data-section="163" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">163</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers-2" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7570,8 +8865,8 @@ df.head()</code></pre>
         <p class="chapter-divider__note">Scrape HTML pages with requests and BeautifulSoup, then build a pandas DataFrame.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-128" data-section="128" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">128</span>
+      <article class="lesson-card reveal" id="section-164" data-section="164" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">164</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7590,8 +8885,8 @@ import numpy as np</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-129" data-section="129" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">129</span>
+      <article class="lesson-card reveal" id="section-165" data-section="165" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">165</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7610,8 +8905,8 @@ webpage = requests.get("url", headers=headers).text</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-130" data-section="130" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">130</span>
+      <article class="lesson-card reveal" id="section-166" data-section="166" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">166</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="file-code" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7630,8 +8925,8 @@ webpage = requests.get("url", headers=headers).text</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-131" data-section="131" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">131</span>
+      <article class="lesson-card reveal" id="section-167" data-section="167" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">167</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7647,8 +8942,8 @@ webpage = requests.get("url", headers=headers).text</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-132" data-section="132" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">132</span>
+      <article class="lesson-card reveal" id="section-168" data-section="168" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">168</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="star" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7668,8 +8963,8 @@ len(company)</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-133" data-section="133" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">133</span>
+      <article class="lesson-card reveal" id="section-169" data-section="169" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">169</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="table" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7711,8 +9006,8 @@ df.shape</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-134" data-section="134" data-chapter="day-18">
-        <span class="lesson-card__marker" aria-hidden="true">134</span>
+      <article class="lesson-card reveal" id="section-170" data-section="170" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">170</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7811,8 +9106,8 @@ final.shape</code></pre>
         <p class="chapter-divider__note">Ask the right questions before you build any model.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-135" data-section="135" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">135</span>
+      <article class="lesson-card reveal" id="section-171" data-section="171" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">171</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7838,8 +9133,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-136" data-section="136" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">136</span>
+      <article class="lesson-card reveal" id="section-172" data-section="172" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">172</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="maximize-2" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7855,8 +9150,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-137" data-section="137" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">137</span>
+      <article class="lesson-card reveal" id="section-173" data-section="173" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">173</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="eye" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7874,8 +9169,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-138" data-section="138" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">138</span>
+      <article class="lesson-card reveal" id="section-174" data-section="174" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">174</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7891,8 +9186,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-139" data-section="139" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">139</span>
+      <article class="lesson-card reveal" id="section-175" data-section="175" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">175</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="circle-alert" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7907,8 +9202,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-140" data-section="140" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">140</span>
+      <article class="lesson-card reveal" id="section-176" data-section="176" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">176</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7923,8 +9218,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-141" data-section="141" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">141</span>
+      <article class="lesson-card reveal" id="section-177" data-section="177" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">177</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7939,8 +9234,8 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
-      <article class="lesson-card reveal" id="section-142" data-section="142" data-chapter="day-19">
-        <span class="lesson-card__marker" aria-hidden="true">142</span>
+      <article class="lesson-card reveal" id="section-178" data-section="178" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">178</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
@@ -7971,293 +9266,305 @@ df = pd.read_csv("train.csv")</code></pre>
         </div>
       </article>
 
+
       <!-- DAY 20 -->
       <div class="chapter-divider reveal" id="chapter-day-20" data-chapter="day-20">
         <span class="chapter-divider__pill">Day 20</span>
-        <h2 class="chapter-divider__title">EDA Using Univariate Analysis</h2>
-        <p class="chapter-divider__note">Explore one column at a time with plots for categories and numbers.</p>
+        <h2 class="chapter-divider__title">Gen AI for Beginners</h2>
+        <p class="chapter-divider__note">Learn what generative AI is, why it matters, and how to map builder vs user skills.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-143" data-section="143" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">143</span>
+      <article class="lesson-card reveal" id="section-179" data-section="179" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">179</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">What Is EDA</h2>
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Generative AI Is</h2>
           </header>
           <div class="lesson-card__body">
-            <p><strong>EDA</strong> means exploratory data analysis.</p>
-            <p>Its purpose is to understand the data, both the inputs and the output.</p>
-            <p>This step is one of the most important parts of the machine learning life cycle. You look for patterns, odd values, and the shape of each feature before building a model.</p>
+            <p><strong>Generative AI</strong> is a type of AI that creates new content such as text, music, video, and images.</p>
+            <p>It learns patterns from existing data. Then it mimics human creative work to make something new.</p>
+            <p>In short: older tools often predicted or classified. Gen AI can <strong>create</strong>.</p>
           </div>
         </div>
       </article>
-
-      <article class="lesson-card reveal" id="section-144" data-section="144" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">144</span>
+      <article class="lesson-card reveal" id="section-180" data-section="180" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">180</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="image" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Gen AI Changed Creative Work</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Machine learning has long had many kinds of models, for example:</p>
+            <ul>
+              <li>Prediction models like regression.</li>
+              <li>Classification problems.</li>
+              <li>Recommendation problems.</li>
+            </ul>
+            <p>For a long time, ML was not strong on creative platforms. Gen AI changed that.</p>
+            <p>Creating text, images, music, and video is a big power of Gen AI.</p>
+            <p>People used to say AI cannot replace human creativity. Gen AI made that debate real again.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-181" data-section="181" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">181</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">From AI to Gen AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A simple path helps you place Gen AI in the stack:</p>
+            <p><strong>AI → ML → DL → Gen AI</strong></p>
+            <ul>
+              <li>AI has many techniques. ML is the main one for most products.</li>
+              <li>ML has many techniques. Deep learning (DL) is used a lot.</li>
+              <li>DL has many techniques. Gen AI is the popular focus now.</li>
+            </ul>
+            <p>So Gen AI sits on top of deep learning ideas, not outside AI.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-182" data-section="182" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">182</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Impact Areas</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In about three years, Gen AI became very important. These are major impact areas.</p>
+            <h3>1. Customer support</h3>
+            <p>Chatbots try to solve the problem first. A human support person steps in only when the chatbot cannot finish the job.</p>
+            <h3>2. Content creation</h3>
+            <p>People make blogs, videos, and more with Gen AI. Content is one of the main places Gen AI has reached.</p>
+            <h3>3. Education</h3>
+            <p>Learners can have a personal tutor available any time.</p>
+            <h3>4. Software development</h3>
+            <p>Gen AI writes code and makes programming easier. That is another real impact.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-183" data-section="183" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">183</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="award" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Is Gen AI Successful</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Yes. Gen AI is successful.</p>
+            <p>Think about other big tech waves. The internet was huge. Crypto and blockchain were loud too.</p>
+            <p>Success is not only hype. Success means real use and real problems solved.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-184" data-section="184" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">184</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Success Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Ask these questions when you judge any big technology.</p>
+            <h3>Will it solve real world problems?</h3>
+            <p>The internet fixed many real world problems. Crypto did not solve many daily life problems. Gen AI is solving real world problems.</p>
+            <h3>Is it useful day by day?</h3>
+            <p>Yes. People use Gen AI daily.</p>
+            <h3>Is it impacting the world economy?</h3>
+            <p>Yes.</p>
+            <h3>Is it creating new jobs?</h3>
+            <p>Yes. New roles include AI engineer, AI automation, and AI integration.</p>
+            <h3>Is it accessible?</h3>
+            <p>Yes. Gen AI is accessible to many people through apps and APIs.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-185" data-section="185" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">185</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Learning Gen AI Feels Hard</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some people ask: why not Gen AI yet?</p>
+            <ul>
+              <li>The tech feels new.</li>
+              <li>It might be a bubble.</li>
+              <li>Gen AI keeps bringing a new term, a new tool, or a new paper.</li>
+            </ul>
+            <p>That flood of new things feels overwhelming. Feeling lost is common. It does not mean you are behind forever.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-186" data-section="186" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">186</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Problems and Mental Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Gen AI has clear problems for learners:</p>
+            <ul>
+              <li>Very fast progress.</li>
+              <li>A lot of noise. FOMO merchants can make you feel demotivated.</li>
+              <li>No single source to learn everything.</li>
+            </ul>
+            <p><strong>Solution:</strong> build a mental model.</p>
+            <p>A mental model is a simple map in your head. It tells you where a new term belongs, so every new tool does not restart your learning from zero.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-187" data-section="187" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">187</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Uni Bi and Multivariate</h2>
+            <h2 class="lesson-card__title">Foundation Models</h2>
           </header>
           <div class="lesson-card__body">
-            <p>EDA comes in three common flavors:</p>
+            <p>The main idea to learn early is the <strong>foundation model</strong>.</p>
+            <p>A foundation model is an AI model trained on very large data.</p>
+            <p>Many models we build for products are <strong>task specific</strong>. They mainly do one job.</p>
+            <p>Foundation models are <strong>generalized</strong>. They have many parameters and much training data.</p>
+            <p>A top example of a foundation model is an <strong>LLM</strong> (large language model). An LLM can do many tasks, not only one narrow prediction.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-188" data-section="188" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">188</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="package" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LLMs and Multimodal Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Foundation models do more than predict the next bit of text. They can chat, summarize, translate, write code, and more.</p>
+            <p>There are not only LLMs. There are also <strong>multimodal models</strong> (sometimes called LMMs).</p>
+            <p>Multimodal models work with more than one kind of input, for example text, sound, and images together.</p>
+            <p>So Gen AI is bigger than chatbots alone.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lesson-card reveal" id="section-189" data-section="189" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">189</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build or Use</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Gen AI has two big paths:</p>
             <ul>
-              <li><strong>Univariate analysis</strong> studies one variable at a time.</li>
-              <li><strong>Bivariate analysis</strong> studies two columns together.</li>
-              <li><strong>Multivariate analysis</strong> studies more than two columns at once.</li>
+              <li>Make an LLM or foundation model.</li>
+              <li>Use an LLM or foundation model.</li>
             </ul>
-            <p><strong>Uni</strong> means single. <strong>Variate</strong> means variable. So univariate analysis is single variable analysis.</p>
-            <p>When you study every column alone, that is univariate analysis. Today we focus on that type. Bivariate and multivariate come later.</p>
+            <p>You can think from a <strong>user perspective</strong> or a <strong>builder perspective</strong>.</p>
+            <p>Once you hold that lens, the game gets clearer. Most new buzzwords fit one side or the other.</p>
           </div>
         </div>
       </article>
-
-      <article class="lesson-card reveal" id="section-145" data-section="145" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">145</span>
+      <article class="lesson-card reveal" id="section-190" data-section="190" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">190</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Numerical vs Categorical</h2>
+            <i data-lucide="tags" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">User vs Builder Terms</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Data columns usually fall into two types:</p>
+            <p>Any new term you hear is usually a user idea or a builder idea.</p>
             <ul>
-              <li><strong>Numerical data</strong> like height and age. These are measured as numbers.</li>
-              <li><strong>Categorical data</strong> like name and country. These are labels or groups.</li>
+              <li><strong>Prompt engineering:</strong> user perspective. Better prompts for better responses.</li>
+              <li><strong>RLHF:</strong> builder perspective. It helps safeguard and steer the LLM.</li>
+              <li><strong>RAG:</strong> user perspective. Give personal or private data to the LLM safely.</li>
+              <li><strong>Pre training:</strong> builder perspective.</li>
+              <li><strong>Quantization:</strong> builder perspective. Optimize the LLM so it can run in more environments.</li>
+              <li><strong>AI agent:</strong> user perspective.</li>
+              <li><strong>Vector database:</strong> user perspective.</li>
+              <li><strong>Fine tuning:</strong> both user and builder perspectives.</li>
             </ul>
-            <p>Your plot choice depends on the type. Categories get count plots and pie charts. Numbers get histograms, density plots, and box plots.</p>
+            <p>Labeling each term this way cuts confusion fast.</p>
           </div>
         </div>
       </article>
-
-      <article class="lesson-card reveal" id="section-146" data-section="146" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">146</span>
+      <article class="lesson-card reveal" id="section-191" data-section="191" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">191</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="ship" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Load the Titanic Data</h2>
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Builder Learning Path</h2>
           </header>
           <div class="lesson-card__body">
-            <p>We use the Titanic passenger data for practice. Load it from a public URL:</p>
-            <pre><code>import pandas as pd
-
-url = "https://raw.githubusercontent.com/campusx-official/100-days-of-machine-learning/main/day20-univariate-analysis/train.csv"
-df = pd.read_csv(url)
-df.head()</code></pre>
-            <p>This table shows people who were on the Titanic.</p>
-            <p>Key columns include <code>Survived</code>, <code>Pclass</code>, <code>Sex</code>, <code>Age</code>, and <code>Fare</code>. Categorical examples are <code>Survived</code>, <code>Pclass</code>, and <code>Sex</code>. Numerical examples are <code>Age</code> and <code>Fare</code>.</p>
+            <p><strong>Prerequisite:</strong> PyTorch or TensorFlow.</p>
+            <ol>
+              <li><strong>Transformer architecture.</strong> Learn how transformers work, including self attention.</li>
+              <li><strong>Types of transformers.</strong> Encoder only models like BERT. Decoder only models like GPT.</li>
+              <li><strong>Pre training.</strong> Training objectives, tokenization strategies, training strategies, challenges, and evaluation.</li>
+              <li><strong>Optimization.</strong> Training optimization, model compression, and inference optimization.</li>
+              <li><strong>Fine tuning.</strong> Task specific tuning, instruction tuning, and continual pre training.</li>
+              <li><strong>Evaluation.</strong> Measure quality and safety.</li>
+              <li><strong>Deployment.</strong> Ship the model into real use.</li>
+            </ol>
+            <p>This path is closer to research and deep model work.</p>
           </div>
         </div>
       </article>
-
-      <article class="lesson-card reveal" id="section-147" data-section="147" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">147</span>
+      <article class="lesson-card reveal" id="section-192" data-section="192" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">192</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="bar-chart-3" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Countplot for Categories</h2>
+            <i data-lucide="monitor" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">User Learning Path</h2>
           </header>
           <div class="lesson-card__body">
-            <p>For categorical columns, start with a count plot. It shows how many rows sit in each group:</p>
-            <pre><code>import seaborn as sns
-
-sns.countplot(x=df["Survived"])
-df["Survived"].value_counts().plot(kind="bar")
-
-sns.countplot(x=df["Pclass"])
-sns.countplot(x=df["Sex"])</code></pre>
-            <p>Use this for columns like surviving or not, passenger class, and sex. You quickly see which group is larger.</p>
-
-            <figure class="numpy-plot tts-skip" aria-label="Sample count plots for Survived Pclass and Sex">
-              <p class="numpy-plot__title">Sample count plots (Titanic style counts).</p>
-              <svg class="numpy-plot__svg" viewBox="0 0 420 280" role="img" aria-hidden="true">
-                <text class="numpy-plot__axis-label" x="20" y="18">Survived</text>
-                <line x1="40" y1="100" x2="130" y2="100" stroke="#c8dce8" stroke-width="1"/>
-                <rect x="50" y="30" width="28" height="70" fill="#0d9488" rx="3"/>
-                <rect x="92" y="55" width="28" height="45" fill="#7c3aed" rx="3"/>
-                <text class="numpy-plot__axis-label" x="54" y="114">0</text>
-                <text class="numpy-plot__axis-label" x="98" y="114">1</text>
-                <text class="numpy-plot__axis-label" x="52" y="26">549</text>
-                <text class="numpy-plot__axis-label" x="96" y="51">342</text>
-
-                <text class="numpy-plot__axis-label" x="160" y="18">Pclass</text>
-                <line x1="170" y1="100" x2="290" y2="100" stroke="#c8dce8" stroke-width="1"/>
-                <rect x="180" y="68" width="24" height="32" fill="#0284c7" rx="3"/>
-                <rect x="214" y="74" width="24" height="26" fill="#0284c7" rx="3"/>
-                <rect x="248" y="28" width="24" height="72" fill="#0284c7" rx="3"/>
-                <text class="numpy-plot__axis-label" x="186" y="114">1</text>
-                <text class="numpy-plot__axis-label" x="220" y="114">2</text>
-                <text class="numpy-plot__axis-label" x="254" y="114">3</text>
-                <text class="numpy-plot__axis-label" x="178" y="64">216</text>
-                <text class="numpy-plot__axis-label" x="212" y="70">184</text>
-                <text class="numpy-plot__axis-label" x="246" y="24">491</text>
-
-                <text class="numpy-plot__axis-label" x="310" y="18">Sex</text>
-                <line x1="320" y1="100" x2="410" y2="100" stroke="#c8dce8" stroke-width="1"/>
-                <rect x="332" y="26" width="28" height="74" fill="#db2777" rx="3"/>
-                <rect x="376" y="58" width="28" height="42" fill="#f59e0b" rx="3"/>
-                <text class="numpy-plot__axis-label" x="328" y="114">male</text>
-                <text class="numpy-plot__axis-label" x="370" y="114">female</text>
-                <text class="numpy-plot__axis-label" x="330" y="22">577</text>
-                <text class="numpy-plot__axis-label" x="374" y="54">314</text>
-
-                <text class="numpy-plot__axis-label" x="40" y="150">Same idea as sns.countplot: taller bar means more rows in that group.</text>
-                <text class="numpy-plot__axis-label" x="40" y="170">On Titanic data, more people did not survive, more sat in class 3, and more were male.</text>
-              </svg>
-              <p class="numpy-plot__caption">Sample counts close to the real Titanic train split. Run the code in Colab to plot live.</p>
-            </figure>
+            <ol>
+              <li><strong>Build basic LLM apps.</strong> Use open source models, closed source models, LLM APIs, Hugging Face, Llama, and frameworks like LangChain.</li>
+              <li><strong>Improve the LLM for your case.</strong>
+                <ul>
+                  <li>Prompt engineering for better responses.</li>
+                  <li>RAG so the model can use your personal or company data.</li>
+                  <li>Fine tuning at the user level when prompts and RAG are not enough.</li>
+                </ul>
+              </li>
+              <li><strong>AI agents.</strong> Let the LLM do work for you, such as booking a ticket.</li>
+              <li><strong>LLM Ops.</strong> Deploy the application. Many libraries help here.</li>
+              <li><strong>Miscellaneous.</strong> Other Gen AI tools such as Stable Diffusion for images, and more.</li>
+            </ol>
+            <p>This path is closer to product building with existing models.</p>
           </div>
         </div>
       </article>
-
-      <article class="lesson-card reveal" id="section-148" data-section="148" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">148</span>
+      <article class="lesson-card reveal" id="section-193" data-section="193" data-chapter="day-20">
+        <span class="lesson-card__marker" aria-hidden="true">193</span>
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
-            <i data-lucide="pie-chart" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Pie Chart for Categories</h2>
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Do You Need Both</h2>
           </header>
           <div class="lesson-card__body">
-            <p>A pie chart shows the share of each category as a percentage of the whole:</p>
-            <pre><code>df["Survived"].value_counts().plot(kind="pie")
-
-df["Survived"].value_counts().plot(kind="pie", autopct="%.2f%%")</code></pre>
-            <p><code>autopct</code> prints the percent on each slice. Bars and pies answer the same question in two views: counts versus shares.</p>
-
-            <figure class="numpy-plot tts-skip" aria-label="Sample pie chart of Survived">
-              <p class="numpy-plot__title">Sample pie: Survived shares.</p>
-              <svg class="numpy-plot__svg" viewBox="0 0 360 220" role="img" aria-hidden="true">
-                <path d="M180,110 L180,30 A80,80 0 1,1 99.3,171.5 Z" fill="#0d9488"/>
-                <path d="M180,110 L99.3,171.5 A80,80 0 0,1 180,30 Z" fill="#7c3aed"/>
-                <rect x="40" y="200" width="12" height="12" fill="#0d9488" rx="2"/>
-                <text class="numpy-plot__axis-label" x="58" y="210">0 Did not survive ~61.6%</text>
-                <rect x="200" y="200" width="12" height="12" fill="#7c3aed" rx="2"/>
-                <text class="numpy-plot__axis-label" x="218" y="210">1 Survived ~38.4%</text>
-              </svg>
-              <p class="numpy-plot__caption">About 6 in 10 did not survive. The purple slice is the smaller survived group.</p>
-            </figure>
-          </div>
-        </div>
-      </article>
-
-      <article class="lesson-card reveal" id="section-149" data-section="149" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">149</span>
-        <div class="lesson-card__inner">
-          <header class="lesson-card__header">
-            <i data-lucide="chart-column" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Histogram for Numbers</h2>
-          </header>
-          <div class="lesson-card__body">
-            <p>For numerical columns, a histogram shows the distribution. It counts how many values fall into each bin:</p>
-            <pre><code>import matplotlib.pyplot as plt
-
-plt.hist(df["Age"])
-plt.hist(df["Age"], bins=50)</code></pre>
-            <p>The whole point of a histogram is to understand how the values spread. More bins give finer detail.</p>
-
-            <figure class="numpy-plot tts-skip" aria-label="Sample Age histogram">
-              <p class="numpy-plot__title">Sample histogram of Age.</p>
-              <svg class="numpy-plot__svg" viewBox="0 0 400 200" role="img" aria-hidden="true">
-                <line x1="36" y1="160" x2="380" y2="160" stroke="#c8dce8" stroke-width="1"/>
-                <line x1="36" y1="24" x2="36" y2="160" stroke="#c8dce8" stroke-width="1"/>
-                <rect x="44" y="112" width="34" height="48" fill="#0d9488" opacity="0.85" rx="2"/>
-                <rect x="84" y="86" width="34" height="74" fill="#0d9488" opacity="0.85" rx="2"/>
-                <rect x="124" y="48" width="34" height="112" fill="#0d9488" opacity="0.85" rx="2"/>
-                <rect x="164" y="36" width="34" height="124" fill="#0d9488" opacity="0.9" rx="2"/>
-                <rect x="204" y="58" width="34" height="102" fill="#0d9488" opacity="0.85" rx="2"/>
-                <rect x="244" y="92" width="34" height="68" fill="#0d9488" opacity="0.85" rx="2"/>
-                <rect x="284" y="118" width="34" height="42" fill="#0d9488" opacity="0.8" rx="2"/>
-                <rect x="324" y="136" width="34" height="24" fill="#0d9488" opacity="0.75" rx="2"/>
-                <text class="numpy-plot__axis-label" x="48" y="176">0</text>
-                <text class="numpy-plot__axis-label" x="168" y="176">30</text>
-                <text class="numpy-plot__axis-label" x="308" y="176">60</text>
-                <text class="numpy-plot__axis-label" x="360" y="176">Age</text>
-                <text class="numpy-plot__axis-label" x="8" y="30">count</text>
-              </svg>
-              <p class="numpy-plot__caption">Most ages sit in the young adult range. Children and older adults sit in smaller bars.</p>
-            </figure>
-          </div>
-        </div>
-      </article>
-
-      <article class="lesson-card reveal" id="section-150" data-section="150" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">150</span>
-        <div class="lesson-card__inner">
-          <header class="lesson-card__header">
-            <i data-lucide="activity" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Displot for Probability</h2>
-          </header>
-          <div class="lesson-card__body">
-            <p>A density plot shows probability instead of raw counts:</p>
-            <pre><code>sns.displot(df["Age"])</code></pre>
-            <p>A histogram gives exact counts in each bin. A displot shows probability density, so you can compare shapes even when sample sizes differ.</p>
-
-            <figure class="numpy-plot tts-skip" aria-label="Sample Age density curve">
-              <p class="numpy-plot__title">Sample density curve for Age.</p>
-              <svg class="numpy-plot__svg" viewBox="0 0 400 200" role="img" aria-hidden="true">
-                <line x1="36" y1="160" x2="380" y2="160" stroke="#c8dce8" stroke-width="1"/>
-                <line x1="36" y1="24" x2="36" y2="160" stroke="#c8dce8" stroke-width="1"/>
-                <path d="M44,150 C70,140 90,70 130,45 C160,28 190,30 220,55 C250,80 280,110 310,130 C340,145 360,150 376,152 L376,160 L44,160 Z" fill="rgba(124,58,237,0.18)" stroke="#7c3aed" stroke-width="2.5"/>
-                <text class="numpy-plot__axis-label" x="48" y="176">0</text>
-                <text class="numpy-plot__axis-label" x="190" y="176">30</text>
-                <text class="numpy-plot__axis-label" x="330" y="176">Age</text>
-                <text class="numpy-plot__axis-label" x="4" y="30">density</text>
-              </svg>
-              <p class="numpy-plot__caption">The peak sits near the common adult ages. The curve fades for very young and very old ages.</p>
-            </figure>
-          </div>
-        </div>
-      </article>
-
-      <article class="lesson-card reveal" id="section-151" data-section="151" data-chapter="day-20">
-        <span class="lesson-card__marker" aria-hidden="true">151</span>
-        <div class="lesson-card__inner">
-          <header class="lesson-card__header">
-            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Boxplot Five Point Summary</h2>
-          </header>
-          <div class="lesson-card__body">
-            <p>A box plot gives a five point summary. Think of it like a stock candle chart for one column:</p>
-            <pre><code>sns.boxplot(x=df["Age"])
-
-df["Age"].min()
-df["Age"].max()</code></pre>
-            <p>You see the center, the spread, and points that sit far outside the box. <code>min()</code> and <code>max()</code> confirm the edges of the column.</p>
-
-            <figure class="numpy-plot tts-skip" aria-label="Sample Age box plot">
-              <p class="numpy-plot__title">Sample box plot for Age.</p>
-              <svg class="numpy-plot__svg" viewBox="0 0 400 160" role="img" aria-hidden="true">
-                <line x1="40" y1="90" x2="360" y2="90" stroke="#c8dce8" stroke-width="1"/>
-                <line x1="70" y1="90" x2="300" y2="90" stroke="#4d6478" stroke-width="2"/>
-                <line x1="70" y1="78" x2="70" y2="102" stroke="#4d6478" stroke-width="2"/>
-                <line x1="300" y1="78" x2="300" y2="102" stroke="#4d6478" stroke-width="2"/>
-                <rect x="140" y="60" width="100" height="60" fill="rgba(13,148,136,0.2)" stroke="#0d9488" stroke-width="2" rx="4"/>
-                <line x1="190" y1="60" x2="190" y2="120" stroke="#0d9488" stroke-width="2.5"/>
-                <circle cx="330" cy="90" r="4" fill="#ea580c"/>
-                <circle cx="345" cy="90" r="4" fill="#ea580c"/>
-                <circle cx="355" cy="90" r="4" fill="#ea580c"/>
-                <text class="numpy-plot__axis-label" x="58" y="126">min</text>
-                <text class="numpy-plot__axis-label" x="150" y="50">Q1</text>
-                <text class="numpy-plot__axis-label" x="178" y="50">median</text>
-                <text class="numpy-plot__axis-label" x="228" y="50">Q3</text>
-                <text class="numpy-plot__axis-label" x="286" y="126">max whisker</text>
-                <text class="numpy-plot__axis-label" x="320" y="126">outliers</text>
-                <text class="numpy-plot__axis-label" x="40" y="148">Typical Titanic Age: Q1 near 20, median near 28, Q3 near 38.</text>
-              </svg>
-              <p class="numpy-plot__caption">The box is the middle 50 percent. The line inside is the median. Dots past the whiskers are outliers.</p>
-            </figure>
-
+            <p>Do you need builder and user paths?</p>
+            <ul>
+              <li><strong>Data scientist:</strong> often more builder level.</li>
+              <li><strong>Software developer:</strong> often more user side.</li>
+              <li><strong>Combination:</strong> AI engineer.</li>
+            </ul>
+            <p>An <strong>AI engineer</strong> knows foundation model ideas from the builder side and can also ship work on the user side.</p>
+            <p>You do not need every paper. You need a clear map: build, use, or both for your role.</p>
             <aside class="summary-callout">
               <h3>Day 20 takeaways</h3>
               <ul>
-                <li>EDA means exploring the data before modeling.</li>
-                <li>Univariate analysis looks at one column at a time.</li>
-                <li>Use count plots and pies for categorical columns.</li>
-                <li>Use histograms, displots, and box plots for numerical columns.</li>
-                <li>Pick the plot that matches the column type.</li>
+                <li>Gen AI creates new content by learning patterns from data.</li>
+                <li>It sits in the path AI to ML to DL to Gen AI.</li>
+                <li>Foundation models and LLMs are the core mental models.</li>
+                <li>Sort new terms by user vs builder to cut noise.</li>
+                <li>Pick a path for your role: builder, user, or AI engineer.</li>
               </ul>
-              <p>Next we can move to bivariate analysis, where two columns are studied together.</p>
+              <p>Start with the map. Then learn tools one step at a time.</p>
             </aside>
           </div>
         </div>
