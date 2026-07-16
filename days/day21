@@ -1,0 +1,53 @@
+Day 21: Generative AI using LangChain
+
+What is LangChain:
+Open source framework. You can make any application based on an LLM. That is an LLM based application.
+
+Build complex AI such as chatbot, Q and A system, RAG, agents, etc.
+
+LangChain has support for all major LLMs. That is one of its most important features.
+
+It simplifies developing LLM based applications.
+
+We get different integrations in LangChain. We have wrappers to connect with services.
+
+It is free and open source.
+
+Supports all major Gen AI use cases.
+
+Why LangChain first for user side perspective:
+From LangChain we can work with both open source, closed source, LLM APIs, Hugging Face, Llama, etc.
+
+LangChain has 3 parts:
+1. LangChain fundamentals (most important part)
+2. RAG applications
+3. AI agents
+
+Embedding = convert the whole document into vectors that are numbers.
+
+We do not only convert the PDF into embedding. We also convert the query into a vector.
+
+Chunking can be done based on pages, paragraph, chapter, or anything.
+
+PDF -> embedding -> database
+User query -> embedding -> semantic search -> database
+System prompt (pages + user query) -> LLM -> output
+
+LangChain helps us handle moving parts like changing the LLM API, for example using Gemini instead of ChatGPT.
+
+Benefits:
+1. Concepts of chains. Helps in chain pipeline.
+2. Easily reusable, removable, addable.
+3. Complete ecosystem.
+4. Has memory concepts.
+
+What can we build:
+1. Chatbot
+2. AI knowledge assistant
+3. AI agents
+4. Workflow automation
+5. Research helper
+
+Alternatives:
+LlamaIndex
+Haystack
