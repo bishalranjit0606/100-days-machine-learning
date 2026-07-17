@@ -301,13 +301,12 @@
     if (!MOBILE_MQ.matches) closeMobileNav();
   });
 
-  /* --- Smooth scroll --- */
+  /* --- Lesson jump (instant, page is too long for smooth scroll) --- */
   function smoothScrollTo(targetEl) {
     if (!targetEl) return;
     var offset = getScrollOffset();
     var top = targetEl.getBoundingClientRect().top + window.scrollY - offset;
-    var behavior = REDUCED_MOTION.matches ? "auto" : "smooth";
-    window.scrollTo({ top: top, behavior: behavior });
+    window.scrollTo({ top: top, behavior: "auto" });
   }
 
   function initSmoothScrollLinks() {
@@ -399,6 +398,20 @@
     setChapterOpen(chapter, true);
   }
 
+  function scrollChapterIntoTocView(chapter) {
+    var toc = document.getElementById("sidebar-toc");
+    if (!toc || !chapter) return;
+    requestAnimationFrame(function () {
+      var tocRect = toc.getBoundingClientRect();
+      var chapterRect = chapter.getBoundingClientRect();
+      var target = toc.scrollTop + (chapterRect.top - tocRect.top) - 8;
+      toc.scrollTo({
+        top: Math.max(0, target),
+        behavior: REDUCED_MOTION.matches ? "auto" : "smooth"
+      });
+    });
+  }
+
   function initTocAccordion() {
     document.querySelectorAll(".toc-chapter__toggle").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -407,7 +420,10 @@
         document.querySelectorAll(".toc-chapter").forEach(function (ch) {
           setChapterOpen(ch, false);
         });
-        if (!isOpen) setChapterOpen(chapter, true);
+        if (!isOpen) {
+          setChapterOpen(chapter, true);
+          scrollChapterIntoTocView(chapter);
+        }
       });
     });
     openChapterForSection("1");

@@ -1,0 +1,68 @@
+Day 22: LangChain Components
+
+Recap: LangChain
+Open source framework for LLM powered applications.
+Advantages: build pipelines, chain concept (one output feeds the next), very flexible.
+Examples: chatbot, AI knowledge assistants.
+
+LangChain components:
+1. Models
+2. Prompts
+3. Chains
+4. Memory
+5. Indexes
+6. Agents
+
+1. Models: interact with AI models.
+Before LLMs, chatbot context awareness and text generation were weak. LLMs solved it.
+But LLMs are trained on huge data and are very hard to manage.
+LLMs cannot easily run locally, and running on your own server gives a high bill.
+So companies expose APIs and we just use them.
+Next problem: implementation. Using OpenAI needs one code style, Claude another.
+Standardization was hard, and even the output structure differs between providers.
+LangChain fixed this issue with a common interface.
+
+LangChain has two types of models:
+1. Language models: give text, get text (LLMs).
+2. Embedding models: give text, get vector output. Mainly used for semantic search.
+
+2. Prompts: input provided to the LLM.
+Prompts are very important. A small change to a prompt can change the output.
+Prompts even have jobs now: prompt engineering.
+LangChain supports different types of prompts:
+Dynamic and reusable prompts, e.g. summarize (topic) in (emotion) tone.
+Role based prompting.
+Few shot prompting.
+
+3. Chains: LangChain was even named after chains.
+We can make pipelines from chains. Think of visual pipeline tools like n8n.
+Input -> LLM -> translate -> LLM -> summary in 100 words -> output.
+Advantage: output of the first step is the input of the second.
+Complex pipelines are possible:
+Parallel chains: input goes to LLM 1, LLM 2, LLM 3, then combine all outputs.
+Conditional chains: like if else or switch conditions.
+
+4. Indexes: connect the application to external knowledge such as PDF, website, or database.
+Main parts of indexes:
+1. Document loader: bring data into the system.
+2. Text splitter: split 100 pages into pages, chapters, or paragraphs.
+3. Vector store: store embedded vectors.
+4. Retriever: convert user query to a vector, run semantic search between query and page vectors, give the best pages to the LLM to generate text.
+Example: ChatGPT cannot know your company details, like the leave policy.
+Connect it to your company PDF and now it can answer those questions.
+
+5. Memory: LLM API calls are stateless.
+First query: I am Bishal. Second query: who am I? The LLM will not remember.
+Types of memory:
+Conversation buffer memory: store the transcript of recent conversation. Problem: very long conversations get hard.
+Conversation buffer window memory: keep only the last N interactions.
+Summarizer based memory: keep a summary of the conversation.
+Custom memory: keep advanced data about the user.
+
+6. Agents: an LLM can generate text but it cannot do work.
+Agents can do work, for example with the help of MCP.
+Example: an LLM can suggest a trip to Pokhara for a holiday.
+An agent can also book the ticket to Pokhara.
+AI agents have two powers:
+1. Reasoning capabilities.
+2. Tool access.
