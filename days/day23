@@ -1,0 +1,88 @@
+Day 23: LangChain Models
+
+Models are a crucial part of the framework.
+They let you interact with language models and embedding models.
+
+Model types:
+1. Language models: text input and text output.
+   A. LLMs
+   B. Chat models
+2. Embedding models: text in, vector data out.
+   Help with semantic search and RAG based applications.
+
+Language models:
+Text is the input. Text is the output.
+
+Types:
+1. LLM: general purpose models. Can be used anywhere (text gen, code gen, and more).
+   Becoming old. In LangChain they are being removed slowly.
+   Trained from books, articles, and similar data.
+   No memory of previous conversation.
+   No role assignment like "act like a doctor".
+2. Chat models: best for chatbots. Specialized models.
+   Used in AI agents, chatbots, and more.
+   Optimized for multi turn conversation.
+   Trained with data like books and forums such as Reddit.
+   Remember previous conversation.
+   Can assign roles.
+
+ChatGroq basic call:
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+load_dotenv()
+llm = ChatGroq(model="llama-3.3-70b-versatile")
+result = llm.invoke("what is the capital of nepal")
+print(result.content)
+
+Temperature: how much creativity to add. Range from 0 to 1.5+.
+Math like tasks: use less, like 0.0 to 0.5.
+Creative tasks: use higher, like 0.7 to 1.5+.
+
+Max tokens: the model will not use more tokens than this limit.
+Also print response_metadata and usage_metadata.
+
+Open source models:
+Free AI models you can download and modify.
+Deploy without restrictions from a central provider.
+Download the model. Use it how you want. Modify it. Deploy it. Full access.
+Good data privacy. You can fine tune it.
+Famous ones: Llama, Gemma, DeepSeek.
+Find them on Hugging Face (multimodal, text generation, and more).
+
+Ways to use Hugging Face:
+1. Using the API from Hugging Face
+2. Running locally
+
+Disadvantages:
+Huge hardware requirements.
+Setup complexity.
+Lack of RLHF: no fine tuning with human feedback in many cases.
+
+.env:
+HUGGINGFACEHUB_ACCESS_TOKEN = "ACCESS TOKEN"
+
+Hugging Face API:
+from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+from dotenv import load_dotenv
+load_dotenv()
+llm = HuggingFaceEndpoint(repo_id="id of the repo we want", task="text-generation")
+model = ChatHuggingFace(llm=llm)
+result = model.invoke("what is the capital of nepal")
+print(result.content)
+
+Hugging Face local:
+from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
+llm = HuggingFacePipeline.from_model_id(
+  model_id="id of the repo we want",
+  task="text-generation",
+  pipeline_kwargs=dict(temperature=0.5, max_new_tokens=100),
+)
+model = ChatHuggingFace(llm=llm)
+result = model.invoke("what is the capital of nepal")
+print(result.content)
+
+Embedding models turn text into embedding vectors.
+OpenAIEmbeddings with dimensions: lower dimensions mean lower cost.
+embed_query for one string.
+embed_documents for a list of strings.
+Document search: embed documents and query, then cosine_similarity to find the best match.

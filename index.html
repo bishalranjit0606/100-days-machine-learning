@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                                          <style id="site-styles-embed">
+                                            <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -49,6 +49,7 @@
   --chapter-day-20: #8b5cf6;
   --chapter-day-21: #be185d;
   --chapter-day-22: #4338ca;
+  --chapter-day-23: #0d9488;
   --chapter-numpy: #ea580c;
   --chapter-pandas: #16a34a;
 
@@ -416,6 +417,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-22);
 }
 
+.toc-chapter[data-chapter="day-23"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-23);
+}
+
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
@@ -519,6 +524,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-22"] .toc-chapter__pill {
   background: var(--chapter-day-22);
+}
+
+.toc-chapter[data-chapter="day-23"] .toc-chapter__pill {
+  background: var(--chapter-day-23);
 }
 
 
@@ -674,6 +683,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-22"] .toc-link.is-active {
   border-color: var(--chapter-day-22);
+}
+
+.toc-chapter[data-chapter="day-23"] .toc-link.is-active {
+  border-color: var(--chapter-day-23);
 }
 
 
@@ -1614,6 +1627,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-22);
 }
 
+.chapter-divider[data-chapter="day-23"] {
+  border-left: 5px solid var(--chapter-day-23);
+}
+
 
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -1719,6 +1736,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-22"] .chapter-divider__pill {
   background: var(--chapter-day-22);
+}
+
+.chapter-divider[data-chapter="day-23"] .chapter-divider__pill {
+  background: var(--chapter-day-23);
 }
 
 
@@ -2071,6 +2092,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-22);
 }
 
+.lesson-card[data-chapter="day-23"] {
+  border-left: 5px solid var(--chapter-day-23);
+}
+
 
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -2185,6 +2210,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-22"] .lesson-card__marker {
   background: var(--chapter-day-22);
+}
+
+.lesson-card[data-chapter="day-23"] .lesson-card__marker {
+  background: var(--chapter-day-23);
 }
 
 
@@ -2348,6 +2377,11 @@ pre.code-output code {
 .lesson-card[data-chapter="day-22"] .lesson-card__icon {
   color: var(--chapter-day-22);
   background: rgba(67, 56, 202, 0.12);
+}
+
+.lesson-card[data-chapter="day-23"] .lesson-card__icon {
+  color: var(--chapter-day-23);
+  background: rgba(13, 148, 136, 0.12);
 }
 
 
@@ -3716,6 +3750,31 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-214" data-section="214">Component 6: Agents</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-23">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-23">
+          <span class="toc-chapter__pill">Day 23</span>
+          <span class="toc-chapter__name">LangChain Models</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-23" hidden>
+          <li><a class="toc-link" href="#section-215" data-section="215">Why Models Matter</a></li>
+          <li><a class="toc-link" href="#section-216" data-section="216">Model Types at a Glance</a></li>
+          <li><a class="toc-link" href="#section-217" data-section="217">LLMs Explained</a></li>
+          <li><a class="toc-link" href="#section-218" data-section="218">Chat Models Explained</a></li>
+          <li><a class="toc-link" href="#section-219" data-section="219">LLM vs Chat Model</a></li>
+          <li><a class="toc-link" href="#section-220" data-section="220">Call ChatGroq</a></li>
+          <li><a class="toc-link" href="#section-221" data-section="221">Temperature</a></li>
+          <li><a class="toc-link" href="#section-222" data-section="222">Max Tokens and Metadata</a></li>
+          <li><a class="toc-link" href="#section-223" data-section="223">Open Source Models</a></li>
+          <li><a class="toc-link" href="#section-224" data-section="224">Find Models on Hugging Face</a></li>
+          <li><a class="toc-link" href="#section-225" data-section="225">Hugging Face API</a></li>
+          <li><a class="toc-link" href="#section-226" data-section="226">Hugging Face Local Pipeline</a></li>
+          <li><a class="toc-link" href="#section-227" data-section="227">Embedding Models</a></li>
+          <li><a class="toc-link" href="#section-228" data-section="228">Embed a Query</a></li>
+          <li><a class="toc-link" href="#section-229" data-section="229">Embed Documents</a></li>
+          <li><a class="toc-link" href="#section-230" data-section="230">Document Search Project</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3735,8 +3794,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">214 lessons live</span>
-          <span class="hero__stat">Day 22 published</span>
+          <span class="hero__stat">230 lessons live</span>
+          <span class="hero__stat">Day 23 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -10135,11 +10194,457 @@ df = pd.read_csv("train.csv")</code></pre>
       </article>
 
 
+      <!-- DAY 23 -->
+      <div class="chapter-divider reveal" id="chapter-day-23" data-chapter="day-23">
+        <span class="chapter-divider__pill">Day 23</span>
+        <h2 class="chapter-divider__title">LangChain Models</h2>
+        <p class="chapter-divider__note">Language models, chat models, open source options, Hugging Face, and embedding models for search.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-215" data-section="215" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">215</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cpu" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Models Matter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Models are a crucial part of the LangChain framework.</p>
+            <p>They are how your app talks to <strong>language models</strong> and <strong>embedding models</strong>.</p>
+            <p>Without this layer, every provider would need its own custom code. With LangChain models, you get one clear way to call many backends.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-216" data-section="216" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">216</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Types at a Glance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain groups models into two big families.</p>
+            <ol>
+              <li><strong>Language models.</strong> Text goes in. Text comes out. Inside this family you will see LLMs and chat models.</li>
+              <li><strong>Embedding models.</strong> Text goes in. Vector data comes out. These help with semantic search and RAG based applications.</li>
+            </ol>
+            <p>Today we go deep on both families, starting with language models.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-217" data-section="217" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">217</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LLMs Explained</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A language model takes text as input and returns text as output.</p>
+            <p>An <strong>LLM</strong> is a general purpose model. You can use it for text generation, code generation, and many other tasks.</p>
+            <p>Key points about classic LLMs:</p>
+            <ul>
+              <li>They are becoming old style in modern apps.</li>
+              <li>In LangChain they are being removed slowly.</li>
+              <li>They were trained on books, articles, and similar text.</li>
+              <li>They do not remember a previous conversation by themselves.</li>
+              <li>You cannot assign a role like "act like a doctor" in the same clean way chat models support.</li>
+            </ul>
+            <p>For new work, prefer chat models. The rest of this day uses chat style APIs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-218" data-section="218" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">218</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chat Models Explained</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Chat models</strong> are specialized for conversation. They are the best fit for chatbots and AI agents.</p>
+            <p>Why teams pick them:</p>
+            <ul>
+              <li>Optimized for multi turn conversation.</li>
+              <li>Trained on books and chat style data, including forums like Reddit.</li>
+              <li>They can remember previous turns in a chat session (when you pass history).</li>
+              <li>You can assign roles, such as system, user, and assistant.</li>
+            </ul>
+            <p>If you are building a chatbot or an agent, start with a chat model.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-219" data-section="219" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">219</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LLM vs Chat Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Use this side by side view when you choose an API.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">LLM</th>
+                    <th scope="col">Chat model</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Topic"><strong>Best for</strong></td>
+                    <td data-label="LLM">General text and code generation</td>
+                    <td data-label="Chat model">Chatbots and AI agents</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Conversation</strong></td>
+                    <td data-label="LLM">No built in multi turn style</td>
+                    <td data-label="Chat model">Built for multi turn chat</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Roles</strong></td>
+                    <td data-label="LLM">Hard to assign chat roles cleanly</td>
+                    <td data-label="Chat model">Roles like system and user</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>In LangChain</strong></td>
+                    <td data-label="LLM">Being removed slowly</td>
+                    <td data-label="Chat model">The path you should use now</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-220" data-section="220" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">220</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Call ChatGroq</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is a minimal chat model call with Groq and LangChain.</p>
+            <p>Put your API key in a <code>.env</code> file, load it with <code>dotenv</code>, then invoke the model.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatGroq(model="llama-3.3-70b-versatile")
+
+result = llm.invoke("what is the capital of nepal")
+
+print(result.content)</code></pre>
+            <p><code>result.content</code> is the text answer. The same pattern works when your <code>.env</code> lives one folder up, for example <code>load_dotenv("../llm/.env")</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-221" data-section="221" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">221</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="thermometer" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Temperature</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Temperature</strong> controls how much creativity the model adds to its answers.</p>
+            <p>The range often goes from <code>0</code> to about <code>1.5</code> or a bit higher, depending on the provider.</p>
+            <ul>
+              <li>For math like tasks, keep it low: about <code>0.0</code> to <code>0.5</code>.</li>
+              <li>For creative writing, raise it: about <code>0.7</code> to <code>1.5+</code>.</li>
+            </ul>
+            <p>Pass it when you build the model object:</p>
+            <pre><code>model = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    temperature=1.5,
+)</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-222" data-section="222" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">222</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Max Tokens and Metadata</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Max tokens</strong> means the model will not use more tokens than that limit for the reply.</p>
+            <p>You can also inspect response metadata and usage after each call.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv("../llm/.env")
+
+model = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    temperature=1.5,
+    max_tokens=100,
+)
+
+result = model.invoke("write 5 one line quotes on motivation")
+
+print(result.content)
+print(result.response_metadata)
+print(result.usage_metadata)</code></pre>
+            <p>Use a small <code>max_tokens</code> value when you want short answers and tighter cost control.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-223" data-section="223" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">223</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="unlock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Open Source Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Open source models</strong> are free AI models you can download and modify.</p>
+            <p>You can deploy them without the restrictions of a single central provider.</p>
+            <p>In practice that means:</p>
+            <ul>
+              <li>You download the model and use it how you want.</li>
+              <li>You can modify it.</li>
+              <li>You can deploy it yourself.</li>
+              <li>You get full access to the weights.</li>
+              <li>Data privacy is stronger when you keep the model on your own machines.</li>
+              <li>You can fine tune it for your domain.</li>
+            </ul>
+            <p>Famous open source families include Llama, Gemma, and DeepSeek.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-224" data-section="224" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">224</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Find Models on Hugging Face</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Hugging Face</strong> is where many teams find open models.</p>
+            <p>The hub has many task types: multimodal, text generation, and more.</p>
+            <p>Two common ways to use Hugging Face models:</p>
+            <ol>
+              <li>Call them through the Hugging Face API.</li>
+              <li>Run them locally on your machine.</li>
+            </ol>
+            <p>Trade offs to know before you choose local:</p>
+            <ul>
+              <li>Local runs often need large hardware.</li>
+              <li>Setup can be complex.</li>
+              <li>Many open models lack strong RLHF, meaning less fine tuning with human feedback than big closed chat products.</li>
+            </ul>
+            <p>Store your token in <code>.env</code>:</p>
+            <pre><code>HUGGINGFACEHUB_ACCESS_TOKEN="ACCESS TOKEN"</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-225" data-section="225" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">225</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hugging Face API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>With the API path, Hugging Face hosts the model. Your code only sends requests.</p>
+            <pre><code>from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = HuggingFaceEndpoint(
+    repo_id="id of the repo we want",
+    task="text-generation",
+)
+
+model = ChatHuggingFace(llm=llm)
+result = model.invoke("what is the capital of nepal")
+
+print(result.content)</code></pre>
+            <p>Replace <code>repo_id</code> with the model id you pick on the Hugging Face hub.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-226" data-section="226" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">226</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hard-drive" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hugging Face Local Pipeline</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Local mode downloads the model and runs it on your machine. No live API call to Hugging Face for each prompt.</p>
+            <pre><code>from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
+
+llm = HuggingFacePipeline.from_model_id(
+    model_id="id of the repo we want",
+    task="text-generation",
+    pipeline_kwargs=dict(
+        temperature=0.5,
+        max_new_tokens=100,
+    ),
+)
+
+model = ChatHuggingFace(llm=llm)
+result = model.invoke("what is the capital of nepal")
+
+print(result.content)</code></pre>
+            <p>Expect a large download the first time, and enough RAM or GPU for the model size you choose.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-227" data-section="227" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">227</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="binary" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embedding Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Embedding models</strong> turn text into vector numbers.</p>
+            <p>Those vectors make semantic search possible. Similar meaning lands near similar vectors.</p>
+            <p>That is the base for many RAG based applications: store document vectors, embed the user question, then find the closest chunks.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-228" data-section="228" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">228</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="text-cursor-input" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embed a Query</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>With OpenAI embeddings in LangChain, you create an embedding client and call <code>embed_query</code> for one string.</p>
+            <p><strong>Dimensions</strong> control vector size. Lower dimensions usually mean lower cost.</p>
+            <pre><code>from langchain_openai import OpenAIEmbeddings
+from dotenv import load_dotenv
+
+load_dotenv()
+
+embedding = OpenAIEmbeddings(
+    model="text-embedding-3-large",
+    dimensions=32,
+)
+
+result = embedding.embed_query("Kathmandu is the capital of Nepal.")
+
+print(str(result))</code></pre>
+            <p>The printed result is a list of numbers: the embedding vector.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-229" data-section="229" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">229</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="files" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embed Documents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Use <code>embed_documents</code> when you have many strings at once.</p>
+            <pre><code>from langchain_openai import OpenAIEmbeddings
+from dotenv import load_dotenv
+
+load_dotenv()
+
+embedding = OpenAIEmbeddings(
+    model="text-embedding-3-large",
+    dimensions=32,
+)
+
+documents = [
+    "my name is bishal",
+    "i live in nepal",
+    "I am ai learner",
+]
+
+result = embedding.embed_documents(documents)
+
+print(str(result))</code></pre>
+            <p>You get one vector per document. Store those vectors when you build search later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-230" data-section="230" data-chapter="day-23">
+        <span class="lesson-card__marker" aria-hidden="true">230</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scan-search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Document Search Project</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Put the pieces together: embed your documents, embed a query, then rank with cosine similarity.</p>
+            <pre><code>from langchain_openai import OpenAIEmbeddings
+from dotenv import load_dotenv
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+load_dotenv()
+
+embedding = OpenAIEmbeddings(
+    model="text-embedding-3-large",
+    dimensions=32,
+)
+
+documents = [
+    "my name is bishal",
+    "i live in nepal",
+    "I am ai learner",
+]
+
+query = "where does bishal live"
+
+doc_embeddings = embedding.embed_documents(documents)
+query_embedding = embedding.embed_query(query)
+
+scores = cosine_similarity([query_embedding], doc_embeddings)[0]
+index = int(np.argmax(scores))
+
+print(documents[index])
+print(scores[index])</code></pre>
+            <p>The highest score points to the closest document. That is the heart of simple semantic search.</p>
+            <aside class="summary-callout">
+              <h3>Day 23 takeaways</h3>
+              <ul>
+                <li>Models connect your app to language models and embedding models.</li>
+                <li>Prefer chat models over classic LLMs for chatbots and agents.</li>
+                <li>Temperature and max tokens shape creativity and reply length.</li>
+                <li>Open source models live on Hugging Face via API or local pipelines.</li>
+                <li>Embeddings plus cosine similarity power document search and RAG.</li>
+              </ul>
+              <p>Next step: pick one chat model call and one embedding search script, then run both end to end.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 22 of 100 published · Last updated July 2026</p>
+      <p>New lessons added daily · Day 23 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 
