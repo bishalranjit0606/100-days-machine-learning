@@ -1,0 +1,45 @@
+Day 24: Prompts in LangChain
+
+Temperature recap:
+Temperature controls creativity.
+Write a poem with temperature 0: same output every time for the same input.
+Raise temperature: output can change even when the input stays the same.
+
+What are prompts:
+Prompts are the input instructions or query given to a model to guide the output.
+
+Types of prompts (by content):
+1. Text based prompts: only text.
+2. Multimodal prompts: text plus image, sound, or video.
+Main focus: text based prompts. Used about 99% of the time.
+Prompts are so important that prompt engineering is its own job profile.
+
+Static vs dynamic prompts:
+What we were doing: model.invoke("whats the capital of nepal")
+In real life the user types the prompt and clicks send. The LLM receives it and replies.
+As a developer we do not hard write every prompt by hand for each user.
+
+f strings vs PromptTemplate:
+You can use f strings, but PromptTemplate is better.
+You get options like validate_template=True.
+You can reuse the template many times.
+You can save a template to a file such as template.json.
+
+Research tool example (Streamlit + PromptTemplate):
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from dotenv import load_dotenv
+import streamlit as st
+# paper_input, style_input, length_input from selectboxes
+# template with {paper_input}, {style_input}, {length_input}
+# chain = template | model
+
+Chatbot with messages:
+SystemMessage, HumanMessage, AIMessage
+chat_history list, append user and AI turns, invoke with full history.
+
+ChatPromptTemplate:
+system and human roles with {domain} and {input}.
+
+MessagesPlaceholder:
+Used inside dynamic chat history. Injects a list of messages at run time.

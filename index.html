@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                                            <style id="site-styles-embed">
+                                              <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -50,6 +50,7 @@
   --chapter-day-21: #be185d;
   --chapter-day-22: #4338ca;
   --chapter-day-23: #0d9488;
+  --chapter-day-24: #0284c7;
   --chapter-numpy: #ea580c;
   --chapter-pandas: #16a34a;
 
@@ -421,6 +422,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-23);
 }
 
+.toc-chapter[data-chapter="day-24"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-24);
+}
+
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
@@ -528,6 +533,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-23"] .toc-chapter__pill {
   background: var(--chapter-day-23);
+}
+
+.toc-chapter[data-chapter="day-24"] .toc-chapter__pill {
+  background: var(--chapter-day-24);
 }
 
 
@@ -687,6 +696,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-23"] .toc-link.is-active {
   border-color: var(--chapter-day-23);
+}
+
+.toc-chapter[data-chapter="day-24"] .toc-link.is-active {
+  border-color: var(--chapter-day-24);
 }
 
 
@@ -1631,6 +1644,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-23);
 }
 
+.chapter-divider[data-chapter="day-24"] {
+  border-left: 5px solid var(--chapter-day-24);
+}
+
 
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -1740,6 +1757,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-23"] .chapter-divider__pill {
   background: var(--chapter-day-23);
+}
+
+.chapter-divider[data-chapter="day-24"] .chapter-divider__pill {
+  background: var(--chapter-day-24);
 }
 
 
@@ -2096,6 +2117,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-23);
 }
 
+.lesson-card[data-chapter="day-24"] {
+  border-left: 5px solid var(--chapter-day-24);
+}
+
 
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -2214,6 +2239,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-23"] .lesson-card__marker {
   background: var(--chapter-day-23);
+}
+
+.lesson-card[data-chapter="day-24"] .lesson-card__marker {
+  background: var(--chapter-day-24);
 }
 
 
@@ -2382,6 +2411,11 @@ pre.code-output code {
 .lesson-card[data-chapter="day-23"] .lesson-card__icon {
   color: var(--chapter-day-23);
   background: rgba(13, 148, 136, 0.12);
+}
+
+.lesson-card[data-chapter="day-24"] .lesson-card__icon {
+  color: var(--chapter-day-24);
+  background: rgba(2, 132, 199, 0.12);
 }
 
 
@@ -3775,6 +3809,26 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-230" data-section="230">Document Search Project</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-24">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-24">
+          <span class="toc-chapter__pill">Day 24</span>
+          <span class="toc-chapter__name">Prompts in LangChain</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-24" hidden>
+          <li><a class="toc-link" href="#section-231" data-section="231">Temperature Recap</a></li>
+          <li><a class="toc-link" href="#section-232" data-section="232">What Are Prompts</a></li>
+          <li><a class="toc-link" href="#section-233" data-section="233">Text Based and Multimodal Prompts</a></li>
+          <li><a class="toc-link" href="#section-234" data-section="234">Static and Dynamic Prompts</a></li>
+          <li><a class="toc-link" href="#section-235" data-section="235">Why PromptTemplate Over f Strings</a></li>
+          <li><a class="toc-link" href="#section-236" data-section="236">PromptTemplate Basics</a></li>
+          <li><a class="toc-link" href="#section-237" data-section="237">Research Tool with PromptTemplate</a></li>
+          <li><a class="toc-link" href="#section-238" data-section="238">Chat Message Types</a></li>
+          <li><a class="toc-link" href="#section-239" data-section="239">Build a Chatbot Loop</a></li>
+          <li><a class="toc-link" href="#section-240" data-section="240">ChatPromptTemplate</a></li>
+          <li><a class="toc-link" href="#section-241" data-section="241">MessagesPlaceholder</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3794,8 +3848,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">230 lessons live</span>
-          <span class="hero__stat">Day 23 published</span>
+          <span class="hero__stat">241 lessons live</span>
+          <span class="hero__stat">Day 24 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -10640,11 +10694,340 @@ print(scores[index])</code></pre>
         </div>
       </article>
 
+      <!-- DAY 24 -->
+      <div class="chapter-divider reveal" id="chapter-day-24" data-chapter="day-24">
+        <span class="chapter-divider__pill">Day 24</span>
+        <h2 class="chapter-divider__title">Prompts in LangChain</h2>
+        <p class="chapter-divider__note">Prompt types, PromptTemplate, chat messages, ChatPromptTemplate, and MessagesPlaceholder.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-231" data-section="231" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">231</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="thermometer" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Temperature Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>While learning models, we used parameters like <strong>temperature</strong>.</p>
+            <p>Temperature controls how creative the model is.</p>
+            <p>Example: ask it to write a poem with temperature set to <code>0</code>. You get the same output every time for that same input.</p>
+            <p>If you raise the temperature, the output can change even when the input stays the same.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-232" data-section="232" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">232</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Are Prompts</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Prompts</strong> are the input instructions or query you give to a model to guide its output.</p>
+            <p>They tell the model what to do, how to answer, and what style or limits to follow.</p>
+            <p>Prompts matter so much that prompt engineering has become its own job profile.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-233" data-section="233" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">233</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Text Based and Multimodal Prompts</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>By content type, prompts fall into two groups:</p>
+            <ol>
+              <li><strong>Text based prompts.</strong> Only text.</li>
+              <li><strong>Multimodal prompts.</strong> Text plus image, and sometimes sound or video as well.</li>
+            </ol>
+            <p>Our main focus is text based prompts. About 99% of the time, that is what you will use.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-234" data-section="234" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">234</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Static and Dynamic Prompts</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>So far we often wrote a fixed string ourselves:</p>
+            <pre><code>model.invoke("whats the capital of nepal")</code></pre>
+            <p>That is a <strong>static</strong> style: the developer hard codes the prompt.</p>
+            <p>In the real world, a user types a prompt and clicks send. The LLM receives that text and returns a result. We as developers do not write every prompt by hand for each user.</p>
+            <p>That need for user driven text leads to <strong>dynamic prompts</strong>: a reusable template with slots filled at run time.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-235" data-section="235" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">235</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why PromptTemplate Over f Strings</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can build dynamic text with Python f strings. That works for small demos.</p>
+            <p>Using <strong>PromptTemplate</strong> is a better habit:</p>
+            <ul>
+              <li>You can turn on checks such as <code>validate_template=True</code>.</li>
+              <li>You can reuse the same template many times.</li>
+              <li>You can save a template to a file, for example <code>template.json</code>, and load it later.</li>
+            </ul>
+            <p>f strings fill values right away. PromptTemplate keeps placeholders until you call <code>invoke</code> with a dict of values.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-236" data-section="236" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">236</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-code" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">PromptTemplate Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create a template with named slots, then fill them when you run.</p>
+            <pre><code>from langchain_core.prompts import PromptTemplate
+
+template = PromptTemplate(
+    template="""Please summarize the research paper titled "{paper_input}"
+with style {style_input} and length {length_input}.""",
+    input_variables=["paper_input", "style_input", "length_input"],
+)
+
+# optional: keep the template on disk
+template.save("template.json")</code></pre>
+            <p>Later you pass a dict such as <code>{"paper_input": "...", "style_input": "...", "length_input": "..."}</code> into <code>invoke</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-237" data-section="237" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">237</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="flask-conical" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Research Tool with PromptTemplate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is a Streamlit research summarizer. The user picks paper, style, and length. The template fills those slots, then the chain runs.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from dotenv import load_dotenv
+import streamlit as st
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+st.header("Research Tool")
+
+paper_input = st.selectbox(
+    "Select Research Paper Name",
+    [
+        "Attention Is All You Need",
+        "BERT: Pre-training of Deep Bidirectional Transformers",
+        "GPT-3: Language Models are Few-Shot Learners",
+        "Diffusion Models Beat GANs on Image Synthesis",
+    ],
+)
+
+style_input = st.selectbox(
+    "Select Explanation Style",
+    ["Beginner-Friendly", "Technical", "Code-Oriented", "Mathematical"],
+)
+
+length_input = st.selectbox(
+    "Select Explanation Length",
+    ["Short (1-2 paragraphs)", "Medium (3-5 paragraphs)", "Long (detailed explanation)"],
+)
+
+template = PromptTemplate(
+    template="""Please summarize the research paper titled "{paper_input}" with the following specifications:
+Explanation Style: {style_input}
+Explanation Length: {length_input}
+
+1. Mathematical Details:
+   - Include relevant mathematical equations if present in the paper.
+   - Explain the mathematical concepts using simple, intuitive code snippets where applicable.
+
+2. Analogies:
+   - Use relatable analogies to simplify complex ideas.
+
+If certain information is not available in the paper, respond with: "Insufficient information available" instead of guessing.
+Ensure the summary is clear, accurate, and matches the requested style and length.
+""",
+    input_variables=["paper_input", "style_input", "length_input"],
+)
+
+if st.button("Summarize"):
+    chain = template | model
+    result = chain.invoke(
+        {
+            "paper_input": paper_input,
+            "style_input": style_input,
+            "length_input": length_input,
+        }
+    )
+    st.write(result.content)</code></pre>
+            <p>Notice <code>chain = template | model</code>. The pipe connects the filled prompt to the chat model in one step.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-238" data-section="238" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">238</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mail" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chat Message Types</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Chat models work with typed messages, not only plain strings.</p>
+            <ul>
+              <li><strong>SystemMessage:</strong> instructions for the assistant (role and rules).</li>
+              <li><strong>HumanMessage:</strong> text from the user.</li>
+              <li><strong>AIMessage:</strong> text from the model.</li>
+            </ul>
+            <pre><code>from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+messages = [
+    SystemMessage(content="You are a helpful assistant that can answer questions and help with tasks."),
+    HumanMessage(content="What is the capital of France?"),
+    AIMessage(content="The capital of France is Paris."),
+]
+
+result = model.invoke(messages)
+messages.append(result)
+print(messages)</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-239" data-section="239" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">239</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build a Chatbot Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Keep a list of messages. Each turn, append the human message, call the model with the full history, then append the AI reply.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+load_dotenv()
+
+model = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    temperature=1.5,
+)
+
+chat_history = [
+    SystemMessage(content="You are a helpful assistant that can answer questions and help with tasks.")
+]
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        break
+
+    chat_history.append(HumanMessage(content=user_input))
+    result = model.invoke(chat_history)
+    chat_history.append(AIMessage(content=result.content))
+    print("Chatbot:", result.content)
+
+print("Chat history:", chat_history)</code></pre>
+            <p>Type <code>exit</code> to stop. The printed history shows every system, human, and AI turn.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-240" data-section="240" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">240</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-template" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ChatPromptTemplate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>ChatPromptTemplate</strong> builds a list of chat messages from a template, with slots like <code>{domain}</code> and <code>{input}</code>.</p>
+            <pre><code>from langchain_core.prompts import ChatPromptTemplate
+
+chat_template = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant in a domain {domain} that can answer questions and help with tasks."),
+    ("human", "{input}"),
+])
+
+prompt = chat_template.invoke({
+    "domain": "healthcare",
+    "input": "What is the capital of France?",
+})
+print(prompt)</code></pre>
+            <p>The result is a structured chat prompt ready to send to a chat model.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-241" data-section="241" data-chapter="day-24">
+        <span class="lesson-card__marker" aria-hidden="true">241</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="history" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">MessagesPlaceholder</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>MessagesPlaceholder</strong> sits inside a chat template. At run time it injects a list of past messages as dynamic chat history.</p>
+            <pre><code>from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage, AIMessage
+
+chat_template = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant that can answer questions and help with tasks."),
+    MessagesPlaceholder(variable_name="chat_history"),
+    ("human", "{input}"),
+])
+
+chat_history = [
+    HumanMessage(content="Hi"),
+    AIMessage(content="Hello! How can I help?"),
+]
+
+prompt = chat_template.invoke({
+    "chat_history": chat_history,
+    "input": "What is the capital of France?",
+})
+print(prompt)</code></pre>
+            <p>You can also load history from a file such as <code>chat_history.json</code>, then pass that list into <code>chat_history</code> when you invoke.</p>
+            <aside class="summary-callout">
+              <h3>Day 24 takeaways</h3>
+              <ul>
+                <li>Temperature changes how fixed or creative the same prompt can feel.</li>
+                <li>Prompts guide model output. Text based prompts are what you use most.</li>
+                <li>Dynamic apps need templates, not only hard coded strings.</li>
+                <li>PromptTemplate and ChatPromptTemplate beat raw f strings for reuse and checks.</li>
+                <li>System, human, and AI messages plus MessagesPlaceholder power real chat history.</li>
+              </ul>
+              <p>Next step: run the Streamlit research tool, then rebuild the chatbot loop with ChatPromptTemplate.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 23 of 100 published · Last updated July 2026</p>
+      <p>New lessons added daily · Day 24 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 
