@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                                              <style id="site-styles-embed">
+                                                <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -51,6 +51,7 @@
   --chapter-day-22: #4338ca;
   --chapter-day-23: #0d9488;
   --chapter-day-24: #0284c7;
+  --chapter-day-25: #d97706;
   --chapter-numpy: #ea580c;
   --chapter-pandas: #16a34a;
 
@@ -426,6 +427,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-24);
 }
 
+.toc-chapter[data-chapter="day-25"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-25);
+}
+
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
@@ -537,6 +542,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-24"] .toc-chapter__pill {
   background: var(--chapter-day-24);
+}
+
+.toc-chapter[data-chapter="day-25"] .toc-chapter__pill {
+  background: var(--chapter-day-25);
 }
 
 
@@ -700,6 +709,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-24"] .toc-link.is-active {
   border-color: var(--chapter-day-24);
+}
+
+.toc-chapter[data-chapter="day-25"] .toc-link.is-active {
+  border-color: var(--chapter-day-25);
 }
 
 
@@ -1648,6 +1661,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-24);
 }
 
+.chapter-divider[data-chapter="day-25"] {
+  border-left: 5px solid var(--chapter-day-25);
+}
+
 
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -1761,6 +1778,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-24"] .chapter-divider__pill {
   background: var(--chapter-day-24);
+}
+
+.chapter-divider[data-chapter="day-25"] .chapter-divider__pill {
+  background: var(--chapter-day-25);
 }
 
 
@@ -2121,6 +2142,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-24);
 }
 
+.lesson-card[data-chapter="day-25"] {
+  border-left: 5px solid var(--chapter-day-25);
+}
+
 
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -2243,6 +2268,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-24"] .lesson-card__marker {
   background: var(--chapter-day-24);
+}
+
+.lesson-card[data-chapter="day-25"] .lesson-card__marker {
+  background: var(--chapter-day-25);
 }
 
 
@@ -2416,6 +2445,11 @@ pre.code-output code {
 .lesson-card[data-chapter="day-24"] .lesson-card__icon {
   color: var(--chapter-day-24);
   background: rgba(2, 132, 199, 0.12);
+}
+
+.lesson-card[data-chapter="day-25"] .lesson-card__icon {
+  color: var(--chapter-day-25);
+  background: rgba(217, 119, 6, 0.12);
 }
 
 
@@ -3829,6 +3863,29 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-241" data-section="241">MessagesPlaceholder</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-25">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-25">
+          <span class="toc-chapter__pill">Day 25</span>
+          <span class="toc-chapter__name">Structured Output</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-25" hidden>
+          <li><a class="toc-link" href="#section-242" data-section="242">Why Structured Output Matters</a></li>
+          <li><a class="toc-link" href="#section-243" data-section="243">Unstructured vs Structured</a></li>
+          <li><a class="toc-link" href="#section-244" data-section="244">Use Cases</a></li>
+          <li><a class="toc-link" href="#section-245" data-section="245">Two Paths to Structure</a></li>
+          <li><a class="toc-link" href="#section-246" data-section="246">Three Data Formats</a></li>
+          <li><a class="toc-link" href="#section-247" data-section="247">TypedDict Basics</a></li>
+          <li><a class="toc-link" href="#section-248" data-section="248">Review Extraction with TypedDict</a></li>
+          <li><a class="toc-link" href="#section-249" data-section="249">Annotated Guidance</a></li>
+          <li><a class="toc-link" href="#section-250" data-section="250">Optional and Literal</a></li>
+          <li><a class="toc-link" href="#section-251" data-section="251">Pydantic Basics</a></li>
+          <li><a class="toc-link" href="#section-252" data-section="252">Defaults, Email, and Field</a></li>
+          <li><a class="toc-link" href="#section-253" data-section="253">Structured Output with Pydantic</a></li>
+          <li><a class="toc-link" href="#section-254" data-section="254">JSON Schema Path</a></li>
+          <li><a class="toc-link" href="#section-255" data-section="255">Which Format and Which Method</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3848,8 +3905,8 @@ pre.code-output code {
           <span class="hero__stat">100-day series</span>
           <span class="hero__stat">Full ML life cycle</span>
           <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">241 lessons live</span>
-          <span class="hero__stat">Day 24 published</span>
+          <span class="hero__stat">255 lessons live</span>
+          <span class="hero__stat">Day 25 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -11023,11 +11080,421 @@ print(prompt)</code></pre>
         </div>
       </article>
 
+      <!-- DAY 25 -->
+      <div class="chapter-divider reveal" id="chapter-day-25" data-chapter="day-25">
+        <span class="chapter-divider__pill">Day 25</span>
+        <h2 class="chapter-divider__title">Structured Output in LangChain</h2>
+        <p class="chapter-divider__note">Turn free text LLM replies into JSON shaped data with TypedDict, Pydantic, and JSON Schema.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-242" data-section="242" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">242</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Structured Output Matters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The biggest advantage of an LLM is that it can communicate in natural language.</p>
+            <p>Real apps also need to connect that LLM to an API, a database, or other tools.</p>
+            <p>Today we learn how to shape the LLM output so other systems can use it safely.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-243" data-section="243" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">243</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Unstructured vs Structured</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Unstructured output:</strong> you give a prompt, the LLM answers in free text. That text is hard to plug into code without parsing by hand.</p>
+            <p><strong>Structured output:</strong> the LLM returns formatted data, often like JSON, with known fields.</p>
+            <p>Structure is a powerful technique. Without it, you mostly get text. With it, you can hand fields to tools and databases.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-244" data-section="244" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">244</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="briefcase" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Use Cases</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Common places structured output helps:</p>
+            <ol>
+              <li><strong>Data extraction.</strong> On a job portal, people upload resumes. You send the resume text to the LLM and get JSON fields back, ready to store.</li>
+              <li><strong>API building.</strong> Think of product reviews on a shop like Amazon. The LLM returns key details in JSON: product focus, good or bad tone, and more.</li>
+              <li><strong>Agents with tools.</strong> A chatbot only answers. An agent acts. When an agent calls tools, it needs structured arguments, not only chat text.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-245" data-section="245" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">245</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="waypoints" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Paths to Structure</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are two kinds of LLMs for this topic:</p>
+            <ol>
+              <li>Models that can generate structured output on their own.</li>
+              <li>Models that cannot do that cleanly.</li>
+            </ol>
+            <p>For models that support it, use <code>with_structured_output</code>.</p>
+            <p>For models that cannot, use an <strong>output parser</strong> after the free text reply.</p>
+            <p>This day focuses on <code>with_structured_output</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-246" data-section="246" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">246</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shapes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Data Formats</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When you call <code>with_structured_output</code>, you usually pick one of three shapes:</p>
+            <ol>
+              <li><strong>TypedDict</strong> for type hints and a simple dict result.</li>
+              <li><strong>Pydantic</strong> for real validation and safer objects.</li>
+              <li><strong>JSON Schema</strong> when many languages must share one schema.</li>
+            </ol>
+            <p>You wrap the model once, then invoke as usual:</p>
+            <pre><code>structured_model = model.with_structured_output(Review)
+result = structured_model.invoke("This is a very good mobile. I give it 5 stars.")</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-247" data-section="247" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">247</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">TypedDict Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A plain dict can hide type mistakes. One developer might store age as a number. Another might store it as a string.</p>
+            <p><strong>TypedDict</strong> tells tools and teammates the expected keys and types:</p>
+            <pre><code>from typing import TypedDict
+
+class Person(TypedDict):
+    name: str
+    age: int
+
+new_person: Person = {
+    "name": "bishal",
+    "age": 35,
+}</code></pre>
+            <p>Your editor can warn when <code>name</code> is not a string or <code>age</code> is not an int.</p>
+            <p>Important limit: TypedDict is mainly for data representation and type hints. It does not validate at run time. Bad values can still get through.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-248" data-section="248" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">248</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="star" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Review Extraction with TypedDict</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Send a phone review to the LLM and ask for a dict with <code>summary</code> and <code>sentiment</code>.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from typing import TypedDict
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+class Review(TypedDict):
+    summary: str
+    sentiment: str
+
+structured_model = model.with_structured_output(Review)
+
+result = structured_model.invoke(
+    "This is a very good mobile. I give it 5 stars."
+)
+
+print(result)
+print(type(result))
+print(result["summary"])</code></pre>
+            <p>You get a dictionary back.</p>
+            <p>You did not spell out “write a summary and sentiment” in the user prompt. LangChain still guides the model with a system style schema behind the scenes based on your TypedDict fields.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-249" data-section="249" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">249</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tag" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Annotated Guidance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Sometimes the LLM still gets confused. Use <strong>Annotated</strong> to add a short hint for each field.</p>
+            <pre><code>from typing import TypedDict, Annotated
+
+class Review(TypedDict):
+    summary: Annotated[str, "A brief summary of the review"]
+    sentiment: Annotated[
+        str,
+        "Sentiment: negative, positive, or neutral",
+    ]</code></pre>
+            <p>Those hints travel with the schema so the model knows what each field means.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-250" data-section="250" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">250</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Optional and Literal</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Richer reviews need more fields. Three helpers matter:</p>
+            <ul>
+              <li><strong>TypedDict:</strong> tell humans and tools which keys exist and their types.</li>
+              <li><strong>Annotated:</strong> give the model extra meaning for each field.</li>
+              <li><strong>Optional:</strong> the field may be missing. Include it only when it fits.</li>
+              <li><strong>Literal:</strong> allow only specific words, such as <code>pos</code> or <code>neg</code>.</li>
+            </ul>
+            <pre><code>from typing import TypedDict, Annotated, Optional, Literal, List
+
+class Review(TypedDict):
+    key_themes: Annotated[List[str], "Write all the key themes"]
+    summary: Annotated[str, "A brief summary of the review"]
+    sentiment: Annotated[
+        Literal["pos", "neg", "neutral"],
+        "Use pos, neg, or neutral",
+    ]
+    pros: Annotated[
+        Optional[List[str]],
+        "List of pros if the review has them",
+    ]</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-251" data-section="251" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">251</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pydantic Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Pydantic</strong> is a library for data validation. It checks that data is correct, structured, and type safe at run time.</p>
+            <p>Teams use it a lot with FastAPI when building APIs. It is very useful for structured LLM output too.</p>
+            <pre><code>from pydantic import BaseModel
+
+class Student(BaseModel):
+    name: str
+
+new_student = {"name": "bishal"}
+student = Student(**new_student)
+print(student)</code></pre>
+            <p>If <code>name</code> is missing or the wrong type, Pydantic raises an error instead of silently accepting bad data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-252" data-section="252" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">252</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sliders-horizontal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Defaults, Email, and Field</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pydantic can set defaults, mark optional fields, validate emails, and add constraints.</p>
+            <pre><code>from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
+
+class Student(BaseModel):
+    name: str = "bishal"
+    age: Optional[int] = None
+    email: EmailStr
+    cgpa: float = Field(
+        gt=0,
+        lt=10,
+        description="CGPA between 0 and 10",
+    )
+
+new_student = {
+    "age": 32,
+    "email": "bishal@example.com",
+    "cgpa": 8.5,
+}
+student = Student(**new_student)
+print(student)
+
+student_dict = dict(student)
+print(student_dict["age"])</code></pre>
+            <p><code>Field</code> can set default values, constraints like <code>gt</code> and <code>lt</code>, descriptions, and regex style rules.</p>
+            <p>Pydantic is also smart about casting. If you pass the string <code>"32"</code> for an int field, it often converts it for you.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-253" data-section="253" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">253</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Structured Output with Pydantic</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pass a Pydantic model into <code>with_structured_output</code>. You get a validated object back, not only a dict.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from typing import Optional, Literal, List
+from pydantic import BaseModel, Field
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+class Review(BaseModel):
+    key_themes: List[str] = Field(description="Write all the key themes")
+    summary: str = Field(description="A brief summary of the review")
+    sentiment: Literal["pos", "neg"] = Field(
+        description="Sentiment as pos or neg",
+    )
+    name: Optional[str] = Field(
+        default=None,
+        description="Reviewer name if present",
+    )
+    pros: Optional[List[str]] = Field(
+        default=None,
+        description="Pros as a list if present",
+    )
+
+structured_model = model.with_structured_output(Review)
+result = structured_model.invoke(
+    "This is a very good mobile. I give it 5 stars."
+)
+print(result.name)
+print(result.summary)</code></pre>
+            <p>Defaults help when the LLM misses a field. Validation catches bad shapes early.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-254" data-section="254" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">254</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Schema Path</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Use a <strong>JSON Schema</strong> when many languages must agree on one shape. Example: a React front end and a Python back end sharing the same contract. JSON is the common format.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+review_schema = {
+    "title": "Review",
+    "description": "Schema for a product review",
+    "type": "object",
+    "properties": {
+        "summary": {"type": "string"},
+        "sentiment": {"type": "string"},
+        "name": {"type": "string"},
+    },
+}
+
+structured_model = model.with_structured_output(review_schema)
+result = structured_model.invoke(
+    "This is a very good mobile. I give it 5 stars."
+)
+print(result)</code></pre>
+            <p>JSON Schema does not give you Pydantic style automatic conversion and rich Python validation by itself.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-255" data-section="255" data-chapter="day-25">
+        <span class="lesson-card__marker" aria-hidden="true">255</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="check-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Which Format and Which Method</h2>
+          </header>
+          <div class="lesson-card__body">
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Format</th>
+                    <th scope="col">Use when</th>
+                    <th scope="col">Watch out</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Format"><strong>TypedDict</strong></td>
+                    <td data-label="Use when">You only need type hints and you trust the LLM</td>
+                    <td data-label="Watch out">No real validation. Used less often in production</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Format"><strong>Pydantic</strong></td>
+                    <td data-label="Use when">You need validation, defaults, and type conversion</td>
+                    <td data-label="Watch out">This is what you use most of the time</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Format"><strong>JSON Schema</strong></td>
+                    <td data-label="Use when">Many languages share one schema</td>
+                    <td data-label="Watch out">No automatic conversion like Pydantic</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Inside <code>with_structured_output</code>, providers may use methods such as:</p>
+            <ol>
+              <li><strong>JSON mode:</strong> ask the model to return JSON shaped data.</li>
+              <li><strong>Function calling:</strong> treat the schema like a tool call the model must fill.</li>
+            </ol>
+            <aside class="summary-callout">
+              <h3>Day 25 takeaways</h3>
+              <ul>
+                <li>Natural language is great, but APIs and databases need structured fields.</li>
+                <li>Use <code>with_structured_output</code> when the model supports it. Use parsers when it does not.</li>
+                <li>TypedDict hints shape. Pydantic validates. JSON Schema shares contracts across languages.</li>
+                <li>Annotated, Optional, and Literal guide richer review style schemas.</li>
+                <li>Prefer Pydantic for most LangChain structured output work.</li>
+              </ul>
+              <p>Next step: extract a real review into a Pydantic model, then try the same schema as TypedDict and compare.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 24 of 100 published · Last updated July 2026</p>
+      <p>New lessons added daily · Day 25 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 
