@@ -1,0 +1,79 @@
+---
+description: Verify lesson notes and add visual explanations (grids, flows, diagrams, code panels) whenever they help learning
+alwaysApply: true
+---
+
+# Visual Teaching and Lesson Verification
+
+Applies whenever you add or edit lesson content in `index.html` or notes in `days/`.
+Layout, TTS scope, copy, and CSS mirroring rules live in `100-days-ml-project.mdc`. Follow both.
+
+## 1. Verify before you publish
+
+The user gives raw notes. Never paste them in as is. Every time, check:
+
+- Facts and terms. Fix real errors. If a claim is doubtful, say so in chat instead of publishing it.
+- Missing steps a beginner needs to follow the idea.
+- Grammar, clarity, and simple English.
+- Order. Reorder into a teaching sequence when the notes jump around.
+
+Preserve the user's meaning and cover all their points. Never invent facts, numbers, or topics they did not provide.
+
+## 2. Decide on a visual every time (do not wait to be asked)
+
+The user will not write "add a grid". You decide. For each lesson ask: is the hard part a
+sequence, a set, a difference, a hierarchy, a connection, a code behavior, or a number?
+If yes, add the matching block. If the lesson is one simple idea, prose alone is correct.
+
+| Shape of the idea | Use | Existing pattern |
+|---|---|---|
+| Steps in order, a pipeline | Step flow | `.workflow` + `.workflow__steps` + `.workflow__step` with Lucide icon, label, desc |
+| Several related items at a glance | Card grid | `.concept-grid` + `.concept-card` |
+| A vs B differences | Comparison table | `.comparison-table-wrap` + `.comparison-table` |
+| Code with a result | Input and output panels | `.code-io` with `.code-io__label--input` / `--output`, optional `.code-io__note` |
+| Data shape, memory, broadcasting | Cell or matrix diagram | `.broadcast-diagram`, `.broadcast-matrix` |
+| Things connected: chains, RAG, agents, API calls, request flow | Node and arrow diagram | inline `<svg>` or a `.workflow` chain inside `.lesson-figure` |
+| Real measured numbers | Bar or line chart | inline `<svg>` or CSS bars, hand written, no JS chart library |
+
+Copy the class names above rather than inventing new ones. Add new CSS only when no existing
+block fits, and put it in `styles.css` first, then mirror into `<style id="site-styles-embed">`.
+
+## 3. Code heavy lessons need more than a code block
+
+Days 20 to 25 currently have 25 code blocks and no `.code-io` panels or flow diagrams. Do not repeat that.
+When a lesson shows code:
+
+- Put copy paste code in `pre` or `.code-io`, never in spoken prose.
+- Show the output, not only the input, when the output teaches something.
+- Name the lines that matter and say what each one does in plain words.
+- When pieces pass data to each other (prompt to model to parser, retriever to LLM, request to response),
+  draw the connection. A chain is easier to see than to read.
+
+## 4. Never do these
+
+- No visual just for decoration, and no repeating the same diagram in nearby lessons.
+- No invented chart values. Charts only from numbers in the user's notes or from code you actually ran.
+- No diagram that simplifies until it is wrong.
+- No emoji. Icons are Lucide via `data-lucide`.
+- No JavaScript chart or diagram library. Static HTML, CSS, and inline SVG only.
+
+## 5. Keep visuals safe on the site
+
+- Wrap rows so nothing slides under the right sidebar at 1280px and 1440px. Use `min-width: 0` and `max-width: 100%`.
+- Visual blocks must stay readable on mobile.
+- Diagrams and tables are not read aloud. `shouldSkipTtsElement` in `script.js` already skips
+  `.workflow`, `.code-io`, `.comparison-table`, `.lesson-figure`, `.broadcast-*`, `svg`, and `pre`.
+  Add class `tts-skip` to any new visual block, and register the class in `script.js` if it should always be silent.
+- Give each visual a short spoken lead in sentence in prose, so listeners are not left with silence.
+
+## 6. Checklist before you finish a lesson
+
+- [ ] All of the user's points are covered, with no filler added.
+- [ ] Facts checked, unclear notes fixed, meaning preserved.
+- [ ] Simple English. No hyphen or dash in user facing copy.
+- [ ] Visual decision made on purpose: added a useful block, or prose was genuinely enough.
+- [ ] Code has input, output, and a plain words walk through where needed.
+- [ ] No invented facts, numbers, or chart data.
+- [ ] Sentences and list items end with punctuation so TTS pauses.
+- [ ] Visual blocks wrap on mobile and clear the desktop sidebar.
+- [ ] Lesson numbering continues from the previous day, and the sidebar TOC is updated.

@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="100 Days of Machine Learning — a community course on the full ML life cycle: preprocessing, analysis, model selection, feature selection, and the bias-variance trade-off.">
+  <meta name="description" content="100 Days of Machine Learning: ML foundations and data skills first, then Gen AI apps with LangChain. A free community course, day by day.">
   <meta name="theme-color" content="#eef6fc">
   <meta name="color-scheme" content="light">
-  <title>100 Days of Machine Learning — ML Life Cycle Course</title>
+  <title>100 Days of Machine Learning | ML foundations then Gen AI</title>
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-                                                <style id="site-styles-embed">
+                                                  <style id="site-styles-embed">
 /* ML Learning Journey — original design system (v2) */
 
 :root {
@@ -52,6 +52,7 @@
   --chapter-day-23: #0d9488;
   --chapter-day-24: #0284c7;
   --chapter-day-25: #d97706;
+  --chapter-day-26: #7c3aed;
   --chapter-numpy: #ea580c;
   --chapter-pandas: #16a34a;
 
@@ -431,6 +432,10 @@ a:hover {
   border-left: 3px solid var(--chapter-day-25);
 }
 
+.toc-chapter[data-chapter="day-26"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-26);
+}
+
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-numpy);
@@ -546,6 +551,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-25"] .toc-chapter__pill {
   background: var(--chapter-day-25);
+}
+
+.toc-chapter[data-chapter="day-26"] .toc-chapter__pill {
+  background: var(--chapter-day-26);
 }
 
 
@@ -713,6 +722,10 @@ a:hover {
 
 .toc-chapter[data-chapter="day-25"] .toc-link.is-active {
   border-color: var(--chapter-day-25);
+}
+
+.toc-chapter[data-chapter="day-26"] .toc-link.is-active {
+  border-color: var(--chapter-day-26);
 }
 
 
@@ -1665,6 +1678,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
   border-left: 5px solid var(--chapter-day-25);
 }
 
+.chapter-divider[data-chapter="day-26"] {
+  border-left: 5px solid var(--chapter-day-26);
+}
+
 
 .chapter-divider[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -1782,6 +1799,10 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 
 .chapter-divider[data-chapter="day-25"] .chapter-divider__pill {
   background: var(--chapter-day-25);
+}
+
+.chapter-divider[data-chapter="day-26"] .chapter-divider__pill {
+  background: var(--chapter-day-26);
 }
 
 
@@ -2146,6 +2167,10 @@ pre.code-output code {
   border-left: 5px solid var(--chapter-day-25);
 }
 
+.lesson-card[data-chapter="day-26"] {
+  border-left: 5px solid var(--chapter-day-26);
+}
+
 
 .lesson-card[data-chapter="numpy"] {
   border-left: 5px solid var(--chapter-numpy);
@@ -2272,6 +2297,10 @@ pre.code-output code {
 
 .lesson-card[data-chapter="day-25"] .lesson-card__marker {
   background: var(--chapter-day-25);
+}
+
+.lesson-card[data-chapter="day-26"] .lesson-card__marker {
+  background: var(--chapter-day-26);
 }
 
 
@@ -2450,6 +2479,11 @@ pre.code-output code {
 .lesson-card[data-chapter="day-25"] .lesson-card__icon {
   color: var(--chapter-day-25);
   background: rgba(217, 119, 6, 0.12);
+}
+
+.lesson-card[data-chapter="day-26"] .lesson-card__icon {
+  color: var(--chapter-day-26);
+  background: rgba(124, 58, 237, 0.12);
 }
 
 
@@ -3886,6 +3920,24 @@ pre.code-output code {
           <li><a class="toc-link" href="#section-255" data-section="255">Which Format and Which Method</a></li>
         </ul>
       </div>
+      <div class="toc-chapter" data-chapter="day-26">
+        <button type="button" class="toc-chapter__toggle" aria-expanded="false" aria-controls="toc-panel-day-26">
+          <span class="toc-chapter__pill">Day 26</span>
+          <span class="toc-chapter__name">Output Parsers in LangChain</span>
+          <i data-lucide="chevron-down" class="toc-chapter__chevron" aria-hidden="true"></i>
+        </button>
+        <ul class="toc-chapter__links" id="toc-panel-day-26" hidden>
+          <li><a class="toc-link" href="#section-256" data-section="256">Why Output Parsers Matter</a></li>
+          <li><a class="toc-link" href="#section-257" data-section="257">String Output Parser</a></li>
+          <li><a class="toc-link" href="#section-258" data-section="258">JSON Output Parser</a></li>
+          <li><a class="toc-link" href="#section-259" data-section="259">Structured Output Parser</a></li>
+          <li><a class="toc-link" href="#section-260" data-section="260">Pydantic Output Parser</a></li>
+          <li><a class="toc-link" href="#section-261" data-section="261">Output Parsers Work for Any LLM</a></li>
+          <li><a class="toc-link" href="#section-262" data-section="262">Limitations to Know</a></li>
+          <li><a class="toc-link" href="#section-263" data-section="263">Quick Decision Guide</a></li>
+          <li><a class="toc-link" href="#section-264" data-section="264">Day 26 takeaways</a></li>
+        </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -3898,15 +3950,15 @@ pre.code-output code {
       <div class="hero__copy">
         <span class="hero__badge">For the community · New topic every day</span>
         <h1 class="hero__title" id="hero-title"><em>100 Days</em> of Machine Learning</h1>
-        <p class="hero__subtitle">A complete path through the <strong>Machine Learning Life Cycle</strong> — from raw data to deployed insight. Built for beginners and intermediate learners who want proficiency, not just algorithms in isolation.</p>
+        <p class="hero__subtitle"><strong>ML foundations, then Gen AI apps.</strong> Start with the life cycle, data skills, and problem framing. From Day 20, build with LangChain and keep going one day at a time. For beginners and intermediate learners who want real proficiency.</p>
         <a class="hero__cta" href="#about-series">Why this series <i data-lucide="arrow-down" aria-hidden="true"></i></a>
         <a class="hero__cta hero__cta--secondary" href="#chapter-day-1">Start Day 1</a>
         <div class="hero__stats">
-          <span class="hero__stat">100-day series</span>
-          <span class="hero__stat">Full ML life cycle</span>
-          <span class="hero__stat">Beginner → proficient</span>
-          <span class="hero__stat">255 lessons live</span>
-          <span class="hero__stat">Day 25 published</span>
+          <span class="hero__stat">100 day series</span>
+          <span class="hero__stat">ML then Gen AI</span>
+          <span class="hero__stat">Beginner to proficient</span>
+          <span class="hero__stat">264 lessons live</span>
+          <span class="hero__stat">Day 26 published</span>
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
@@ -4026,45 +4078,45 @@ pre.code-output code {
         <div class="course-mission__details" id="mission-details">
         <header class="course-mission__header">
           <span class="course-mission__eyebrow">Why this website exists</span>
-          <h2 class="course-mission__title" id="mission-title">Teaching the full ML life cycle — together</h2>
+          <h2 class="course-mission__title" id="mission-title">ML foundations, then Gen AI apps</h2>
         </header>
 
         <div class="course-mission__body">
-          <p>This course is an introduction to a new series titled <strong>“100 Days of Machine Learning.”</strong> Each day, a new topic is added for 100 days, building a complete learning path for the community.</p>
-          <p>The goal is an <strong>end-to-end understanding of the Machine Learning Life Cycle</strong> (also called the Product Life Cycle). Unlike algorithm-specific tutorials, this series follows the entire process from start to finish — how real ML work actually happens.</p>
-          <p>It is designed for <strong>beginners and intermediate learners</strong> who want to reach a proficient level: confident with data, models, and decisions — not just memorizing model names.</p>
+          <p>This is <strong>100 Days of Machine Learning</strong> for the community. Each day adds one topic for 100 days.</p>
+          <p><strong>Days 1 to 19</strong> teach ML judgment: the life cycle, data roles, framing problems, and working with real data. <strong>From Day 20</strong> the series continues into generative AI and LangChain, the same way many teams ship products today.</p>
+          <p>It is for <strong>beginners and intermediate learners</strong> who want proficiency with data, decisions, and LLM apps, not a long list of algorithm names. New market skills keep arriving one day at a time.</p>
         </div>
 
         <div class="course-mission__grid" aria-label="Topics covered in this series">
           <article class="mission-topic">
-            <i data-lucide="filter" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Data preprocessing</h3>
-            <p class="mission-topic__desc">Clean, transform, and prepare data before modeling.</p>
+            <i data-lucide="route" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">ML life cycle</h3>
+            <p class="mission-topic__desc">Frame the problem, gather data, and think end to end.</p>
           </article>
           <article class="mission-topic">
-            <i data-lucide="wand-2" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Imputation</h3>
-            <p class="mission-topic__desc">Handle missing values thoughtfully.</p>
+            <i data-lucide="database" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Data skills</h3>
+            <p class="mission-topic__desc">CSV, JSON, APIs, web data, NumPy, and Pandas.</p>
           </article>
           <article class="mission-topic">
-            <i data-lucide="search" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Data analysis</h3>
-            <p class="mission-topic__desc">Explore patterns before you train.</p>
+            <i data-lucide="target" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Problem framing</h3>
+            <p class="mission-topic__desc">Turn a business goal into a clear learning task.</p>
           </article>
           <article class="mission-topic">
-            <i data-lucide="git-branch" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Model selection</h3>
-            <p class="mission-topic__desc">Choose the right approach for the problem.</p>
+            <i data-lucide="sparkles" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Gen AI map</h3>
+            <p class="mission-topic__desc">Foundation models, and user vs builder paths.</p>
           </article>
           <article class="mission-topic">
-            <i data-lucide="sliders-horizontal" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Feature selection</h3>
-            <p class="mission-topic__desc">Focus on inputs that actually matter.</p>
+            <i data-lucide="link" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">LangChain apps</h3>
+            <p class="mission-topic__desc">Models, prompts, and structured output live now.</p>
           </article>
           <article class="mission-topic">
-            <i data-lucide="scale" class="mission-topic__icon" aria-hidden="true"></i>
-            <h3 class="mission-topic__name">Bias–variance trade-off</h3>
-            <p class="mission-topic__desc">Balance fit and generalization.</p>
+            <i data-lucide="calendar-plus" class="mission-topic__icon" aria-hidden="true"></i>
+            <h3 class="mission-topic__name">Next days</h3>
+            <p class="mission-topic__desc">More shipping skills arrive day by day as we publish.</p>
           </article>
         </div>
 
@@ -4072,12 +4124,12 @@ pre.code-output code {
           <i data-lucide="info" class="course-mission__note-icon" aria-hidden="true"></i>
           <div>
             <h3 class="course-mission__note-title">What this series is not</h3>
-            <p>Specific machine learning algorithms are <strong>not covered in depth here</strong> — on purpose. Excellent resources already exist for individual algorithms. This site fills the gap: the <strong>full life cycle</strong> and how all the pieces connect.</p>
+            <p>This is <strong>not</strong> a deep catalog of every classic ML algorithm. Excellent resources already cover that. Here you learn how the pieces connect: ML foundations first, then Gen AI apps you can ship.</p>
           </div>
         </aside>
 
         <p class="course-mission__cta-line">
-          <a class="course-mission__start" href="#chapter-day-1">Begin with Day 1 — Introduction to ML <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          <a class="course-mission__start" href="#chapter-day-1">Begin with Day 1: Introduction to ML <i data-lucide="arrow-right" aria-hidden="true"></i></a>
         </p>
         </div>
       </div>
@@ -9374,7 +9426,7 @@ final.shape</code></pre>
       <div class="chapter-divider reveal" id="chapter-day-19" data-chapter="day-19">
         <span class="chapter-divider__pill">Day 19</span>
         <h2 class="chapter-divider__title">Understanding Your Data</h2>
-        <p class="chapter-divider__note">Ask the right questions before you build any model.</p>
+        <p class="chapter-divider__note">Last chapter of Phase 1. Ask the right questions before you build. Gen AI starts on Day 20.</p>
       </div>
 
       <article class="lesson-card reveal" id="section-171" data-section="171" data-chapter="day-19">
@@ -9540,9 +9592,9 @@ df = pd.read_csv("train.csv")</code></pre>
 
       <!-- DAY 20 -->
       <div class="chapter-divider reveal" id="chapter-day-20" data-chapter="day-20">
-        <span class="chapter-divider__pill">Day 20</span>
+        <span class="chapter-divider__pill">Day 20 · Phase 2</span>
         <h2 class="chapter-divider__title">Gen AI for Beginners</h2>
-        <p class="chapter-divider__note">Learn what generative AI is, why it matters, and how to map builder vs user skills.</p>
+        <p class="chapter-divider__note">Phase 2 starts here. ML foundations are in place. Now learn generative AI on the user path, then LangChain.</p>
       </div>
 
       <article class="lesson-card reveal" id="section-179" data-section="179" data-chapter="day-20">
@@ -9595,6 +9647,11 @@ df = pd.read_csv("train.csv")</code></pre>
               <li>DL has many techniques. Gen AI is the popular focus now.</li>
             </ul>
             <p>So Gen AI sits on top of deep learning ideas, not outside AI.</p>
+            <aside class="summary-callout">
+              <h3>This series follows the user path</h3>
+              <p>Days 1 to 19 gave you ML judgment and data skills. From here we build apps with existing models, not train foundation models from scratch.</p>
+              <p>Skim the map early: <a href="#section-192">User Learning Path</a> and <a href="#section-193">Do You Need Both</a>. Then keep reading Day 20 in order.</p>
+            </aside>
           </div>
         </div>
       </article>
@@ -11490,11 +11547,333 @@ print(result)</code></pre>
         </div>
       </article>
 
+      <!-- DAY 26 -->
+      <div class="chapter-divider reveal" id="chapter-day-26" data-chapter="day-26">
+        <span class="chapter-divider__pill">Day 26</span>
+        <h2 class="chapter-divider__title">Output Parsers in LangChain</h2>
+        <p class="chapter-divider__note">Convert raw LLM text into usable fields with string, JSON, structured, and Pydantic parsers.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-256" data-section="256" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">256</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Output Parsers Matter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLMs are great at natural language. But apps need consistent data for APIs, databases, and tools.</p>
+            <p>Output parsers convert raw model responses into a format you can reliably use.</p>
+            <p>In this day, we compare four common parser types and when to use each one.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-257" data-section="257" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">257</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">String Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>String output parsing is the simplest case.</p>
+            <p>You force the chain to return plain text instead of a model object with extra metadata.</p>
+            <pre><code>from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+template1 = PromptTemplate(
+    template="Write a detailed report on {topic}.",
+    input_variables=["topic"],
+)
+
+template2 = PromptTemplate(
+    template="Write a four-line summary of the following text:\n{text}",
+    input_variables=["text"],
+)
+
+parser = StrOutputParser()
+
+chain = (
+    template1
+    | model
+    | parser
+    | {"text": lambda text: text}
+    | template2
+    | model
+    | parser
+)
+
+result = chain.invoke({"topic": "Nepal"})
+print(result)</code></pre>
+            <p>Here the parser makes the chain output a real string.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-258" data-section="258" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">258</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>JSON output parsing makes the model return JSON shaped data.</p>
+            <p>This is useful for connecting to code that expects key value fields.</p>
+            <p>The important limit is that JSON output parsing does not fully validate your full schema like Pydantic does.</p>
+            <pre><code>from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+parser = JsonOutputParser()
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character.\n"
+        "{format_instructions}"
+    ),
+    input_variables=[],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+chain = template | model | parser
+result = chain.invoke({})
+
+print(result)
+print(result["name"])
+print(result["age"])
+print(result["city"])</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-259" data-section="259" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">259</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Structured Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A structured output parser helps you shape a response into fields.</p>
+            <p>It can enforce the structure of the output format, but it does not do full data validation.</p>
+            <pre><code>from langchain_classic.output_parsers import ResponseSchema, StructuredOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+schemas = [
+    ResponseSchema(
+        name="name",
+        description="The name of the fictional character",
+    ),
+    ResponseSchema(
+        name="age",
+        description="The age of the fictional character",
+    ),
+    ResponseSchema(
+        name="city",
+        description="The city of the fictional character",
+    ),
+]
+
+parser = StructuredOutputParser.from_response_schemas(schemas)
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character.\n"
+        "{format_instructions}"
+    ),
+    input_variables=[],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+chain = template | model | parser
+result = chain.invoke({"topic": "Nepal"})
+print(result)</code></pre>
+            <p>Use this when you want structure, but you do not need strict type validation.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-260" data-section="260" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">260</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pydantic Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pydantic output parsing gives you the strongest guarantees.</p>
+            <p>You define a Pydantic model, and the parser validates types and shapes.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+class Person(BaseModel):
+    name: str = Field(description="The name of the fictional character")
+    age: int = Field(
+        gt=18,
+        description="The age of the fictional character",
+    )
+    city: str = Field(description="The city of the fictional character")
+
+parser = PydanticOutputParser(pydantic_object=Person)
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character "
+        "from {place}.\n{format_instructions}"
+    ),
+    input_variables=["place"],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+prompt = template.invoke({"place": "Nepal"})
+result = model.invoke(prompt)
+final_result = parser.parse(result.content)
+
+print(final_result)
+print(final_result.name)</code></pre>
+            <p>When types are wrong, Pydantic can raise an error so your app stays safe.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-261" data-section="261" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">261</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Output Parsers Work for Any LLM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some models can generate structured output directly. Some cannot.</p>
+            <p>Output parsers still help in both cases by converting the raw response into your desired format.</p>
+            <p>So you can keep your app logic consistent, even when you swap providers.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-262" data-section="262" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">262</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Limitations to Know</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each parser gives a different level of safety:</p>
+            <ul>
+              <li>String output parsing returns text, so it is simple but not typed.</li>
+              <li>JSON output parsing helps, but it does not fully validate your schema like Pydantic.</li>
+              <li>Structured output parsing shapes fields, but does not guarantee strict type validation.</li>
+              <li>Pydantic output parsing validates types and shapes at run time.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-263" data-section="263" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">263</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Quick Decision Guide</h2>
+          </header>
+          <div class="lesson-card__body">
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Parser</th>
+                    <th scope="col">Structured format</th>
+                    <th scope="col">Type validation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Parser"><strong>String</strong></td>
+                    <td data-label="Structured format">Plain text</td>
+                    <td data-label="Type validation">No</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>JSON</strong></td>
+                    <td data-label="Structured format">Keys and values</td>
+                    <td data-label="Type validation">Limited</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>Structured output</strong></td>
+                    <td data-label="Structured format">Fields from schema descriptions</td>
+                    <td data-label="Type validation">No full validation</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>Pydantic</strong></td>
+                    <td data-label="Structured format">Typed model</td>
+                    <td data-label="Type validation">Yes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>If you need safe tool calls, choose Pydantic. If you only need simple text or JSON shaped fields, choose String or JSON.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-264" data-section="264" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">264</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 26 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 26 takeaways</h3>
+              <ul>
+                <li>Output parsers convert raw LLM text into usable app data.</li>
+                <li>String output parser gives plain text.</li>
+                <li>JSON output parser returns JSON shaped fields.</li>
+                <li>Structured output parser shapes fields but does not guarantee strict type validation.</li>
+                <li>Pydantic output parser validates types and shapes safely.</li>
+              </ul>
+              <p>Next step: pick one parser and wire it into a small API style function that reads the parsed fields.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
     </main>
 
     <footer class="site-footer" role="contentinfo">
-      <p><strong>100 Days of Machine Learning</strong> — community ML life cycle course</p>
-      <p>New lessons added daily · Day 25 of 100 published · Last updated July 2026</p>
+      <p><strong>100 Days of Machine Learning</strong> · ML foundations then Gen AI apps</p>
+      <p>New lessons added daily · Day 26 of 100 published · Last updated July 2026</p>
     </footer>
   </div>
 

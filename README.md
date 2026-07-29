@@ -3,7 +3,7 @@
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-ready-0d9488?style=flat-square)](https://pages.github.com/)
 [![HTML5](https://img.shields.io/badge/HTML5-static-7c3aed?style=flat-square)](index.html)
 
-> A free, community-focused course on the **full Machine Learning life cycle** — one new lesson every day for 100 days.
+> A free community course: **ML foundations, then Gen AI apps**. One new topic every day for 100 days.
 
 **Live site:** [https://bishalranjitkar.tech/100-days-machine-learning/](https://bishalranjitkar.tech/100-days-machine-learning/)
 
@@ -13,22 +13,22 @@
 
 This repository powers the public course site for **“100 Days of Machine Learning.”**
 
-The goal is **not** another algorithm catalog. Plenty of resources already explain individual models in depth. This series teaches the **end-to-end ML life cycle** (also called the product life cycle): how real projects move from problem to deployed insight.
+The goal is **not** another algorithm catalog. **Days 1 to 19** teach the ML life cycle, data skills, and problem framing. **From Day 20** the series continues into generative AI and LangChain, so you can ship apps with existing models.
 
-**Who it’s for:** beginners and intermediate learners who want to become **proficient** — comfortable with data, modeling decisions, and trade-offs.
+**Who it’s for:** beginners and intermediate learners who want to become **proficient** with data, decisions, and LLM apps.
 
-**What you’ll learn over 100 days:**
+**What you’ll learn (live path):**
 
 | Topic | Focus |
 |--------|--------|
-| Data preprocessing | Clean and prepare data before modeling |
-| Imputation | Handle missing values thoughtfully |
-| Data analysis | Explore patterns before you train |
-| Model selection | Pick the right approach for the problem |
-| Feature selection | Use inputs that actually matter |
-| Bias–variance trade-off | Balance fit and generalization |
+| ML life cycle | Frame problems and think end to end |
+| Data skills | CSV, JSON, APIs, web data, NumPy, Pandas |
+| Problem framing | Turn a business goal into a clear task |
+| Gen AI map | Foundation models, user vs builder |
+| LangChain apps | Models, prompts, structured output |
+| Next days | More shipping skills, published day by day |
 
-**What we skip (on purpose):** deep dives on specific algorithms — those belong in dedicated resources. Here, the emphasis is how everything **connects**.
+**What we skip (on purpose):** deep dives on every classic algorithm. Those belong in dedicated resources. Here the emphasis is how the pieces **connect**.
 
 ---
 
@@ -37,7 +37,7 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | Status | Detail |
 |--------|--------|
 | Series length | 100 days |
-| Published | **Day 15** (120 lessons, incl. bonus NumPy) |
+| Published | **Day 25** (255 lessons, incl. bonus NumPy and Pandas) |
 | Format | Static site + notes in `days/` |
 
 | Day | Topic | Lessons |
@@ -54,12 +54,23 @@ The goal is **not** another algorithm catalog. Plenty of resources already expla
 | 10 | Data Roles | 64–69 |
 | 11 | Tensors | 70–76 |
 | 12 | Anaconda Setup | 77–80 |
-| — | **Bonus: Learning NumPy** (before Day 13, not Day 14) | 81–95 |
-| 13 | End to End Project | 96–102 |
-| 14 | Framing ML Problems | 103–111 |
-| 15 | Working with CSV | 112–120 |
+| — | **Bonus: Learning NumPy** (before Day 13) | 81–95 |
+| — | **Bonus: Learning Pandas** (after NumPy, before Day 13) | 96–131 |
+| 13 | End to End Project | 132–138 |
+| 14 | Framing ML Problems | 139–147 |
+| 15 | Working with CSV | 148–156 |
+| 16 | Working with JSON and SQL | 157–160 |
+| 17 | Fetching Data from an API | 161–163 |
+| 18 | Fetching Data from the Web | 164–170 |
+| 19 | Understanding Your Data | 171–178 |
+| 20 | Gen AI for Beginners (Phase 2 starts) | 179–193 |
+| 21 | Gen AI with LangChain | 194–205 |
+| 22 | LangChain Components | 206–214 |
+| 23 | LangChain Models | 215–230 |
+| 24 | Prompts in LangChain | 231–241 |
+| 25 | Structured Output | 242–255 |
 
-Bonus chapters in `days/numpy` extend topics without advancing the 100 day count. New numbered days land in `days/day14`, …
+Bonus chapters in `days/numpy` and `days/pandas` extend topics without advancing the 100 day count. New numbered days land in `days/dayN`.
 
 ---
 
