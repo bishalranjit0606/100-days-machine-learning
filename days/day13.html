@@ -1,0 +1,237 @@
+      <div class="chapter-divider reveal" id="chapter-day-13" data-chapter="day-13">
+        <span class="chapter-divider__pill">Day 13</span>
+        <h2 class="chapter-divider__title">End to End Project</h2>
+        <p class="chapter-divider__note">Uses NumPy and Pandas from the chapters above.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-132" data-section="132" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">132</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="graduation-cap" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Placement Project</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Open <strong>Google Colab</strong>. Today we build a small <strong>end to end</strong> project: predict student <strong>placement</strong> from <strong>cgpa</strong> and <strong>iq</strong>.</p>
+            <p>If you skipped the NumPy or Pandas chapters above, go back and read them first. You need <code>import numpy as np</code> and <code>import pandas as pd</code> for this project.</p>
+            <p>Always start with these imports:</p>
+            <pre><code>import numpy as np
+import pandas as pd</code></pre>
+            <p>Load the dataset from the web:</p>
+            <pre><code>url = "https://raw.githubusercontent.com/campusx-official/placement-project-logistic-regression/main/placement.csv"
+df = pd.read_csv(url)
+df.head()</code></pre>
+            <p>Or after uploading the file to Colab:</p>
+            <pre><code>df = pd.read_csv("/content/placement.csv")
+df.head()</code></pre>
+            <p>This project walks through the MDLC steps we learned: preprocess, train, evaluate, and save.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-133" data-section="133" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">133</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Explore the Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <pre><code>df.shape    # (100, 4) → 100 rows, 4 columns
+df.info()</code></pre>
+            <p><code>df.info()</code> shows column names, data types, and missing values.</p>
+            <p>You will see: <strong>cgpa</strong>, <strong>iq</strong>, <strong>placement</strong>, plus an extra index column called <code>Unnamed: 0</code>.</p>
+            <p>Drop the useless index column:</p>
+            <pre><code>df = df.iloc[:, 1:]
+df.head()</code></pre>
+            <p>Now we have 3 useful columns: cgpa, iq, placement.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-134" data-section="134" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">134</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scatter-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Step 0: EDA</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Step 0</strong> is preprocess + EDA + feature selection.</p>
+            <p>Plot cgpa vs iq, colored by placement:</p>
+            <pre><code>import matplotlib.pyplot as plt
+
+plt.scatter(df["cgpa"], df["iq"], c=df["placement"])
+plt.xlabel("cgpa")
+plt.ylabel("iq")
+plt.show()</code></pre>
+            <p>This helps you see if placed and not placed students form different groups.</p>
+            <p>We keep <strong>cgpa</strong> and <strong>iq</strong> as input features. <strong>placement</strong> is the target we want to predict.</p>
+
+            <figure class="numpy-plot tts-skip" aria-label="Sample scatter of cgpa versus iq by placement">
+              <p class="numpy-plot__title">Sample scatter: cgpa vs iq by placement.</p>
+              <svg class="numpy-plot__svg" viewBox="0 0 400 240" role="img" aria-hidden="true">
+                <line x1="40" y1="200" x2="360" y2="200" stroke="#c8dce8" stroke-width="1"/>
+                <line x1="40" y1="30" x2="40" y2="200" stroke="#c8dce8" stroke-width="1"/>
+                <text class="numpy-plot__axis-label" x="340" y="216">cgpa</text>
+                <text class="numpy-plot__axis-label" x="8" y="40">iq</text>
+                <text class="numpy-plot__axis-label" x="40" y="216">5</text>
+                <text class="numpy-plot__axis-label" x="190" y="216">7</text>
+                <text class="numpy-plot__axis-label" x="340" y="216">9</text>
+                <!-- not placed (teal) -->
+                <circle cx="70" cy="160" r="5" fill="#0d9488"/><circle cx="90" cy="145" r="5" fill="#0d9488"/>
+                <circle cx="110" cy="170" r="5" fill="#0d9488"/><circle cx="120" cy="130" r="5" fill="#0d9488"/>
+                <circle cx="140" cy="155" r="5" fill="#0d9488"/><circle cx="100" cy="180" r="5" fill="#0d9488"/>
+                <circle cx="150" cy="140" r="5" fill="#0d9488"/><circle cx="80" cy="120" r="5" fill="#0d9488"/>
+                <circle cx="160" cy="165" r="5" fill="#0d9488"/><circle cx="130" cy="185" r="5" fill="#0d9488"/>
+                <!-- placed (violet) -->
+                <circle cx="230" cy="90" r="5" fill="#7c3aed"/><circle cx="250" cy="70" r="5" fill="#7c3aed"/>
+                <circle cx="270" cy="100" r="5" fill="#7c3aed"/><circle cx="290" cy="60" r="5" fill="#7c3aed"/>
+                <circle cx="310" cy="85" r="5" fill="#7c3aed"/><circle cx="240" cy="50" r="5" fill="#7c3aed"/>
+                <circle cx="280" cy="45" r="5" fill="#7c3aed"/><circle cx="320" cy="75" r="5" fill="#7c3aed"/>
+                <circle cx="260" cy="110" r="5" fill="#7c3aed"/><circle cx="300" cy="95" r="5" fill="#7c3aed"/>
+                <rect x="60" y="20" width="10" height="10" fill="#0d9488" rx="2"/>
+                <text class="numpy-plot__axis-label" x="74" y="29">not placed</text>
+                <rect x="160" y="20" width="10" height="10" fill="#7c3aed" rx="2"/>
+                <text class="numpy-plot__axis-label" x="174" y="29">placed</text>
+              </svg>
+              <p class="numpy-plot__caption">Sample points. Higher cgpa and higher iq tend to sit in the placed group. Your live Colab plot will use the real CSV.</p>
+            </figure>
+
+            <div class="workflow reveal" aria-label="Project steps">
+              <p class="workflow__title">Six steps in this project.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="eraser" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 0</span>
+                  <span class="workflow__step-desc">Preprocess + EDA.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="columns-3" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 1</span>
+                  <span class="workflow__step-desc">Extract X and y.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sliders-horizontal" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 2</span>
+                  <span class="workflow__step-desc">Scale values.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="split" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 3</span>
+                  <span class="workflow__step-desc">Train test split.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 4</span>
+                  <span class="workflow__step-desc">Train model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="check-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 5</span>
+                  <span class="workflow__step-desc">Evaluate.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-135" data-section="135" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">135</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sliders-horizontal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Input, Output, and Scaling</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Step 1:</strong> split input and output.</p>
+            <pre><code>X = df.iloc[:, 0:2]   # cgpa, iq
+y = df.iloc[:, -1]    # placement</code></pre>
+            <p><strong>X</strong> is input. <strong>y</strong> is output.</p>
+            <p><strong>Step 2:</strong> scale the values.</p>
+            <p>cgpa and iq sit on very different ranges. One column might be 4 to 10, another 40 to 200. That can confuse the model.</p>
+            <p>We scale so values sit in a similar range (often around <strong>-1 to 1</strong>). We do this after the train test split on the next step.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-136" data-section="136" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">136</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Train Test Split</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Step 3:</strong> train test split. Also called part of <strong>cross validation</strong>.</p>
+            <p>We cannot test on the same data we trained on. That would be cheating.</p>
+            <p>So we hide some rows for testing. Example: <strong>90 students for training</strong>, <strong>10 for testing</strong>.</p>
+            <pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)</code></pre>
+            <p>We train on 90 rows. We check the model on the 10 hidden rows to see if it really works.</p>
+            <p>Then scale (Step 2 in code, right after split):</p>
+            <pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)</code></pre>
+            <p>Fit the scaler on training data only. Then apply the same scale to test data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-137" data-section="137" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">137</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cpu" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Train and Evaluate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Step 4:</strong> train the model.</p>
+            <pre><code>from sklearn.linear_model import LogisticRegression
+
+clf = LogisticRegression()
+clf.fit(X_train, y_train)</code></pre>
+            <p>We use <strong>Logistic Regression</strong> because placement is yes/no (classification).</p>
+            <p><strong>Step 5:</strong> evaluate the model.</p>
+            <pre><code>y_pred = clf.predict(X_test)
+
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test, y_pred)   # e.g. 0.9 means 90% correct</code></pre>
+            <p>Sometimes we train <strong>multiple algorithms</strong> and pick the best one. That is model selection.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-138" data-section="138" data-chapter="day-13">
+        <span class="lesson-card__marker" aria-hidden="true">138</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Save the Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Step 6:</strong> save the trained model so you can use it later without retraining.</p>
+            <pre><code>import pickle
+
+pickle.dump(clf, open("model.pkl", "wb"))</code></pre>
+            <p>This writes the model to a file. Later you can load it and make predictions on new students.</p>
+            <p>That is the start of <strong>deployment</strong>: train once, save, reuse.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 13 takeaways</h3>
+              <ul>
+                <li>End to end means load data, clean, explore, split, train, evaluate, and save.</li>
+                <li>Always split train and test. Never test on training data.</li>
+                <li>Scale features when ranges differ. Logistic Regression gave 90% accuracy on our test set.</li>
+              </ul>
+              <p>This one project covers many MDLC steps in a single notebook.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 14 -->

@@ -1,0 +1,82 @@
+      <div class="chapter-divider reveal" id="chapter-day-17" data-chapter="day-17">
+        <span class="chapter-divider__pill">Day 17</span>
+        <h2 class="chapter-divider__title">Fetching Data from an API</h2>
+        <p class="chapter-divider__note">Use requests to collect JSON, then build a pandas DataFrame.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-161" data-section="161" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">161</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>API</strong> means application programming interface.</p>
+            <p>Simple meaning: an API helps two software systems talk to each other.</p>
+            <p>In many projects, an API becomes your data pipeline. Your app asks for data, and the API sends it back.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-162" data-section="162" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">162</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="film" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">TMDB API to DataFrame</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We can practice with a movie API like TMDB. You can create an API key at <code>developers.themoviedb.org</code>.</p>
+            <p>Make a request and read the JSON response:</p>
+            <pre><code>import pandas as pd
+import requests
+
+response = requests.get("YOUR_API_URL_HERE")
+data = response.json()
+results = data["results"]</code></pre>
+            <p>Create a DataFrame and pick only the columns you care about:</p>
+            <pre><code>df = pd.DataFrame(results)
+df.head(2)[["id", "popularity", "vote_count", "vote_average"]]</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-163" data-section="163" data-chapter="day-17">
+        <span class="lesson-card__marker" aria-hidden="true">163</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Collect Many Pages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>APIs often return one page at a time. You then loop through pages and combine the results.</p>
+            <p>A clean pattern is to collect small DataFrames in a list, then merge them once:</p>
+            <pre><code>import pandas as pd
+import requests
+
+all_pages = []
+
+for page in range(1, 429):
+    response = requests.get("YOUR_API_URL_HERE", params={"page": page})
+    results = response.json()["results"]
+    all_pages.append(pd.DataFrame(results))
+
+df = pd.concat(all_pages, ignore_index=True)
+df.head()</code></pre>
+
+            <aside class="summary-callout">
+              <h3>Day 17 takeaways</h3>
+              <ul>
+                <li>An API helps software systems exchange data.</li>
+                <li>Many APIs return JSON. You can load it with <code>response.json()</code>.</li>
+                <li>Convert <code>results</code> into a DataFrame and select columns for analysis.</li>
+                <li>For many pages, loop and combine with <code>pd.concat</code>.</li>
+              </ul>
+              <p>Next we cover web scraping when there is no clean API.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 18 -->

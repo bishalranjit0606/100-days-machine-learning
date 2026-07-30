@@ -1,0 +1,168 @@
+      <div class="chapter-divider reveal" id="chapter-day-6" data-chapter="day-6">
+        <span class="chapter-divider__pill">Day 6</span>
+        <h2 class="chapter-divider__title">Instance Based vs Model Based</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-32" data-section="32" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">32</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Instance Based vs Model Based Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Another way to group ML: <strong>instance based</strong> vs <strong>model based</strong> learning.</p>
+            <p>As you learn more algorithms later, you should be able to tell which family each one belongs to.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-33" data-section="33" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">33</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Memorize vs Generalize</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The simplest way to learn is to <strong>remember everything</strong>, like pure memorization.</p>
+            <p>A better way is to <strong>generalize</strong>: learn the concept behind the examples.</p>
+            <p><strong>Example from school:</strong> in chemistry we often memorize facts. In physics we learn concepts and apply them to new problems.</p>
+            <p>Machine learning follows the same idea. Instance based methods lean toward remembering similar past cases. Model based methods lean toward learning a rule or formula.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-34" data-section="34" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">34</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="map-pin" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Instance Based Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Sample data:</p>
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th scope="col">IQ</th>
+                  <th scope="col">CGPA</th>
+                  <th scope="col">Placement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>80.</td>
+                  <td>8.</td>
+                  <td>Yes.</td>
+                </tr>
+                <tr>
+                  <td>70.</td>
+                  <td>7.</td>
+                  <td>No.</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>New student: IQ <strong>7.5</strong>, CGPA <strong>10.3</strong>. Will they get placement?</p>
+            <p>We have not built a traditional model. We look for <strong>similarity</strong>. Similarity is measured by <strong>distance</strong> between points.</p>
+            <p>We do not train a model in the usual sense. We <strong>react to the data</strong> when a new point arrives.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-35" data-section="35" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">35</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">KNN Example</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pick the <strong>nearest points</strong>, for example the 3 closest students in the table.</p>
+            <p>If most of those neighbors say <strong>yes</strong> for placement, we predict <strong>yes</strong> for the new student.</p>
+            <p>This method is <strong>KNN</strong> (K Nearest Neighbors). It is a classic <strong>instance based</strong> algorithm.</p>
+            <p>There are <strong>fewer</strong> instance based algorithms than model based ones.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-36" data-section="36" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">36</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="axis-3d" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Based Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>With the <strong>same placement data</strong>, a model based approach tries to understand how the data behaves overall.</p>
+            <p>Think of a graph with two regions. Points in one region mean <strong>fail</strong>, points in the other mean <strong>pass</strong>. The model learns a <strong>boundary</strong> between them.</p>
+            <p>It finds a math link between input and output. That link is the <strong>decision function</strong>. It can classify any new point that arrives.</p>
+            <p>Even if we delete the old training rows, we can still keep the decision function and score new points.</p>
+            <p><strong>Examples:</strong> linear regression, decision tree, and many other model based algorithms.</p>
+            <p>A model is often just a <strong>set of parameters</strong>. In linear regression, parameters include <strong>slope</strong> and <strong>intercept</strong>. The model is stored in a compact form with rules inside it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-37" data-section="37" data-chapter="day-6">
+        <span class="lesson-card__marker" aria-hidden="true">37</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Comparing Both Approaches</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Both styles still need <strong>prepared data</strong> before you use them well.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Instance based</th>
+                    <th scope="col">Model based</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Topic"><strong>Training</strong></td>
+                    <td data-label="Instance based">No classic training step</td>
+                    <td data-label="Model based">Build parameters from data</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Before scoring</strong></td>
+                    <td data-label="Instance based">No model generated ahead of time</td>
+                    <td data-label="Model based">Model ready with rules inside</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Data at scoring time</strong></td>
+                    <td data-label="Instance based">Needs training data nearby</td>
+                    <td data-label="Model based">Old data not required once trained</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Storage</strong></td>
+                    <td data-label="Instance based">Heavy (keep many examples)</td>
+                    <td data-label="Model based">Light (store equation or rules)</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Topic"><strong>Nickname</strong></td>
+                    <td data-label="Instance based">Lazy learners</td>
+                    <td data-label="Model based">Eager learners (train first)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <aside class="summary-callout">
+              <h3>Day 6 takeaways</h3>
+              <ul>
+                <li>Instance based: compare new points to similar past examples (KNN).</li>
+                <li>Model based: learn a decision function you can reuse without all raw data.</li>
+                <li>Know which type an algorithm is before you pick it for a project.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 7 -->

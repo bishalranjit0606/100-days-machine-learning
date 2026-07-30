@@ -1,0 +1,241 @@
+      <div class="chapter-divider reveal" id="chapter-day-18" data-chapter="day-18">
+        <span class="chapter-divider__pill">Day 18</span>
+        <h2 class="chapter-divider__title">Fetching Data from the Web</h2>
+        <p class="chapter-divider__note">Scrape HTML pages with requests and BeautifulSoup, then build a pandas DataFrame.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-164" data-section="164" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">164</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Web Scraping</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Web scraping</strong> means reading a web page and pulling out the data you need.</p>
+            <p>Use it when there is no API, or when the data only lives on a public HTML page.</p>
+            <p>Today we scrape a company list page and store the results in pandas. Start with these imports:</p>
+            <pre><code>import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+import numpy as np</code></pre>
+            <p><code>requests</code> downloads the page. <code>BeautifulSoup</code> helps you search the HTML. <code>pandas</code> stores the clean table. <code>numpy</code> helps fill missing values later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-165" data-section="165" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">165</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Headers for 403 Errors</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some sites block plain requests and return status code <strong>403</strong>.</p>
+            <p>Send a browser style header so the request looks normal:</p>
+            <pre><code>headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Safari/537.36"
+}
+
+webpage = requests.get("url", headers=headers).text</code></pre>
+            <p>If the page loads without a 403, you can skip the headers. Keep this pattern ready when a site blocks you.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-166" data-section="166" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">166</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-code" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fetch and Parse HTML</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Download page 1 of the company list:</p>
+            <pre><code>webpage = requests.get("https://www.ambitionbox.com/list-of-companies?page=1").text</code></pre>
+            <p>Parse the HTML with BeautifulSoup:</p>
+            <pre><code>soup = BeautifulSoup(webpage, "lxml")</code></pre>
+            <p>You can print a clean view with <code>soup.prettify()</code> while you explore tags.</p>
+            <p>Find the main heading:</p>
+            <pre><code>soup.find_all("h1")[0].text</code></pre>
+            <p>Example output: <code>List of companies in India</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-167" data-section="167" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">167</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Find Company Names</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Company names sit inside <code>h2</code> tags. Loop through them and strip extra spaces:</p>
+            <pre><code>for i in soup.find_all("h2"):
+    print(i.text.strip())</code></pre>
+            <p>You should see names like TCS, Accenture, ICICI Bank, Cognizant, and more.</p>
+            <p>Printing every <code>p</code> tag is less useful. Those tags mix ratings, locations, ages, and long descriptions. Next we target the fields we care about.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-168" data-section="168" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">168</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="star" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Ratings and Reviews</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Ratings use a class named <code>rating</code>:</p>
+            <pre><code>len(soup.find_all("p", class_="rating"))</code></pre>
+            <p>Review counts use a class named <code>review-count</code>:</p>
+            <pre><code>len(soup.find_all("a", class_="review-count"))</code></pre>
+            <p>Both return <code>30</code> on this page. That matches one page of companies.</p>
+            <p>Each company card lives in a wrapper div:</p>
+            <pre><code>company = soup.find_all("div", class_="company-content-wrapper")
+len(company)</code></pre>
+            <p>Again you get <code>30</code>. Work card by card so name, rating, and reviews stay aligned.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-169" data-section="169" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">169</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="table" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Page to DataFrame</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Build empty lists, fill them from each company card, then make a DataFrame:</p>
+            <pre><code>name = []
+rating = []
+reviews = []
+ctype = []
+hq = []
+how_old = []
+no_of_employee = []
+
+for i in company:
+    name.append(i.find("h2").text.strip())
+    rating.append(i.find("p", class_="rating").text.strip())
+    reviews.append(i.find("a", class_="review-count").text.strip())
+    ctype.append(i.find_all("p", class_="infoEntity")[0].text.strip())
+    hq.append(i.find_all("p", class_="infoEntity")[1].text.strip())
+    how_old.append(i.find_all("p", class_="infoEntity")[2].text.strip())
+    no_of_employee.append(i.find_all("p", class_="infoEntity")[3].text.strip())
+
+df = pd.DataFrame({
+    "name": name,
+    "rating": rating,
+    "reviews": reviews,
+    "company_type": ctype,
+    "Head_Quarters": hq,
+    "Company_Age": how_old,
+    "No_of_Employee": no_of_employee,
+})
+
+df.shape</code></pre>
+            <p>Shape is <code>(30, 7)</code>: 30 companies and 7 columns.</p>
+            <p>The <code>infoEntity</code> tags hold company type, headquarters, age, and employee count in order.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-170" data-section="170" data-chapter="day-18">
+        <span class="lesson-card__marker" aria-hidden="true">170</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Scrape Many Pages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Loop through pages, scrape each page, and combine the tables. Use <code>try</code> and <code>except</code> so one missing field does not stop the whole run:</p>
+            <pre><code>final_pages = []
+
+for j in range(1, 1001):
+    webpage = requests.get(
+        "https://www.ambitionbox.com/list-of-companies?page={}".format(j)
+    ).text
+    soup = BeautifulSoup(webpage, "lxml")
+    company = soup.find_all("div", class_="company-content-wrapper")
+
+    name = []
+    rating = []
+    reviews = []
+    ctype = []
+    hq = []
+    how_old = []
+    no_of_employee = []
+
+    for i in company:
+        try:
+            name.append(i.find("h2").text.strip())
+        except Exception:
+            name.append(np.nan)
+
+        try:
+            rating.append(i.find("p", class_="rating").text.strip())
+        except Exception:
+            rating.append(np.nan)
+
+        try:
+            reviews.append(i.find("a", class_="review-count").text.strip())
+        except Exception:
+            reviews.append(np.nan)
+
+        try:
+            ctype.append(i.find_all("p", class_="infoEntity")[0].text.strip())
+        except Exception:
+            ctype.append(np.nan)
+
+        try:
+            hq.append(i.find_all("p", class_="infoEntity")[1].text.strip())
+        except Exception:
+            hq.append(np.nan)
+
+        try:
+            how_old.append(i.find_all("p", class_="infoEntity")[2].text.strip())
+        except Exception:
+            how_old.append(np.nan)
+
+        try:
+            no_of_employee.append(i.find_all("p", class_="infoEntity")[3].text.strip())
+        except Exception:
+            no_of_employee.append(np.nan)
+
+    df = pd.DataFrame({
+        "name": name,
+        "rating": rating,
+        "reviews": reviews,
+        "company_type": ctype,
+        "Head_Quarters": hq,
+        "Company_Age": how_old,
+        "No_of_Employee": no_of_employee,
+    })
+    final_pages.append(df)
+
+final = pd.concat(final_pages, ignore_index=True)
+final.shape</code></pre>
+            <p>One page has 30 rows. Across 1000 pages you can reach about <code>(30000, 7)</code>.</p>
+            <p>Use <code>pd.concat</code> to stack page tables. Older notebooks used <code>DataFrame.append</code>, but that method is gone in current pandas.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 18 takeaways</h3>
+              <ul>
+                <li>Web scraping pulls data from HTML when no API is available.</li>
+                <li>Use <code>requests</code> to download a page and <code>BeautifulSoup</code> to search tags.</li>
+                <li>Send a User Agent header if the site returns 403.</li>
+                <li>Scrape one card at a time so fields stay aligned in your lists.</li>
+                <li>Loop pages, handle missing fields with <code>try</code> and <code>except</code>, then combine with <code>pd.concat</code>.</li>
+              </ul>
+              <p>Respect site rules and rate limits. Scrape only public pages you are allowed to use.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 19 -->

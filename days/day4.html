@@ -1,0 +1,116 @@
+      <div class="chapter-divider reveal" id="chapter-day-4" data-chapter="day-4">
+        <span class="chapter-divider__pill">Day 4</span>
+        <h2 class="chapter-divider__title">Batch Machine Learning</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-19" data-section="19" data-chapter="day-4">
+        <span class="lesson-card__marker" aria-hidden="true">19</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Batch vs Online ML in Production</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is another way to group machine learning: <strong>how the model is trained in production</strong>.</p>
+            <p>We care about this because most real projects end on a <strong>server</strong>. The training style affects cost, speed, and how fresh the model stays.</p>
+            <p>Two main styles: <strong>batch learning</strong> (also called offline learning) and <strong>online learning</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-20" data-section="20" data-chapter="day-4">
+        <span class="lesson-card__marker" aria-hidden="true">20</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="archive" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Batch Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Batch learning</strong> is also known as <strong>offline ML</strong>.</p>
+            <p>You use <strong>all available data</strong> to train the model in one go. There is <strong>no incremental training</strong> during normal operation.</p>
+            <p>Data is often huge. Training with all data directly on the live server is expensive. That is why teams usually train on a separate offline machine, then move the finished model to the server.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-21" data-section="21" data-chapter="day-4">
+        <span class="lesson-card__marker" aria-hidden="true">21</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hard-drive" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Train Offline, Deploy to the Server</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The usual batch flow:</p>
+            <div class="workflow reveal" aria-label="Batch ML workflow">
+              <p class="workflow__title">Batch workflow.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data</span>
+                  <span class="workflow__step-desc">Collect full dataset.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Model</span>
+                  <span class="workflow__step-desc">Train offline.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="check-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Test</span>
+                  <span class="workflow__step-desc">Check quality.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="upload-cloud" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Server</span>
+                  <span class="workflow__step-desc">Deploy model.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Training stays off the production server. Only the trained model runs live.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-22" data-section="22" data-chapter="day-4">
+        <span class="lesson-card__marker" aria-hidden="true">22</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Static Models and Retraining</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Problem with batch models:</strong> knowledge stays <strong>static</strong>. What the model learned at training time does not change until you retrain.</p>
+            <p><strong>Example:</strong> Netflix keeps adding movies. An old model that never updates will get worse at recommendations.</p>
+            <p>Fix: retrain on a schedule. Use <strong>new data plus the previous model</strong>, train again, and deploy the updated model. Teams often retrain <strong>daily or weekly</strong>.</p>
+            <p>Batch learning in practice: train on a large offline dataset, deploy to the server, and <strong>repeat on a cycle</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-23" data-section="23" data-chapter="day-4">
+        <span class="lesson-card__marker" aria-hidden="true">23</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Disadvantages of Batch Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <ul>
+              <li><strong>Scale limits:</strong> very large data may not fit your tools or hardware. Training can fail.</li>
+              <li><strong>Connectivity:</strong> without a good link, moving data or a new model to the server is hard.</li>
+              <li><strong>Freshness:</strong> on social feeds, batch updates can feel slow. New posts might show up only after the next batch run (for example once every 24 hours).</li>
+            </ul>
+            <aside class="summary-callout">
+              <h3>Day 4 takeaways</h3>
+              <ul>
+                <li>Batch = train on all data offline, then deploy.</li>
+                <li>Models go stale; retrain on a schedule.</li>
+                <li>Watch data size, hardware, and how fresh users need results.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 5 -->

@@ -1,0 +1,137 @@
+      <div class="chapter-divider reveal" id="chapter-day-1" data-chapter="day-1">
+        <span class="chapter-divider__pill">Day 1</span>
+        <h2 class="chapter-divider__title">Introduction to ML</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-1" data-section="1" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">1</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What is Machine Learning?</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Machine learning</strong> means learning from data. In traditional programming, we write code for every possible outcome — the program produces the output directly.</p>
+            <p>In machine learning, we do not write every rule. The relationship looks like this:</p>
+            <ul>
+              <li><strong>Traditional programming:</strong> data + program = output.</li>
+              <li><strong>Machine learning:</strong> data + output = pattern.</li>
+            </ul>
+            <p>Or simply: <code>ML = data + algorithm → pattern</code>.</p>
+
+            <div class="workflow reveal" aria-label="ML workflow">
+              <p class="workflow__title">Typical ML workflow.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Question</span>
+                  <span class="workflow__step-desc">Define the problem.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data</span>
+                  <span class="workflow__step-desc">Collect examples.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Train</span>
+                  <span class="workflow__step-desc">Fit a model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="line-chart" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Evaluate</span>
+                  <span class="workflow__step-desc">Check performance.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Iterate</span>
+                  <span class="workflow__step-desc">Improve and repeat.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-2" data-section="2" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">2</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traditional Programming vs Machine Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In traditional programming, you explicitly encode logic. The computer follows your instructions step by step.</p>
+            <p>In ML, you provide examples and let the system discover the rules. The algorithm generalizes from what it has seen to handle new cases it was never explicitly programmed for.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-3" data-section="3" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">3</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Learning Patterns from Examples</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Traditional programming example:</strong></p>
+            <ul>
+              <li><code>2 + 2</code> gives <code>4</code>.</li>
+              <li><code>2 + 3</code> gives <code>5</code>.</li>
+            </ul>
+            <p>You hard-code each case. In machine learning, you give thousands of addition examples. The model recognizes the pattern of addition — so even with 3- or 4-digit numbers it can answer correctly without you writing rules for every length.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-4" data-section="4" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">4</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mail-warning" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Rules Break: Spam Detection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In traditional programming you might write:</p>
+            <p><em>If an email has words like "big" or "discount", classify it as spam.</em></p>
+            <p>Companies can change wording — "big" to "huge", "discount" to "offer" — and brittle rules fail. ML recognizes underlying patterns in language instead of matching fixed keywords.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-5" data-section="5" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">5</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trending-up" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Scale and Learning Over Time</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>ML learns from data over time. The bigger and more representative the dataset, the better the model can generalize — as long as the data quality stays high.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-6" data-section="6" data-chapter="day-1">
+        <span class="lesson-card__marker" aria-hidden="true">6</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pickaxe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Mining and Applications</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Data mining</strong> extracts useful information from large datasets. Machine learning supplies the patterns; data mining turns those patterns into actionable insight for business, science, and product decisions.</p>
+            <aside class="summary-callout">
+              <h3>Day 1 takeaways</h3>
+              <ul>
+                <li>ML learns patterns from data instead of hand-written rules.</li>
+                <li>Traditional code maps inputs to outputs; ML maps data + labels to a reusable model.</li>
+                <li>More quality data usually means better generalization.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 2 -->

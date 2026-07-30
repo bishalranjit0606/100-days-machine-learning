@@ -1,0 +1,179 @@
+      <div class="chapter-divider reveal" id="chapter-day-5" data-chapter="day-5">
+        <span class="chapter-divider__pill">Day 5</span>
+        <h2 class="chapter-divider__title">Online Machine Learning</h2>
+      </div>
+
+      <article class="lesson-card reveal" id="section-24" data-section="24" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">24</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="radio" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Online Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If you have heard that <strong>the more you use a product, the better it gets</strong>, that is often online ML.</p>
+            <p><strong>Online learning</strong> trains <strong>incrementally</strong>. You feed the model <strong>small batches</strong> over time. Each batch can make the model a bit smarter.</p>
+            <p>Because updates are small, training can happen <strong>on the server</strong> while the product is live. Online learning is popular today.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-25" data-section="25" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">25</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="activity" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Incremental Training on the Server</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Online flow in simple steps:</p>
+            <p><code>small data → ML → test → server</code>.</p>
+            <p>The server keeps receiving <strong>new data</strong>. The model learns from each new small batch on the server itself.</p>
+            <p>This is different from batch learning, where training usually happens offline in one big run.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-26" data-section="26" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">26</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mic" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Real World Examples</h2>
+          </header>
+          <div class="lesson-card__body">
+            <ul>
+              <li><strong>Voice assistants</strong> (Alexa, Google): learn from chat and usage on the server.</li>
+              <li><strong>Keyboards:</strong> the more you type, the more personalized suggestions become.</li>
+              <li><strong>YouTube:</strong> real time style recommendations as you watch and click.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-27" data-section="27" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">27</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">When to Use Batch vs Online</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The key idea is <strong>concept drift</strong>: when the world or user behavior changes fast, the old model stops fitting.</p>
+            <p>Use <strong>online learning</strong> when patterns shift quickly (stocks, sales, ecommerce, fast moving feeds).</p>
+            <p>Online learning can also help with <strong>speed</strong> and sometimes <strong>cost</strong> for continuous small updates.</p>
+            <p>Use <strong>batch learning</strong> when patterns are mostly stable and you are fine retraining on a schedule.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Situation</th>
+                    <th scope="col">Simple meaning</th>
+                    <th scope="col">Use when</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Situation"><strong>Concept drift</strong></td>
+                    <td data-label="Simple meaning">Data patterns change fast</td>
+                    <td data-label="Use when">Prefer online learning</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Situation"><strong>Stable patterns</strong></td>
+                    <td data-label="Simple meaning">World changes slowly</td>
+                    <td data-label="Use when">Batch learning can work</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Situation"><strong>Production ease</strong></td>
+                    <td data-label="Simple meaning">How hard to run live</td>
+                    <td data-label="Use when">Batch is easier; online is harder</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-28" data-section="28" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">28</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gauge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Learning Rate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Learning rate</strong> controls how strongly each new batch updates the model.</p>
+            <p>Too fast: the model may forget old good patterns. Too slow: it may not adapt to new trends.</p>
+            <p>Picking a good learning rate is one of the <strong>hardest parts</strong> of online learning.</p>
+            <p>Libraries: scikit learn (batch friendly by default), <strong>River</strong>, <strong>Vowpal Wabbit</strong> for online style workflows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-29" data-section="29" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">29</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Out of Core Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When data is <strong>too big to load at once</strong>, we use <strong>out of core learning</strong>.</p>
+            <p>Split huge data into <strong>small chunks</strong>, train step by step, test, and serve on the server.</p>
+            <p><code>big data → small chunks → model → test → server</code>.</p>
+            <p>Online style training fits this pattern well.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-30" data-section="30" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">30</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-alert" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Risks and Monitoring</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Online learning is powerful but <strong>risky</strong>.</p>
+            <ul>
+              <li>Tricky to set up and tune compared with batch.</li>
+              <li>If the server is hacked or flooded with <strong>spam data</strong>, attackers could poison what the model learns.</li>
+            </ul>
+            <p>You need a <strong>monitoring system</strong> to detect bad inputs. If attack or bad data appears, you must be able to <strong>roll back</strong> and pause online updates until it is safe.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-31" data-section="31" data-chapter="day-5">
+        <span class="lesson-card__marker" aria-hidden="true">31</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scale" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Online vs Offline and Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <ul>
+              <li><strong>Offline (batch):</strong> simpler to reason about; strong local machines for big training jobs.</li>
+              <li><strong>Online:</strong> more complex in production; needs strong server compute and good monitoring.</li>
+              <li><strong>Application rule:</strong> mostly stable data → batch can work. Fast changing context → online fits better.</li>
+            </ul>
+            <p><strong>Tools (examples from notes):</strong></p>
+            <ul>
+              <li>Batch: Spark, TensorFlow, PyTorch.</li>
+              <li>Online: Storm, MOA, scikit-multiflow.</li>
+            </ul>
+            <aside class="summary-callout">
+              <h3>Day 5 takeaways</h3>
+              <ul>
+                <li>Online = small incremental updates on the server.</li>
+                <li>Use online when concept drift is high; batch when patterns are stable.</li>
+                <li>Guard online systems with monitoring and rollback.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 6 -->

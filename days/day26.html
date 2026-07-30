@@ -1,0 +1,321 @@
+      <div class="chapter-divider reveal" id="chapter-day-26" data-chapter="day-26">
+        <span class="chapter-divider__pill">Day 26</span>
+        <h2 class="chapter-divider__title">Output Parsers in LangChain</h2>
+        <p class="chapter-divider__note">Convert raw LLM text into usable fields with string, JSON, structured, and Pydantic parsers.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-256" data-section="256" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">256</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Output Parsers Matter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLMs are great at natural language. But apps need consistent data for APIs, databases, and tools.</p>
+            <p>Output parsers convert raw model responses into a format you can reliably use.</p>
+            <p>In this day, we compare four common parser types and when to use each one.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-257" data-section="257" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">257</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">String Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>String output parsing is the simplest case.</p>
+            <p>You force the chain to return plain text instead of a model object with extra metadata.</p>
+            <pre><code>from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+template1 = PromptTemplate(
+    template="Write a detailed report on {topic}.",
+    input_variables=["topic"],
+)
+
+template2 = PromptTemplate(
+    template="Write a four-line summary of the following text:\n{text}",
+    input_variables=["text"],
+)
+
+parser = StrOutputParser()
+
+chain = (
+    template1
+    | model
+    | parser
+    | {"text": lambda text: text}
+    | template2
+    | model
+    | parser
+)
+
+result = chain.invoke({"topic": "Nepal"})
+print(result)</code></pre>
+            <p>Here the parser makes the chain output a real string.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-258" data-section="258" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">258</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>JSON output parsing makes the model return JSON shaped data.</p>
+            <p>This is useful for connecting to code that expects key value fields.</p>
+            <p>The important limit is that JSON output parsing does not fully validate your full schema like Pydantic does.</p>
+            <pre><code>from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+parser = JsonOutputParser()
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character.\n"
+        "{format_instructions}"
+    ),
+    input_variables=[],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+chain = template | model | parser
+result = chain.invoke({})
+
+print(result)
+print(result["name"])
+print(result["age"])
+print(result["city"])</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-259" data-section="259" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">259</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Structured Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A structured output parser helps you shape a response into fields.</p>
+            <p>It can enforce the structure of the output format, but it does not do full data validation.</p>
+            <pre><code>from langchain_classic.output_parsers import ResponseSchema, StructuredOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+schemas = [
+    ResponseSchema(
+        name="name",
+        description="The name of the fictional character",
+    ),
+    ResponseSchema(
+        name="age",
+        description="The age of the fictional character",
+    ),
+    ResponseSchema(
+        name="city",
+        description="The city of the fictional character",
+    ),
+]
+
+parser = StructuredOutputParser.from_response_schemas(schemas)
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character.\n"
+        "{format_instructions}"
+    ),
+    input_variables=[],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+chain = template | model | parser
+result = chain.invoke({"topic": "Nepal"})
+print(result)</code></pre>
+            <p>Use this when you want structure, but you do not need strict type validation.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-260" data-section="260" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">260</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pydantic Output Parser</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pydantic output parsing gives you the strongest guarantees.</p>
+            <p>You define a Pydantic model, and the parser validates types and shapes.</p>
+            <pre><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+
+load_dotenv()
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+
+class Person(BaseModel):
+    name: str = Field(description="The name of the fictional character")
+    age: int = Field(
+        gt=18,
+        description="The age of the fictional character",
+    )
+    city: str = Field(description="The city of the fictional character")
+
+parser = PydanticOutputParser(pydantic_object=Person)
+
+template = PromptTemplate(
+    template=(
+        "Give me the name, age, and city of a fictional character "
+        "from {place}.\n{format_instructions}"
+    ),
+    input_variables=["place"],
+    partial_variables={
+        "format_instructions": parser.get_format_instructions()
+    },
+)
+
+prompt = template.invoke({"place": "Nepal"})
+result = model.invoke(prompt)
+final_result = parser.parse(result.content)
+
+print(final_result)
+print(final_result.name)</code></pre>
+            <p>When types are wrong, Pydantic can raise an error so your app stays safe.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-261" data-section="261" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">261</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Output Parsers Work for Any LLM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some models can generate structured output directly. Some cannot.</p>
+            <p>Output parsers still help in both cases by converting the raw response into your desired format.</p>
+            <p>So you can keep your app logic consistent, even when you swap providers.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-262" data-section="262" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">262</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Limitations to Know</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each parser gives a different level of safety:</p>
+            <ul>
+              <li>String output parsing returns text, so it is simple but not typed.</li>
+              <li>JSON output parsing helps, but it does not fully validate your schema like Pydantic.</li>
+              <li>Structured output parsing shapes fields, but does not guarantee strict type validation.</li>
+              <li>Pydantic output parsing validates types and shapes at run time.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-263" data-section="263" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">263</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Quick Decision Guide</h2>
+          </header>
+          <div class="lesson-card__body">
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Parser</th>
+                    <th scope="col">Structured format</th>
+                    <th scope="col">Type validation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Parser"><strong>String</strong></td>
+                    <td data-label="Structured format">Plain text</td>
+                    <td data-label="Type validation">No</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>JSON</strong></td>
+                    <td data-label="Structured format">Keys and values</td>
+                    <td data-label="Type validation">Limited</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>Structured output</strong></td>
+                    <td data-label="Structured format">Fields from schema descriptions</td>
+                    <td data-label="Type validation">No full validation</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Parser"><strong>Pydantic</strong></td>
+                    <td data-label="Structured format">Typed model</td>
+                    <td data-label="Type validation">Yes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>If you need safe tool calls, choose Pydantic. If you only need simple text or JSON shaped fields, choose String or JSON.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-264" data-section="264" data-chapter="day-26">
+        <span class="lesson-card__marker" aria-hidden="true">264</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 26 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 26 takeaways</h3>
+              <ul>
+                <li>Output parsers convert raw LLM text into usable app data.</li>
+                <li>String output parser gives plain text.</li>
+                <li>JSON output parser returns JSON shaped fields.</li>
+                <li>Structured output parser shapes fields but does not guarantee strict type validation.</li>
+                <li>Pydantic output parser validates types and shapes safely.</li>
+              </ul>
+              <p>Next step: pick one parser and wire it into a small API style function that reads the parsed fields.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+

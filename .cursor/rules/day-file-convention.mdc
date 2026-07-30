@@ -1,0 +1,74 @@
+---
+description: Enforce the day file pattern for all new day content (Day 27 onward).
+globs: ["days/*.html", "index.html"]
+alwaysApply: true
+---
+
+# Day File Convention
+
+Every new day of content (Day 27, Day 28, ... Day 100) must follow this pattern exactly.
+
+## 1. Create the day file
+
+Write the day's content to its own file:
+
+```
+days/day27.html
+days/day28.html
+...
+```
+
+The file contains **only** the chapter-divider block and lesson-card blocks for that day. Nothing else.
+
+The file must start with the chapter-divider element and end just before the next chapter would begin. Example structure:
+
+```html
+      <div class="chapter-divider reveal" id="chapter-day-27" data-chapter="day-27">
+        <span class="chapter-divider__pill">Day 27</span>
+        <h2 class="chapter-divider__title">Your Day Title Here</h2>
+        <p class="chapter-divider__note">Short description of the day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-27">
+        ...
+      </article>
+```
+
+## 2. Add the placeholder in index.html
+
+Inside `<main>` in `index.html`, add exactly one line at the correct position (after the previous day's placeholder):
+
+```html
+      <div data-include='days/day27.html'></div>
+```
+
+**Never add new day content inline in index.html.** The sync XHR loader already handles loading all `[data-include]` divs automatically before the page boots.
+
+## 3. What still goes in index.html
+
+These items still belong in `index.html` directly (not in the day file):
+
+- The sidebar TOC entry for the new day (inside `.toc-chapter` list)
+- The hero stat update ("Day N of 100 published")
+- The footer stat update
+
+## 4. What still goes in styles.css
+
+CSS chapter color rules for the new day still go in `styles.css`:
+
+```css
+.chapter-divider[data-chapter="day-27"] { border-left-color: var(--chapter-day-27); }
+.lesson-card[data-chapter="day-27"] { border-top-color: var(--chapter-day-27); }
+```
+
+After any `styles.css` change, run `embed-css.sh` to sync the embedded `<style>` block in `index.html`.
+
+## 5. Checklist before finishing a new day
+
+- [ ] `days/dayN.html` created with chapter-divider and all lesson-card blocks
+- [ ] `<div data-include='days/dayN.html'></div>` added in the correct position inside `<main>` in `index.html`
+- [ ] Sidebar TOC entry added in `index.html`
+- [ ] Hero and footer day count updated in `index.html`
+- [ ] CSS color rules added in `styles.css`
+- [ ] `embed-css.sh` run after any `styles.css` change
+- [ ] No day content written inline inside `index.html`

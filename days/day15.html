@@ -1,0 +1,199 @@
+      <div class="chapter-divider reveal" id="chapter-day-15" data-chapter="day-15">
+        <span class="chapter-divider__pill">Day 15</span>
+        <h2 class="chapter-divider__title">Working with CSV Files</h2>
+        <p class="chapter-divider__note">MDLC step 2: data gathering. Today we focus on comma separated values with pandas.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-148" data-section="148" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">148</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-input" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Ways to Gather Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we start <strong>data gathering</strong>, step 2 in MDLC. We learn how to bring data into our project.</p>
+            <p>There are four common ways to get data:</p>
+            <ol>
+              <li><strong>CSV files:</strong> widely used in the early days of a project.</li>
+              <li><strong>JSON and SQL data:</strong> JSON is widely used in APIs and is a universal data format.</li>
+              <li><strong>Fetch from an API:</strong> pull data and shape it for your needs.</li>
+              <li><strong>Web scraping:</strong> run a parser on a website with Python code.</li>
+            </ol>
+            <p>Today we focus on <strong>CSV</strong>.</p>
+            <p><strong>CSV</strong> means comma separated values. Each value sits between commas.</p>
+            <p><strong>TSV</strong> means tab separated values. Same idea, but values are split by tabs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-149" data-section="149" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">149</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-spreadsheet" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_csv Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with the two imports you already know:</p>
+            <pre><code>import numpy as np
+import pandas as pd</code></pre>
+            <p>Load a CSV from a local file:</p>
+            <pre><code>df = pd.read_csv("file_name.csv")
+df</code></pre>
+            <p>You can also pass a <strong>URL</strong> instead of a file path. Pandas will download and read it.</p>
+            <pre><code>url = "https://example.com/data.csv"
+df = pd.read_csv(url)
+df.head()</code></pre>
+            <p><code>df</code> is a <strong>DataFrame</strong>: a table with rows and columns. We will now look at many <code>read_csv</code> parameters to control how the file is loaded.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-150" data-section="150" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">150</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">index_col and header</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>index_col:</strong> use a column as the row index instead of the auto generated 0, 1, 2… index:</p>
+            <pre><code>df = pd.read_csv("file_name.csv", index_col="col_name")</code></pre>
+            <p>This removes the extra index column pandas would create by default.</p>
+            <p><strong>header:</strong> pick which row becomes the column names:</p>
+            <pre><code>df = pd.read_csv("test.csv", header=1)</code></pre>
+            <p><code>header=0</code> is the default (first row). <code>header=1</code> means the <strong>second row</strong> becomes your header row.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-151" data-section="151" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">151</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">usecols and squeeze</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>usecols:</strong> load only the columns you need:</p>
+            <pre><code>df = pd.read_csv("test.csv", usecols=["enrolled_id", "gender"])</code></pre>
+            <p>This saves memory when the file has many columns but you only need a few.</p>
+            <p><strong>squeeze:</strong> when you load one column, turn the DataFrame into a <strong>Series</strong>:</p>
+            <pre><code>s = pd.read_csv("test.csv", usecols=["enrolled_id"], squeeze=True)</code></pre>
+            <p>A Series is a single column of data with an index. In newer pandas versions you can also call <code>.squeeze()</code> on a one column DataFrame.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-152" data-section="152" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">152</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">skiprows and nrows</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>skiprows:</strong> skip specific rows when reading:</p>
+            <pre><code>df = pd.read_csv("test.csv", skiprows=[0, 5])</code></pre>
+            <p>This skips row 0 and row 5. Useful when the file has junk rows at the top or broken rows in the middle.</p>
+            <p><strong>nrows:</strong> read only the first N rows:</p>
+            <pre><code>df = pd.read_csv("test.csv", nrows=100)</code></pre>
+            <p>Good for quick previews on very large files without loading everything.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-153" data-section="153" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">153</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">encoding and Bad Lines</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>encoding:</strong> some files use a different text encoding. Special characters may break unless you set it:</p>
+            <pre><code>df = pd.read_csv("test.csv", encoding="latin-1")</code></pre>
+            <p>Try <code>latin-1</code> or <code>cp1252</code> when you see strange symbols or read errors.</p>
+            <p><strong>Skip bad lines:</strong> sometimes a row is corrupt. Example: rows 5, 6, or 7 have wrong data.</p>
+            <pre><code>df = pd.read_csv("test.csv", on_bad_lines="skip")</code></pre>
+            <p>If a row expects 8 columns but has 9 values, pandas skips that row instead of crashing. Older pandas used <code>error_bad_lines=False</code>. Newer versions use <code>on_bad_lines="skip"</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-154" data-section="154" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">154</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calendar" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">dtype and parse_dates</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>dtype:</strong> set column types while loading. This helps save memory:</p>
+            <pre><code>df = pd.read_csv("test.csv", dtype={"target": int})</code></pre>
+            <p>Without this, pandas may load numbers as floats or objects. Telling it the type upfront keeps the DataFrame smaller.</p>
+            <p><strong>parse_dates:</strong> dates often arrive as plain strings. Convert them on load:</p>
+            <pre><code>df = pd.read_csv("test.csv", parse_dates=["date"])</code></pre>
+            <p>After this, the <code>date</code> column is a real datetime type. You can filter, sort, and plot dates properly.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-155" data-section="155" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">155</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wand-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">converters and na_values</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>converters:</strong> very powerful in pandas. Run your own function on each value in a column.</p>
+            <p>Example: instead of the full name <strong>Bishal Ranjitkar</strong>, store a short code <strong>br</strong>:</p>
+            <pre><code>def rename(name):
+    if name == "bishal ranjitkar":
+        return "br"
+    else:
+        return "norbr"
+
+df = pd.read_csv("test.csv", converters={"team1": rename})</code></pre>
+            <p><strong>na_values:</strong> tell pandas which values should count as missing (NaN):</p>
+            <pre><code>df = pd.read_csv("test.csv", na_values=["male"])</code></pre>
+            <p>You can pass strings like <code>"-"</code>, <code>"nan"</code>, or any custom token your file uses for empty data.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-156" data-section="156" data-chapter="day-15">
+        <span class="lesson-card__marker" aria-hidden="true">156</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Loading Data in Chunks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Sometimes the dataset is so large that loading it all at once fails or slows your machine.</p>
+            <p>Use <strong>chunksize</strong> to read the file in pieces:</p>
+            <pre><code>chunks = pd.read_csv("test.csv", chunksize=100)
+
+for chunk in chunks:
+    print(chunk.shape)
+    # process each chunk here</code></pre>
+            <p>Each chunk is a DataFrame with 100 rows. You can clean, filter, or aggregate chunk by chunk without holding the full file in memory.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 15 takeaways</h3>
+              <ul>
+                <li>Data gathering has four paths: CSV, JSON/SQL, API, and web scraping. CSV is the starting point.</li>
+                <li><code>pd.read_csv</code> works on local files and URLs.</li>
+                <li>Parameters like <code>index_col</code>, <code>header</code>, <code>usecols</code>, and <code>dtype</code> control how data loads.</li>
+                <li>Use <code>encoding</code>, <code>on_bad_lines</code>, <code>converters</code>, and <code>na_values</code> to handle messy real world files.</li>
+                <li>For huge files, use <code>chunksize</code> to process data in batches.</li>
+              </ul>
+              <p>Next we will cover JSON, SQL, APIs, and web scraping. Master CSV first because most projects still start here.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 16 -->

@@ -1,0 +1,254 @@
+      <div class="chapter-divider reveal" id="chapter-day-21" data-chapter="day-21">
+        <span class="chapter-divider__pill">Day 21</span>
+        <h2 class="chapter-divider__title">Generative AI using LangChain</h2>
+        <p class="chapter-divider__note">Build LLM apps with chains, RAG, and agents. Start on the user side path from Day 20.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-194" data-section="194" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">194</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is LangChain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>LangChain</strong> is an open source framework for building applications on top of large language models.</p>
+            <p>If your app needs an LLM at the center, LangChain gives you structure instead of wiring everything by hand.</p>
+            <p>It is free, open source, and supports major Gen AI use cases.</p>
+            <p>LangChain simplifies LLM app development with integrations and wrappers that connect to many services.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-195" data-section="195" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">195</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What You Can Build</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>With LangChain you can build complex AI products, for example:</p>
+            <ul>
+              <li>Chatbots.</li>
+              <li>Question and answer systems.</li>
+              <li>RAG apps that answer from your own documents.</li>
+              <li>AI agents that take actions for you.</li>
+            </ul>
+            <p>LangChain supports all major LLMs. That broad support is one of its most important features.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-196" data-section="196" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">196</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="map" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why LangChain First</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>From Day 20 you learned the <strong>user perspective</strong> path for Gen AI.</p>
+            <p>LangChain is a strong first framework on that path because one codebase can talk to many model providers.</p>
+            <p>You can work with:</p>
+            <ul>
+              <li>Open source models.</li>
+              <li>Closed source models.</li>
+              <li>LLM APIs.</li>
+              <li>Hugging Face.</li>
+              <li>Llama and more.</li>
+            </ul>
+            <p>Learn LangChain once. Swap models later without rewriting the whole app.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-197" data-section="197" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">197</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Parts of LangChain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Think of LangChain in three layers:</p>
+            <ol>
+              <li><strong>LangChain fundamentals.</strong> This is the most important part. Chains, prompts, models, and tools.</li>
+              <li><strong>RAG applications.</strong> Bring your own data into the LLM safely.</li>
+              <li><strong>AI agents.</strong> Let the LLM plan steps and use tools.</li>
+            </ol>
+            <p>Master fundamentals first. RAG and agents build on the same ideas.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-198" data-section="198" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">198</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Integrations and Wrappers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain gives you <strong>integrations</strong> for common services.</p>
+            <p>A <strong>wrapper</strong> is a small adapter that lets your app call a service with a consistent interface.</p>
+            <p>That means you can plug in vector databases, document loaders, LLM APIs, and tools without custom glue code for every provider.</p>
+            <p>This is why LangChain feels like a complete ecosystem, not just a single library call.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-199" data-section="199" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">199</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chains and Benefits</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain is built around <strong>chains</strong>: steps linked in a pipeline.</p>
+            <p>Main benefits:</p>
+            <ul>
+              <li><strong>Chains:</strong> clear pipeline from input to output.</li>
+              <li><strong>Modular:</strong> parts are easy to reuse, remove, or add.</li>
+              <li><strong>Ecosystem:</strong> loaders, retrievers, tools, and memory in one place.</li>
+              <li><strong>Memory:</strong> keep conversation context across turns in chat apps.</li>
+            </ul>
+            <p>When one step changes, you often swap one link, not the whole project.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-200" data-section="200" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">200</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="rocket" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Projects You Can Ship</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Practical things you can build with LangChain:</p>
+            <ul>
+              <li>A customer chatbot.</li>
+              <li>An AI knowledge assistant over company docs.</li>
+              <li>AI agents that book tickets or run workflows.</li>
+              <li>Workflow automation across tools.</li>
+              <li>A research helper that summarizes sources.</li>
+            </ul>
+            <p>Same framework. Different data and prompts. Different product.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-201" data-section="201" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">201</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="binary" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embeddings and Vectors</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Embedding</strong> means turning text into a vector: a list of numbers that capture meaning.</p>
+            <p>You embed the whole document (in chunks) and you also embed the user query.</p>
+            <p>Similar meaning tends to land close together in vector space. That is how semantic search works.</p>
+            <p>Embeddings are the bridge between plain language and a database that can search by meaning, not only exact keywords.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-202" data-section="202" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">202</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chunking Documents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Before embedding a PDF or long file, you usually <strong>chunk</strong> it into smaller pieces.</p>
+            <p>Chunking can be based on:</p>
+            <ul>
+              <li>Pages.</li>
+              <li>Paragraphs.</li>
+              <li>Chapters.</li>
+              <li>Custom rules for your data.</li>
+            </ul>
+            <p>Good chunk size matters. Too large and retrieval is vague. Too small and context is lost.</p>
+            <p>LangChain includes document loaders and text splitters to handle this step.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-203" data-section="203" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">203</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RAG Flow Step by Step</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>RAG</strong> means retrieval augmented generation. Here is the flow in plain steps.</p>
+            <p><strong>Offline (prepare data):</strong></p>
+            <ul>
+              <li>PDF or docs go in.</li>
+              <li>Text is chunked.</li>
+              <li>Chunks become embeddings.</li>
+              <li>Vectors are stored in a database.</li>
+            </ul>
+            <p><strong>Online (answer a question):</strong></p>
+            <ul>
+              <li>User query becomes an embedding.</li>
+              <li>Semantic search finds the best matching chunks.</li>
+              <li>System prompt combines retrieved pages plus the user question.</li>
+              <li>The LLM returns the final answer.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-204" data-section="204" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">204</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Swapping LLM Providers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Real projects change. You might start with one API and move to another, for example Gemini instead of ChatGPT.</p>
+            <p>LangChain helps you handle these moving parts.</p>
+            <p>The chain structure stays similar. You swap the model wrapper or integration.</p>
+            <p>That saves time when pricing, speed, or policy pushes you to a new provider.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-205" data-section="205" data-chapter="day-21">
+        <span class="lesson-card__marker" aria-hidden="true">205</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Alternatives and Takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain is popular, but not the only option.</p>
+            <ul>
+              <li><strong>LlamaIndex:</strong> strong focus on data indexing and RAG.</li>
+              <li><strong>Haystack:</strong> search and QA pipelines, often for production search.</li>
+            </ul>
+            <p>Many teams still start with LangChain for breadth, then specialize if needed.</p>
+            <aside class="summary-callout">
+              <h3>Day 21 takeaways</h3>
+              <ul>
+                <li>LangChain is an open source framework for LLM based apps.</li>
+                <li>Learn fundamentals, then RAG, then agents.</li>
+                <li>Embeddings plus chunking plus retrieval power document Q and A.</li>
+                <li>Chains, memory, and wrappers make apps modular.</li>
+                <li>You can swap LLM providers without rebuilding from scratch.</li>
+              </ul>
+              <p>Next practice: build a tiny chain, then add one document with RAG.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- DAY 22 -->

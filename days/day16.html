@@ -1,0 +1,97 @@
+      <div class="chapter-divider reveal" id="chapter-day-16" data-chapter="day-16">
+        <span class="chapter-divider__pill">Day 16</span>
+        <h2 class="chapter-divider__title">Working with JSON and SQL</h2>
+        <p class="chapter-divider__note">Load structured data into pandas from files, URLs, and databases.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-157" data-section="157" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">157</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>JSON</strong> is a universal data structure for sharing data.</p>
+            <p>You see it in APIs, configuration files, and many datasets on the web.</p>
+            <p>In pandas, the main entry point is <code>pd.read_json</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-158" data-section="158" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">158</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_json from File</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start by importing pandas:</p>
+            <pre><code>import pandas as pd</code></pre>
+            <p>Load JSON from a local file:</p>
+            <pre><code>df = pd.read_json("file_name.json")
+df.head()</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-159" data-section="159" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">159</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">read_json from URL</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can load JSON directly from a URL too:</p>
+            <pre><code>import pandas as pd
+
+url = "https://example.com/data.json"
+df = pd.read_json(url)
+df.head()</code></pre>
+            <p>This is common when a dataset is hosted on GitHub or a public endpoint.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-160" data-section="160" data-chapter="day-16">
+        <span class="lesson-card__marker" aria-hidden="true">160</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Read SQL into pandas</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>SQL</strong> is used to store and query data in databases.</p>
+            <p>One common setup is MySQL. In a notebook, you can install the connector like this:</p>
+            <pre><code>!pip install mysql-connector-python</code></pre>
+            <p>Create a connection:</p>
+            <pre><code>import mysql.connector
+import pandas as pd
+
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="world",
+)</code></pre>
+            <p>Then run a query and load the result into a DataFrame:</p>
+            <pre><code>df = pd.read_sql_query("SELECT * FROM city", conn)
+df.head()</code></pre>
+
+            <aside class="summary-callout">
+              <h3>Day 16 takeaways</h3>
+              <ul>
+                <li>JSON is a common format for sharing structured data.</li>
+                <li><code>pd.read_json</code> loads JSON from a file or a URL.</li>
+                <li>SQL lets you query a database, then bring results into pandas.</li>
+                <li><code>pd.read_sql_query</code> turns a SQL result into a DataFrame.</li>
+              </ul>
+              <p>Next we will fetch data from an API and store it in pandas.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 17 -->

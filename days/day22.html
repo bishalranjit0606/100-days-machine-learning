@@ -1,0 +1,210 @@
+      <div class="chapter-divider reveal" id="chapter-day-22" data-chapter="day-22">
+        <span class="chapter-divider__pill">Day 22</span>
+        <h2 class="chapter-divider__title">LangChain Components</h2>
+        <p class="chapter-divider__note">The six building blocks of LangChain: models, prompts, chains, memory, indexes, and agents.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-206" data-section="206" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">206</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangChain Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Quick recap from Day 21. <strong>LangChain</strong> is an open source framework for building LLM powered applications.</p>
+            <p>Its advantages:</p>
+            <ul>
+              <li>You can build pipelines.</li>
+              <li>The chain concept: one output becomes the next input.</li>
+              <li>It is very flexible.</li>
+            </ul>
+            <p>Common examples: chatbots and AI knowledge assistants.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-207" data-section="207" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">207</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Six Components</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain has six main components. Learn these and the whole framework makes sense.</p>
+            <ol>
+              <li><strong>Models.</strong> Talk to AI models.</li>
+              <li><strong>Prompts.</strong> The input you give the LLM.</li>
+              <li><strong>Chains.</strong> Pipelines of steps.</li>
+              <li><strong>Memory.</strong> Remember past conversation.</li>
+              <li><strong>Indexes.</strong> Connect your own knowledge.</li>
+              <li><strong>Agents.</strong> Let the LLM take actions.</li>
+            </ol>
+            <p>The rest of this day walks through each one.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-208" data-section="208" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">208</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="zap" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 1: Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The models component is how your app <strong>interacts with AI models</strong>.</p>
+            <p>Some history helps. Before LLMs, chatbot context awareness and text generation were weak. LLMs solved that.</p>
+            <p>But an LLM is trained on huge data, so it is very hard to manage yourself:</p>
+            <ul>
+              <li>It cannot easily run on a local machine.</li>
+              <li>Running it on your own server gives a very high bill.</li>
+            </ul>
+            <p>So companies host the models and give us <strong>APIs</strong>. We just call them.</p>
+            <p>That created the next problem: implementation. OpenAI needs one code style. Claude needs different code. Even the output structure differs between providers. Standardization was hard.</p>
+            <p>LangChain fixed this. One common interface, many providers behind it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-209" data-section="209" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">209</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="binary" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Language vs Embedding Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain works with two types of models.</p>
+            <ul>
+              <li><strong>Language models:</strong> give text, get text. LLMs are language models.</li>
+              <li><strong>Embedding models:</strong> give text, get a vector of numbers back.</li>
+            </ul>
+            <p>Embedding models are mainly used for <strong>semantic search</strong>, which powers RAG and knowledge assistants.</p>
+            <p>You met embeddings on Day 21. Here they become a first class LangChain component.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-210" data-section="210" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">210</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 2: Prompts</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>prompt</strong> is the input you provide to the LLM.</p>
+            <p>Prompts are very important. A small change to a prompt can change the whole output.</p>
+            <p>Prompts even created jobs: <strong>prompt engineering</strong>.</p>
+            <p>LangChain supports different prompt styles:</p>
+            <ul>
+              <li><strong>Dynamic and reusable prompts.</strong> For example: summarize a topic in a chosen tone. Fill the topic and tone at run time.</li>
+              <li><strong>Role based prompting.</strong> Tell the model who it is before the task.</li>
+              <li><strong>Few shot prompting.</strong> Show a few examples so the model copies the pattern.</li>
+            </ul>
+            <p>Templates keep prompts consistent, so the app does not break from small wording drift.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-211" data-section="211" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">211</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 3: Chains</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Chains</strong> matter so much that LangChain is named after them.</p>
+            <p>A chain is a pipeline of steps. If you know visual automation tools like n8n, the idea feels familiar.</p>
+            <p>Example pipeline:</p>
+            <p>Input, then LLM, then translate, then LLM again, then a summary in 100 words, then output.</p>
+            <p>The advantage: the output of the first step is the input of the second. No manual glue between steps.</p>
+            <p>Chains can also get complex:</p>
+            <ul>
+              <li><strong>Parallel chains.</strong> Input goes to LLM 1, LLM 2, and LLM 3 at once. Then you combine all three outputs into one result.</li>
+              <li><strong>Conditional chains.</strong> Like an if else or switch. The pipeline picks a branch based on a condition.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-212" data-section="212" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">212</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 4: Indexes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Indexes</strong> connect your application to external knowledge, such as a PDF, a website, or a database.</p>
+            <p>Why you need them: ChatGPT does not know your private details. Ask it for your company leave policy and it cannot answer. Connect it to your company PDF, and now it can.</p>
+            <p>Indexes have four main parts:</p>
+            <ol>
+              <li><strong>Document loader.</strong> Brings the data into the system.</li>
+              <li><strong>Text splitter.</strong> Splits 100 pages into pages, chapters, or paragraphs.</li>
+              <li><strong>Vector store.</strong> Converts those chunks to vectors with embeddings and stores them.</li>
+              <li><strong>Retriever.</strong> Converts the user query to a vector, runs semantic search against the stored vectors, and hands the best pages to the LLM to generate the answer.</li>
+            </ol>
+            <p>This is the machinery behind the RAG flow from Day 21.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-213" data-section="213" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">213</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 5: Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLM API calls are <strong>stateless</strong>.</p>
+            <p>First query: I am Bishal. Second query: who am I? Without memory, the LLM cannot remember.</p>
+            <p>LangChain offers several memory types:</p>
+            <ul>
+              <li><strong>Conversation buffer memory.</strong> Stores the transcript of the recent conversation. Problem: a very long conversation gets hard to carry.</li>
+              <li><strong>Conversation buffer window memory.</strong> Keeps only the last N interactions, for example the last 100.</li>
+              <li><strong>Summarizer based memory.</strong> Keeps a running summary instead of the full transcript.</li>
+              <li><strong>Custom memory.</strong> Keeps advanced data about the user that your app chooses.</li>
+            </ul>
+            <p>Pick the memory type by how long your conversations run and what must survive between turns.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-214" data-section="214" data-chapter="day-22">
+        <span class="lesson-card__marker" aria-hidden="true">214</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Component 6: Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An LLM can generate text, but it cannot do work by itself.</p>
+            <p><strong>Agents</strong> can do work, for example with the help of MCP and other tool connections.</p>
+            <p>Example: an LLM can suggest a trip to Pokhara for your holiday. An agent can also book the ticket to Pokhara.</p>
+            <p>AI agents have two powers:</p>
+            <ol>
+              <li><strong>Reasoning capabilities.</strong> Plan the steps to reach a goal.</li>
+              <li><strong>Tool access.</strong> Call tools and services to act on that plan.</li>
+            </ol>
+            <aside class="summary-callout">
+              <h3>Day 22 takeaways</h3>
+              <ul>
+                <li>LangChain has six components: models, prompts, chains, memory, indexes, and agents.</li>
+                <li>Models give one interface over many LLM providers.</li>
+                <li>Prompts and chains shape input and pipeline flow.</li>
+                <li>Indexes plus retrievers connect your own documents.</li>
+                <li>Memory fixes stateless calls. Agents add reasoning plus tools.</li>
+              </ul>
+              <p>Next step: build a small chain that uses a prompt template, then add memory.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- DAY 23 -->

@@ -1,0 +1,229 @@
+      <div class="chapter-divider reveal" id="chapter-day-14" data-chapter="day-14">
+        <span class="chapter-divider__pill">Day 14</span>
+        <h2 class="chapter-divider__title">How to Frame a Machine Learning Problem</h2>
+        <p class="chapter-divider__note">Turn a business goal into a clear ML problem before you write any code.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-139" data-section="139" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">139</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Netflix Business Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we learn how to convert a <strong>business problem</strong> into a <strong>machine learning problem</strong>.</p>
+            <p>Suppose you are a <strong>data scientist at Netflix</strong>. Leadership asks: how do we <strong>increase revenue</strong>?</p>
+            <p>Three business levers come to mind:</p>
+            <ul>
+              <li><strong>Marketing:</strong> bring more new subscribers.</li>
+              <li><strong>Pricing:</strong> get existing customers to pay more.</li>
+              <li><strong>Retention:</strong> stop existing customers from leaving.</li>
+            </ul>
+            <p>All three can grow revenue. As data scientists we often focus on the third: <strong>keep people subscribed</strong>.</p>
+            <p>That is step one in framing. Start with the business goal. Then ask which part of it ML can help with.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-140" data-section="140" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">140</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trending-down" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">From Revenue to Churn Rate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Instead of saying "increase revenue" in the meeting room, we narrow the goal to: <strong>decrease churn rate</strong>.</p>
+            <p><strong>Churn rate</strong> is the share of subscribers who cancel in a period.</p>
+            <p>Example: Netflix has 100 subscribers and 2 leave. Churn rate is <strong>2%</strong>.</p>
+            <p>In real life Netflix churn is around <strong>4%</strong>. The team might set a target: bring it down to <strong>3.75%</strong>.</p>
+            <p>That is a <strong>mathematical problem</strong> we can track. We leave the meeting with a clear number, not a vague wish.</p>
+            <p>Business problem: increase revenue. ML framing: reduce churn from 4% to 3.75%.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-141" data-section="141" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">141</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="target" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">See the End Product First</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Look at the <strong>big picture</strong>. What is the end product?</p>
+            <p>We do <strong>not</strong> need a model that predicts the churn rate number itself. Churn rate is a company level metric.</p>
+            <p>What we need: find <strong>if a customer is about to leave</strong>.</p>
+            <p>Once we know that, the product can act:</p>
+            <ul>
+              <li>Send a <strong>50% discount</strong> offer.</li>
+              <li>Fix a <strong>bad UI</strong> or help with <strong>no internet</strong> issues.</li>
+              <li>Reach out <strong>immediately</strong> when someone shows signs of leaving.</li>
+            </ul>
+            <p>Good framing means you know what the model will <strong>do in production</strong>, not just what it will predict on paper.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-142" data-section="142" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">142</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Classification and Regression</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we pick the <strong>type of ML problem</strong>.</p>
+            <p><strong>Step 1:</strong> Is this person leaving or staying? That is a yes or no question.</p>
+            <p>Use <strong>supervised learning classification</strong>. Output: leave or stay.</p>
+            <p><strong>Step 2:</strong> How strong is the feeling to leave? Example: <strong>90% likely to cancel</strong>.</p>
+            <p>That is a number, not yes or no. Use <strong>regression</strong> to estimate willingness to leave.</p>
+            <p>Why both? A higher score can trigger a <strong>bigger discount</strong>. Someone at 90% might get more than someone at 40%.</p>
+            <p>A real churn solution often uses <strong>both models</strong>: classification to flag at risk users, regression to rank how urgent the case is.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-143" data-section="143" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">143</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Getting the Right Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Getting data is one of the <strong>most important parts</strong> of framing.</p>
+            <p>Ask: what signals show that someone might leave? Examples:</p>
+            <ul>
+              <li><strong>Watch time</strong> dropping.</li>
+              <li><strong>Search but did not find</strong> what they wanted.</li>
+              <li><strong>Content left in the middle</strong> of a show.</li>
+              <li><strong>Clicks on recommendations</strong> and the order they clicked.</li>
+            </ul>
+            <p>You rarely pull this data alone. Talk to the <strong>data engineer</strong>.</p>
+            <p>They take live app data from <strong>OLTP</strong> systems and build a <strong>data warehouse</strong> where you can train models.</p>
+            <p>If the data you need does not exist yet, framing is not finished. No data means no model.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-144" data-section="144" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">144</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gauge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Define Your Metrics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Before you build, decide <strong>how you will measure success</strong>.</p>
+            <p>Metrics tell you if what you are doing is <strong>good or bad</strong>.</p>
+            <p>For churn you might track whether churn rate actually dropped after the model went live.</p>
+            <p>Pick metrics that tie back to the business goal. If leadership cares about revenue, show how the model affects revenue, not only model accuracy.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-145" data-section="145" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">145</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Online or Batch Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Another framing choice: will the model run in <strong>batch</strong> or <strong>online</strong> mode?</p>
+            <p>A common pipeline looks like this:</p>
+            <p><strong>OLTP</strong> → <strong>data warehouse</strong> → <strong>model</strong> → <strong>trained model</strong>.</p>
+            <p><strong>Batch learning:</strong> retrain on a schedule (daily or weekly). Good when patterns change slowly.</p>
+            <p><strong>Online learning:</strong> update the model as new events arrive. Good when behavior shifts fast.</p>
+            <p>For churn, many teams start with batch: pull warehouse data, train overnight, score users the next day. Online can come later if you need faster reactions.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-146" data-section="146" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">146</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Check Your Assumptions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The last step in framing: <strong>check your assumptions</strong> before you invest months of work.</p>
+            <ul>
+              <li><strong>Is the data available?</strong> Can you actually get watch time, searches, and cancel labels?</li>
+              <li><strong>Does one model fit all regions?</strong> Users in different countries may behave differently. You might need separate models by <strong>geography</strong>.</li>
+              <li><strong>Can the product act on predictions?</strong> A discount offer only helps if the system can send it in time.</li>
+            </ul>
+            <p>Catching a wrong assumption early saves the whole project.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-147" data-section="147" data-chapter="day-14">
+        <span class="lesson-card__marker" aria-hidden="true">147</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Framing Steps Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Day 9 introduced MDLC step 1 at a high level. Today we went deep with a real example.</p>
+
+            <div class="workflow reveal" aria-label="Framing steps">
+              <p class="workflow__title">Seven steps to frame an ML problem.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="building-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 1</span>
+                  <span class="workflow__step-desc">Start with the business goal.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="trending-down" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 2</span>
+                  <span class="workflow__step-desc">Turn it into a math target.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 3</span>
+                  <span class="workflow__step-desc">Define the end product.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 4</span>
+                  <span class="workflow__step-desc">Pick problem type.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 5</span>
+                  <span class="workflow__step-desc">Plan the data.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="gauge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 6</span>
+                  <span class="workflow__step-desc">Set metrics.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Step 7</span>
+                  <span class="workflow__step-desc">Check assumptions.</span>
+                </li>
+              </ol>
+            </div>
+
+            <aside class="summary-callout">
+              <h3>Day 14 takeaways</h3>
+              <ul>
+                <li>Business goals like "increase revenue" must become clear ML targets like "reduce churn to 3.75%".</li>
+                <li>Frame the end product: predict who will leave, then act with offers or fixes.</li>
+                <li>Use classification for yes or no and regression for how likely someone is to leave.</li>
+                <li>Plan data, metrics, batch or online learning, and assumptions before you train.</li>
+              </ul>
+              <p>Good framing is step 1 of MDLC. Get this right and the rest of the project becomes much clearer.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      <!-- DAY 15 -->

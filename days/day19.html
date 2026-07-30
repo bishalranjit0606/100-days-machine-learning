@@ -1,0 +1,168 @@
+      <div class="chapter-divider reveal" id="chapter-day-19" data-chapter="day-19">
+        <span class="chapter-divider__pill">Day 19</span>
+        <h2 class="chapter-divider__title">Understanding Your Data</h2>
+        <p class="chapter-divider__note">Last chapter of Phase 1. Ask the right questions before you build. Gen AI starts on Day 20.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-171" data-section="171" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">171</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Questions After Loading Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>After you get a dataset, do not jump straight into modeling. Ask basic questions first.</p>
+            <p>Load the file and keep a simple checklist:</p>
+            <pre><code>import pandas as pd
+
+df = pd.read_csv("train.csv")</code></pre>
+            <ul>
+              <li>How big is the data?</li>
+              <li>How does the data look?</li>
+              <li>What are the column data types?</li>
+              <li>Are there missing values?</li>
+              <li>What do the numbers look like mathematically?</li>
+              <li>Are there duplicate rows?</li>
+              <li>How do columns relate to each other?</li>
+            </ul>
+            <p>The next lessons answer each question with one pandas method.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-172" data-section="172" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">172</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="maximize-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Big Is the Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 1:</strong> How big is the data?</p>
+            <pre><code>df.shape</code></pre>
+            <p><code>shape</code> gives two numbers: rows and columns.</p>
+            <p>Example output: <code>(1000, 12)</code> means 1000 rows and 12 columns.</p>
+            <p>Size tells you if the file is small enough to explore in memory, or if you need chunking later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-173" data-section="173" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">173</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Does the Data Look</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 2:</strong> How does the data look?</p>
+            <p>See the first few rows:</p>
+            <pre><code>df.head()</code></pre>
+            <p><code>head()</code> shows the top 5 rows by default.</p>
+            <p>Or sample random rows to avoid bias from the top of the file:</p>
+            <pre><code>df.sample(5)</code></pre>
+            <p>This gives 5 random rows so you see different parts of the dataset.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-174" data-section="174" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">174</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Column Data Types</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 3:</strong> What is the data type of each column?</p>
+            <pre><code>df.info()</code></pre>
+            <p><code>info()</code> shows column names, data types, and non null counts.</p>
+            <p>It also shows how much memory the DataFrame is using.</p>
+            <p>Check this early. A number stored as text, or a category stored as float, can break later steps.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-175" data-section="175" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">175</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-alert" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Missing Values</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 4:</strong> Are there any missing values? This is very important.</p>
+            <pre><code>df.isnull().sum()</code></pre>
+            <p>This counts missing values in each column.</p>
+            <p>After you know where gaps are, you can either fill them or remove the column. Do not ignore missing data and train a model on broken rows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-176" data-section="176" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">176</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Math Summary with describe</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 5:</strong> How does the numeric data look mathematically?</p>
+            <pre><code>df.describe()</code></pre>
+            <p><code>describe()</code> gives count, mean, standard deviation, min, max, and quartiles like 25%, 50%, and 75%.</p>
+            <p>Use this to spot odd ranges, very large values, or columns that look flat and unhelpful.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-177" data-section="177" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">177</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Duplicate Values</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 6:</strong> Are there duplicate rows?</p>
+            <pre><code>df.duplicated().sum()</code></pre>
+            <p>This counts how many rows repeat exactly.</p>
+            <p>Duplicates can inflate scores and mislead your model. Remove or fix them before training.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-178" data-section="178" data-chapter="day-19">
+        <span class="lesson-card__marker" aria-hidden="true">178</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Correlation Between Columns</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Question 7:</strong> How are columns related to each other?</p>
+            <p><strong>Correlation</strong> means when one value goes up or down, another column may move in a linked way.</p>
+            <p>See the full correlation matrix:</p>
+            <pre><code>df.corr()</code></pre>
+            <p>Pick one column and read its links to others:</p>
+            <pre><code>df.corr()["column_name"]</code></pre>
+            <p>Values range from negative 1 to positive 1. Values close to 0 mean weak link. Values near 1 or negative 1 mean stronger link.</p>
+            <p>Use this to drop columns that repeat the same signal, or to spot features that may matter for your target.</p>
+
+            <aside class="summary-callout">
+              <h3>Day 19 takeaways</h3>
+              <ul>
+                <li>Always explore data before modeling.</li>
+                <li><code>shape</code>, <code>head()</code>, and <code>sample()</code> show size and samples.</li>
+                <li><code>info()</code> shows types and memory use.</li>
+                <li><code>isnull().sum()</code> finds missing values you must handle.</li>
+                <li><code>describe()</code>, <code>duplicated()</code>, and <code>corr()</code> complete your first data check.</li>
+              </ul>
+              <p>Run this checklist on every new dataset. Clean understanding here saves hours later.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- DAY 20 -->

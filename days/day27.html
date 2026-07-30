@@ -1,0 +1,475 @@
+      <div class="chapter-divider reveal" id="chapter-day-27" data-chapter="day-27">
+        <span class="chapter-divider__pill">Day 27</span>
+        <h2 class="chapter-divider__title">Chains in LangChain</h2>
+        <p class="chapter-divider__note">Build pipelines with the pipe operator. Sequential, parallel, and conditional chains.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-265" data-section="265" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">265</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap Before Chains</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>So far we learned two main LangChain building blocks: models and prompts.</p>
+            <p>We also covered a key idea: structured output, so the model returns fields your app can use.</p>
+            <p>Today we connect those pieces into chains. Runnables go deeper next time.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Models</p>
+                <p class="concept-card__desc">Call an LLM such as ChatGroq.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Prompts</p>
+                <p class="concept-card__desc">Shape the text you send to the model.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Structured output</p>
+                <p class="concept-card__desc">Parse replies into usable fields.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-266" data-section="266" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">266</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What and Why Chains</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When you build an LLM app, the basic path looks like this.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Basic LLM path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Build the text you send.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Call the model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-output" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Output</span>
+                  <span class="workflow__step-desc">Read the reply.</span>
+                </li>
+              </ol>
+            </div>
+            <p>In code without a chain, you often do many manual steps: fill a prompt template, get user input, call <code>model.invoke</code>, then read <code>output.content</code>.</p>
+            <p>That gets long and hard to manage in a complex app.</p>
+            <p>Chains turn those steps into a pipeline. Once the pipeline is set, the flow runs for you.</p>
+            <p>You can build different pipelines: linear, parallel, or conditional.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-267" data-section="267" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">267</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Types of Chains</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain chains come in three main shapes. We will build one of each today.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Sequential chain</p>
+                <p class="concept-card__desc">One step after another. Output of step A feeds step B.</p>
+              </div>
+              <div class="concept-card concept-card--unsupervised">
+                <p class="concept-card__name">Parallel chain</p>
+                <p class="concept-card__desc">Several branches run at once, then you can merge results.</p>
+              </div>
+              <div class="concept-card concept-card--reinforcement">
+                <p class="concept-card__name">Conditional chain</p>
+                <p class="concept-card__desc">Pick a path based on a condition, such as sentiment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-268" data-section="268" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">268</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Simple Chain with the Pipe</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with the simplest chain: prompt, then model, then string parser.</p>
+            <p>The <code>|</code> symbol is the pipe operator. It connects each piece into one runnable chain.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Simple chain flow</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">PromptTemplate</span>
+                  <span class="workflow__step-desc">Fill in {topic}.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">ChatGroq</span>
+                  <span class="workflow__step-desc">Generate the reply.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">StrOutputParser</span>
+                  <span class="workflow__step-desc">Return plain text.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+load_dotenv()
+
+prompt = PromptTemplate(
+    template="generate 5 interesting facts about {topic}",
+    input_variables=["topic"],
+)
+
+model = ChatGroq(
+    model="llama-3.3-70b-versatile"
+)
+
+parser = StrOutputParser()
+
+chain = prompt | model | parser
+
+result = chain.invoke({"topic": "Nepal"})
+print(result)
+
+# Print a graph of the chain
+chain.get_graph().print_ascii()</code></pre>
+              <p class="code-io__label code-io__label--output">Chain graph</p>
+              <pre class="code-output"><code>+-------------+
+| PromptInput |
++-------------+
+       *
+       *
++----------------+
+| PromptTemplate |
++----------------+
+       *
+       *
+ +----------+
+ | ChatGroq |
+ +----------+
+       *
+       *
++-----------------+
+| StrOutputParser |
++-----------------+
+       *
+       *
++-----------------------+
+| StrOutputParserOutput |
++-----------------------+</code></pre>
+              <p class="code-io__note">One invoke call runs the full pipeline. You pass a topic and get five facts as a string.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-269" data-section="269" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">269</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sequential Chain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A sequential chain runs steps in order. The output of one step becomes the input of the next.</p>
+            <p>Here is the flow we build: user topic, then a detailed report, then a short summary.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Sequential pipeline</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="tag" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Topic</span>
+                  <span class="workflow__step-desc">User input.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Report</span>
+                  <span class="workflow__step-desc">First LLM call.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="align-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Summary</span>
+                  <span class="workflow__step-desc">Second LLM call.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+load_dotenv()
+
+prompt1 = PromptTemplate(
+    template="generate a detailed report on {topic}",
+    input_variables=["topic"],
+)
+
+prompt2 = PromptTemplate(
+    template="write a four-line summary of the following text:\n{text}",
+    input_variables=["text"],
+)
+
+model = ChatGroq(
+    model="llama-3.3-70b-versatile"
+)
+
+parser = StrOutputParser()
+
+chain = prompt1 | model | parser | prompt2 | model | parser
+
+result = chain.invoke({"topic": "Nepal"})
+print(result)
+
+chain.get_graph().print_ascii()</code></pre>
+              <p class="code-io__label code-io__label--output">What the pipe does</p>
+              <pre class="code-output"><code>prompt1 | model | parser  -> long report text
+prompt2 | model | parser  -> four line summary</code></pre>
+              <p class="code-io__note">The first parser output becomes the text for prompt2. You only invoke once with the topic.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-270" data-section="270" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">270</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-fork" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Parallel Chain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A parallel chain runs more than one path at the same time, then you can merge the results.</p>
+            <p>Example app: from one document, make notes and a quiz, then merge them for the user.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Parallel then merge</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Document</span>
+                  <span class="workflow__step-desc">Shared input text.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="notebook-pen" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Notes path</span>
+                  <span class="workflow__step-desc">Model 1 writes notes.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="circle-help" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Quiz path</span>
+                  <span class="workflow__step-desc">Model 2 writes questions.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="combine" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Merge</span>
+                  <span class="workflow__step-desc">Model 3 joins both.</span>
+                </li>
+              </ol>
+            </div>
+            <p><code>RunnableParallel</code> runs the notes chain and the quiz chain together. Keys like <code>notes</code> and <code>question</code> name each branch.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableParallel
+
+load_dotenv()
+
+prompt1 = PromptTemplate(
+    template="generate short and simple notes from the following text {text}",
+    input_variables=["text"],
+)
+
+prompt2 = PromptTemplate(
+    template="generate 5 short question from the following text {text}",
+    input_variables=["text"],
+)
+
+prompt3 = PromptTemplate(
+    template="merge the provided notes and quiz into a single document \n notes -> {notes} \n question -> {question}",
+    input_variables=["notes", "question"],
+)
+
+model1 = ChatGroq(model="llama-3.3-70b-versatile")
+model2 = ChatGroq(model="llama-3.3-70b-versatile")
+model3 = ChatGroq(model="llama-3.3-70b-versatile")
+
+parser = StrOutputParser()
+
+parallel_chain = RunnableParallel(
+    {
+        "notes": prompt1 | model1 | parser,
+        "question": prompt2 | model2 | parser,
+    }
+)
+
+merge_chain = prompt3 | model3 | parser
+chain = parallel_chain | merge_chain
+
+text = """
+Linear regression is a foundational statistical and machine learning method
+used to predict a continuous target value based on one or more explanatory
+variables. At its core, the technique models the relationship between a
+dependent variable and an independent variable by fitting a linear equation
+to the observed data.
+"""
+
+result = chain.invoke({"text": text})
+print(result)
+chain.get_graph().print_ascii()</code></pre>
+              <p class="code-io__label code-io__label--output">How data moves</p>
+              <pre class="code-output"><code>text
+  |-- notes branch    -> notes string
+  |-- question branch -> question string
+         |
+         v
+merge prompt uses {notes} and {question}
+         |
+         v
+one merged document for the user</code></pre>
+              <p class="code-io__note">First run the parallel block. Then pipe into the merge chain. One invoke on the full chain is enough.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-271" data-section="271" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">271</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Conditional Chain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A conditional chain picks a path based on a rule.</p>
+            <p>Example app: user sends feedback. If the sentiment is positive, write a thank you message. If negative, write a sorry message.</p>
+            <p>In a real product you might also show a rating form on positive feedback, or email customer support on negative feedback. Today we focus on the LLM branch that writes the reply.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Feedback branch flow</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Feedback</span>
+                  <span class="workflow__step-desc">User message.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scan-search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Classify</span>
+                  <span class="workflow__step-desc">Positive or negative.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Branch</span>
+                  <span class="workflow__step-desc">Thank you or sorry.</span>
+                </li>
+              </ol>
+            </div>
+            <p>We use a Pydantic model for sentiment, then <code>RunnableBranch</code> to pick the reply. <code>RunnablePassthrough.assign</code> keeps the original feedback and adds the sentiment field.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
+from pydantic import BaseModel, Field
+from typing import Literal
+from langchain_core.runnables import RunnableBranch, RunnableLambda, RunnablePassthrough
+
+class Feedback(BaseModel):
+    sentiment: Literal["positive", "negative"] = Field(
+        description="the sentiment of the feedback"
+    )
+
+parser2 = PydanticOutputParser(pydantic_object=Feedback)
+
+load_dotenv()
+
+prompt1 = PromptTemplate(
+    template="classify the sentiment of the following feedback into positive or negative\n{feedback}\n{format_instructions}",
+    input_variables=["feedback"],
+    partial_variables={"format_instructions": parser2.get_format_instructions()},
+)
+
+model = ChatGroq(model="llama-3.3-70b-versatile")
+parser = StrOutputParser()
+
+classifier_chain = prompt1 | model | parser2 | RunnableLambda(lambda x: x.sentiment)
+
+prompt2 = PromptTemplate(
+    template="write a thank you message for the following feedback {feedback}",
+    input_variables=["feedback"],
+)
+
+prompt3 = PromptTemplate(
+    template="write a sorry message for the following feedback {feedback}",
+    input_variables=["feedback"],
+)
+
+branch_chain = RunnableBranch(
+    (lambda x: x["sentiment"] == "positive", prompt2 | model | parser),
+    (lambda x: x["sentiment"] == "negative", prompt3 | model | parser),
+    RunnableLambda(lambda x: "could not find the sentiment of the feedback"),
+)
+
+chain = RunnablePassthrough.assign(sentiment=classifier_chain) | branch_chain
+
+result = chain.invoke({"feedback": "I love the product!"})
+print(result)
+chain.get_graph().print_ascii()</code></pre>
+              <p class="code-io__label code-io__label--output">Example invoke</p>
+              <pre class="code-output"><code>Input:  {"feedback": "I love the product!"}
+Path:   sentiment == "positive"  -> thank you prompt
+Output: a thank you message string</code></pre>
+              <p class="code-io__note">The default branch runs only if sentiment is neither positive nor negative.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-272" data-section="272" data-chapter="day-27">
+        <span class="lesson-card__marker" aria-hidden="true">272</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 27 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 27 takeaways</h3>
+              <ul>
+                <li>Chains turn prompt, model, and parser steps into one pipeline.</li>
+                <li>The pipe operator <code>|</code> connects each runnable piece.</li>
+                <li>Sequential chains pass output from one step into the next.</li>
+                <li>Parallel chains run branches together with RunnableParallel, then you can merge.</li>
+                <li>Conditional chains pick a path with RunnableBranch.</li>
+              </ul>
+              <p>Next step: try the simple chain with your own topic, then rebuild the feedback branch with a negative message.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
