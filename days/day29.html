@@ -1,0 +1,594 @@
+      <div class="chapter-divider reveal" id="chapter-day-29" data-chapter="day-29">
+        <span class="chapter-divider__pill">Day 29</span>
+        <h2 class="chapter-divider__title">Understanding Runnable (part 2)</h2>
+        <p class="chapter-divider__note">Task specific Runnables, Runnable primitives, and a short look at LCEL.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-281" data-section="281" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">281</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: Why Invoke Exists</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We already have many components: prompt templates, LLMs, parsers, and retrieval.</p>
+            <p>You can plug them together to build an app. That is the idea of plugin and play.</p>
+            <p>The hard part was that each piece had its own methods. A prompt used format. An LLM used predict. A parser used parse. Connecting them felt messy.</p>
+            <p>LangChain standardized the call. Every component can use <code>invoke</code>. That shared call is what Runnable gives you, so pieces connect with ease.</p>
+            <p>Every component is a class. With the same interface, you can build flexible workflows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-282" data-section="282" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">282</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Kinds of Runnables</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain Runnables fall into two big groups. Here is the split at a glance.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Kind</th>
+                    <th scope="col">Job</th>
+                    <th scope="col">Examples</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Task specific</td>
+                    <td>Core LangChain pieces turned into Runnables you can drop in a pipeline.</td>
+                    <td>ChatOpenAI, PromptTemplate, retrievers.</td>
+                  </tr>
+                  <tr>
+                    <td>Runnable primitives</td>
+                    <td>Building blocks that connect task specific pieces in sequence, parallel, branch, and more.</td>
+                    <td>RunnableSequence, RunnableParallel, RunnableBranch, RunnableLambda, RunnablePassthrough, RunnableMap.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Today we focus on Runnable primitives. These are the tools that join pieces into real workflows.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-283" data-section="283" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">283</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RunnableSequence</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>RunnableSequence</code> connects two or more Runnables in order. It is a built in class. Output of one step feeds the next.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Simple sequence</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Fill in the topic.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Model</span>
+                  <span class="workflow__step-desc">Write the joke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Parser</span>
+                  <span class="workflow__step-desc">Return plain text.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableSequence
+
+load_dotenv()
+
+prompt = PromptTemplate.from_template(
+    "tell me a joke about {topic}"
+)
+model = ChatGroq(model="llama-3.3-70b-versatile")
+parser = StrOutputParser()
+
+chain = RunnableSequence(prompt, model, parser)
+
+result = chain.invoke({"topic": "python"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A joke string about Python
+(one invoke runs prompt, then model, then parser)</code></pre>
+              <p class="code-io__note">Pass a dict with topic. The sequence runs left to right and returns the final string.</p>
+            </div>
+            <p>You can make the line longer. First create a joke. Then explain that joke. Same class, more steps.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Joke then explain</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="smile" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">prompt1</span>
+                  <span class="workflow__step-desc">Ask for a joke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">model</span>
+                  <span class="workflow__step-desc">Write the joke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">parser</span>
+                  <span class="workflow__step-desc">Joke as text.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">prompt2</span>
+                  <span class="workflow__step-desc">Ask for an explanation.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">model</span>
+                  <span class="workflow__step-desc">Explain the joke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">parser</span>
+                  <span class="workflow__step-desc">Explanation as text.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>prompt1 = PromptTemplate(
+    template="tell me a joke about {topic}",
+    input_variables=["topic"],
+)
+prompt2 = PromptTemplate(
+    template="explain the following joke {input}",
+    input_variables=["input"],
+)
+
+chain = RunnableSequence(
+    prompt1, model, parser, prompt2, model, parser
+)
+
+result = chain.invoke({"topic": "python"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>Only the explanation string prints
+(the joke text was used as input for prompt2,
+but the final parser output is the explanation)</code></pre>
+              <p class="code-io__note">That last point matters. A plain sequence keeps only the final output. Next we fix that with pass through.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-284" data-section="284" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">284</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-fork" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RunnableParallel</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>RunnableParallel</code> runs several Runnables at the same time. Use it when one topic should feed more than one output.</p>
+            <p>Example: one topic about AI. Branch A writes a tweet. Branch B writes a LinkedIn post.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One topic, two posts</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Topic</span>
+                  <span class="workflow__step-desc">Shared input, such as ai.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="megaphone" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Tweet branch</span>
+                  <span class="workflow__step-desc">prompt1 to model to parser.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="briefcase" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LinkedIn branch</span>
+                  <span class="workflow__step-desc">prompt2 to model to parser.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="combine" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Dict result</span>
+                  <span class="workflow__step-desc">Keys tweet and linkedin.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_core.runnables import RunnableParallel
+
+prompt1 = PromptTemplate(
+    template="generate a tweet about {topic}",
+    input_variables=["topic"],
+)
+prompt2 = PromptTemplate(
+    template="generate a linkedin post about {topic}",
+    input_variables=["topic"],
+)
+
+chain = RunnableParallel(
+    {
+        "tweet": prompt1 | model | parser,
+        "linkedin": prompt2 | model | parser,
+    }
+)
+
+result = chain.invoke({"topic": "ai"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Result shape</p>
+              <pre class="code-output"><code>{
+  "tweet": "...short tweet text...",
+  "linkedin": "...longer post text..."
+}</code></pre>
+              <p class="code-io__note">Both branches share the same topic. Keys name each branch in the output dict.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-285" data-section="285" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">285</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-right-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RunnablePassthrough</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>RunnablePassthrough</code> does not change the input. What goes in comes out the same. A number stays a number. A dict stays a dict.</p>
+            <p>Remember the joke then explain sequence. You only printed the explanation. What if you need both the joke and the explanation?</p>
+            <p>Build a joke chain first. Then fan out in parallel: one branch explains, one branch passes the joke through unchanged.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Keep the joke and add an explanation</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="smile" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">chain1</span>
+                  <span class="workflow__step-desc">prompt to model to parser makes the joke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-fork" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">chain2 parallel</span>
+                  <span class="workflow__step-desc">Split into two keys.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">explanation</span>
+                  <span class="workflow__step-desc">prompt2 to model to parser.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="arrow-right-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">joke</span>
+                  <span class="workflow__step-desc">RunnablePassthrough keeps the joke.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_core.runnables import (
+    RunnablePassthrough,
+    RunnableSequence,
+    RunnableParallel,
+)
+
+chain1 = RunnableSequence(prompt1, model, parser)
+
+chain2 = RunnableParallel(
+    {
+        "explanation": RunnableSequence(
+            prompt2, model, parser
+        ),
+        "joke": RunnablePassthrough(),
+    }
+)
+
+final_chain = RunnableSequence(chain1, chain2)
+
+result = final_chain.invoke({"topic": "python"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Result shape</p>
+              <pre class="code-output"><code>{
+  "explanation": "...why the joke is funny...",
+  "joke": "...the original joke text..."
+}</code></pre>
+              <p class="code-io__note">Pass through is the quiet branch. It carries the joke forward while the other branch does more work.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-286" data-section="286" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">286</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="function-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RunnableLambda</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>RunnableLambda</code> turns a normal Python function into a Runnable. Then that function can sit in any pipeline.</p>
+            <p>A common use case: clean messy customer reviews before sentiment. Reviews may have HTML tags or extra noise. You send the text through your function first, then into the LLM.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Clean, then classify</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Review</span>
+                  <span class="workflow__step-desc">Raw text in.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="function-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">RunnableLambda</span>
+                  <span class="workflow__step-desc">Your clean up function.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Read the clean text.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="heart" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Sentiment</span>
+                  <span class="workflow__step-desc">Positive or negative.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Here is a small practice flow: make a joke, then in parallel keep the joke and count its words with a lambda.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Joke plus word count</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="smile" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Joke chain</span>
+                  <span class="workflow__step-desc">prompt to model to parser.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-fork" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Parallel</span>
+                  <span class="workflow__step-desc">Two keys from one joke string.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="arrow-right-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">joke</span>
+                  <span class="workflow__step-desc">Pass through unchanged.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">word_count</span>
+                  <span class="workflow__step-desc">Lambda counts the words.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_core.runnables import RunnableLambda
+
+prompt = PromptTemplate(
+    template="tell me a joke about {topic}",
+    input_variables=["topic"],
+)
+
+runnable_word_counter = RunnableLambda(
+    lambda text: len(text.split())
+)
+
+chain = RunnableSequence(prompt, model, parser)
+
+chain2 = RunnableParallel(
+    {
+        "joke": RunnablePassthrough(),
+        "word_count": runnable_word_counter,
+    }
+)
+
+chain3 = RunnableSequence(chain, chain2)
+
+result = chain3.invoke({"topic": "python"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Result shape</p>
+              <pre class="code-output"><code>{
+  "joke": "...joke text...",
+  "word_count": 12
+}</code></pre>
+              <p class="code-io__note">The lambda is plain Python. Wrap it once, and it snaps into the same Runnable world as prompts and models.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-287" data-section="287" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">287</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RunnableBranch</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>RunnableBranch</code> is LangChain if else. It picks one path. It does not run every branch.</p>
+            <p>Think about an email router. A complaint goes to support. An inquiry gets no auto reply. A thank you gets a welcome note. One email, one chosen path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Email style routing</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="mail" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Email</span>
+                  <span class="workflow__step-desc">Classify the type.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Branch</span>
+                  <span class="workflow__step-desc">Pick one path only.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="headphones" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Complaint</span>
+                  <span class="workflow__step-desc">Trigger support.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Inquiry</span>
+                  <span class="workflow__step-desc">No auto reply.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="heart" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thank you</span>
+                  <span class="workflow__step-desc">Send a welcome reply.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Here is a code practice version. Write a long report. If it has more than 500 words, summarize it. Else keep the report as is.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Report length branch</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">report_chain</span>
+                  <span class="workflow__step-desc">Write the full report.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">branch_chain</span>
+                  <span class="workflow__step-desc">Check word count.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="minimize-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Over 500</span>
+                  <span class="workflow__step-desc">Run summary_chain.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="arrow-right-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">500 or fewer</span>
+                  <span class="workflow__step-desc">Pass the report through.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_core.runnables import (
+    RunnablePassthrough,
+    RunnableSequence,
+    RunnableBranch,
+    RunnableLambda,
+)
+
+prompt = PromptTemplate(
+    template="Generate a detailed report of the following topic: {topic}",
+    input_variables=["topic"],
+)
+prompt2 = PromptTemplate(
+    template="Generate a short summary of the following text:\n{text}",
+    input_variables=["text"],
+)
+
+report_chain = RunnableSequence(prompt, model, parser)
+
+summary_chain = RunnableSequence(
+    RunnableLambda(lambda text: {"text": text}),
+    prompt2,
+    model,
+    parser,
+)
+
+branch_chain = RunnableBranch(
+    (lambda text: len(text.split()) > 500, summary_chain),
+    RunnablePassthrough(),
+)
+
+final_chain = RunnableSequence(report_chain, branch_chain)
+
+result = final_chain.invoke(
+    {"topic": "artificial intelligence"}
+)
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What happens</p>
+              <pre class="code-output"><code>If report words > 500 -> summary string
+Else -> original report string unchanged</code></pre>
+              <p class="code-io__note">The first matching condition wins. The last item is the default path when no condition matches.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-288" data-section="288" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">288</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LCEL: The Pipe Shortcut</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LCEL means LangChain Expression Language.</p>
+            <p>You saw that <code>RunnableSequence</code> is used a lot. The LangChain team wanted a shorter way to write the same idea.</p>
+            <p>Instead of wrapping every line in <code>RunnableSequence(...)</code>, you can write <code>r1 | r2 | r3</code>. The pipe operator builds a sequence in a declarative style.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Same pipeline, shorter syntax</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Build the message.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Generate the reply.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Parser</span>
+                  <span class="workflow__step-desc">Return plain text.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>chain = prompt | model | parser
+
+result = chain.invoke({"topic": "python"})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Same idea as</p>
+              <pre class="code-output"><code>RunnableSequence(prompt, model, parser)</code></pre>
+              <p class="code-io__note">You already used pipes inside parallel branches. LCEL is that same pipe style for sequences. Parallel work still uses RunnableParallel around those pipes.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-289" data-section="289" data-chapter="day-29">
+        <span class="lesson-card__marker" aria-hidden="true">289</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 29 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 29 takeaways</h3>
+              <ul>
+                <li>Task specific Runnables are core pieces like prompts, models, and retrievers.</li>
+                <li>Runnable primitives connect those pieces: sequence, parallel, pass through, lambda, and branch.</li>
+                <li>RunnableSequence runs steps in order. RunnableParallel runs branches together.</li>
+                <li>RunnablePassthrough keeps input unchanged. RunnableLambda wraps a Python function.</li>
+                <li>RunnableBranch is if else: one matching path, plus a default.</li>
+                <li>LCEL uses the pipe operator so sequences read as prompt | model | parser.</li>
+              </ul>
+              <p>Next: document loaders and the RAG path. We start bringing external data into LangChain.</p>
+            </aside>
+          </div>
+        </div>
+      </article>

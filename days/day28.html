@@ -1,0 +1,243 @@
+      <div class="chapter-divider reveal" id="chapter-day-28" data-chapter="day-28">
+        <span class="chapter-divider__pill">Day 28</span>
+        <h2 class="chapter-divider__title">Understanding Runnable (part 1)</h2>
+        <p class="chapter-divider__note">Why Runnable exists, and how pieces connect like Lego.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-273" data-section="273" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">273</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap from Day 27</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On Day 27 we learned three chain shapes in LangChain: sequential, parallel, and conditional.</p>
+            <p>Today we slow down. We explain the idea behind connecting pieces: Runnable.</p>
+            <p>Deeper Runnable practice comes later in part 2. Today is the why and the big picture only.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-274" data-section="274" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">274</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lightbulb" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why LangChain Needed One Easy Path</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Around 2022, chatbots and public LLM APIs became widely available.</p>
+            <p>The LangChain team saw that many LLMs would power real apps: chatbots, PDF readers, agents, and more. That demand is strong now in 2026.</p>
+            <p>They wanted one easy way for developers to use many models, such as OpenAI, Anthropic, and Gemini, without rewriting everything for each provider.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-275" data-section="275" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">275</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Apps Need More Than One LLM Call</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Calling an LLM alone is not enough. A PDF reader shows how many steps sit around the model.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">PDF reader path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="upload" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Load PDF</span>
+                  <span class="workflow__step-desc">Bring the file in.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Split</span>
+                  <span class="workflow__step-desc">Break text into parts.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embed</span>
+                  <span class="workflow__step-desc">Turn parts into vectors.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Store</span>
+                  <span class="workflow__step-desc">Keep vectors ready.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retrieve</span>
+                  <span class="workflow__step-desc">Find useful chunks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Write the answer.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-output" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Parse</span>
+                  <span class="workflow__step-desc">Shape the response.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Each step needs a component. Prompts show up almost everywhere: chatbots, PDF apps, and agents all send a prompt to an LLM.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-276" data-section="276" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">276</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Too Many Special Chains</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>To help, LangChain shipped many ready made chains. Experts could move faster. Examples included LLMChain, retrieval QA, router chains, and SQL database chains.</p>
+            <p>That created a new problem.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Huge codebase</p>
+                <p class="concept-card__desc">Each use case got its own special chain.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Steep learning curve</p>
+                <p class="concept-card__desc">New learners struggled to pick the right chain.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">No shared connect rule</p>
+                <p class="concept-card__desc">Components did not snap together the same way.</p>
+              </div>
+            </div>
+            <p>The team wanted Lego style pieces. Instead, every new use case needed another special chain. That is the mistake Runnable was built to fix.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-277" data-section="277" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">277</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Runnable</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A Runnable is one unit of work.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One Runnable</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="log-in" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Input in</span>
+                  <span class="workflow__step-desc">You give it data.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cog" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Process</span>
+                  <span class="workflow__step-desc">It does its job.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="log-out" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Output out</span>
+                  <span class="workflow__step-desc">You get a result.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Every Runnable shares the same interface. One common call you will see often is <code>invoke</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-278" data-section="278" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">278</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Connect Runnables Like Lego</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Because every piece uses the same interface, you can connect them. The output of one becomes the input of the next.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Three Runnables in a line</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="box" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">r1</span>
+                  <span class="workflow__step-desc">Takes input, gives output.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="box" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">r2</span>
+                  <span class="workflow__step-desc">Uses r1 output as input.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="box" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">r3</span>
+                  <span class="workflow__step-desc">Uses r2 output as input.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Think of Lego. Each block has a job. Every block has the same dots, so any block can snap to another.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-279" data-section="279" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">279</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="blocks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Chain Is Still a Runnable</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is the key idea. Once you connect Runnables into a workflow, that whole workflow is itself a Runnable.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Small builds join into bigger builds</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Workflow A</span>
+                  <span class="workflow__step-desc">r1 to r2 to r3 as one unit.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Workflow B</span>
+                  <span class="workflow__step-desc">r4 to r5 as one unit.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="blocks" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Bigger build</span>
+                  <span class="workflow__step-desc">Snap A and B together.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Like Lego again: build a wheel set, build a car body, then join both into one car. Small builds become bigger builds.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-280" data-section="280" data-chapter="day-28">
+        <span class="lesson-card__marker" aria-hidden="true">280</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 28 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 28 takeaways</h3>
+              <ul>
+                <li>Runnable exists so every piece shares one connect standard.</li>
+                <li>A Runnable is one unit of work: input in, process, output out.</li>
+                <li>Same interface means you can line pieces up: r1 to r2 to r3.</li>
+                <li>A connected workflow is itself a Runnable, so workflows can connect again.</li>
+                <li>Lego is the metaphor: same dots, snap together, small builds join into bigger builds.</li>
+              </ul>
+              <p>Next: Runnable part 2. We will practice connecting Runnables in more depth.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
