@@ -737,6 +737,7 @@
           cls.contains("comparison-table-wrap") ||
           cls.contains("comparison-table") ||
           cls.contains("lesson-figure") ||
+          cls.contains("split-tree") ||
           cls.contains("broadcast-diagram") ||
           cls.contains("broadcast-matrix") ||
           cls.contains("broadcast-row__visual") ||

@@ -1,0 +1,577 @@
+      <div class="chapter-divider reveal" id="chapter-day-31" data-chapter="day-31">
+        <span class="chapter-divider__pill">Day 31</span>
+        <h2 class="chapter-divider__title">Text Splitters in LangChain</h2>
+        <p class="chapter-divider__note">Break large documents into chunks that LLMs, embeddings, and RAG can handle well.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-301" data-section="301" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">301</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Text Splitting</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Imagine a PDF with 1000 pages. You cannot feed the whole file to an LLM in one go.</p>
+            <p>Text splitting is the process of breaking large text from a PDF or any source into smaller, manageable chunks that an LLM can handle well.</p>
+            <p>You can split by pages, by paragraphs, by size, or by meaning. Good chunks raise the quality of what the model does next.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">From one big file to small pieces</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Large source</span>
+                  <span class="workflow__step-desc">A long PDF or document.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Split</span>
+                  <span class="workflow__step-desc">Cut into smaller chunks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chunks</span>
+                  <span class="workflow__step-desc">Pieces an LLM can use.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-302" data-section="302" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">302</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why We Split Text</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLMs have a context length limit. That is how much input the model can take at once.</p>
+            <p>Picture a model that accepts about 50,000 tokens. For a rough story, treat one token like one word. Now imagine a PDF with more than 100,000 words. You cannot send the whole PDF. Splitting lets you work with that file with ease.</p>
+            <p>Splitting also unlocks three common tasks: embedding, semantic search, and summarization.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Embedding</p>
+                <p class="concept-card__desc">Text becomes a vector of numbers so ML models can work with it. Never embed a whole PDF at once. Do text, then chunk, then embedding.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Semantic search</p>
+                <p class="concept-card__desc">Embed files on food, animals, and sports. Ask for the national dish of Nepal. Convert the query to a vector and find the closest chunks.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Summarization</p>
+                <p class="concept-card__desc">Smaller pieces help reduce hallucination and topic drift when you ask the model to summarize.</p>
+              </div>
+            </div>
+            <p>There is one more reason: compute. Smaller chunks use memory more carefully and can run in parallel.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Safe path for embeddings</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Text</span>
+                  <span class="workflow__step-desc">Load the document.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chunk</span>
+                  <span class="workflow__step-desc">Split into pieces.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="binary" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embedding</span>
+                  <span class="workflow__step-desc">Vector per chunk.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-303" data-section="303" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">303</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Types of Text Splitters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain gives you several ways to split. Remember these four names. They map cleanly to the classes you will say in an interview.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Character based</p>
+                <p class="concept-card__desc">CharacterTextSplitter. Cut by size with one separator. Simple and fast.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Recursive character based</p>
+                <p class="concept-card__desc">RecursiveCharacterTextSplitter. Tries paragraph, line, word, then character.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Recursive with language</p>
+                <p class="concept-card__desc">Same recursive splitter, but separators match Python, JS, HTML, Markdown, and more.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Semantic meaning based</p>
+                <p class="concept-card__desc">SemanticChunker. Split where meaning shifts, using embeddings and similarity.</p>
+              </div>
+            </div>
+            <p>Types two and three are the same tool. Type three only changes the separators for code or Markdown style files.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-304" data-section="304" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">304</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ruler" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Character Based Text Splitter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The first type is character based splitting. The class is <code>CharacterTextSplitter</code>. It is simple and fast. You decide the chunk size yourself. Size is often characters. Tokens are possible too in other length tools.</p>
+            <p>A helpful tool to see chunks on screen is chunkviz.app.</p>
+            <p>The big downside: it does not look at grammar or meaning. It can cut in the middle of a word or sentence. That hurts embeddings, because half of an idea lands in one chunk and the rest in another.</p>
+            <p>Here is character based splitting on plain text. With an empty separator it cuts by character size only.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_text_splitters import CharacterTextSplitter
+
+text = """One of the most important things I didn't understand about the world when I was a child is the degree to which the returns for performance are superlinear.
+
+Teachers and coaches implicitly told us the returns were linear. "You get out," I heard a thousand times, "what you put in." They meant well, but this is rarely true. If your product is only half as good as your competitor's, you don't get half as many customers. You get no customers, and you go out of business.
+
+It's obviously true that the returns for performance are superlinear in business. Some think this is a flaw of capitalism, and that if we changed the rules it would stop being true. But superlinear returns for performance are a feature of the world, not an artifact of rules we've invented. We see the same pattern in fame, power, military victories, knowledge, and even benefit to humanity. In all of these, the rich get richer. [1]
+
+You can't understand the world without understanding the concept of superlinear returns. And if you're ambitious you definitely should, because this will be the wave you surf on."""
+
+splitter = CharacterTextSplitter(
+    chunk_size=100,
+    chunk_overlap=0,
+    separator="",
+)
+
+result = splitter.split_text(text)
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>['One of the most important things I didn\'t understand about the world when I was a child is the degree t',
+ 'o which the returns for performance are superlinear.\n\nTeachers and coaches implicitly told us the retu',
+ ...]</code></pre>
+              <p class="code-io__note">Chunks are about 100 characters. Notice how a cut can land mid word. That is the risk of character based splitting.</p>
+            </div>
+            <p>The same splitter works on Documents from a PDF loader. Use <code>split_documents</code> instead of <code>split_text</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_text_splitters import CharacterTextSplitter
+from langchain_community.document_loaders import PyPDFLoader
+import warnings
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+loader = PyPDFLoader("day30.pdf")
+docs = loader.load()
+
+splitter = CharacterTextSplitter(
+    chunk_size=100,
+    chunk_overlap=0,
+    separator="",
+)
+
+result = splitter.split_documents(docs)
+print(result)
+print(result[0])
+print(result[0].page_content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>[Document(page_content='...', metadata={...}), ...]
+Document(page_content='first 100 chars...', metadata={...})
+first 100 chars...</code></pre>
+              <p class="code-io__note">Each item is still a Document. page_content holds the chunk text. metadata from the loader is kept.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-305" data-section="305" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">305</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Chunk Overlap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Chunk overlap is shared text between two neighboring chunks.</p>
+            <p>With character based cuts you can lose a full idea at the boundary. Overlap copies a little text from the previous chunk into the next one, so that risk goes down.</p>
+            <p>If overlap is very large, chunks look safer, but you also repeat more context and waste space. A common tip is about 10 to 20 percent overlap.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Overlap at the boundary</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chunk A</span>
+                  <span class="workflow__step-desc">Ends with shared words.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Overlap</span>
+                  <span class="workflow__step-desc">Those words appear twice.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chunk B</span>
+                  <span class="workflow__step-desc">Starts with the same words.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-306" data-section="306" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">306</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recursive Character Based Splitter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second type is recursive character based splitting. The class is <code>RecursiveCharacterTextSplitter</code>. It follows natural text structure: text, then paragraph, then sentence, then words. This is the most used style for normal writing.</p>
+            <p>It tries a list of separators in order. First keep paragraphs. Then lines. Then words. Then single characters if needed.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Separator</th>
+                    <th scope="col">What it means</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>\n\n</code></td>
+                    <td>Paragraph break.</td>
+                  </tr>
+                  <tr>
+                    <td><code>\n</code></td>
+                    <td>Line break.</td>
+                  </tr>
+                  <tr>
+                    <td><code> </code> (space)</td>
+                    <td>Word break.</td>
+                  </tr>
+                  <tr>
+                    <td><code>""</code> (empty)</td>
+                    <td>Character break as a last step.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Think of the work in two phases: split, then merge. The recursive tree below shows the split phase with <code>chunk_size = 10</code>.</p>
+            <figure class="lesson-figure split-tree tts-skip" aria-label="Recursive split tree with chunk size 10">
+              <p class="split-tree__param"><code>chunk_size = 10</code></p>
+              <div class="split-tree__canvas">
+                <svg class="split-tree__svg" viewBox="0 0 720 540" role="img" aria-hidden="true">
+                  <defs>
+                    <marker id="split-tree-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"></path>
+                    </marker>
+                  </defs>
+
+                  <!-- connectors: root to mid -->
+                  <path d="M360 150 L360 170 L180 170 L180 198" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+                  <path d="M360 170 L540 170 L540 198" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+
+                  <!-- connectors: mid left to leaves -->
+                  <path d="M180 288 L180 310 L100 310 L100 348" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+                  <path d="M180 310 L260 310 L260 348" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+
+                  <!-- connectors: mid right to leaves -->
+                  <path d="M540 288 L540 310 L460 310 L460 348" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+                  <path d="M540 310 L620 310 L620 348" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+
+                  <!-- root -->
+                  <rect x="210" y="20" width="300" height="130" rx="10" fill="#ffffff" stroke="#14b8a6" stroke-width="2"></rect>
+                  <text x="360" y="48" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#0f172a">My name is Bishal (17)</text>
+                  <text x="360" y="70" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#0f172a">I am 35 years old (17)</text>
+                  <line x1="250" y1="86" x2="470" y2="86" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 5"></line>
+                  <text x="360" y="112" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#0f172a">I live in Kathmandu (19)</text>
+                  <text x="360" y="134" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#0f172a">How are you (11)</text>
+
+                  <text x="360" y="188" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#64748b">split on \n\n</text>
+
+                  <!-- mid left -->
+                  <rect x="50" y="198" width="260" height="90" rx="10" fill="#ffffff" stroke="#e11d48" stroke-width="2"></rect>
+                  <text x="180" y="228" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#0f172a">My name is Bishal</text>
+                  <text x="180" y="250" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#0f172a">I am 35 years old</text>
+                  <text x="155" y="274" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#64748b">(34)</text>
+                  <circle cx="210" cy="269" r="12" fill="#ffe4e6"></circle>
+                  <text x="210" y="274" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="700" fill="#be123c">X</text>
+
+                  <!-- mid right -->
+                  <rect x="410" y="198" width="260" height="90" rx="10" fill="#ffffff" stroke="#e11d48" stroke-width="2"></rect>
+                  <text x="540" y="228" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#0f172a">I live in Kathmandu</text>
+                  <text x="540" y="250" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#0f172a">How are you</text>
+                  <text x="515" y="274" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#64748b">(30)</text>
+                  <circle cx="570" cy="269" r="12" fill="#ffe4e6"></circle>
+                  <text x="570" y="274" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="700" fill="#be123c">X</text>
+
+                  <text x="360" y="335" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#64748b">still too big, split on \n</text>
+
+                  <!-- leaves -->
+                  <rect x="20" y="348" width="160" height="70" rx="10" fill="#ffffff" stroke="#14b8a6" stroke-width="1.5"></rect>
+                  <text x="100" y="378" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a">My name is Bishal</text>
+                  <text x="100" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#64748b">(17)</text>
+
+                  <rect x="190" y="348" width="160" height="70" rx="10" fill="#ffffff" stroke="#14b8a6" stroke-width="1.5"></rect>
+                  <text x="270" y="378" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a">I am 35 years old</text>
+                  <text x="270" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#64748b">(17)</text>
+
+                  <rect x="360" y="348" width="160" height="70" rx="10" fill="#ffffff" stroke="#14b8a6" stroke-width="1.5"></rect>
+                  <text x="440" y="378" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a">I live in Kathmandu</text>
+                  <text x="440" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#64748b">(19)</text>
+
+                  <rect x="530" y="348" width="160" height="70" rx="10" fill="#ffffff" stroke="#14b8a6" stroke-width="1.5"></rect>
+                  <text x="610" y="378" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#0f172a">How are you</text>
+                  <text x="610" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#64748b">(11)</text>
+
+                  <text x="360" y="460" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#64748b">lines still over 10, so next split on space, then merge</text>
+                  <text x="360" y="485" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#0f172a">My name is | Bishal | I am 35 | years old | ...</text>
+                  <text x="360" y="510" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#64748b">X means too big. Recurse with a finer separator.</text>
+                </svg>
+              </div>
+              <figcaption>Recursive tree: one root, two rejects with X, then four lines. After that, split by space and merge up to size 10.</figcaption>
+            </figure>
+            <p>Here is how to read that tree.</p>
+            <p>At the top you have the full text. There is a blank line in the middle, so the first separator <code>\n\n</code> cuts the text into two paragraphs. One group is 34 characters. The other is 30. Both are bigger than 10, so both get an X.</p>
+            <p>Because of the X, the splitter calls itself again on each group. Now it uses the next separator, <code>\n</code>. Each paragraph becomes separate lines. You now have four pieces: 17, 17, 19, and 11. Three of them are still bigger than 10. So the work is not done.</p>
+            <p>Next it uses a space. Each long line becomes words. Words are small enough. Then comes the merge phase.</p>
+            <p>Merge means packing small pieces back together from left to right, as long as the next word still fits under <code>chunk_size</code>. If the next word would push the total over 10, start a new chunk.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Two phases</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Split</span>
+                  <span class="workflow__step-desc">Go smaller with separators until pieces fit or you run out of separators.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="combine" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Merge</span>
+                  <span class="workflow__step-desc">Join neighboring small pieces while the total stays at or under chunk_size.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Walk through the first line, "My name is Bishal" (17). After the space split you get the words My, name, is, Bishal. Spaces count as characters.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Merge walk for the first line</p>
+              <pre class="code-input"><code>"My"            = 2   start a chunk
+"My name"       = 7   still under 10, keep going
+"My name is"    = 10  exact fit, keep this chunk
+next "Bishal"   = 6   10 + 1 + 6 would be over 10, so new chunk
+chunks: "My name is" | "Bishal"</code></pre>
+              <p class="code-io__label code-io__label--output">Same idea on the other lines</p>
+              <pre class="code-output"><code>"I am 35 years old"
+  -> "I am 35" | "years old"
+
+"I live in Kathmandu"
+  -> "I live in" | "Kathmandu"
+
+"How are you" (11)
+  -> "How are" | "you"</code></pre>
+              <p class="code-io__note">Merge packs words inside pieces you already have. It does not glue two paragraphs back together after a paragraph split.</p>
+            </div>
+            <p>Here is the same example in LangChain code. The separators list is what drives the recursive tree.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text = """My name is Bishal
+I am 35 years old
+
+I live in Kathmandu
+How are you"""
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=10,
+    chunk_overlap=0,
+    separators=["\n\n", "\n", " ", ""],
+)
+
+result = splitter.split_text(text)
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>['My name is', 'Bishal', 'I am 35', 'years old', 'I live in', 'Kathmandu', 'How are', 'you']</code></pre>
+              <p class="code-io__note">Each string is at most 10 characters. That is split plus merge working together.</p>
+            </div>
+            <p>So the recursive part is the X loop: if a piece is too big, split again with a finer separator. The merge part is the packing step that builds final chunks near your size limit without cutting mid word when a space split is enough.</p>
+            <p>Simple rule: keep as much structure as you can. Go smaller only when you must. Then pack words back up to the limit.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-307" data-section="307" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">307</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Character versus Recursive</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Type one and type two look similar in code. The difference is how many separators they try.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name you remember</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">How it works</th>
+                    <th scope="col">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Character based</td>
+                    <td>CharacterTextSplitter</td>
+                    <td>Uses one separator only, such as a newline or a space. If a piece is still too big, it cuts by character size.</td>
+                    <td>Fast demos. Can break mid sentence.</td>
+                  </tr>
+                  <tr>
+                    <td>Recursive character based</td>
+                    <td>RecursiveCharacterTextSplitter</td>
+                    <td>Tries many separators in order: paragraphs, lines, words, then characters. Goes smaller only when needed.</td>
+                    <td>Real documents, RAG, and embeddings.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Simple rule: use recursive character based for real documents. Character based is mainly for basic demos.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-308" data-section="308" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">308</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="code-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recursive with Language</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The third type is recursive character based splitting with a language. What if the file is not normal English prose? Source code is not organized by paragraphs and sentences. It has functions, loops, and keywords.</p>
+            <p>This is still the recursive character based splitter. Only the separators change. For Python they look like class and def markers. JavaScript, HTML, and Markdown each have their own list too.</p>
+            <p><code>RecursiveCharacterTextSplitter.from_language</code> sets those separators for you. Pass a language such as python, js, html, java, php, or markdown.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text = """
+def hello_world():
+    print("Hello, World!")
+"""
+
+splitter = RecursiveCharacterTextSplitter.from_language(
+    language="python",
+    chunk_size=100,
+    chunk_overlap=0,
+)
+
+result = splitter.split_text(text)
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>['def hello_world():\n    print("Hello, World!")']</code></pre>
+              <p class="code-io__note">With a small function and chunk_size 100, the whole function stays in one chunk. Larger files split near class and def boundaries first.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-309" data-section="309" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">309</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Semantic Meaning Based Splitter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The fourth type is semantic meaning based splitting. Sometimes every earlier splitter fails. Look at this text. It looks like two paragraphs, but the first paragraph mixes two topics: farming and the IPL. A third topic, terrorism, follows. Meaning says you need three chunks, not two.</p>
+            <pre><code>Farmers were working hard in the fields, preparing the soil and planting seeds for the next season. The sun was bright, and the air smelled of earth and fresh grass. The Indian Premier League (IPL) is the biggest cricket league in the world. People all over the world watch the matches and cheer for their favourite teams.
+
+Terrorism is a big danger to peace and safety. It causes harm to people and creates fear in cities and villages. When such attacks happen, they leave behind pain and sadness. To fight terrorism, we need strong laws, alert security forces, and support from people who care about peace and safety.</code></pre>
+            <p>Semantic splitting does not decide by character count alone. It decides by meaning.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">How semantic splitting works</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Sentences</span>
+                  <span class="workflow__step-desc">Split sentence by sentence.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="binary" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embed</span>
+                  <span class="workflow__step-desc">Vector for each sentence.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-compare" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Compare</span>
+                  <span class="workflow__step-desc">Check similarity in a row.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cut</span>
+                  <span class="workflow__step-desc">Split where similarity drops.</span>
+                </li>
+              </ol>
+            </div>
+            <p>When similarity between neighbors is very low, the topic changed. That is where you split. This approach is still fairly new. Accuracy is not always high yet, so treat it as experimental.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>from langchain_experimental.text_splitter import SemanticChunker
+from langchain_openai import OpenAIEmbeddings
+
+text = """Farmers were working hard in the fields, preparing the soil and planting seeds for the next season. The sun was bright, and the air smelled of earth and fresh grass. The Indian Premier League (IPL) is the biggest cricket league in the world. People all over the world watch the matches and cheer for their favourite teams.
+Terrorism is a big danger to peace and safety. It causes harm to people and creates fear in cities and villages."""
+
+splitter = SemanticChunker(
+    OpenAIEmbeddings(),
+    breakpoint_threshold_type="percentile",
+    breakpoint_threshold_amount=90,
+)
+
+result = splitter.create_documents([text])
+for doc in result:
+    print(doc.page_content)
+    print("---")</code></pre>
+              <p class="code-io__label code-io__label--output">What you hope to see</p>
+              <pre class="code-output"><code>Farmers were working hard... fresh grass.
+---
+The Indian Premier League (IPL)... favourite teams.
+---
+Terrorism is a big danger... fear in cities and villages.
+---</code></pre>
+              <p class="code-io__note">Exact cuts depend on the embedding model and threshold. You need an API key or another embedding backend for this to run.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-310" data-section="310" data-chapter="day-31">
+        <span class="lesson-card__marker" aria-hidden="true">310</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 31 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 31 takeaways</h3>
+              <ul>
+                <li>Text splitting turns large documents into chunks an LLM can handle.</li>
+                <li>Remember four names: character based, recursive character based, recursive with language, and semantic meaning based.</li>
+                <li>Character based is fast but can cut mid word. Use overlap of about 10 to 20 percent to reduce boundary loss.</li>
+                <li>Recursive character based is the default for real text. Recursive with language is the same tool with separators for Python, JS, HTML, and more.</li>
+                <li>Semantic meaning based splits where topics change. It is useful, but still experimental.</li>
+              </ul>
+              <p>Next: store chunk embeddings in a vector database.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
