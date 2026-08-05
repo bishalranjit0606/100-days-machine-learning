@@ -42,7 +42,7 @@ Inside `<main>` in `index.html`, add exactly one line at the correct position (a
       <div data-include='days/day27.html'></div>
 ```
 
-**Never add new day content inline in index.html.** The sync XHR loader already handles loading all `[data-include]` divs automatically before the page boots.
+**Never add new day content inline in index.html.** The include loader fetches all `[data-include]` divs in parallel before lesson boot finishes.
 
 ## 3. What still goes in index.html
 

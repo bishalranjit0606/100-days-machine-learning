@@ -1,0 +1,368 @@
+      <div class="chapter-divider reveal" id="chapter-day-32" data-chapter="day-32">
+        <span class="chapter-divider__pill">Day 32</span>
+        <h2 class="chapter-divider__title">Vector Store in LangChain</h2>
+        <p class="chapter-divider__note">Store embeddings as vectors and retrieve similar content for semantic search, RAG, and recommendations.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-311" data-section="311" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">311</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Do We Need a Vector Store</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Think about a movie catalog recommendation system.</p>
+            <p>You already have a database with all movie details. A backend fetches data from the database and shows it in the frontend.</p>
+            <p>Now you want recommendations. How do you decide which movies match a user interest.</p>
+            <p>A first idea is keyword matching. For example, match director, actor, and genre.</p>
+            <p>But this can fail. Two movies can share many keywords and still have very different plot meaning.</p>
+            <p>To fix that, we need a way to compare meaning, not just matching keywords.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-312" data-section="312" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">312</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Keyword Matching Is Not Enough</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Keyword matching only works when the same keywords imply the same meaning.</p>
+            <p>But in real recommendations, two problems show up.</p>
+            <ul>
+              <li>If a key parameter matches, the recommendation may still be wrong for plot and intent.</li>
+              <li>If keywords differ, the system might miss a movie with a similar storyline.</li>
+            </ul>
+            <p>So we want to compare plots. That means we need a similarity score for meaning.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-313" data-section="313" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">313</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embeddings Turn Text Into Vectors</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The solution is embedding. Embedding converts a text into a vector of numbers.</p>
+            <p>So the pipeline becomes: text goes into a neural network, then output is a vector.</p>
+            <p>Once text is numbers, comparing similarity becomes easier.</p>
+            <p>For example, you may have a vector with a fixed dimension, then you compare directions using angular distance or cosine similarity.</p>
+            <p>The closest vectors in vector space are likely to be about similar meaning.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-314" data-section="314" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">314</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Main Challenges When You Use Embeddings</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Embedding helps, but it creates new work.</p>
+            <ul>
+              <li>You must generate embedding vectors for many movies. With lakhs of items, this is a lot of compute.</li>
+              <li>You must store those vectors so you can reuse them. You cannot regenerate everything every time.</li>
+              <li>You must also do semantic search fast. Comparing a query against every vector is too slow.</li>
+            </ul>
+            <p>This is why you need a different kind of storage and retrieval system.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-315" data-section="315" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">315</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Vector Store</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A vector store is a system to store and retrieve data as numerical vectors.</p>
+            <p>It stores vectors plus metadata. It can keep data in memory or on disk.</p>
+            <p>Key features in practice are these:</p>
+            <ul>
+              <li>Store vectors with metadata.</li>
+              <li>Perform similarity search for a query vector.</li>
+              <li>Index the vectors so search is fast.</li>
+              <li>Support CRUD operations like add, update, and delete.</li>
+            </ul>
+            <p>Vector stores are used for semantic search, RAG, recommendation systems, and image or multimedia search.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-316" data-section="316" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">316</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Indexing Makes Semantic Search Fast</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If you have 10 lakh vectors, and you compare a query against every one, it is slow.</p>
+            <p>So vector stores use indexing. One idea is clustering.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Clustering and centroids for faster search</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Lots of vectors</span>
+                  <span class="workflow__step-desc">For example 10 lakh vectors.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="corner-up-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cluster them</span>
+                  <span class="workflow__step-desc">Group similar vectors together.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="map-pin" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Compute centroids</span>
+                  <span class="workflow__step-desc">Represent each cluster by one vector.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Compare fewer vectors</span>
+                  <span class="workflow__step-desc">Find the closest cluster first.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-compare" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Search inside that cluster</span>
+                  <span class="workflow__step-desc">Now compare against fewer candidates.</span>
+                </li>
+              </ol>
+            </div>
+            <p>In your notes, the idea is: do one comparison against centroids, then focus on one cluster. That reduces the total work from millions of comparisons down to far fewer.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-317" data-section="317" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">317</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">CRUD Operations and Metadata</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Vector stores are not only for searching. They also support CRUD operations.</p>
+            <p>So you can add new vectors, update existing vectors, and delete vectors that are no longer needed.</p>
+            <p>Each vector is tied to metadata. That metadata might include the original document id, source, title, or any fields you want to return with search results.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-318" data-section="318" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">318</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="table" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Vector Store versus Vector Database</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Vector store and vector database are very close ideas.</p>
+            <p>A good way to remember the difference is feature depth.</p>
+            <p>Here is the comparison at a glance.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">What it focuses on</th>
+                    <th scope="col">Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Vector store</td>
+                    <td>Lightweight library for storage and retrieval. Often fewer database style features.</td>
+                    <td>FAISS.</td>
+                  </tr>
+                  <tr>
+                    <td>Vector database</td>
+                    <td>More complete database features such as distributed architecture, backup, concurrency, and authentication.</td>
+                    <td>Pinecone.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>In short: vector stores help you do the core job fast. Vector databases add heavier backend features for production scale.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-319" data-section="319" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">319</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="code-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chroma Example in LangChain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain includes wrappers for many vector stores. They share the same method shapes for adding documents and running similarity search.</p>
+            <p>Here is a minimal example using Chroma. It works with OpenAI embeddings if you have an API key, otherwise it uses deterministic offline embeddings so the script can run.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input code</p>
+              <pre class="code-input"><code>"""
+Minimal working example of using Chroma (via LangChain).
+
+Run:
+  python3 chroma.py
+
+Notes:
+1) If you have `OPENAI_API_KEY` set and `langchain-openai` is installed, this uses `OpenAIEmbeddings`.
+2) Otherwise it falls back to deterministic offline embeddings so the script can run without API calls.
+"""
+from __future__ import annotations
+import hashlib
+import os
+from dataclasses import dataclass
+from typing import List
+
+import numpy as np
+
+try:
+    # Newer import path in many setups.
+    from langchain_community.vectorstores import Chroma  # type: ignore
+except Exception:  # pragma: no cover
+    # Older LangChain versions exposed vectorstores here.
+    from langchain.vectorstores import Chroma  # type: ignore
+
+try:
+    from langchain_core.documents import Document
+except Exception:  # pragma: no cover
+    from langchain.schema import Document  # type: ignore
+
+try:
+    from langchain_core.embeddings import Embeddings
+except Exception:  # pragma: no cover
+    from langchain.embeddings.base import Embeddings  # type: ignore
+
+try:
+    from langchain_openai import OpenAIEmbeddings  # type: ignore
+except Exception:  # pragma: no cover
+    OpenAIEmbeddings = None  # type: ignore
+
+
+@dataclass
+class SimpleEmbeddings(Embeddings):
+    """
+    Offline fallback embeddings for examples.
+
+    Produces deterministic vectors from text hashes.
+    """
+
+    dim: int = 384
+
+    def _embed_text(self, text: str) -> List[float]:
+        digest = hashlib.sha256(text.encode("utf-8")).digest()
+        needed = self.dim
+        buf = (digest * ((needed + len(digest) - 1) // len(digest)))[:needed]
+        arr = np.frombuffer(buf, dtype=np.uint8).astype(np.float32) / 255.0
+        return arr.tolist()
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        return [self._embed_text(t) for t in texts]
+
+    def embed_query(self, text: str) -> List[float]:
+        return self._embed_text(text)
+
+
+def build_embedding():
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if OpenAIEmbeddings is not None and api_key:
+        return OpenAIEmbeddings()
+    return SimpleEmbeddings()
+
+
+def main() -> None:
+    persist_directory = "chroma_db"
+    collection_name = "sample"
+
+    embedding = build_embedding()
+
+    docs = [
+        Document(page_content="Hello, how are you?", metadata={"source": "doc1.txt"}),
+        Document(page_content="This is a test document.", metadata={"source": "doc2.txt"}),
+        Document(page_content="This is a test document 3.", metadata={"source": "doc3.txt"}),
+        Document(page_content="This is a test document 4.", metadata={"source": "doc4.txt"}),
+    ]
+    ids = ["doc1", "doc2", "doc3", "doc4"]
+
+    # Create an empty collection, then add docs with explicit IDs.
+    vector_store = Chroma(
+        collection_name=collection_name,
+        embedding_function=embedding,
+        persist_directory=persist_directory,
+    )
+    vector_store.add_documents(docs, ids=ids)
+    vector_store.persist()
+
+    stored = vector_store.get(include=["metadatas", "documents"])
+    print("Stored docs:", len(stored.get("documents", [])))
+
+    # Similarity search (score + docs).
+    query = "what is the question"
+    results = vector_store.similarity_search_with_score(query=query, k=2)
+    print("Similarity results (Document, score):")
+    for doc, score in results:
+        print("-", doc.metadata.get("source"), "score=", score)
+
+    # Update an existing document (add it first with id="doc5").
+    doc5 = Document(
+        page_content="This is an updated test document 5.",
+        metadata={"source": "doc5.txt"},
+    )
+    vector_store.add_documents([doc5], ids=["doc5"])
+    vector_store.update_documents([doc5], ids=["doc5"])
+    vector_store.persist()
+
+    # Delete the document.
+    vector_store.delete(ids=["doc5"])
+    vector_store.persist()
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>Stored docs: 4
+Similarity results (Document, score):
+- &lt;source&gt; score= ...
+- &lt;source&gt; score= ...</code></pre>
+              <p class="code-io__note">The exact similarity scores can change depending on embeddings. The stored docs count is 4 because the code starts by inserting 4 documents.</p>
+            </div>
+            <p>After this, you can use the vector store as the retrieval source for RAG, semantic search, and recommendations.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-320" data-section="320" data-chapter="day-32">
+        <span class="lesson-card__marker" aria-hidden="true">320</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 32 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 32 takeaways</h3>
+              <ul>
+                <li>Keyword matching can fail because it compares surface features, not plot meaning.</li>
+                <li>Embeddings convert text into vectors, then similarity is computed in vector space.</li>
+                <li>Vector stores solve the embedding storage and fast retrieval problem.</li>
+                <li>Indexing helps semantic search stay fast by comparing fewer vectors using clustering ideas.</li>
+                <li>Vector stores and vector databases are similar, but databases include heavier production features.</li>
+              </ul>
+              <p>Next: how to turn retrieved chunks into answers with RAG pipelines.</p>
+            </aside>
+          </div>
+        </div>
+      </article>

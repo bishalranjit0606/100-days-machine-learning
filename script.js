@@ -219,7 +219,9 @@
     });
   }
 
-  /* --- Scroll reveal --- */
+  /* --- Scroll reveal (safe to call again as new day HTML is injected) --- */
+  var revealObserver = null;
+
   function initReveals() {
     var targets = document.querySelectorAll(".chapter-divider, .lesson-card, .reveal");
     if (!targets.length) return;
@@ -231,24 +233,30 @@
       return;
     }
 
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
-    );
+    if (!revealObserver) {
+      revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+      );
+    }
 
     targets.forEach(function (el) {
-      observer.observe(el);
+      if (el.dataset.revealObserved === "1") return;
+      el.dataset.revealObserved = "1";
+      revealObserver.observe(el);
     });
   }
 
-  /* --- Workflow animation --- */
+  /* --- Workflow animation (safe to call again as new day HTML is injected) --- */
+  var workflowObserver = null;
+
   function initWorkflowAnimation() {
     var workflows = document.querySelectorAll(".workflow");
     if (!workflows.length) return;
@@ -260,20 +268,24 @@
       return;
     }
 
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-animated");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    if (!workflowObserver) {
+      workflowObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-animated");
+              workflowObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+    }
 
     workflows.forEach(function (w) {
-      observer.observe(w);
+      if (w.dataset.workflowObserved === "1") return;
+      w.dataset.workflowObserved = "1";
+      workflowObserver.observe(w);
     });
   }
 
@@ -1313,28 +1325,58 @@
   }
 
   /* --- Boot --- */
-  function boot() {
-    initIcons();
+  var shellBooted = false;
+  var contentBooted = false;
+
+  function paintInjectedContent(root) {
+    initIcons(root || document);
+    initReveals();
+    initWorkflowAnimation();
+  }
+
+  function bootShell() {
+    if (shellBooted) return;
+    shellBooted = true;
     initHeroReadyClass();
     initHeroLayerGlows();
     initHeroTraining();
-    initReveals();
-    initWorkflowAnimation();
     initSmoothScrollLinks();
     initMobileNav();
     initTocAccordion();
-    initChapterHash();
     initTocSearch();
-    initScrollSpy();
     initScrollHandlers();
+    initIcons(document);
+    initReveals();
+  }
+
+  function bootContent() {
+    if (contentBooted) return;
+    contentBooted = true;
+    paintInjectedContent(document);
+    initChapterHash();
+    initScrollSpy();
     initTextToSpeech();
     initMobileUx();
     scrollOffsetMobile = getScrollOffset();
   }
 
+  function start() {
+    bootShell();
+    window.__onIncludeProgress = function (root) {
+      paintInjectedContent(root || document);
+    };
+    var ready = window.__includesReady;
+    if (ready && typeof ready.then === "function") {
+      ready.then(bootContent, bootContent);
+    } else {
+      bootContent();
+    }
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    boot();
+    start();
   }
 })();
+
