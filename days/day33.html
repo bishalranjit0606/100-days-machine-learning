@@ -1,0 +1,665 @@
+      <div class="chapter-divider reveal" id="chapter-day-33" data-chapter="day-33">
+        <span class="chapter-divider__pill">Day 33</span>
+        <h2 class="chapter-divider__title">Retriever in LangChain</h2>
+        <p class="chapter-divider__note">Turn a query into useful Document objects from Wikipedia, a vector store, or other sources, with search strategies like MMR.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-321" data-section="321" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">321</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: Core RAG Pieces So Far</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the RAG path we already covered three building blocks.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">What you already learned</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-up" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Document loader</span>
+                  <span class="workflow__step-desc">Bring source files into LangChain Document objects.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Text splitter</span>
+                  <span class="workflow__step-desc">Cut long text into chunks the model can use.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Vector store</span>
+                  <span class="workflow__step-desc">Store embeddings and run similarity search.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Today we learn the retriever. It sits on top of a data source and returns the documents that match a query.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-322" data-section="322" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">322</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A retriever takes a query, looks inside a data source, and returns one or more Document objects.</p>
+            <p>The data source can be a vector store, an API, Wikipedia, or another backend. The retriever is the bridge between your query and that source.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Query in, documents out</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">The question or search text you send in.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retriever</span>
+                  <span class="workflow__step-desc">Goes into the data source and finds matches.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data source</span>
+                  <span class="workflow__step-desc">Vector store, Wikipedia API, Arxiv, and more.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="files" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Documents</span>
+                  <span class="workflow__step-desc">Multiple LangChain Document objects come out.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-323" data-section="323" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">323</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Retrievers Are Runnables</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Every retriever you meet in LangChain is a Runnable.</p>
+            <p>That matters for one reason. You can place a retriever inside a chain with the pipe operator, and connect it to prompts, models, and other Runnables you already know.</p>
+            <p>So a retriever is not only a search helper. It is also a chain building block.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-324" data-section="324" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">324</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Ways to Group Retrievers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can sort retrievers in two useful ways. One is by data source. The other is by search strategy.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Grouping</th>
+                    <th>What it means</th>
+                    <th>Examples</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>By data source</td>
+                    <td>Where the retriever looks for text.</td>
+                    <td>Wikipedia, vector store, Arxiv, and similar APIs.</td>
+                  </tr>
+                  <tr>
+                    <td>By search strategy</td>
+                    <td>How it picks and ranks documents.</td>
+                    <td>MMR, multi query, contextual compression.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Same goal every time: take a query and return useful documents. The source and the strategy change how that search runs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-325" data-section="325" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">325</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Wikipedia Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The Wikipedia retriever calls the Wikipedia API, finds articles that match your query, and returns them as LangChain Document objects.</p>
+            <p>Matching here is keyword based. It picks the most relevant articles for that query. It does not download the whole encyclopedia.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Wikipedia as the data source</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">You ask a question.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="globe" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Wikipedia API</span>
+                  <span class="workflow__step-desc">Keyword search finds matching articles.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Documents</span>
+                  <span class="workflow__step-desc">Relevant pages come back as Document objects.</span>
+                </li>
+              </ol>
+            </div>
+            <p>You might think this is a document loader. It is not. A loader reads a known source end to end. A retriever searches and returns only what matches the query. That search step is why Wikipedia access here is a retriever.</p>
+            <p>Here is a working Wikipedia retriever. Set <code>OPENAI_API_KEY</code> in your environment only for the embedding examples later. Wikipedia search itself does not need that key.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Wikipedia retriever</p>
+              <pre class="code-input"><code>from langchain_community.retrievers import WikipediaRetriever
+
+# Optional: language and how many articles to return.
+retriever = WikipediaRetriever(top_k_results=2, lang="en")
+
+query = (
+    "the geopolitical history of india and pakistan "
+    "from the perspective of a chinese"
+)
+docs = retriever.invoke(query)
+
+for i, doc in enumerate(docs):
+    print(f"\n--- Result {i+1} ---")
+    print(f"Content:\n{doc.page_content}...")</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>--- Result 1 ---
+Content:
+&lt;Wikipedia article text for a matching page&gt;...
+
+--- Result 2 ---
+Content:
+&lt;Wikipedia article text for another matching page&gt;...</code></pre>
+              <p class="code-io__note">Exact article text changes over time. You get LangChain Document objects, not a full Wikipedia dump.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-326" data-section="326" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">326</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Vector Store Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is the most common retriever type in RAG. It fetches documents from a vector store using semantic similarity.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Store once, retrieve by meaning</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Documents</span>
+                  <span class="workflow__step-desc">Your chunks of text.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="binary" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embeddings</span>
+                  <span class="workflow__step-desc">An embedding model turns text into vectors.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Vector store</span>
+                  <span class="workflow__step-desc">Vectors sit ready for search.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query path</span>
+                  <span class="workflow__step-desc">Query becomes a vector, then the store finds close matches.</span>
+                </li>
+              </ol>
+            </div>
+            <p>You can call similarity search on the vector store directly. That works for one fixed strategy.</p>
+            <p>The retriever layer is still useful. It is a Runnable, so it plugs into chains. It also unlocks advanced search strategies such as MMR, multi query, and contextual compression, without rewriting your whole pipeline.</p>
+            <p>Build a small Chroma store, turn it into a retriever with <code>as_retriever</code>, then compare that path with a direct <code>similarity_search</code> call.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Vector store retriever with Chroma</p>
+              <pre class="code-input"><code>from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from langchain_core.documents import Document
+
+documents = [
+    Document(page_content="LangChain helps developers build LLM applications easily."),
+    Document(page_content="Chroma is a vector database optimized for LLM-based search."),
+    Document(page_content="Embeddings convert text into high-dimensional vectors."),
+    Document(page_content="OpenAI provides powerful embedding models."),
+]
+
+embedding_model = OpenAIEmbeddings()
+
+vectorstore = Chroma.from_documents(
+    documents=documents,
+    embedding=embedding_model,
+    collection_name="my_collection",
+)
+
+retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
+
+query = "What is Chroma used for?"
+results = retriever.invoke(query)
+
+for i, doc in enumerate(results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)
+
+# Same idea without the retriever wrapper.
+results = vectorstore.similarity_search(query, k=2)
+
+for i, doc in enumerate(results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>--- Result 1 ---
+Chroma is a vector database optimized for LLM-based search.
+
+--- Result 2 ---
+&lt;second closest document from the four above&gt;</code></pre>
+              <p class="code-io__note">Needs packages such as langchain, chromadb, openai, tiktoken, langchain_openai, and langchain-community. Ranking of the second hit can shift with the embedding model.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-327" data-section="327" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">327</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">MMR: Maximum Marginal Relevance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>MMR is a search strategy. It keeps results relevant to the query, and it also pushes for variety so you do not get near duplicate answers.</p>
+            <p>Imagine five documents about climate topics. Your query is: what are the effects of climate change.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Doc ID</th>
+                    <th>Content</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>D1</td>
+                    <td>Climate change is causing glaciers to melt rapidly in the Arctic region.</td>
+                  </tr>
+                  <tr>
+                    <td>D2</td>
+                    <td>Glaciers in the Arctic are melting at an alarming rate due to rising temperatures.</td>
+                  </tr>
+                  <tr>
+                    <td>D3</td>
+                    <td>Deforestation in the Amazon is accelerating global climate change.</td>
+                  </tr>
+                  <tr>
+                    <td>D4</td>
+                    <td>Climate change is increasing the frequency of wildfires in California.</td>
+                  </tr>
+                  <tr>
+                    <td>D5</td>
+                    <td>Rising sea levels due to climate change threaten coastal cities like Mumbai and New York.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Look at D1 and D2. Both talk about Arctic glaciers melting. Plain semantic search might return D1, D2, and D3. That wastes a slot on the same idea twice.</p>
+            <p>MMR works in steps. First it picks the most relevant document. Next it picks another relevant document that is different from the ones already chosen. It keeps going until it fills <code>k</code> results.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">How MMR picks documents</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Most relevant</span>
+                  <span class="workflow__step-desc">Take the best match for the query first.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shuffle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Relevant and different</span>
+                  <span class="workflow__step-desc">Next pick must stay useful and not copy the first.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Repeat to k</span>
+                  <span class="workflow__step-desc">Build a short list that covers more sides of the topic.</span>
+                </li>
+              </ol>
+            </div>
+            <p>In LangChain you set the search type to MMR and pass search kwargs. <code>k</code> is how many documents to return. <code>lambda_mult</code> is a number from 0 to 1 that balances relevance and diversity.</p>
+            <p>Here is the same idea with FAISS and a small LangChain document set.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">MMR with FAISS</p>
+              <pre class="code-input"><code>from langchain_core.documents import Document
+from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings
+
+docs = [
+    Document(page_content="LangChain makes it easy to work with LLMs."),
+    Document(page_content="LangChain is used to build LLM based applications."),
+    Document(page_content="Chroma is used to store and search document embeddings."),
+    Document(page_content="Embeddings are vector representations of text."),
+    Document(page_content="MMR helps you get diverse results when doing similarity search."),
+    Document(page_content="LangChain supports Chroma, FAISS, Pinecone, and more."),
+]
+
+embedding_model = OpenAIEmbeddings()
+
+vectorstore = FAISS.from_documents(
+    documents=docs,
+    embedding=embedding_model,
+)
+
+retriever = vectorstore.as_retriever(
+    search_type="mmr",
+    search_kwargs={"k": 3, "lambda_mult": 0.5},
+)
+
+query = "What is langchain?"
+results = retriever.invoke(query)
+
+for i, doc in enumerate(results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>--- Result 1 ---
+LangChain makes it easy to work with LLMs.
+
+--- Result 2 ---
+&lt;another relevant doc that is not a near copy of Result 1&gt;
+
+--- Result 3 ---
+&lt;third diverse relevant doc&gt;</code></pre>
+              <p class="code-io__note"><code>k=3</code> returns three documents. <code>lambda_mult</code> sits between 0 and 1 to balance relevance and diversity. Exact order depends on embeddings. Install faiss-cpu for this example.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-328" data-section="328" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">328</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multi Query Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>User queries are often vague or broad. The documents in your store may use different words than the user used.</p>
+            <p>Example: the user asks how do I manage my sleep, but your docs talk about nutrition habits that also affect sleep. One narrow query can miss those chunks.</p>
+            <p>The multi query retriever asks an LLM to rewrite the user query into several diverse but related queries. Each rewritten query goes to the retriever. Results are merged, and duplicates are removed.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One vague query becomes many searches</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">User query</span>
+                  <span class="workflow__step-desc">Often broad or worded differently than your docs.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM rewrites</span>
+                  <span class="workflow__step-desc">Creates several related queries with different angles.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retrieve each</span>
+                  <span class="workflow__step-desc">Run retrieval for every rewritten query.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-merge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Merge</span>
+                  <span class="workflow__step-desc">Combine hits and drop duplicates for the final list.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Compare a plain similarity retriever with <code>MultiQueryRetriever</code> on the same FAISS store. The query is broad: how to improve energy levels and maintain balance.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Multi query versus similarity</p>
+              <pre class="code-input"><code>from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_core.documents import Document
+from langchain.retrievers.multi_query import MultiQueryRetriever
+
+all_docs = [
+    Document(
+        page_content="Regular walking boosts heart health and can reduce symptoms of depression.",
+        metadata={"source": "H1"},
+    ),
+    Document(
+        page_content="Consuming leafy greens and fruits helps detox the body and improve longevity.",
+        metadata={"source": "H2"},
+    ),
+    Document(
+        page_content="Deep sleep is crucial for cellular repair and emotional regulation.",
+        metadata={"source": "H3"},
+    ),
+    Document(
+        page_content="Mindfulness and controlled breathing lower cortisol and improve mental clarity.",
+        metadata={"source": "H4"},
+    ),
+    Document(
+        page_content="Drinking sufficient water throughout the day helps maintain metabolism and energy.",
+        metadata={"source": "H5"},
+    ),
+    Document(
+        page_content="The solar energy system in modern homes helps balance electricity demand.",
+        metadata={"source": "I1"},
+    ),
+    Document(
+        page_content="Python balances readability with power, making it a popular system design language.",
+        metadata={"source": "I2"},
+    ),
+    Document(
+        page_content="Photosynthesis enables plants to produce energy by converting sunlight.",
+        metadata={"source": "I3"},
+    ),
+    Document(
+        page_content="The 2022 FIFA World Cup was held in Qatar and drew global energy and excitement.",
+        metadata={"source": "I4"},
+    ),
+    Document(
+        page_content="Black holes bend spacetime and store immense gravitational energy.",
+        metadata={"source": "I5"},
+    ),
+]
+
+embedding_model = OpenAIEmbeddings()
+vectorstore = FAISS.from_documents(
+    documents=all_docs,
+    embedding=embedding_model,
+)
+
+similarity_retriever = vectorstore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 5},
+)
+
+multiquery_retriever = MultiQueryRetriever.from_llm(
+    retriever=vectorstore.as_retriever(search_kwargs={"k": 5}),
+    llm=ChatOpenAI(model="gpt-3.5-turbo"),
+)
+
+query = "How to improve energy levels and maintain balance?"
+
+similarity_results = similarity_retriever.invoke(query)
+multiquery_results = multiquery_retriever.invoke(query)
+
+for i, doc in enumerate(similarity_results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)
+
+print("*" * 150)
+
+for i, doc in enumerate(multiquery_results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>--- Result 1 ---
+&lt;similarity hits, often pulled by the word energy&gt;
+
+**************************************************************************************
+
+--- Result 1 ---
+&lt;multi query hits after LLM rewrites, often more health focused&gt;</code></pre>
+              <p class="code-io__note">Similarity alone can grab docs that only share the word energy, such as solar or World Cup lines. Multi query rewrites the ask, so health and wellness docs show up more often. Exact lists change with the LLM.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-329" data-section="329" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">329</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Contextual Compression Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is an advanced retrieval pattern. First a base retriever returns documents. Then a compressor, often an LLM, trims each document so only the parts that matter for the query remain.</p>
+            <p>Why do you need that. After text splitting, one chunk can still hold several unrelated facts. The retriever may return that whole chunk even when only one sentence answers the question.</p>
+            <p>Example chunk: Mt Everest is the highest peak in the world. Nepal heritage is very good. Bishal lives in Kathmandu.</p>
+            <p>Query: where does Bishal live.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Retrieve, then compress</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">Where does Bishal live.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Base retriever</span>
+                  <span class="workflow__step-desc">Returns a few chunks, for example D1 and D2.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Compressor LLM</span>
+                  <span class="workflow__step-desc">Query plus each doc go to the LLM to drop noise.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-minus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Trimmed docs</span>
+                  <span class="workflow__step-desc">You keep lines like Bishal lives in Kathmandu.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The name compression fits. The LLM squeezes each retrieved document down to the relevant bits. LangChain has more retrievers beyond these three strategies, but MMR, multi query, and contextual compression cover the main ideas you will use often.</p>
+            <p>In code, a base retriever finds candidate chunks, then <code>LLMChainExtractor</code> keeps only the lines that answer the query.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Contextual compression retriever</p>
+              <pre class="code-input"><code>from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from langchain_core.documents import Document
+
+docs = [
+    Document(
+        page_content=(
+            "The Grand Canyon is one of the most visited natural wonders in the world. "
+            "Photosynthesis is the process by which green plants convert sunlight into energy. "
+            "Millions of tourists travel to see it every year. "
+            "The rocks date back millions of years."
+        ),
+        metadata={"source": "Doc1"},
+    ),
+    Document(
+        page_content=(
+            "In medieval Europe, castles were built primarily for defense. "
+            "The chlorophyll in plant cells captures sunlight during photosynthesis. "
+            "Knights wore armor made of metal. "
+            "Siege weapons were often used to breach castle walls."
+        ),
+        metadata={"source": "Doc2"},
+    ),
+    Document(
+        page_content=(
+            "Basketball was invented by Dr. James Naismith in the late 19th century. "
+            "It was originally played with a soccer ball and peach baskets. "
+            "NBA is now a global league."
+        ),
+        metadata={"source": "Doc3"},
+    ),
+    Document(
+        page_content=(
+            "The history of cinema began in the late 1800s. Silent films were the earliest form. "
+            "Thomas Edison was among the pioneers. "
+            "Photosynthesis does not occur in animal cells. "
+            "Modern filmmaking involves complex CGI and sound design."
+        ),
+        metadata={"source": "Doc4"},
+    ),
+]
+
+embedding_model = OpenAIEmbeddings()
+vectorstore = FAISS.from_documents(docs, embedding_model)
+
+base_retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+
+llm = ChatOpenAI(model="gpt-3.5-turbo")
+compressor = LLMChainExtractor.from_llm(llm)
+
+compression_retriever = ContextualCompressionRetriever(
+    base_retriever=base_retriever,
+    base_compressor=compressor,
+)
+
+query = "What is photosynthesis?"
+compressed_results = compression_retriever.invoke(query)
+
+for i, doc in enumerate(compressed_results):
+    print(f"\n--- Result {i+1} ---")
+    print(doc.page_content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>--- Result 1 ---
+Photosynthesis is the process by which green plants convert sunlight into energy.
+
+--- Result 2 ---
+The chlorophyll in plant cells captures sunlight during photosynthesis.
+
+--- Result 3 ---
+Photosynthesis does not occur in animal cells.</code></pre>
+              <p class="code-io__note">Canyon, castle, and cinema lines get dropped. Exact wording from the compressor can vary slightly with the model.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-330" data-section="330" data-chapter="day-33">
+        <span class="lesson-card__marker" aria-hidden="true">330</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 33 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 33 takeaways</h3>
+              <ul>
+                <li>A retriever takes a query, searches a data source, and returns Document objects.</li>
+                <li>Retrievers are Runnables, so they plug into LangChain chains.</li>
+                <li>You can group them by data source, such as Wikipedia or a vector store, or by search strategy.</li>
+                <li>MMR keeps results relevant while reducing near duplicate documents.</li>
+                <li>Multi query rewrites a vague query into several searches, then merges the hits.</li>
+                <li>Contextual compression trims retrieved chunks so only query relevant text remains.</li>
+              </ul>
+              <p>Next: put retrievers to work inside full RAG answer chains.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
