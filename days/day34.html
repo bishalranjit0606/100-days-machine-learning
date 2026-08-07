@@ -1,0 +1,575 @@
+      <div class="chapter-divider reveal" id="chapter-day-34" data-chapter="day-34">
+        <span class="chapter-divider__pill">Day 34</span>
+        <h2 class="chapter-divider__title">RAG Explained</h2>
+        <p class="chapter-divider__note">Retrieval Augmented Generation. Why LLMs fail, when fine tuning helps, and how RAG gives the model fresh context at ask time.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-331" data-section="331" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">331</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: The RAG Components</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We already learned the building blocks one by one.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Pieces you already know</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-up" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Document loader</span>
+                  <span class="workflow__step-desc">Bring sources into Document objects.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Text splitter</span>
+                  <span class="workflow__step-desc">Cut long text into chunks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Vector store</span>
+                  <span class="workflow__step-desc">Store embeddings for search.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retriever</span>
+                  <span class="workflow__step-desc">Find the useful Documents for a query.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Today we put those pieces together and learn what RAG really is.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-332" data-section="332" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">332</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why LLMs Sometimes Fail</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLMs changed AI. They have huge numbers of parameters. We pre train them on huge amounts of data, often across much of the public internet. That world knowledge lives inside the parameters. More parameters often means a stronger model.</p>
+            <p>The basic path is simple. You send a prompt. That prompt is your query. The model replies.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Basic LLM path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">Your prompt.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Uses stored parameters.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Response</span>
+                  <span class="workflow__step-desc">The answer comes back.</span>
+                </li>
+              </ol>
+            </div>
+            <p>But there are three common cases where the model fails or goes wrong.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Private data</p>
+                <p class="concept-card__desc">Ask about your company salary file or a private PDF. The model never saw that data in training.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Knowledge cutoff</p>
+                <p class="concept-card__desc">Ask for the latest news from Kathmandu. Many open source LLMs stop at a fixed date. Chatbots with web tools can fetch live info. Plain LLMs often cannot.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Hallucination</p>
+                <p class="concept-card__desc">The model sometimes answers with high confidence even when it is guessing. It invents details that sound right but are wrong.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-333" data-section="333" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">333</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="graduation-cap" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Fix: Fine Tuning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Can we solve those three problems. Yes. One path is fine tuning.</p>
+            <p>Fine tuning means you take a pre trained LLM and train it a bit more on task related domain data. You build a smaller labeled set, train, and then the model can answer domain questions better.</p>
+            <p>Here is a simple story. A student in engineering already learned English, CS, microprocessors, and math. That is like pre training. When the student joins a company and learns how that company works, that is like fine tuning.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Story piece</th>
+                    <th scope="col">ML meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Student</td>
+                    <td>The LLM.</td>
+                  </tr>
+                  <tr>
+                    <td>School courses</td>
+                    <td>Pre training on broad knowledge.</td>
+                  </tr>
+                  <tr>
+                    <td>Company training</td>
+                    <td>Fine tuning on domain knowledge.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-334" data-section="334" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">334</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="settings" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fine Tuning Methods in Brief</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are several fine tuning styles. This is only a short map, not a deep course.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Supervised fine tuning</p>
+                <p class="concept-card__desc">You give labeled pairs. Prompt goes in. Desired output is the label.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Continued pre training</p>
+                <p class="concept-card__desc">Unsupervised. You feed raw domain text with no labels so the model absorbs the style and facts.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">RLHF</p>
+                <p class="concept-card__desc">Reinforcement learning with human feedback. Humans rank answers to steer the model.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">LoRA and QLoRA</p>
+                <p class="concept-card__desc">Lighter ways to fine tune. You update small adapter weights instead of every parameter.</p>
+              </div>
+            </div>
+            <p>For many domain chatbots, people start with supervised fine tuning.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Supervised fine tuning steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Collect data</span>
+                  <span class="workflow__step-desc">Labeled prompt and desired output pairs.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sliders" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Choose a method</span>
+                  <span class="workflow__step-desc">Full parameters, LoRA, or QLoRA.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Train</span>
+                  <span class="workflow__step-desc">Run for a few epochs.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Evaluate</span>
+                  <span class="workflow__step-desc">Test quality and safety.</span>
+                </li>
+              </ol>
+            </div>
+            <p>How can fine tuning help the three failure cases.</p>
+            <ul>
+              <li>Private data. Train on that private set so the model learns it.</li>
+              <li>Fresh facts. Retrain with newer data so knowledge moves forward.</li>
+              <li>Hallucination. Teach the model to say I do not know when the facts are weak, instead of inventing an answer.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-335" data-section="335" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">335</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Problems With Fine Tuning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Fine tuning helps, but it has heavy costs.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Expensive compute</p>
+                <p class="concept-card__desc">Even with a smaller data set, large models need big GPUs and money.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Needs expertise</p>
+                <p class="concept-card__desc">Training, eval, and safety checks take skill and time.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Hard to keep fresh</p>
+                <p class="concept-card__desc">When facts change every day, you must fine tune again and again. Removing old facts also needs more training.</p>
+              </div>
+            </div>
+            <p>Fine tuning is a poor fit when new information changes very fast.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-336" data-section="336" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">336</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lightbulb" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">In Context Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Is there another technique. Yes. In context learning.</p>
+            <p>You put examples inside the prompt itself. For example you can write this is good equals positive, and hate it equals negative. That style is called few shot prompting.</p>
+            <p>In context learning is an emergent ability. As LLMs grew larger, this behavior showed up. The model can learn a pattern from examples in the prompt without changing its weights.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The learning ladder</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Pre training</span>
+                  <span class="workflow__step-desc">Broad knowledge in weights.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="graduation-cap" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fine tuning</span>
+                  <span class="workflow__step-desc">Domain knowledge in weights.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Examples in prompt</span>
+                  <span class="workflow__step-desc">Few shot in context learning.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Now push the idea one step further. Instead of sending small examples, send the whole useful context needed to answer.</p>
+            <p>Imagine you are reading a paper and get stuck. You ask a question and also paste the paper text. You are not teaching with tiny examples. You are giving the facts the model needs right now. That idea leads to RAG.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-337" data-section="337" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">337</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="blocks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>RAG means Retrieval Augmented Generation. You make the model smarter by giving it extra knowledge at the moment you ask the question.</p>
+            <p>RAG joins information retrieval with text generation.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">RAG in one line</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">Your question.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Context</span>
+                  <span class="workflow__step-desc">Retrieved external knowledge.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Query and context joined.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">Writes from that prompt.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Response</span>
+                  <span class="workflow__step-desc">The final answer.</span>
+                </li>
+              </ol>
+            </div>
+            <p>A common system prompt sounds like this. You are an assistant. Answer only from the given context. If the answer is not there, say I do not know.</p>
+            <p>RAG is usually much cheaper than fine tuning, because you add knowledge at ask time instead of retraining weights every time facts change.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-338" data-section="338" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">338</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Steps of RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>RAG has four big steps. Indexing builds the knowledge base. Retrieval finds the useful pieces. Augmentation joins context with the query. Generation lets the LLM write the answer.</p>
+            <p>The diagram below shows both paths. First prepare the store. Then answer a live query.</p>
+            <p>At ask time, the query also goes through the same embedding model. Semantic search needs a query vector, not raw text.</p>
+            <figure class="lesson-figure rag-pipeline tts-skip" aria-label="RAG pipeline with indexing and query path">
+              <div class="rag-pipeline__canvas">
+                <svg class="rag-pipeline__svg" viewBox="0 0 760 460" role="img" aria-hidden="true">
+                  <text x="20" y="28" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0f766e">1. Indexing path</text>
+
+                  <rect x="20" y="48" width="70" height="48" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                  <text x="55" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Source</text>
+
+                  <line x1="90" y1="72" x2="118" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+                  <text x="104" y="64" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">loader</text>
+
+                  <rect x="120" y="48" width="78" height="48" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                  <text x="159" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Document</text>
+
+                  <line x1="198" y1="72" x2="226" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+                  <text x="212" y="64" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">split</text>
+
+                  <rect x="228" y="40" width="28" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04"></rect>
+                  <rect x="228" y="64" width="28" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04"></rect>
+                  <rect x="262" y="40" width="28" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04"></rect>
+                  <rect x="262" y="64" width="28" height="20" rx="3" fill="#fef9c3" stroke="#ca8a04"></rect>
+                  <text x="259" y="108" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">chunks</text>
+
+                  <line x1="298" y1="72" x2="330" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="332" y="48" width="120" height="48" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                  <text x="392" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Embedding model</text>
+
+                  <line x1="452" y1="72" x2="490" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="492" y="42" width="54" height="12" rx="2" fill="#86efac"></rect>
+                  <rect x="492" y="58" width="40" height="12" rx="2" fill="#86efac"></rect>
+                  <rect x="492" y="74" width="48" height="12" rx="2" fill="#86efac"></rect>
+                  <rect x="492" y="90" width="36" height="12" rx="2" fill="#86efac"></rect>
+                  <text x="519" y="120" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">vectors</text>
+
+                  <line x1="554" y1="72" x2="600" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <ellipse cx="660" cy="72" rx="70" ry="40" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></ellipse>
+                  <text x="660" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Vector store</text>
+
+                  <text x="20" y="160" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#be123c">2. Ask time path</text>
+
+                  <circle cx="55" cy="230" r="32" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></circle>
+                  <text x="55" y="234" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Query</text>
+
+                  <line x1="87" y1="230" x2="118" y2="230" stroke="#94a3b8" stroke-width="2"></line>
+                  <text x="102" y="222" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">embed</text>
+
+                  <rect x="120" y="206" width="100" height="48" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                  <text x="170" y="226" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Same embedding</text>
+                  <text x="170" y="242" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">model</text>
+
+                  <line x1="220" y1="230" x2="248" y2="230" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="250" y="214" width="70" height="32" rx="4" fill="#86efac" stroke="#16a34a" stroke-width="1.5"></rect>
+                  <text x="285" y="234" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">query vec</text>
+
+                  <line x1="320" y1="230" x2="350" y2="230" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="352" y="206" width="90" height="48" rx="8" fill="#fecaca" stroke="#dc2626" stroke-width="1.5"></rect>
+                  <text x="397" y="235" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Retriever</text>
+
+                  <path d="M397 206 L397 150 L590 150 L590 112" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 4"></path>
+                  <text x="490" y="142" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">semantic search</text>
+                  <text x="490" y="128" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">vector vs vectors</text>
+
+                  <path d="M590 112 L590 280 L480 280" fill="none" stroke="#dc2626" stroke-width="1.5"></path>
+
+                  <rect x="250" y="280" width="230" height="56" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"></rect>
+                  <text x="365" y="304" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Relevant chunks (context)</text>
+                  <text x="365" y="322" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">closest matches to the query vector</text>
+
+                  <circle cx="55" cy="380" r="26" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></circle>
+                  <text x="55" y="384" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Query</text>
+
+                  <line x1="81" y1="380" x2="250" y2="330" stroke="#94a3b8" stroke-width="1.5"></line>
+                  <text x="140" y="368" font-family="Sora, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0f172a">+</text>
+
+                  <line x1="480" y1="308" x2="520" y2="308" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="522" y="284" width="70" height="48" rx="8" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"></rect>
+                  <text x="557" y="313" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Prompt</text>
+
+                  <line x1="592" y1="308" x2="620" y2="308" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="622" y="284" width="58" height="48" rx="8" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"></rect>
+                  <text x="651" y="313" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" font-weight="600" fill="#0f172a">LLM</text>
+
+                  <line x1="680" y1="308" x2="708" y2="308" stroke="#94a3b8" stroke-width="2"></line>
+
+                  <rect x="710" y="284" width="40" height="48" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="2"></rect>
+                  <text x="730" y="313" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0f172a">Ans</text>
+
+                  <text x="380" y="430" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#64748b">Query text becomes a vector first. Then semantic search compares that vector to stored chunk vectors.</text>
+                </svg>
+              </div>
+              <figcaption>Top path builds the vector store. Bottom path embeds the query, searches, augments, and generates.</figcaption>
+            </figure>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Indexing</p>
+                <p class="concept-card__desc">Prepare the external knowledge base so search is fast at query time.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Retrieval</p>
+                <p class="concept-card__desc">Find only the chunks that matter for this query.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Augmentation</p>
+                <p class="concept-card__desc">Combine context and query into one prompt.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Generation</p>
+                <p class="concept-card__desc">The LLM writes the response from that prompt.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-339" data-section="339" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">339</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Indexing in Detail</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Indexing is the process of preparing the knowledge base. The context in the prompt comes from that external base. Good indexing makes search effective when a user asks a question.</p>
+            <p>Indexing has four sub steps. You already studied each one on earlier days.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Indexing sub steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-up" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Document ingestion</span>
+                  <span class="workflow__step-desc">Load sources into memory with a document loader.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Text chunking</span>
+                  <span class="workflow__step-desc">Split large docs. LLMs cannot take huge prompts, and search works better on smaller pieces.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="binary" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embedding</span>
+                  <span class="workflow__step-desc">Turn each chunk into a dense vector that captures meaning.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Vector store</span>
+                  <span class="workflow__step-desc">Save the vector with the original chunk and metadata. Chroma and Pinecone are options.</span>
+                </li>
+              </ol>
+            </div>
+            <p>After indexing, that vector store is your external knowledge base.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-340" data-section="340" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">340</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Retrieval in Detail</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Retrieval is a real time step. Among all stored chunks, which ones are the best context for this query.</p>
+            <p>You send the query to a retriever. The retriever finds the most relevant pieces from the pre built index.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Retriever steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="binary" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embed the query</span>
+                  <span class="workflow__step-desc">Same embedding model as the chunks. Query text becomes a query vector.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-compare" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Semantic search</span>
+                  <span class="workflow__step-desc">Compare the query vector to stored chunk vectors. Methods like MMR can help.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list-ordered" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Rank</span>
+                  <span class="workflow__step-desc">Order the hits by relevance.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="files" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fetch top results</span>
+                  <span class="workflow__step-desc">Those chunks become the context.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-341" data-section="341" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">341</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="combine" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Augmentation and Generation</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Augmentation is the join step. You take the retrieved context and the user query and build one prompt.</p>
+            <p>Generation is the last step. You send that prompt to an LLM. The model writes the response from the context you gave it.</p>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Step</th>
+                    <th scope="col">What happens</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Augmentation</td>
+                    <td>Query plus context becomes the prompt.</td>
+                  </tr>
+                  <tr>
+                    <td>Generation</td>
+                    <td>LLM reads the prompt and writes the answer.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Compared with fine tuning, RAG usually costs less. You update knowledge by changing the store, not by retraining the whole model every time.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-342" data-section="342" data-chapter="day-34">
+        <span class="lesson-card__marker" aria-hidden="true">342</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 34 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 34 takeaways</h3>
+              <ul>
+                <li>LLMs fail on private data, knowledge cutoff, and hallucination.</li>
+                <li>Fine tuning can help, but it is costly and hard to keep up to date.</li>
+                <li>In context learning puts examples in the prompt. RAG puts full useful context in the prompt.</li>
+                <li>RAG means retrieval plus generation. Query plus context becomes the prompt for the LLM.</li>
+                <li>The four steps are indexing, retrieval, augmentation, and generation.</li>
+              </ul>
+              <p>Next: build a full RAG chain in code with the pieces you already know.</p>
+            </aside>
+          </div>
+        </div>
+      </article>

@@ -750,6 +750,7 @@
           cls.contains("comparison-table") ||
           cls.contains("lesson-figure") ||
           cls.contains("split-tree") ||
+          cls.contains("rag-pipeline") ||
           cls.contains("broadcast-diagram") ||
           cls.contains("broadcast-matrix") ||
           cls.contains("broadcast-row__visual") ||
