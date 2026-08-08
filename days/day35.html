@@ -1,0 +1,478 @@
+      <div class="chapter-divider reveal" id="chapter-day-35" data-chapter="day-35">
+        <span class="chapter-divider__pill">Day 35</span>
+        <h2 class="chapter-divider__title">YouTube Chatbot with RAG</h2>
+        <p class="chapter-divider__note">Turn a long video transcript into a question answering bot with LangChain, FAISS, and one LCEL chain.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-343" data-section="343" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">343</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="youtube" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why a YouTube Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some videos are two or three hours long. Watching the whole thing just to find one answer wastes time.</p>
+            <p>A YouTube chatbot lets you ask the video questions. The bot answers from the transcript, not from guesswork.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Topic check</p>
+                <p class="concept-card__desc">Does this video talk about AI?</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Summary</p>
+                <p class="concept-card__desc">Summarize the video in bullet points.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Doubt clearing</p>
+                <p class="concept-card__desc">Ask about a part you did not understand.</p>
+              </div>
+            </div>
+            <p>The final product can be a Chrome extension that opens on top of YouTube, or a Streamlit site. Today we focus on the RAG functionality, not the UI.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-344" data-section="344" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">344</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="map" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Plan of Action</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We build this with the same RAG architecture from Day 34. First index the transcript. Then retrieve, augment, and generate.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">YouTube RAG path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Transcript</span>
+                  <span class="workflow__step-desc">Fetch captions for the video.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Split</span>
+                  <span class="workflow__step-desc">Cut text into overlapping chunks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embed and store</span>
+                  <span class="workflow__step-desc">Vectors go into FAISS.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retrieve</span>
+                  <span class="workflow__step-desc">Query becomes a vector. Top chunks return.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Augment</span>
+                  <span class="workflow__step-desc">Join query plus context in a prompt.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Generate</span>
+                  <span class="workflow__step-desc">LLM answers from that context.</span>
+                </li>
+              </ol>
+            </div>
+            <p>You can load transcripts with a YouTube document loader, but that path can be buggy. We use the YouTube Transcript API directly instead.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-345" data-section="345" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">345</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="package" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Setup and Packages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Install the packages you need, then load your API key from the environment. Never paste a real key into a notebook or a public file.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Install and env</p>
+              <pre class="code-input"><code>!pip install -q youtube-transcript-api langchain-community \
+  langchain-openai langchain-huggingface faiss-cpu \
+  tiktoken python-dotenv langchain-text-splitters \
+  sentence-transformers
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+# Put OPENAI_API_KEY in a .env file (or your host secrets).
+# This example talks to OpenRouter with the OpenAI client style.</code></pre>
+              <p class="code-io__label code-io__label--output">What you need ready</p>
+              <pre class="code-output"><code>Packages installed.
+OPENAI_API_KEY available in the environment.
+A YouTube video_id that has English captions.</code></pre>
+              <p class="code-io__note">If you ever pasted a key into a Colab cell, rotate that key on the provider dashboard.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-346" data-section="346" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">346</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="captions" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fetch the Transcript</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Indexing starts with the raw transcript. You pass a video id, ask for English captions, then join every chunk into one long string.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">YouTube transcript fetch</p>
+              <pre class="code-input"><code>from youtube_transcript_api import (
+    YouTubeTranscriptApi,
+    TranscriptsDisabled,
+)
+
+video_id = "Fbr_Solax1w"
+
+try:
+    ytt_api = YouTubeTranscriptApi()
+    transcript_list = ytt_api.fetch(
+        video_id,
+        languages=["en"],
+    )
+    transcript = " ".join(
+        chunk.text for chunk in transcript_list
+    )
+    print(transcript[:500], "...")
+except TranscriptsDisabled:
+    print("Transcript is disabled for this video.")</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>One long string of spoken text from the video.
+Exact words depend on the captions for that video_id.
+If captions are off, you get the disabled message.</code></pre>
+              <p class="code-io__note">The video id is the part after v= in a YouTube URL.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-347" data-section="347" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">347</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Split Into Chunks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A full transcript is too long to embed as one piece. We split it with overlap so meaning near a cut line is less likely to get lost.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">RecursiveCharacterTextSplitter</p>
+              <pre class="code-input"><code>from langchain_text_splitters import (
+    RecursiveCharacterTextSplitter,
+)
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,
+    length_function=len,
+)
+
+chunks = text_splitter.create_documents([transcript])
+print(len(chunks))
+print(chunks[0].page_content[:200])</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A list of Document objects.
+len(chunks) is the number of pieces
+(exact count depends on transcript length).
+Each Document has page_content text.</code></pre>
+              <p class="code-io__note">chunk_size=1000 and chunk_overlap=200 are a solid starting point. Tune them later if answers miss context.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-348" data-section="348" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">348</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Embed and Store in FAISS</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Next we turn each chunk into a vector and store it in FAISS. Here we use a free Hugging Face sentence transformer so embedding does not need a paid API.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">HuggingFaceEmbeddings plus FAISS</p>
+              <pre class="code-input"><code>from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+
+embedding = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
+
+vectorstore = FAISS.from_documents(chunks, embedding)
+
+# Optional checks while you explore:
+# vectorstore.index_to_docstore_id
+# vectorstore.get_by_ids(["some-doc-id"])</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A FAISS vector store holding one embedding
+per chunk. Indexing for this video is done.</code></pre>
+              <p class="code-io__note">The MiniLM sentence model is small and fast. First run may download the model weights.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-349" data-section="349" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">349</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build the Retriever</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The retriever wraps the vector store. You send a question. It embeds the question and returns the most similar chunks.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Similarity retriever</p>
+              <pre class="code-input"><code>retriever = vectorstore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 4},
+)
+
+docs = retriever.invoke(
+    "what is the purpose of this video"
+)
+for i, doc in enumerate(docs, start=1):
+    print(i, doc.page_content[:120], "...")</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>Up to 4 Document objects.
+Each page_content is a transcript chunk
+that is close in meaning to the query.
+Exact text depends on the video.</code></pre>
+              <p class="code-io__note">k=4 means four neighbors. Raise k for more context. Lower k for a tighter prompt.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-350" data-section="350" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">350</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square-plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Prompt, LLM, and Manual RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Before one big chain, run the ask path by hand. Build a grounded prompt, fetch context, join page content only, then call the LLM.</p>
+            <p>We tell the model to answer only from the transcript. If the answer is missing, it should say it does not know.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Manual retrieve, augment, generate</p>
+              <pre class="code-input"><code>import os
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+
+llm = ChatOpenAI(
+    model="openrouter/free",
+    temperature=0.3,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ["OPENAI_API_KEY"],
+)
+
+prompt = PromptTemplate(
+    template="""You are a helpful assistant.
+Answer only from the provided transcript content.
+If the answer is not present in the transcript,
+say "I don't know."
+
+Context:
+{context}
+
+Question:
+{question}
+""",
+    input_variables=["context", "question"],
+)
+
+question = "What is this video about?"
+retrieved_docs = vectorstore.similarity_search(
+    question, k=3
+)
+
+# Send page_content only, not full Document objects.
+context_text = "\n\n".join(
+    doc.page_content for doc in retrieved_docs
+)
+
+final_prompt = prompt.invoke({
+    "context": context_text,
+    "question": question,
+})
+
+answer = llm.invoke(final_prompt)
+print(answer.content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A short answer grounded in the retrieved chunks,
+or "I don't know." if the transcript has no match.
+Exact wording changes with the model and video.</code></pre>
+              <p class="code-io__note">Joining page_content keeps the prompt small. Full Document metadata is usually not needed for the LLM.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-351" data-section="351" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">351</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Chain With Parallel Inputs</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The steps work, but they are separate. We want one invoke that runs the full path.</p>
+            <p>The prompt needs two inputs: context and question. The question can pass straight through. Context must come from the retriever, then a small format function.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Parallel then generate</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Question in</span>
+                  <span class="workflow__step-desc">One string invoke.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-fork" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Parallel</span>
+                  <span class="workflow__step-desc">context branch and question branch.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-pen" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Fills context and question.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM plus parser</span>
+                  <span class="workflow__step-desc">Returns plain answer text.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">RunnableParallel plus main chain</p>
+              <pre class="code-input"><code>from langchain_core.runnables import (
+    RunnableParallel,
+    RunnablePassthrough,
+    RunnableLambda,
+)
+from langchain_core.output_parsers import StrOutputParser
+
+def format_docs(retrieved_docs):
+    return "\n\n".join(
+        doc.page_content for doc in retrieved_docs
+    )
+
+parallel_chain = RunnableParallel(
+    {
+        "context": retriever | RunnableLambda(format_docs),
+        "question": RunnablePassthrough(),
+    }
+)
+
+# Check the dict shape first:
+# parallel_chain.invoke("what is the purpose of this video")
+
+parser = StrOutputParser()
+
+main_chain = (
+    parallel_chain
+    | prompt
+    | RunnableLambda(lambda x: x.to_messages()[0])
+    | llm
+    | parser
+)
+
+print(main_chain.invoke("what is a2a"))</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>parallel_chain returns a dict like:
+{"context": "...joined chunks...", "question": "..."}
+
+main_chain returns one answer string.
+If a2a is not in the transcript, expect "I don't know."</code></pre>
+              <p class="code-io__note">The RunnableLambda after prompt turns the prompt value into a chat message for ChatOpenAI. The parser keeps only the text string at the end.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-352" data-section="352" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">352</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="rocket" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Improvements You Can Make Later</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The core RAG path works. These upgrades make it stronger for real users.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Area</th>
+                    <th scope="col">What to improve</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>UI</td>
+                    <td>Streamlit site or a Chrome plugin on top of YouTube.</td>
+                  </tr>
+                  <tr>
+                    <td>Evaluation</td>
+                    <td>RAGAS metrics like faithfulness, answer relevance, context precision, and context recall. LangSmith for tracing the pipeline.</td>
+                  </tr>
+                  <tr>
+                    <td>Indexing</td>
+                    <td>Auto captions can be wrong or in another language. Splitting can struggle when the transcript includes code. A simple vector store may not be enough later.</td>
+                  </tr>
+                  <tr>
+                    <td>Retrieval</td>
+                    <td>Pre retrieval: query rewrite, multi query, domain routing. During retrieval: MMR, hybrid search, reranking. Post retrieval: contextual compression.</td>
+                  </tr>
+                  <tr>
+                    <td>Augmentation</td>
+                    <td>Better prompt templates, answer grounding, and context window optimization.</td>
+                  </tr>
+                  <tr>
+                    <td>Generation</td>
+                    <td>Answers with citations, plus guardrails.</td>
+                  </tr>
+                  <tr>
+                    <td>System design</td>
+                    <td>Multimodal inputs, agentic flows, and memory based chat.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>You already met several retrieval ideas on Day 33. Evaluation and UI are the next practical layer once the chain is stable.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-353" data-section="353" data-chapter="day-35">
+        <span class="lesson-card__marker" aria-hidden="true">353</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 35 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 35 takeaways</h3>
+              <ul>
+                <li>A YouTube chatbot solves long video search by answering from the transcript.</li>
+                <li>Indexing path: fetch captions, split, embed, store in FAISS.</li>
+                <li>Ask path: retrieve chunks, join page content, prompt the LLM, parse the answer.</li>
+                <li>RunnableParallel builds context and question together so one invoke runs the full chain.</li>
+                <li>UI, evaluation, better retrieval, and citations are natural next upgrades.</li>
+              </ul>
+              <p>Next: keep building Gen AI apps on top of this RAG base.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
