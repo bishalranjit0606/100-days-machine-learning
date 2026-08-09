@@ -1,0 +1,515 @@
+      <div class="chapter-divider reveal" id="chapter-day-36" data-chapter="day-36">
+        <span class="chapter-divider__pill">Day 36</span>
+        <h2 class="chapter-divider__title">Tools in LangChain</h2>
+        <p class="chapter-divider__note">Give the LLM hands. Learn built in tools, custom tools, and how tools lead to agents.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-354" data-section="354" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">354</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="route" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Tools, Tool Calling, Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we start a new path. First tools. Then tool calling. Then agents.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The path ahead</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Tools</span>
+                  <span class="workflow__step-desc">Functions or APIs the model can use.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="phone-call" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Tool calling</span>
+                  <span class="workflow__step-desc">The model chooses when to call a tool.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Agents</span>
+                  <span class="workflow__step-desc">Think, decide, and act with tools.</span>
+                </li>
+              </ol>
+            </div>
+            <p>This day focuses on tools themselves. You learn what they are, how to use built in ones, and how to build your own.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-355" data-section="355" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">355</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What an LLM Can and Cannot Do</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An LLM is a powerful NLP system. It can think and reason. It can generate language word by word.</p>
+            <p>Picture a human with a brain and a mouth, but no hands. The model can talk through a problem. It cannot do the real world work by itself.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Thinking</p>
+                <p class="concept-card__desc">Reason about a question and plan steps.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Language</p>
+                <p class="concept-card__desc">Write answers, summaries, and code text.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">No hands</p>
+                <p class="concept-card__desc">It cannot buy a flight ticket, touch live systems, or run your app alone.</p>
+              </div>
+            </div>
+            <p>Ask it to find a cheap flight. It may describe options. It cannot complete the purchase for you without tools.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-356" data-section="356" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">356</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ban" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hard Limits Without Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On its own, the LLM hits clear walls.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Live data</p>
+                <p class="concept-card__desc">It cannot fetch fresh news, prices, or weather by itself.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Complex math</p>
+                <p class="concept-card__desc">Hard calculations are unreliable in plain generation.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Code and databases</p>
+                <p class="concept-card__desc">It cannot run code, query a DB, or call your APIs alone.</p>
+              </div>
+            </div>
+            <p>Tools give the model a way to reach those systems when the task needs them.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-357" data-section="357" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">357</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A tool is Python code, a function or an API wrapper, that the LLM can understand and call when needed.</p>
+            <p>There are two big types.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">When you use it</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Built in tools</td>
+                    <td>Common jobs with little or no setup. Search, Wikipedia, shell, email helpers, and more.</td>
+                  </tr>
+                  <tr>
+                    <td>Custom tools</td>
+                    <td>Your own API, business logic, database, product, or app.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Built in tools are production ready pieces from LangChain. Custom tools are what you write for your domain.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-358" data-section="358" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">358</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Tools Relate to Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An AI agent can finish a task by thinking and then executing actions.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Agent split</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thinking</span>
+                  <span class="workflow__step-desc">The LLM decides what to do next.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hammer" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Action</span>
+                  <span class="workflow__step-desc">Tools run the real work.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Loop</span>
+                  <span class="workflow__step-desc">Results feed back into the next thought.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Without tools, an agent can only talk. With tools, it can search, compute, send mail, or hit your APIs.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-359" data-section="359" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">359</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="package" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Built In Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain ships pre built tools that need minimal setup. Here are common examples.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">DuckDuckGo</p>
+                <p class="concept-card__desc">Web search for live style results.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Wikipedia</p>
+                <p class="concept-card__desc">WikipediaQueryRun for encyclopedia text.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Shell</p>
+                <p class="concept-card__desc">ShellTool runs a shell command.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Gmail</p>
+                <p class="concept-card__desc">Helpers to send messages when configured.</p>
+              </div>
+            </div>
+            <p>Next we try search and shell in code. Treat shell access carefully. It can change files on the machine that runs it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-360" data-section="360" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">360</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">DuckDuckGo Search Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Install the community packages, create the search tool, then invoke it with a query string.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">DuckDuckGoSearchRun</p>
+              <pre class="code-input"><code>!pip install -U langchain langchain-core \
+  langchain-community pydantic duckduckgo-search ddgs
+
+from langchain_community.tools import DuckDuckGoSearchRun
+
+search_tool = DuckDuckGoSearchRun()
+result = search_tool.invoke("nepal news")
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A text string of search snippets about Nepal news.
+Exact headlines and links change with live results.</code></pre>
+              <p class="code-io__note">This is a built in tool. You call invoke. The tool talks to the search backend for you.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-361" data-section="361" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">361</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="terminal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Shell Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>ShellTool runs a command on the host and returns the text output. Use it only in safe sandboxes you control.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">ShellTool whoami</p>
+              <pre class="code-input"><code>!pip install -U langchain-experimental
+
+from langchain_community.tools import ShellTool
+
+shell_tool = ShellTool()
+result = shell_tool.invoke("whoami")
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>The current user name for that machine,
+for example your login name.
+Exact text depends on the OS user.</code></pre>
+              <p class="code-io__note">Do not expose ShellTool to untrusted users. It can run any command the process is allowed to run.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-362" data-section="362" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">362</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="puzzle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">When to Make a Custom Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Build a custom tool when built in options are not enough.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Your API</p>
+                <p class="concept-card__desc">Call an endpoint that only your product owns.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Business logic</p>
+                <p class="concept-card__desc">Wrap rules the LLM should not invent.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">DB or app</p>
+                <p class="concept-card__desc">Let the model talk to your database or app safely.</p>
+              </div>
+            </div>
+            <p>LangChain gives three common ways to create a tool. We walk through each one.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-363" data-section="363" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">363</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Ways to Build a Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pick the style that matches how much control you need.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Method</th>
+                    <th scope="col">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>@tool decorator</td>
+                    <td>Fastest path. Turn a typed function into a tool.</td>
+                  </tr>
+                  <tr>
+                    <td>StructuredTool</td>
+                    <td>Explicit name, description, and Pydantic input schema.</td>
+                  </tr>
+                  <tr>
+                    <td>BaseTool class</td>
+                    <td>Full control with a custom class and _run method.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>All three produce a tool you can invoke the same way. The difference is how you define the schema and logic.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-364" data-section="364" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">364</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Method 1: The @tool Decorator</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with a normal function. Add type hints. Write a clear docstring so the LLM knows what the tool does. Then put @tool on top.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Three steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="code" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Function</span>
+                  <span class="workflow__step-desc">Write the Python logic.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="tags" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Type hints</span>
+                  <span class="workflow__step-desc">Annotate args and return type.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="badge-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">@tool</span>
+                  <span class="workflow__step-desc">Decorator turns it into a tool.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">@tool multiply</p>
+              <pre class="code-input"><code>from langchain_core.tools import tool
+
+@tool
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers."""
+    return a * b
+
+result = multiply.invoke({"a": 3, "b": 2})
+print(result)
+
+print(multiply.name)
+print(multiply.description)
+print(multiply.args)
+print(multiply.args_schema.model_json_schema())</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>6
+multiply
+Multiply two numbers.
+{'a': {'type': 'integer'}, 'b': {'type': 'integer'}}
+# plus a JSON schema from model_json_schema()</code></pre>
+              <p class="code-io__note">The docstring is highly recommended. Future tool calling uses that text to decide when to call the tool.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-365" data-section="365" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">365</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Method 2: StructuredTool and Pydantic</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A StructuredTool is a tool whose inputs follow a strict schema, usually a Pydantic model. You define the schema, the function, then wrap them with from_function.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">StructuredTool add</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, Field
+from langchain_core.tools import StructuredTool
+
+class AddInput(BaseModel):
+    a: int = Field(description="The first number")
+    b: int = Field(description="The second number")
+
+def add_func(a: int, b: int) -> int:
+    return a + b
+
+add_tool = StructuredTool.from_function(
+    func=add_func,
+    name="add",
+    description="Adds two numbers together",
+    args_schema=AddInput,
+)
+
+result = add_tool.invoke({"a": 5, "b": 10})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>15</code></pre>
+              <p class="code-io__note">Field descriptions help the model fill a and b correctly when it calls the tool.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-366" data-section="366" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">366</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Method 3: BaseTool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For full control, subclass BaseTool. Set name, description, and args_schema. Put the work in _run.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">BaseTool subtraction</p>
+              <pre class="code-input"><code>from typing import Type
+from pydantic import BaseModel, Field
+from langchain_core.tools import BaseTool
+
+class SubInput(BaseModel):
+    a: int = Field(description="The number to subtract from")
+    b: int = Field(description="The number to subtract")
+
+class SubTool(BaseTool):
+    name: str = "subtraction_tool"
+    description: str = "Subtracts b from a"
+    args_schema: Type[BaseModel] = SubInput
+
+    def _run(self, a: int, b: int) -> int:
+        """Synchronous execution logic."""
+        return a - b
+
+sub_tool = SubTool()
+result = sub_tool.invoke({"a": 10, "b": 4})
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>6</code></pre>
+              <p class="code-io__note">Use this style when you need class level state, custom validation, or more than a simple function wrap.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-367" data-section="367" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">367</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Toolkits</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A toolkit is a collection of related tools that share one purpose. You package them together for convenience and reuse. Google Drive style toolkits are a common example.</p>
+            <p>You can make a small custom toolkit the same way. Hold tools in a class and return them from get_tools.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Simple MathToolkit</p>
+              <pre class="code-input"><code>from langchain_core.tools import tool
+
+@tool
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+@tool
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers."""
+    return a * b
+
+class MathToolkit:
+    def get_tools(self):
+        return [add, multiply]
+
+toolkit = MathToolkit()
+tools = toolkit.get_tools()
+print([t.name for t in tools])</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>['add', 'multiply']</code></pre>
+              <p class="code-io__note">Agents often take a list of tools. A toolkit is a clean way to hand that list over.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-368" data-section="368" data-chapter="day-36">
+        <span class="lesson-card__marker" aria-hidden="true">368</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 36 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 36 takeaways</h3>
+              <ul>
+                <li>An LLM can think and write, but it needs tools to act in the real world.</li>
+                <li>A tool is a function or API the model can call when needed.</li>
+                <li>Use built in tools for common jobs. Build custom tools for your API, logic, or database.</li>
+                <li>Create custom tools with @tool, StructuredTool, or a BaseTool subclass.</li>
+                <li>A toolkit groups related tools so agents can reuse them as one set.</li>
+              </ul>
+              <p>Next: tool calling, then agents that decide which tool to use.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
