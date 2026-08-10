@@ -1,0 +1,479 @@
+      <div class="chapter-divider reveal" id="chapter-day-37" data-chapter="day-37">
+        <span class="chapter-divider__pill">Day 37</span>
+        <h2 class="chapter-divider__title">Tool Calling in LangChain</h2>
+        <p class="chapter-divider__note">Connect tools to the LLM, let it choose a tool, then run the tool yourself and send the result back.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-369" data-section="369" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">369</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: Tools and the Gap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Day 36 covered tools. An LLM can think and generate language. It cannot do real work on its own.</p>
+            <p>It cannot book a flight, change a file on your machine, or hit your API without help. Tools are functions that can interact with the outside world.</p>
+            <p>Today we connect the LLM to those tools. We learn how the model decides to use one, and how we run it safely.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-370" data-section="370" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">370</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Tool Binding</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Tool binding is how you register tools with the LLM. You connect them so the model knows they exist.</p>
+            <p>After binding, the LLM learns three things.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Tools exist</p>
+                <p class="concept-card__desc">Which tools are available for this chat.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">What each does</p>
+                <p class="concept-card__desc">Name and description from the tool schema.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Input format</p>
+                <p class="concept-card__desc">Which arguments each tool expects.</p>
+              </div>
+            </div>
+            <p>Not every LLM supports tool binding. You need a model that was built for tool or function calling.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-371" data-section="371" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">371</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Create a Tool and Bind It</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with a simple add tool. Bind it to the LLM with bind_tools.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Tool create and bind</p>
+              <pre class="code-input"><code>import os
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+
+@tool
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+print(add.invoke({"a": 3, "b": 4}))
+print(add.args)
+
+llm = ChatOpenAI(
+    model="openrouter/free",
+    temperature=0.3,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ["OPENROUTER_API_KEY"],
+)
+
+llm_with_tools = llm.bind_tools([add])</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>7
+Schema for a and b as integers.
+llm_with_tools is ready to suggest the add tool when needed.</code></pre>
+              <p class="code-io__note">Keep API keys in environment variables, not in notebook cells.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-372" data-section="372" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">372</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="phone-call" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Tool Calling</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Tool calling is when the LLM decides during a task that it needs a specific tool. It returns structured output instead of a plain answer.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Chat vs math ask</p>
+              <pre class="code-input"><code>result = llm_with_tools.invoke("hello")
+print(result.content)
+
+result = llm_with_tools.invoke("add 4 and 5")
+print(result.content)
+print(result.tool_calls[0]["args"])</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>For hello: normal text reply.
+
+For add 4 and 5: content may be empty.
+tool_calls shows something like:
+{"name": "add", "args": {"a": 4, "b": 5}, ...}</code></pre>
+              <p class="code-io__note">The model suggests the tool and the args. It does not run add for you.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-373" data-section="373" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">373</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Tool Execution</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Tool calling and tool execution are different steps. Calling means the LLM says use add with a=4 and b=5. Execution means your code actually runs add.</p>
+            <p>We do not let the LLM run tools on its own. That can be risky. Shell tools, APIs, and databases should stay under your control.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Run the tool yourself</p>
+              <pre class="code-input"><code>result = llm_with_tools.invoke("add 4 and 5")
+
+# Pass args only:
+add.invoke(result.tool_calls[0]["args"])
+
+# Or pass the full tool call object:
+tool_result = add.invoke(result.tool_calls[0])
+print(tool_result)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>9
+A ToolMessage with the result content.</code></pre>
+              <p class="code-io__note">Your app decides when and how to execute. The LLM only plans the call.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-374" data-section="374" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">374</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Message Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>To get a final answer, keep a messages list. Add the human ask, the AI tool call, the tool result, then ask the LLM again.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One tool round trip</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">HumanMessage</span>
+                  <span class="workflow__step-desc">The user question.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">AIMessage</span>
+                  <span class="workflow__step-desc">Model returns tool_calls.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">ToolMessage</span>
+                  <span class="workflow__step-desc">You run the tool and append the result.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Final reply</span>
+                  <span class="workflow__step-desc">LLM reads all messages and answers.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Full add loop</p>
+              <pre class="code-input"><code>from langchain_core.messages import HumanMessage
+
+query = HumanMessage(content="can you add 3 and 10")
+messages = [query]
+
+ai_message = llm_with_tools.invoke(messages)
+messages.append(ai_message)
+
+tool_result = add.invoke(ai_message.tool_calls[0])
+messages.append(tool_result)
+
+final = llm_with_tools.invoke(messages)
+print(final.content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A natural language answer like:
+"The sum of 3 and 10 is 13."
+Exact wording depends on the model.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-375" data-section="375" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">375</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Currency Needs Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Exchange rates change every day. Ask how much 99 USD is in INR. A plain LLM may guess from old training data.</p>
+            <p>For a real time answer, we need a live API and two tools. One fetches the rate. One does the math.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Currency flow</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fetch rate</span>
+                  <span class="workflow__step-desc">get_conversion_factor calls the API.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="calculator" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Convert</span>
+                  <span class="workflow__step-desc">convert multiplies value by rate.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Answer</span>
+                  <span class="workflow__step-desc">LLM writes the final reply.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-376" data-section="376" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">376</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build get_conversion_factor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This tool hits an exchange rate API and returns the conversion factor between two currencies.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Fetch live rate</p>
+              <pre class="code-input"><code>import requests
+from langchain_core.tools import tool
+
+API_KEY = os.environ["EXCHANGE_RATE_API_KEY"]
+
+@tool
+def get_conversion_factor(
+    base_currency: str,
+    target_currency: str,
+) -> float:
+    """Fetch the currency conversion factor."""
+    url = (
+        f"https://v6.exchangerate-api.com/v6/"
+        f"{API_KEY}/latest/{base_currency}"
+    )
+    response = requests.get(url)
+    data = response.json()
+    return data["conversion_rates"][target_currency]
+
+print(get_conversion_factor.invoke({
+    "base_currency": "USD",
+    "target_currency": "NPR",
+}))</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A float rate such as 143.5.
+Exact number changes with live market data.</code></pre>
+              <p class="code-io__note">Sign up at exchangerate-api.com for a free key. Store it in EXCHANGE_RATE_API_KEY.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-377" data-section="377" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">377</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build convert</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second tool takes a base value and a rate, then returns the converted amount.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Multiply by rate</p>
+              <pre class="code-input"><code>@tool
+def convert(
+    base_currency_value: int,
+    conversion_rate: float,
+) -> float:
+    """Calculate target currency value from a rate."""
+    return base_currency_value * conversion_rate
+
+print(convert.invoke({
+    "base_currency_value": 100,
+    "conversion_rate": 143.5,
+}))</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>14350.0</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-378" data-section="378" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">378</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Bind Both Currency Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Register both tools on the same LLM. Now the model can plan a fetch step and a convert step for one user question.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Bind two tools</p>
+              <pre class="code-input"><code>llm_with_tools = llm.bind_tools([
+    get_conversion_factor,
+    convert,
+])
+
+messages = [
+    HumanMessage(
+        content="What is the conversion factor between "
+        "INR and USD, and can you convert 10 INR to USD?"
+    )
+]
+
+ai_message = llm_with_tools.invoke(messages)
+print(ai_message.tool_calls)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A list of planned tool calls.
+Often two calls: one for the rate,
+one for the conversion.
+Exact order depends on the model.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-379" data-section="379" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">379</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="syringe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">InjectedToolArg</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Sometimes the LLM should not pick every argument. The rate from step one should feed step two. InjectedToolArg marks an arg that your code injects, not the model.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Hide conversion_rate from the LLM</p>
+              <pre class="code-input"><code>from typing import Annotated
+from langchain_core.tools import InjectedToolArg
+
+@tool
+def convert_injected(
+    base_currency_value: int,
+    conversion_rate: Annotated[float, InjectedToolArg],
+) -> float:
+    """Convert using a rate your code supplies."""
+    return base_currency_value * conversion_rate</code></pre>
+              <p class="code-io__label code-io__label--output">What this means</p>
+              <pre class="code-output"><code>convert_injected.args no longer asks the LLM
+for conversion_rate.
+You pass that value when you invoke the tool.</code></pre>
+              <p class="code-io__note">This keeps chained tools safe. The model plans the steps. Your code passes hidden values between them.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-380" data-section="380" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">380</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run Two Tools in Order</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Loop over tool_calls from the AI message. Run get_conversion_factor first. Grab the rate. Inject it into convert. Append each ToolMessage. Then ask the LLM again.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Chain two tool results</p>
+              <pre class="code-input"><code>import json
+
+messages.append(ai_message)
+conversion_rate = None
+
+for tool_call in ai_message.tool_calls:
+    if tool_call["name"] == "get_conversion_factor":
+        tool_message = get_conversion_factor.invoke(tool_call)
+        conversion_rate = float(tool_message.content)
+        messages.append(tool_message)
+    if tool_call["name"] == "convert":
+        tool_call["args"]["conversion_rate"] = conversion_rate
+        tool_message = convert.invoke(tool_call)
+        messages.append(tool_message)
+
+answer = llm_with_tools.invoke(messages)
+print(answer.content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>A plain language answer with the live rate
+and the converted amount.
+Numbers match the API at call time.</code></pre>
+              <p class="code-io__note">You orchestrate the loop. The LLM plans which tools to use. Your code runs them in a safe order.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-381" data-section="381" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">381</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Is This an Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Not yet. What we built is a manual tool calling loop.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Manual loop today</th>
+                    <th scope="col">Agent later</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You write the for loop over tool_calls.</td>
+                    <td>The framework decides the next step in a loop.</td>
+                  </tr>
+                  <tr>
+                    <td>You inject values like conversion_rate.</td>
+                    <td>The agent picks tools until the task is done.</td>
+                  </tr>
+                  <tr>
+                    <td>Good for learning and tight control.</td>
+                    <td>Good for open ended tasks with many steps.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Tool binding, calling, and execution are the foundation. Agents add automatic planning on top.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-382" data-section="382" data-chapter="day-37">
+        <span class="lesson-card__marker" aria-hidden="true">382</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 37 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 37 takeaways</h3>
+              <ul>
+                <li>Tool binding registers tools so the LLM knows names, jobs, and input schemas.</li>
+                <li>Tool calling means the model returns tool_calls. Tool execution means your code runs the tool.</li>
+                <li>Keep a messages list: human ask, AI plan, tool result, then a final LLM reply.</li>
+                <li>Live data like currency rates needs API tools, not guesswork from training.</li>
+                <li>InjectedToolArg lets your code pass hidden values between chained tools.</li>
+                <li>A manual loop is not an agent yet. Agents automate the think and act cycle.</li>
+              </ul>
+              <p>Next: agents that run this loop for you.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
