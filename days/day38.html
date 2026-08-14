@@ -1,0 +1,534 @@
+      <div class="chapter-divider reveal" id="chapter-day-38" data-chapter="day-38">
+        <span class="chapter-divider__pill">Day 38</span>
+        <h2 class="chapter-divider__title">End to End AI Agent</h2>
+        <p class="chapter-divider__note">Give a high level goal. The agent plans, calls tools, keeps context, and loops until it can answer.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-383" data-section="383" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">383</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="map" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Trip Planning Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Imagine you book a trip from Kathmandu to Pokhara. You do the work in pieces, one website at a time.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">A trip by hand</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="plane" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Flight</span>
+                  <span class="workflow__step-desc">Pick an airline, date, and time, then book.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hotel" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Hotel</span>
+                  <span class="workflow__step-desc">Search Make My Trip. Filter by budget and reviews. Book.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="car" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Local travel</span>
+                  <span class="workflow__step-desc">Plan the visit and a cab, such as Pathao or inDrive.</span>
+                </li>
+              </ol>
+            </div>
+            <p>This can take days. It is hectic. That is the problem AI agents are built to solve.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-384" data-section="384" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">384</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How an Agent Chatbot Helps</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now picture a 60 year old traveler. The same site has an AI agent chatbot. You talk. It does the research and the next steps.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">User and agent</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Plan Kathmandu to Pokhara from 1 May to 5 May, budget travel.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Intent</span>
+                  <span class="workflow__step-desc">Origin, destination, dates, and budget.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Research</span>
+                  <span class="workflow__step-desc">Transport, then hotels, then a cab, then a visit plan.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="reply" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Reply</span>
+                  <span class="workflow__step-desc">The user can ask to search, book, or plan the next piece.</span>
+                </li>
+              </ol>
+            </div>
+            <p>As a user, this saves time and effort. The same idea works in other domains too, such as customer support or hospitality.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-385" data-section="385" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">385</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an AI Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An AI agent is an intelligent system you give a high level goal. You say plan Kathmandu to Pokhara. You do not list every click.</p>
+            <p>The agent has its own brain. It has access to tools, such as APIs, so it can do real work. It keeps the end goal in context. If new information arrives in the middle, it can replan.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-386" data-section="386" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">386</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why an Agent Beats a Plain LLM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In a nutshell, an AI agent is an LLM plus tools.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Piece</th>
+                    <th scope="col">Job</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>LLM</td>
+                    <td>Reasoning. It understands natural language and decides the next step.</td>
+                  </tr>
+                  <tr>
+                    <td>Tools</td>
+                    <td>Action. Search, APIs, weather, booking, and other real work.</td>
+                  </tr>
+                  <tr>
+                    <td>Agent</td>
+                    <td>Both together. Think, then act, then think again.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Day 37 you ran that loop by hand. Today the agent framework runs it for you.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-387" data-section="387" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">387</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Five Traits of an AI Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>These five traits show up in a real agent, not in a one shot LLM reply.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Goal driven</p>
+                <p class="concept-card__desc">Tell it what you want, not how to do every step.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Autonomous planning</p>
+                <p class="concept-card__desc">It breaks the problem into a sequence of tasks on its own.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Adaptive</p>
+                <p class="concept-card__desc">It can readjust when facts change.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Context aware</p>
+                <p class="concept-card__desc">It keeps memory across steps so later choices stay on goal.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Tool using</p>
+                <p class="concept-card__desc">It calls APIs and other tools to get work done.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-388" data-section="388" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">388</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cloud-sun" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Search Tool and Weather Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We give the agent two tools. DuckDuckGo search for current facts. A custom weather tool for live weather from WeatherStack.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Install, keys, and tools</p>
+              <pre class="code-input"><code>!pip install -qU langchain langchain-groq \
+  langchain-community ddgs requests
+
+import os
+import requests
+from langchain_core.tools import tool
+from langchain_community.tools import DuckDuckGoSearchRun
+
+search_tool = DuckDuckGoSearchRun()
+
+@tool
+def get_weather_data(city: str) -> str:
+    """Get current weather for a given city."""
+    api_key = os.environ.get("WEATHERSTACK_API_KEY")
+    if not api_key:
+        return "WeatherStack API key is not configured."
+
+    url = "https://api.weatherstack.com/current"
+    params = {
+        "access_key": api_key,
+        "query": city,
+        "units": "m",
+    }
+    try:
+        response = requests.get(url, params=params, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        if "error" in data:
+            return f"Weather API error: {data['error'].get('info', 'Unknown error')}"
+
+        location = data.get("location", {})
+        current = data.get("current", {})
+        city_name = location.get("name", city)
+        country = location.get("country", "")
+        temperature = current.get("temperature")
+        description = current.get("weather_descriptions", ["Unknown"])[0]
+        humidity = current.get("humidity")
+        wind_speed = current.get("wind_speed")
+        return (
+            f"Location: {city_name}, {country}\n"
+            f"Temperature: {temperature} C\n"
+            f"Condition: {description}\n"
+            f"Humidity: {humidity}%\n"
+            f"Wind speed: {wind_speed} km/h"
+        )
+    except requests.exceptions.RequestException as e:
+        return f"Weather request failed: {str(e)}"
+    except Exception as e:
+        return f"Unexpected weather error: {str(e)}"</code></pre>
+              <p class="code-io__label code-io__label--output">What you need ready</p>
+              <pre class="code-output"><code>GROQ_API_KEY in the environment.
+WEATHERSTACK_API_KEY in the environment.
+search_tool and get_weather_data ready to bind.</code></pre>
+              <p class="code-io__note">Put keys in env vars or a secret store. Never paste them into a notebook cell.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-389" data-section="389" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">389</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Create the Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The agent is the main brain. It plans, picks a tool, and writes the final answer. create_agent wires the model, tools, and a system prompt together.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">create_agent</p>
+              <pre class="code-input"><code>from langchain_groq import ChatGroq
+from langchain.agents import create_agent
+
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
+    temperature=0,
+)
+
+agent = create_agent(
+    model=llm,
+    tools=[search_tool, get_weather_data],
+    system_prompt=(
+        "You are a helpful research assistant. "
+        "Use the search tool when you need current "
+        "or factual information. "
+        "Use the weather tool when asked about weather. "
+        "Give concise and accurate answers."
+    ),
+)
+
+print("Agent created successfully.")</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>Agent created successfully.
+The agent can now search and fetch weather.</code></pre>
+              <p class="code-io__note">The system prompt tells the agent when to use each tool. Keep it short and clear.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-390" data-section="390" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">390</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run a Multi Step Ask</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Send one user message that needs two tools. Find a capital, then fetch its weather. The agent plans both steps. You do not write the for loop from Day 37.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">agent.invoke</p>
+              <pre class="code-input"><code>response = agent.invoke(
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": (
+                    "Find the capital of Madhya Pradesh, "
+                    "then find its current weather condition."
+                ),
+            }
+        ]
+    }
+)
+
+print(response["messages"][-1].content)</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>The last message is a text answer.
+The agent searches for the capital, then calls
+get_weather_data. Exact weather numbers change
+with live API data.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-391" data-section="391" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">391</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ReAct: Thought, Action, Observation</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain Hub stores pre defined prompts. One common design pattern is ReAct. That name means reasoning plus acting.</p>
+            <p>A plain LLM path is user to LLM to response. ReAct runs a loop of three steps until the agent can finish.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">ReAct loop</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="lightbulb" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thought</span>
+                  <span class="workflow__step-desc">What do I need next?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hammer" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Action</span>
+                  <span class="workflow__step-desc">Pick a tool and an input.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="eye" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Observation</span>
+                  <span class="workflow__step-desc">Read the tool result, then think again.</span>
+                </li>
+              </ol>
+            </div>
+            <p>ReAct fits multi step problems and tool work such as web search or a database lookup. You can see each step of the workflow.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-392" data-section="392" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">392</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ReAct Example: Capital Then Population</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Query: what is the population of the capital of France? The agent does not guess both facts in one shot. It walks the loop.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Step</th>
+                    <th scope="col">What happens</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Thought</td>
+                    <td>I need the capital of France.</td>
+                  </tr>
+                  <tr>
+                    <td>Action</td>
+                    <td>Search tool. Input: capital of France.</td>
+                  </tr>
+                  <tr>
+                    <td>Observation</td>
+                    <td>Paris.</td>
+                  </tr>
+                  <tr>
+                    <td>Thought</td>
+                    <td>I need the population of Paris.</td>
+                  </tr>
+                  <tr>
+                    <td>Action</td>
+                    <td>Search tool. Input: population of Paris.</td>
+                  </tr>
+                  <tr>
+                    <td>Observation</td>
+                    <td>About 2.1 million in this teaching walk through.</td>
+                  </tr>
+                  <tr>
+                    <td>Thought</td>
+                    <td>I know the final answer.</td>
+                  </tr>
+                  <tr>
+                    <td>Final</td>
+                    <td>Paris, about 2.1 million.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Live search can return a different population figure. The pattern is what matters: think, act, observe, repeat.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-393" data-section="393" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">393</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Agent and Agent Executor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The agent is the brain. It plans and chooses an action. The agent executor does most of the work. It runs the thought, action, observation loop.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Piece</th>
+                    <th scope="col">Job</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Agent</td>
+                    <td>Receives the query plus thought trace. Returns an action or a final answer.</td>
+                  </tr>
+                  <tr>
+                    <td>Agent executor</td>
+                    <td>Sends the query to the agent, runs the tool, feeds the observation back, repeats.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Older LangChain code used create_react_agent plus AgentExecutor. A common prompt on LangChain Hub is hwchase17/react. verbose=True prints the thinking while it runs.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Older ReAct executor shape</p>
+              <pre class="code-input"><code># Sketch of the older API from the notes.
+# Prefer create_agent in current LangChain.
+from langchain import hub
+from langchain.agents import (
+    create_react_agent,
+    AgentExecutor,
+)
+
+prompt = hub.pull("hwchase17/react")
+
+agent = create_react_agent(
+    llm=llm,
+    tools=[search_tool],
+    prompt=prompt,
+)
+
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=[search_tool],
+    verbose=True,
+)</code></pre>
+              <p class="code-io__label code-io__label--output">What this pattern does</p>
+              <pre class="code-output"><code>The executor loops until the agent finishes.
+verbose=True prints thought, action, and
+observation as the run proceeds.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-394" data-section="394" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">394</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Executor Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When the loop starts, the executor sends the user query to the agent. The agent returns an action and an action input, or it finishes.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Until a final answer</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="inbox" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Receive query</span>
+                  <span class="workflow__step-desc">Executor gets the user ask.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Think</span>
+                  <span class="workflow__step-desc">Query plus thought trace go to the agent.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="split" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Action or finish</span>
+                  <span class="workflow__step-desc">Tool name, tool input, and log, or a final output.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Execute tool</span>
+                  <span class="workflow__step-desc">Observation comes back.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Update trace</span>
+                  <span class="workflow__step-desc">Loop until AgentFinish, then return the answer.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-395" data-section="395" data-chapter="day-38">
+        <span class="lesson-card__marker" aria-hidden="true">395</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 38 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 38 takeaways</h3>
+              <ul>
+                <li>An AI agent takes a high level goal, plans, uses tools, and keeps context.</li>
+                <li>Agent equals LLM for reasoning plus tools for action.</li>
+                <li>Traits: goal driven, autonomous planning, adaptive, context aware, tool using.</li>
+                <li>create_agent binds the model, tools, and system prompt so one invoke can run many steps.</li>
+                <li>ReAct loops thought, action, and observation until a final answer.</li>
+                <li>The agent plans. The executor runs the loop and the tools.</li>
+              </ul>
+              <p>Next: more agent patterns on top of this loop.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
