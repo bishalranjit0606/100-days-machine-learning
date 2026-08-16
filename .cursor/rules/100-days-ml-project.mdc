@@ -33,6 +33,10 @@ Live site context: static HTML/CSS/JS (`index.html`, `styles.css`, `script.js`),
 
 ---
 
+## Course order (Anaconda, Python, NumPy)
+
+On the site, **Learning Python** (9 bonus days) sits **after Day 12 Anaconda Setup** and **before Learning NumPy**, then Pandas, then Day 13. Details live in `python-bonus.mdc`. Do not place new Python lessons after NumPy or at the end of the 100 day list.
+
 ## Day content from user notes
 
 When the user adds or updates a day file under `days/`:

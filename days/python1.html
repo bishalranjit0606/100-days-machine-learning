@@ -1,0 +1,784 @@
+      <div class="chapter-divider reveal" id="chapter-python-1" data-chapter="python-1">
+        <span class="chapter-divider__pill">Python 1</span>
+        <h2 class="chapter-divider__title">What Is Python</h2>
+        <p class="chapter-divider__note">Read this after Day 12 Anaconda Setup and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-409" data-section="409" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">409</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="code-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Python</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Python</strong> is a programming language. You write instructions. The computer follows them.</p>
+            <p>It is a <strong>high level</strong> language. You write in words close to English. You do not talk to the machine in raw bits.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Programming language</p>
+                <p class="concept-card__desc">A set of rules for writing instructions a computer can run.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">High level</p>
+                <p class="concept-card__desc">The code is readable for people. Python handles the hard machine details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-410" data-section="410" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">410</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="type" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python Character Set</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A character set is every symbol Python is allowed to see in your code. In practice, that is letters, digits, symbols, spaces, and other ASCII characters.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Letters</p>
+                <p class="concept-card__desc">a to z, and A to Z.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Digits</p>
+                <p class="concept-card__desc">0 to 9.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Special symbols</p>
+                <p class="concept-card__desc">Symbols such as <code>+</code>, <code>-</code>, and <code>*</code>.</p>
+              </div>
+              <div class="concept-card concept-card--semi">
+                <p class="concept-card__name">Whitespace</p>
+                <p class="concept-card__desc">A blank space, a tab, and a new line.</p>
+              </div>
+              <div class="concept-card concept-card--challenge">
+                <p class="concept-card__name">Other characters</p>
+                <p class="concept-card__desc">ASCII covers the rest of the common keyboard characters.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-411" data-section="411" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">411</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="terminal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">First Program</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is the first program. Write <code>print</code> in small letters. It is a <strong>function</strong>. Its job is to show text in the terminal.</p>
+            <p>The text you see after you run the code is the <strong>output</strong>. Code takes input, does work, and gives output.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Code to output</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="keyboard" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Code</span>
+                  <span class="workflow__step-desc">You write print with the text inside quotes.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">print</span>
+                  <span class="workflow__step-desc">The function runs and sends the text to the terminal.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="monitor" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Output</span>
+                  <span class="workflow__step-desc">The terminal shows the result.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print("hello world")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello world</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-412" data-section="412" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">412</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Print More Than One Value</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can pass more than one value to <code>print</code>. Separate them with a comma. They show on the same line, with a space between them.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print("hello", "Bishal")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello Bishal</code></pre>
+            </div>
+            <p>You can also do math inside <code>print</code>. Add or subtract, then print the result.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print(12 + 23)
+print(12 - 23)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>35
+-11</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-413" data-section="413" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">413</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Variables</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>variable</strong> is a memory location in a program. You give that place a name. You store a value there.</p>
+            <p>Think of a shape whose sides are <code>a</code> and <code>b</code>. The area is <code>a * b</code>. You can change <code>a</code> and <code>b</code>. Those changing values are variables.</p>
+            <p>If you store <code>"Bishal"</code> in <code>name</code>, Python reserves that place in memory for that value.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Three names, three memory slots.</p>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code"><code>name = "Bishal"</code>, <code>age = 24</code>, <code>price = 44.44</code>.</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">Bishal</span>
+                  </div>
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">24</span>
+                  </div>
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--result">44.44</span>
+                  </div>
+                </div>
+              </div>
+              <p class="broadcast-diagram__caption">Left cell is name. Middle cell is age. Right cell is price.</p>
+            </div>
+            <p>To show what is inside <code>name</code>, you write <code>print(name)</code> with no quotes around the variable name. If you later change <code>name</code>, the new value is what prints.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-414" data-section="414" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">414</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="quote" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Strings Integers and Floats</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>name = "Bishal"</code> is a <strong>string</strong>. A string is a word or a mix of words. You can wrap it in single quotes, double quotes, or triple quotes.</p>
+            <p><code>age = 24</code> is an <strong>integer</strong>. That is a whole number.</p>
+            <p><code>price = 44.44</code> is a <strong>float</strong>. That is a number with a decimal.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>name = "Bishal"
+age = 24
+price = 44.44
+
+print(name)
+print(age)
+print(price)
+print("my name is ", name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Bishal
+24
+44.44
+my name is  Bishal</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-415" data-section="415" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">415</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Assignment</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In <code>age = 24</code>, Python takes the value on the right and stores it in the name on the left.</p>
+            <p>You can copy that value into a second name. After <code>age2 = age</code>, both <code>age</code> and <code>age2</code> hold 24.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Right value moves left</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">24</span>
+                  <span class="workflow__step-desc">This is the value on the right.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="box" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">age</span>
+                  <span class="workflow__step-desc">The value is stored in age.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="copy" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">age2</span>
+                  <span class="workflow__step-desc">age2 = age copies 24 into age2.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>age = 24
+age2 = age
+print(age)
+print(age2)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>24
+24</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-416" data-section="416" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">416</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="text-cursor-input" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Rules for Identifiers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An identifier is a name you choose, such as a variable name. Keep names simple and short.</p>
+            <p>A name can use letters a to z, digits 0 to 9, and underscore. It can be any length. It cannot use symbols such as <code>%</code>, <code>#</code>, or <code>@</code>. It cannot start with a digit.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Allowed</th>
+                    <th scope="col">Not allowed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>name</code></td>
+                    <td><code>%name</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>age2</code></td>
+                    <td><code>2age</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>my_price</code></td>
+                    <td><code>my@price</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-417" data-section="417" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">417</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shapes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Data Types</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A data type is the kind of value in a variable. You do not write the type. Python finds it from the value. <code>print(type(age))</code> shows that type.</p>
+            <p>There are five types to learn today.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Integer</p>
+                <p class="concept-card__desc">A whole number. Positive, negative, or 0.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">String</p>
+                <p class="concept-card__desc">A word or a sentence. Single quotes, double quotes, or triple quotes.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Float</p>
+                <p class="concept-card__desc">A number with a decimal, such as 44.44.</p>
+              </div>
+              <div class="concept-card concept-card--semi">
+                <p class="concept-card__name">Boolean</p>
+                <p class="concept-card__desc">True or False. The T and the F must be capital.</p>
+              </div>
+              <div class="concept-card concept-card--challenge">
+                <p class="concept-card__name">None</p>
+                <p class="concept-card__desc">No value. Write None with a capital N.</p>
+              </div>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>age = 24
+old = False
+a = None
+
+print(type(age))
+print(type(old))
+print(type(a))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>&lt;class 'int'&gt;
+&lt;class 'bool'&gt;
+&lt;class 'NoneType'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-418" data-section="418" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">418</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="key-round" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Keywords</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Keywords are reserved words in Python. You cannot use them as variable names. The full list is on screen below.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Keywords</p>
+              <pre class="code-input"><code>and      as       assert   break    class
+continue def      del      elif     else
+except   finally  False    for      from
+global   if       import   in       is
+lambda   nonlocal None     not      or
+pass     raise    return   True     try
+with     while    yield</code></pre>
+            </div>
+            <p>Python is <strong>case sensitive</strong>. <code>name</code> and <code>Name</code> are two different names. <code>True</code> works. <code>true</code> does not.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-419" data-section="419" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">419</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Comments</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A comment never runs. Python skips it. Use comments to leave notes for yourself.</p>
+            <p>A one line comment starts with <code>#</code>. A multi line comment uses triple quotes. In many editors on a Mac, you can also press Command and the forward slash key to comment a line.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code># hello
+print("this line runs")
+
+"""
+this is a multi line comment
+Python does not run it
+"""</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this line runs</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-420" data-section="420" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">420</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Arithmetic Operators</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Operators are symbols that do work on values. Arithmetic operators do math.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Operator</th>
+                    <th scope="col">Job</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>+</code></td>
+                    <td>Add.</td>
+                  </tr>
+                  <tr>
+                    <td><code>-</code></td>
+                    <td>Subtract.</td>
+                  </tr>
+                  <tr>
+                    <td><code>*</code></td>
+                    <td>Multiply.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/</code></td>
+                    <td>Divide.</td>
+                  </tr>
+                  <tr>
+                    <td><code>%</code></td>
+                    <td>Modulo. Gives the remainder.</td>
+                  </tr>
+                  <tr>
+                    <td><code>**</code></td>
+                    <td>Power. <code>a ** b</code> means a to the power b.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 2
+b = 5
+c = a + b
+print(c)
+print(23 % 5)
+print(2 ** 3)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>7
+3
+8</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-421" data-section="421" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">421</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Relational Operators</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Relational operators are also called comparison operators. They compare two values. The result is True or False.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Operator</th>
+                    <th scope="col">Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>==</code></td>
+                    <td>Equal to.</td>
+                  </tr>
+                  <tr>
+                    <td><code>!=</code></td>
+                    <td>Not equal to.</td>
+                  </tr>
+                  <tr>
+                    <td><code>&gt;</code></td>
+                    <td>Greater than.</td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;</code></td>
+                    <td>Less than.</td>
+                  </tr>
+                  <tr>
+                    <td><code>&gt;=</code></td>
+                    <td>Greater than or equal to.</td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;=</code></td>
+                    <td>Less than or equal to.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print(20 == 20)
+print(20 != 30)
+print(20 &gt; 30)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>True
+True
+False</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-422" data-section="422" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">422</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="equal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Assignment Operators</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>=</code> stores a value. The other assignment operators change a variable using its own current value.</p>
+            <p>These two do the same work. <code>num = num + 10</code> and <code>num += 10</code> both add 10 to <code>num</code>.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Short form</th>
+                    <th scope="col">Same as</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>+=</code></td>
+                    <td>Add into the same variable.</td>
+                  </tr>
+                  <tr>
+                    <td><code>-=</code></td>
+                    <td>Subtract from the same variable.</td>
+                  </tr>
+                  <tr>
+                    <td><code>*=</code></td>
+                    <td>Multiply the same variable.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/=</code></td>
+                    <td>Divide the same variable.</td>
+                  </tr>
+                  <tr>
+                    <td><code>%=</code></td>
+                    <td>Remainder into the same variable.</td>
+                  </tr>
+                  <tr>
+                    <td><code>**=</code></td>
+                    <td>Power into the same variable.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>num = 10
+num += 10
+print(num)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>20</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-423" data-section="423" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">423</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Logical Operators</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Logical operators work with True and False. The three you need are <code>not</code>, <code>and</code>, and <code>or</code>.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">not</p>
+                <p class="concept-card__desc">Gives the opposite value.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">and</p>
+                <p class="concept-card__desc">Both sides must be True.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">or</p>
+                <p class="concept-card__desc">One side must be True.</p>
+              </div>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 20
+b = 30
+print(not (a &gt; b))
+print(True and False)
+print(True or False)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>True
+False
+True</code></pre>
+              <p class="code-io__note"><code>a &gt; b</code> is False. <code>not</code> turns that into True.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-424" data-section="424" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">424</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Type Conversion and Casting</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are two ways a type can change.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Kind</th>
+                    <th scope="col">Who does it</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Type conversion</td>
+                    <td>Python does it by itself.</td>
+                  </tr>
+                  <tr>
+                    <td>Type casting</td>
+                    <td>You do it by hand with <code>int()</code>, <code>float()</code>, or <code>str()</code>.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>If you add an integer and a float, Python turns the integer into a float. Float can hold the decimal, so it wins.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 2
+b = 2.5
+print(a + b)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>4.5</code></pre>
+            </div>
+            <p>A string plus a number fails. Python will not guess for you.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = "2"
+b = 2.5
+print(a + b)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>TypeError: can only concatenate str (not "float") to str</code></pre>
+            </div>
+            <p>Casting forces a new type when the value makes sense. <code>int("2")</code> works. <code>int("hello")</code> does not. You can also turn a number into a string with <code>str()</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a, b = 2.51, "2"
+c = int(b)
+print(c)
+
+n = 44
+print(str(n))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>2
+44</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-425" data-section="425" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">425</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="keyboard" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How to Take Input</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>input()</code> asks the user to type something. What comes back is always a <strong>string</strong>, even if the person types a number.</p>
+            <p>If you need an integer or a float, cast it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>name = input("what is your name: ")
+print("welcome", name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>what is your name: Bishal
+welcome Bishal</code></pre>
+              <p class="code-io__note">The line after the colon is what the user typed.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = int(input("what: "))
+print(type(text))
+
+text = float(input("what: "))
+print(type(text))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>what: 7
+&lt;class 'int'&gt;
+what: 7.5
+&lt;class 'float'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-426" data-section="426" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">426</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a program for each task. Try them in your own terminal first.</p>
+            <p>Write a program to input two numbers and print the sum.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = int(input())
+b = int(input())
+sum = a + b
+print(sum)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5
+7
+12</code></pre>
+              <p class="code-io__note">The first two lines are what you type. The last line is the sum.</p>
+            </div>
+            <p>Write a program to input the side of a square and print the area.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = float(input())
+area = a ** 2
+print(area)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5
+25.0</code></pre>
+            </div>
+            <p>Write a program to input two float numbers and print the average.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = float(input())
+b = float(input())
+average = (a + b) / 2
+print(average)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>4.0
+6.0
+5.0</code></pre>
+            </div>
+            <p>Write a program to input two integers, a and b. Print True if a is greater than or equal to b. If not, print False.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = int(input())
+b = int(input())
+c = (a &gt;= b)
+print(c)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>8
+3
+True</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-427" data-section="427" data-chapter="python-1">
+        <span class="lesson-card__marker" aria-hidden="true">427</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 1 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 1 takeaways</h3>
+              <ul>
+                <li>Python is a high level programming language.</li>
+                <li>print is a function. It shows output in the terminal.</li>
+                <li>A variable is a named place in memory.</li>
+                <li>The five types today are integer, string, float, boolean, and None.</li>
+                <li>Python finds the type for you. It is case sensitive.</li>
+                <li>Keywords cannot be variable names. Comments never run.</li>
+                <li>Learn arithmetic, relational, assignment, and logical operators.</li>
+                <li>Python can convert types. Casting is when you change the type by hand.</li>
+                <li>input always returns a string. Cast it when you need a number.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

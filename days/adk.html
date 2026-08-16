@@ -1,0 +1,370 @@
+      <div class="chapter-divider reveal" id="chapter-adk" data-chapter="adk">
+        <span class="chapter-divider__pill">ADK</span>
+        <h2 class="chapter-divider__title">Building Agentic AI with ADK</h2>
+        <p class="chapter-divider__note">Read this after Day 38. Hands on with Google Agent Development Kit. This bonus chapter does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-396" data-section="396" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">396</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hands on with Google ADK</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is a hands on session in Google Agent Development Kit, or ADK. ADK is a framework from Google for building agents you can run as real workflows.</p>
+            <p>We work in two parts. First, the foundation: what Gen AI is, and what agentic AI is. Then we set up ADK on your machine.</p>
+            <p>Here is what we will build today. Two agents, same idea: help a person show their work more clearly.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Resume agent</p>
+                <p class="concept-card__desc">Takes a resume and a job description, then writes a new resume that fits the job.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">LinkedIn reviewer</p>
+                <p class="concept-card__desc">Reviews a LinkedIn profile and suggests clearer, stronger copy.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-397" data-section="397" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">397</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Gen AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Gen AI means generative AI. It creates new content. That content can be text, audio, images, and more.</p>
+            <p>You send it a message. It generates a reply. On its own, a plain Gen AI chat has no memory of past steps, and it does not call your functions.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-398" data-section="398" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">398</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-right" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Gen AI Works</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The basic path is short. You write a prompt. The model runs. You get output.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One pass</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">You send a message.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Model</span>
+                  <span class="workflow__step-desc">The Gen AI model reads it and generates.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="reply" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Output</span>
+                  <span class="workflow__step-desc">You get text, audio, an image, or similar content.</span>
+                </li>
+              </ol>
+            </div>
+            <p>That is one shot. Receive a message. Generate a reply. Stop.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-399" data-section="399" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">399</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Gen AI vs an AI Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An agent is not just a better chatbot. The input is a goal, not only a message. Compare the two side by side.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Piece</th>
+                    <th scope="col">Gen AI</th>
+                    <th scope="col">AI agent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You give it</td>
+                    <td>A message.</td>
+                    <td>A goal.</td>
+                  </tr>
+                  <tr>
+                    <td>It does</td>
+                    <td>Generate a reply.</td>
+                    <td>Decide what steps are needed to reach the goal.</td>
+                  </tr>
+                  <tr>
+                    <td>Tools</td>
+                    <td>None on its own.</td>
+                    <td>Calls tools. Those are real functions that gather information or take action.</td>
+                  </tr>
+                  <tr>
+                    <td>Next step</td>
+                    <td>Stops after the reply. No memory of a process.</td>
+                    <td>Looks at the tool result, then decides what to do next.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-400" data-section="400" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">400</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an AI Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An AI agent is a system built on top of a Gen AI model. You give it a goal. It decides the actions.</p>
+            <p>Watch the loop. The model still generates language. The agent wraps that model with a plan, tools, and a next step.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Goal to action</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="flag" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Goal</span>
+                  <span class="workflow__step-desc">Receive what you want done, not only a chat line.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list-checks" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Plan</span>
+                  <span class="workflow__step-desc">Decide what steps are needed.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Call tools</span>
+                  <span class="workflow__step-desc">Run real functions to gather facts or take action.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Next</span>
+                  <span class="workflow__step-desc">Read the tool result. Decide the next step. Repeat until the goal is done.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-401" data-section="401" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">401</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why ADK</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When people first make agentic AI, they often use Claude or ChatGPT. They give the model an API, then let it work.</p>
+            <p>That can run a demo. It does not give you a defined process. Production work needs a clear workflow: the model, the instructions, the tools, memory, and a way to run it.</p>
+            <p>ADK is the framework that helps you make those production level workflows. That is the main reason we use it here.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-402" data-section="402" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">402</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What You Need</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>These four things are the base for ADK. Check them before you install anything.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Python 3.10 or newer</p>
+                <p class="concept-card__desc">ADK needs a recent Python. 3.10 or above.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">A terminal</p>
+                <p class="concept-card__desc">The app where you type commands, such as Terminal on a Mac.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">pip</p>
+                <p class="concept-card__desc">The tool that installs Python packages.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">A Google account</p>
+                <p class="concept-card__desc">ADK talks to Gemini. You sign in with Google and use an API key from Google AI Studio.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-403" data-section="403" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">403</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Virtual Environment</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A virtual environment is an isolated folder. It holds its own copy of Python and the packages you install for this project.</p>
+            <p>That keeps <code>google-adk</code> off your system Python. Other projects stay clean.</p>
+            <p>First create a folder, then create the environment inside it. The command is <code>python3 -m venv .venv</code>. The word is venv, short for virtual environment. The folder name <code>.venv</code> is the usual choice.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-404" data-section="404" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">404</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="terminal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Install ADK with pip</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Open a terminal. Move into your project folder. Create the environment, turn it on, then install ADK with pip.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Create, activate, install</p>
+              <pre class="code-input"><code>cd google_adk
+python3 -m venv .venv
+source .venv/bin/activate
+pip install google-adk</code></pre>
+              <p class="code-io__label code-io__label--output">What you should see</p>
+              <pre class="code-output"><code>(.venv) in front of your prompt after activate.
+pip downloads google-adk and its dependencies.
+When it finishes, the adk command is ready in this environment.</code></pre>
+              <p class="code-io__note">These activate steps are for Mac and Linux. For more detail, use the Python quickstart at adk.dev/get-started/python/.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-405" data-section="405" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">405</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Resume and LinkedIn Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we make the project. One path takes a resume and a job description, then writes a new resume that matches the job.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Resume rewrite</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Resume</span>
+                  <span class="workflow__step-desc">Your current resume text.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="briefcase" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Job description</span>
+                  <span class="workflow__step-desc">What the role asks for.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Agent</span>
+                  <span class="workflow__step-desc">Plans the rewrite and uses tools if it needs them.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">New resume</span>
+                  <span class="workflow__step-desc">A version aimed at that job.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The LinkedIn reviewer uses the same agent idea. The goal is a stronger profile, not a chat reply that forgets the last step.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-406" data-section="406" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">406</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="blocks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Core Building Blocks of ADK</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>ADK is built from a few named pieces. Learn these names. You will see them in every agent you write.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Model</p>
+                <p class="concept-card__desc">The Gen AI model, such as Gemini. It does the language work.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Instruction</p>
+                <p class="concept-card__desc">The written job for the agent. What it should do, and how.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Tool</p>
+                <p class="concept-card__desc">A real Python function the agent can call to gather information or take action.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Session</p>
+                <p class="concept-card__desc">The running conversation. It holds context so the agent is not blank each turn.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Runner</p>
+                <p class="concept-card__desc">The piece that runs the agent. It sends the goal, gets tool calls, and continues the loop.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-407" data-section="407" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">407</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run with adk api_server</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When the agent code is in place, you run it with the ADK API server. This command starts a local server so you can send requests to your agent.</p>
+            <div class="code-io tts-skip" aria-hidden="true">
+              <p class="code-io__label code-io__label--input">Start the API server</p>
+              <pre class="code-input"><code>adk api_server</code></pre>
+              <p class="code-io__label code-io__label--output">What this does</p>
+              <pre class="code-output"><code>Starts a local ADK API server.
+You can create a session and send a goal to the agent.
+Default address is http://localhost:8000.</code></pre>
+              <p class="code-io__note">Run this from the folder that contains your agent project. Keep the virtual environment active.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-408" data-section="408" data-chapter="adk">
+        <span class="lesson-card__marker" aria-hidden="true">408</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ADK takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>ADK takeaways</h3>
+              <ul>
+                <li>Gen AI creates new content from a prompt. It replies and stops.</li>
+                <li>An AI agent sits on top of that model. It takes a goal, plans steps, and calls tools.</li>
+                <li>ADK is Google's framework for production level agent workflows.</li>
+                <li>You need Python 3.10 or newer, a terminal, pip, and a Google account.</li>
+                <li>Use a virtual environment, then install the ADK package with pip.</li>
+                <li>The core pieces are model, instruction, tool, session, and runner.</li>
+                <li>adk api_server runs the agent as a local API.</li>
+              </ul>
+              <p>Build the resume rewrite and the LinkedIn reviewer with those same pieces.</p>
+            </aside>
+          </div>
+        </div>
+      </article>
