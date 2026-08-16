@@ -1,0 +1,661 @@
+      <div class="chapter-divider reveal" id="chapter-python-2" data-chapter="python-2">
+        <span class="chapter-divider__pill">Python 2</span>
+        <h2 class="chapter-divider__title">Strings and Conditions</h2>
+        <p class="chapter-divider__note">Read this after Python 1 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-428" data-section="428" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">428</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="quote" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a String</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>string</strong> is a data type. It stores a sequence of characters.</p>
+            <p>That sequence can be a word, a sentence, or a whole paragraph.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Word</p>
+                <p class="concept-card__desc">A short string such as hello.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Sentence</p>
+                <p class="concept-card__desc">A line of text such as this is a string.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Paragraph</p>
+                <p class="concept-card__desc">Many sentences stored in one string.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-429" data-section="429" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">429</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Ways to Write Strings</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Python gives you three quote styles. Use them so quotes inside the text do not confuse Python.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>str1 = "this is a string"
+str2 = 'single word'
+str3 = '''this is a program'''
+print(str1)
+print(str2)
+print(str3)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a string
+single word
+this is a program</code></pre>
+            </div>
+            <p>This line fails. The inner quotes close the string too soon.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print('this is a 'python' program')</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>SyntaxError: invalid syntax</code></pre>
+            </div>
+            <p>Fix it by wrapping the outer string in the other quote style.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print("this is a 'python' program")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a 'python' program</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-430" data-section="430" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">430</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="corner-down-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Escape Sequence Characters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An <strong>escape sequence</strong> is a short code inside a string that formats the text. The two you need today are a new line and a tab.</p>
+            <p>Write a backslash, then the letter. For a new line use <code>\n</code>. For a tab use <code>\t</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "this is a string \n this is a new line"
+print(text)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a string 
+ this is a new line</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "this is a string \t this is a tab"
+print(text)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a string 	 this is a tab</code></pre>
+              <p class="code-io__note">The gap in the middle is a tab space.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-431" data-section="431" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">431</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Concatenation</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Concatenation</strong> means adding two strings together. Use <code>+</code>. Add a space string if you want a gap between the words.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = "hello"
+b = "world"
+c = a + " " + b
+print(c)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello world</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-432" data-section="432" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">432</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ruler" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Length</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>len()</code> is a built in function. It counts the characters in a string, including spaces.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>c = "hello world"
+length = len(c)
+print(length)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>11</code></pre>
+            </div>
+            <p><code>len()</code> does not work with a plain number. Python shows an error.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>num = 12345678
+print(len(num))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>TypeError: object of type 'int' has no len()</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-433" data-section="433" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">433</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Indexing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When you make a string, every character gets an <strong>index</strong>. Indexing starts at 0. The index lets you read one character.</p>
+            <p>Look at the first characters of <code>"this is a string"</code>. The blank cell is a space. Spaces count.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Each character has a number, starting at 0.</p>
+              <div class="broadcast-row">
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">t</span>
+                    <span class="broadcast-cell broadcast-cell--solid">h</span>
+                    <span class="broadcast-cell broadcast-cell--solid">i</span>
+                    <span class="broadcast-cell broadcast-cell--solid">s</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">sp</span>
+                    <span class="broadcast-cell broadcast-cell--solid">i</span>
+                    <span class="broadcast-cell broadcast-cell--solid">s</span>
+                  </div>
+                </div>
+              </div>
+              <div class="broadcast-row">
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--result">0</span>
+                    <span class="broadcast-cell broadcast-cell--result">1</span>
+                    <span class="broadcast-cell broadcast-cell--result">2</span>
+                    <span class="broadcast-cell broadcast-cell--result">3</span>
+                    <span class="broadcast-cell broadcast-cell--result">4</span>
+                    <span class="broadcast-cell broadcast-cell--result">5</span>
+                    <span class="broadcast-cell broadcast-cell--result">6</span>
+                  </div>
+                </div>
+              </div>
+              <p class="broadcast-diagram__caption">Top row is the text. Bottom row is the index. sp means space.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "this is a string"
+print(text[0])
+print(text[1])
+print(text[2])
+print(text[3])
+print(text[4])
+print(text[5])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>t
+h
+i
+s
+ 
+i</code></pre>
+              <p class="code-io__note">Index 4 prints a space, so that line looks empty.</p>
+            </div>
+            <p>You can read a character. You cannot change it. Strings do not allow that kind of modify.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-434" data-section="434" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">434</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Slicing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Slicing</strong> cuts a piece out of a string. This idea matters a lot later in machine learning, when you cut arrays and tables.</p>
+            <p>The start index is included. The end index is not included.</p>
+            <p>In <code>text[0:5]</code>, Python keeps indexes 0, 1, 2, 3, and 4. It drops index 5.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Start is in. End is out.</p>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code"><code>text[0:5]</code> on <code>"this is a string"</code>.</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">t</span>
+                    <span class="broadcast-cell broadcast-cell--solid">h</span>
+                    <span class="broadcast-cell broadcast-cell--solid">i</span>
+                    <span class="broadcast-cell broadcast-cell--solid">s</span>
+                    <span class="broadcast-cell broadcast-cell--solid">sp</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">i</span>
+                  </div>
+                </div>
+              </div>
+              <p class="broadcast-diagram__caption">Solid cells are kept. The ghost i at index 5 is not kept. The result is this plus a space.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "this is a string"
+print(text[0:5])
+print(text[6:11])
+print(text[5:len(text)])
+print(text[5:])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this 
+s a s
+is a string
+is a string</code></pre>
+              <p class="code-io__note"><code>text[5:]</code> means from index 5 to the end. It matches <code>text[5:len(text)]</code>.</p>
+            </div>
+            <p>Negative indexes count from the end. <code>-1</code> is the last character. For <code>"apple"</code>, <code>app[-3:-1]</code> keeps <code>p</code> and <code>l</code>. It does not keep <code>e</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>app = "apple"
+print(app[-3:-1])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>pl</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-435" data-section="435" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">435</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wand-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">String Functions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Python comes with built in string functions. They return a new value. They do not change the original string unless you save the result.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Function</th>
+                    <th scope="col">What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>endswith("ing")</code></td>
+                    <td>True if the string ends with that piece. Else False.</td>
+                  </tr>
+                  <tr>
+                    <td><code>capitalize()</code></td>
+                    <td>Makes the first character uppercase.</td>
+                  </tr>
+                  <tr>
+                    <td><code>replace("this", "that")</code></td>
+                    <td>Puts the new piece in place of the old piece.</td>
+                  </tr>
+                  <tr>
+                    <td><code>find("is")</code></td>
+                    <td>Index of the first time that piece appears.</td>
+                  </tr>
+                  <tr>
+                    <td><code>count("is")</code></td>
+                    <td>How many times that piece appears.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "this is a string"
+print(text.endswith("ing"))
+print(text.capitalize())
+print(text.replace("this", "that"))
+print(text.find("is"))
+print(text.count("is"))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>True
+This is a string
+that is a string
+2
+2</code></pre>
+              <p class="code-io__note"><code>find("is")</code> is 2 because the first is sits inside this, at indexes 2 and 3.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-436" data-section="436" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">436</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">String Practice</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a program to input a first name and print its length.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>first_name = input("enter your first name: ")
+print(len(first_name))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter your first name: Bishal
+6</code></pre>
+            </div>
+            <p>Write a program to count how many <code>$</code> signs are in a string.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>text = "$$$$$$$$$$$$$$$$$$$$$$$$$$$HHHHHHHH$$$$$"
+print(text.count("$"))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>32</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-437" data-section="437" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">437</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">If Elif Else</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>conditional statement</strong> lets the program choose a path. You can use <code>if</code>, <code>elif</code>, and <code>else</code>.</p>
+            <p>Python uses <strong>indentation</strong>. That means extra space at the start of the line. The indented lines belong to that condition. This spacing is required.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One path is chosen</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">if</span>
+                  <span class="workflow__step-desc">If this condition is True, run these lines.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">elif</span>
+                  <span class="workflow__step-desc">Else if the next condition is True, run these lines.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">else</span>
+                  <span class="workflow__step-desc">If none of the conditions were True, run these lines.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>age = 21
+
+if (age &gt; 18):
+    print("you are an adult")
+    print("can drive")
+elif (age &gt; 13):
+    print("you are a teenager")
+else:
+    print("you are a child")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>you are an adult
+can drive</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-438" data-section="438" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">438</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="traffic-cone" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traffic Light</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is the same idea with a traffic light. Match the color, then print the action. Use an else for any value that is not green, yellow, or red.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>light = "red"
+
+if (light == "green"):
+    print("you can drive")
+elif (light == "yellow"):
+    print("you can drive but be careful")
+elif (light == "red"):
+    print("you cannot drive")
+else:
+    print("invalid light")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>you cannot drive</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-439" data-section="439" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">439</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">If vs Elif</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>elif</code> can only follow an <code>if</code>. You cannot start with elif.</p>
+            <p>An <code>if</code> is always checked. An <code>elif</code> is checked only when the <code>if</code> above it was False.</p>
+            <p>Two separate <code>if</code> blocks are both checked. They are not a chain.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 10
+if (a &gt; 5):
+    print("a is greater than 5")
+if (a &lt; 5):
+    print("a is less than 5")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>a is greater than 5</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-440" data-section="440" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">440</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="award" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Grades</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Use a chain of elif to pick one grade from a mark.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Mark</th>
+                    <th scope="col">Grade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>90 or more</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>80 or more</td>
+                    <td>B</td>
+                  </tr>
+                  <tr>
+                    <td>70 or more</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>60 or more</td>
+                    <td>D</td>
+                  </tr>
+                  <tr>
+                    <td>50 or more</td>
+                    <td>E</td>
+                  </tr>
+                  <tr>
+                    <td>Less than 50</td>
+                    <td>F</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>mark = 95
+
+if (mark &gt;= 90):
+    grade = "A"
+elif (mark &gt;= 80):
+    grade = "B"
+elif (mark &gt;= 70):
+    grade = "C"
+elif (mark &gt;= 60):
+    grade = "D"
+elif (mark &gt;= 50):
+    grade = "E"
+else:
+    grade = "F"
+
+print("your grade is", grade)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>your grade is A</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-441" data-section="441" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">441</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Nesting</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Nesting</strong> means an if statement inside another if statement. The inner check runs only when the outer check is True.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">If inside if</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">age &gt; 18</span>
+                  <span class="workflow__step-desc">First ask if the person is an adult.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">age &gt; 30</span>
+                  <span class="workflow__step-desc">Only then ask if they are older than 30.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Print</span>
+                  <span class="workflow__step-desc">Print the matching line.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>age = 20
+if (age &gt; 18):
+    if (age &gt; 30):
+        print("you are an adult and you are old")
+    else:
+        print("you are an adult and you are not old")
+else:
+    print("you are not an adult")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>you are an adult and you are not old</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-442" data-section="442" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">442</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a program to check if a number entered by the user is odd or even. A number is even when the remainder after divide by 2 is 0.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>num = int(input("enter a number: "))
+
+if (num % 2 == 0):
+    print("the number is even")
+else:
+    print("the number is odd")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter a number: 8
+the number is even</code></pre>
+            </div>
+            <p>Write a program to find the greatest of 3 numbers entered by the user.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>num1 = int(input("enter the first number: "))
+num2 = int(input("enter the second number: "))
+num3 = int(input("enter the third number: "))
+
+if (num1 &gt; num2 and num1 &gt; num3):
+    print("the greatest number is", num1)
+elif (num2 &gt; num1 and num2 &gt; num3):
+    print("the greatest number is", num2)
+else:
+    print("the greatest number is", num3)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter the first number: 4
+enter the second number: 9
+enter the third number: 2
+the greatest number is 9</code></pre>
+            </div>
+            <p>Write a program to check if a number is a multiple of 7. A multiple of 7 has remainder 0.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>x = int(input("enter a number: "))
+
+if (x % 7 == 0):
+    print("the number is a multiple of 7")
+else:
+    print("the number is not a multiple of 7")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter a number: 14
+the number is a multiple of 7</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-443" data-section="443" data-chapter="python-2">
+        <span class="lesson-card__marker" aria-hidden="true">443</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 2 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 2 takeaways</h3>
+              <ul>
+                <li>A string stores a sequence of characters. Use the quote style that keeps inner quotes safe.</li>
+                <li>Escape sequences format text. <code>\n</code> is a new line. <code>\t</code> is a tab.</li>
+                <li>Add strings with <code>+</code>. Count characters with <code>len()</code>. It does not work on a plain number.</li>
+                <li>Indexing starts at 0. You can read a character. You cannot change it.</li>
+                <li>Slicing cuts a piece. The start is included. The end is not.</li>
+                <li>Learn endswith, capitalize, replace, find, and count.</li>
+                <li>if, elif, and else choose a path. Indentation is required.</li>
+                <li>An if is always checked. An elif needs an if first. Nesting is an if inside an if.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
