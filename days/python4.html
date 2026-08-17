@@ -1,0 +1,572 @@
+      <div class="chapter-divider reveal" id="chapter-python-4" data-chapter="python-4">
+        <span class="chapter-divider__pill">Python 4</span>
+        <h2 class="chapter-divider__title">Dictionaries and Sets</h2>
+        <p class="chapter-divider__note">Read this after Python 3 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-457" data-section="457" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">457</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Dictionary</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>dictionary</strong> stores pairs, like a real dictionary. The word is the <strong>key</strong>. The meaning is the <strong>value</strong>.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Key</p>
+                <p class="concept-card__desc">The word you look up, such as name.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Value</p>
+                <p class="concept-card__desc">The meaning stored with that key, such as bishal.</p>
+              </div>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>person = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu"
+}
+print(person)
+print(type(person))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'name': 'bishal', 'age': 20, 'city': 'kathmandu'}
+&lt;class 'dict'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-458" data-section="458" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">458</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Values You Can Store</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A value can be an integer, a float, a string, a boolean, a list, or a tuple. Dictionaries are mutable. You can change them after you create them.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>person = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu",
+    "subjects": ["math", "science", "english"],
+    "hobbies": ("reading", "writing", "coding"),
+    "is_student": True
+}
+print(person)
+print(type(person))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'name': 'bishal', 'age': 20, 'city': 'kathmandu', 'subjects': ['math', 'science', 'english'], 'hobbies': ('reading', 'writing', 'coding'), 'is_student': True}
+&lt;class 'dict'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-459" data-section="459" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">459</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Dictionary Properties</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You do not read a dictionary with an index like a list. You use the key. If you write the same key twice, the later value overwrites the earlier one. You cannot keep two copies of one key.</p>
+            <p>Python remembers the order you typed the pairs. You still look up by key, not by 0, 1, 2.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">List or tuple</th>
+                    <th scope="col">Dictionary</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Access with an index, such as <code>[0]</code>.</td>
+                    <td>Access with a key, such as <code>["name"]</code>.</td>
+                  </tr>
+                  <tr>
+                    <td>Items can repeat.</td>
+                    <td>Keys must be unique.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-460" data-section="460" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">460</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="key" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Access Change and Add</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Read a value with the key inside square brackets. Assign to an old key to overwrite it. Assign to a new key to add a pair.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>person = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu",
+    "subjects": ["math", "science", "english"],
+    "hobbies": ("reading", "writing", "coding"),
+    "is_student": True
+}
+print(person["name"])
+print(person["subjects"])
+person["name"] = "ram"
+print(person["name"])
+person["surname"] = "sharma"
+print(person)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>bishal
+['math', 'science', 'english']
+ram
+{'name': 'ram', 'age': 20, 'city': 'kathmandu', 'subjects': ['math', 'science', 'english'], 'hobbies': ('reading', 'writing', 'coding'), 'is_student': True, 'surname': 'sharma'}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-461" data-section="461" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">461</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Empty Dictionary</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start with empty curly braces. Then add keys one by one. <code>{}</code> is a dictionary. You can also write <code>dict()</code>. That makes the same empty dictionary.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>null_dict = {}
+print(null_dict)
+print(type(null_dict))
+null_dict["name"] = "bishal"
+print(null_dict)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{}
+&lt;class 'dict'&gt;
+{'name': 'bishal'}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-462" data-section="462" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">462</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Nested Dictionary</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A nested dictionary is a dictionary inside another dictionary. It is like an if inside an if. Use one key, then the inner key.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Outer key, then inner key</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">student</span>
+                  <span class="workflow__step-desc">The outer dictionary.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="book" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">subjects</span>
+                  <span class="workflow__step-desc">This value is another dictionary.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">math</span>
+                  <span class="workflow__step-desc">The inner key gives 90.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>student = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu",
+    "subjects": {"math": 90, "science": 80, "english": 70},
+    "hobbies": ("reading", "writing", "coding"),
+    "is_student": True
+}
+print(student["subjects"]["math"])
+print(type(student))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>90
+&lt;class 'dict'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-463" data-section="463" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">463</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Keys Values and Length</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>keys()</code> gives the keys. <code>values()</code> gives the values. Wrap them in <code>list()</code> if you want a list. <code>len()</code> counts the pairs. That is the same as the number of keys.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>student = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu",
+    "subjects": {"math": 90, "science": 80, "english": 70},
+    "hobbies": ("reading", "writing", "coding"),
+    "is_student": True
+}
+print(student.keys())
+print(list(student.keys()))
+print(student.values())
+print(list(student.values()))
+print(len(student))
+print(len(student.keys()))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>dict_keys(['name', 'age', 'city', 'subjects', 'hobbies', 'is_student'])
+['name', 'age', 'city', 'subjects', 'hobbies', 'is_student']
+dict_values(['bishal', 20, 'kathmandu', {'math': 90, 'science': 80, 'english': 70}, ('reading', 'writing', 'coding'), True])
+['bishal', 20, 'kathmandu', {'math': 90, 'science': 80, 'english': 70}, ('reading', 'writing', 'coding'), True]
+6
+6</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-464" data-section="464" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">464</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Items Get and Update</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>items()</code> gives the pairs as tuples. There are two ways to read a key. <code>student["name"]</code> fails if the key is missing. <code>student.get("name")</code> returns <code>None</code> instead of an error. <code>update()</code> writes new pairs, or overwrites an old key.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Missing key</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>student.get("name2")</code></td>
+                    <td>Returns None.</td>
+                  </tr>
+                  <tr>
+                    <td><code>student["name2"]</code></td>
+                    <td>Raises KeyError.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>student = {
+    "name": "bishal",
+    "age": 20,
+    "city": "kathmandu",
+    "subjects": {"math": 90, "science": 80, "english": 70},
+    "hobbies": ("reading", "writing", "coding"),
+    "is_student": True
+}
+print(student.items())
+print(list(student.items()))
+print(student.get("name"))
+print(student["name"])
+print(student.get("name2"))
+print(student["name2"])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>dict_items([('name', 'bishal'), ('age', 20), ('city', 'kathmandu'), ('subjects', {'math': 90, 'science': 80, 'english': 70}), ('hobbies', ('reading', 'writing', 'coding')), ('is_student', True)])
+[('name', 'bishal'), ('age', 20), ('city', 'kathmandu'), ('subjects', {'math': 90, 'science': 80, 'english': 70}), ('hobbies', ('reading', 'writing', 'coding')), ('is_student', True)]
+bishal
+bishal
+None
+KeyError: 'name2'</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>student.update({"name": "ram"})
+print(student["name"])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>ram</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-465" data-section="465" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">465</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-dot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Set</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In math, a set holds unique items. In Python a <strong>set</strong> is a collection of unique items. It has no key value pairs. Each item must be immutable.</p>
+            <p>You can store a boolean, an integer, a float, a string, or a tuple. You cannot store a list or a dictionary, because those can change.</p>
+            <p>The set itself can grow or shrink. You add and remove items. You cannot change an item that is already inside.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>collection = {1, 2, 3, 4, 5}
+print(collection)
+print(type(collection))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{1, 2, 3, 4, 5}
+&lt;class 'set'&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-466" data-section="466" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">466</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Unique Items and Empty Sets</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If you write the same value twice, the set keeps it once. <code>len()</code> counts only the unique items.</p>
+            <p>Empty curly braces make a dictionary. An empty set is <code>set()</code>.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Repeats are dropped.</p>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code">You type 1 twice, 2 twice, and bishal twice.</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">1</span>
+                    <span class="broadcast-cell broadcast-cell--solid">2</span>
+                    <span class="broadcast-cell broadcast-cell--solid">3</span>
+                    <span class="broadcast-cell broadcast-cell--solid">4</span>
+                    <span class="broadcast-cell broadcast-cell--solid">5</span>
+                    <span class="broadcast-cell broadcast-cell--result">bishal</span>
+                  </div>
+                </div>
+              </div>
+              <p class="broadcast-diagram__caption">Six unique items remain. The extra copies are gone.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5, "bishal", "bishal"}
+print(nums)
+print(type(nums))
+print(len(nums))
+
+empty_set = set()
+print(empty_set)
+print(type(empty_set))
+print(type({}))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{1, 2, 3, 4, 5, 'bishal'}
+&lt;class 'set'&gt;
+6
+set()
+&lt;class 'set'&gt;
+&lt;class 'dict'&gt;</code></pre>
+              <p class="code-io__note">A set has no fixed print order. Your order may look different. The length stays 6.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-467" data-section="467" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">467</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Add Remove and Update</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>add()</code> puts in one item. A tuple can go in. A list cannot. That line raises an error because a list is mutable.</p>
+            <p><code>remove()</code> deletes a value. <code>update()</code> can add many items from a list of numbers. Those numbers are separate from a tuple such as <code>(7, 8, 9)</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5, "bishal", "bishal"}
+nums.add(6)
+nums.add((7, 8, 9))
+print(nums)
+nums.add([10, 11, 12])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{1, 2, 3, 4, 5, 6, (7, 8, 9), 'bishal'}
+TypeError: cannot use 'list' as a set element (unhashable type: 'list')</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = {1, 2, 3, 4, 5, 6, (7, 8, 9), "bishal"}
+nums.remove(5)
+print(nums)
+nums.update([7, 8, 9])
+print(nums)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{1, 2, 3, 4, 6, (7, 8, 9), 'bishal'}
+{1, 2, 3, 4, 6, 7, 8, 9, 'bishal', (7, 8, 9)}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-468" data-section="468" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">468</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pop Union and Intersection</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>pop()</code> removes one item. You do not choose which item. Union builds a new set with items from both sets. Intersection keeps only the common items.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Union keeps both sides. Intersection keeps the overlap.</p>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code">set1 = {1, 2, 3, 4, 5} and set2 = {6, 7, 8, 4, 10}.</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-array">
+                    <span class="broadcast-cell broadcast-cell--solid">1</span>
+                    <span class="broadcast-cell broadcast-cell--solid">2</span>
+                    <span class="broadcast-cell broadcast-cell--solid">3</span>
+                    <span class="broadcast-cell broadcast-cell--result">4</span>
+                    <span class="broadcast-cell broadcast-cell--solid">5</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">6</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">7</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">8</span>
+                    <span class="broadcast-cell broadcast-cell--ghost">10</span>
+                  </div>
+                </div>
+              </div>
+              <p class="broadcast-diagram__caption">The purple 4 is in both sets. Intersection is {4}. Union is every cell.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>collection = {1, 2, 3, 4, 5, "bishal"}
+print(collection.pop())
+print(collection)
+
+set1 = {1, 2, 3, 4, 5}
+set2 = {6, 7, 8, 9, 10}
+print(set1.union(set2))
+
+set2 = {6, 7, 8, 4, 10}
+print(set1.intersection(set2))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+{2, 3, 4, 5, 'bishal'}
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+{4}</code></pre>
+              <p class="code-io__note">pop removed 1 in this run. Next time it might remove a different item.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-469" data-section="469" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">469</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Store these word meanings in a dictionary. Table has two meanings, so the value is a list.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>meanings = {
+    "table": ["a piece of furniture", "list of facts"],
+    "cat": "a pet animal"
+}
+print(meanings)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'table': ['a piece of furniture', 'list of facts'], 'cat': 'a pet animal'}</code></pre>
+            </div>
+            <p>You are given subjects. One classroom is needed for each subject. How many classrooms do you need? A set drops repeats, so <code>len</code> is the answer.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>subjects = {
+    "python", "java", "c++", "python", "javascript",
+    "java", "python", "java", "c++", "c"
+}
+print(len(subjects))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5</code></pre>
+              <p class="code-io__note">The unique subjects are python, java, c++, javascript, and c.</p>
+            </div>
+            <p>Write a program to enter marks of 3 subjects from the user. Start with an empty dictionary. Use the subject name as the key and the marks as the value.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>marks = {}
+a = input("Enter the subject name: ")
+b = int(input("Enter the marks: "))
+c = input("Enter the subject name: ")
+d = int(input("Enter the marks: "))
+e = input("Enter the subject name: ")
+f = int(input("Enter the marks: "))
+marks.update({a: b, c: d, e: f})
+print(marks)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Enter the subject name: math
+Enter the marks: 90
+Enter the subject name: science
+Enter the marks: 80
+Enter the subject name: english
+Enter the marks: 70
+{'math': 90, 'science': 80, 'english': 70}</code></pre>
+            </div>
+            <p>Figure out a way to store 9 and 9.0 as separate values in a set. Python treats 9 and 9.0 as the same, so <code>{9, 9.0}</code> keeps only one. Make one of them a string, or store a pair with the type name.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print({9, 9.0})
+print({9, "9.0"})
+values = {
+    ("float", 9.0),
+    ("int", 9)
+}
+print(values)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{9}
+{9, '9.0'}
+{('int', 9), ('float', 9.0)}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-470" data-section="470" data-chapter="python-4">
+        <span class="lesson-card__marker" aria-hidden="true">470</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 4 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 4 takeaways</h3>
+              <ul>
+                <li>A dictionary stores key value pairs. Look up by key, not by index.</li>
+                <li>Keys are unique. Values can be numbers, strings, lists, tuples, or nested dictionaries.</li>
+                <li>get returns None when a key is missing. Square brackets raise an error.</li>
+                <li>A set stores unique immutable items. {} is a dictionary. set() is an empty set.</li>
+                <li>You can add and remove set items. You cannot put a list in a set.</li>
+                <li>union keeps both sides. intersection keeps only the common items.</li>
+                <li>9 and 9.0 count as the same set item. Store a string or a type pair if you need both.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
