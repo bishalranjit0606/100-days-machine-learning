@@ -1,0 +1,36 @@
+---
+description: Lesson numbers follow teaching order on the site, not publish order. Middle inserts start after the previous chapter, then later chapters shift up.
+globs: ["days/*.html", "index.html"]
+alwaysApply: true
+---
+
+# Lesson numbers follow teaching order
+
+Readers see **1, 2, 3...** in sidebar order. Never jump (80 then 409) and never duplicate.
+
+`id="section-N"`, `data-section="N"`, `.lesson-card__marker`, and TOC `href="#section-N"` must match.
+
+## How to pick the next number
+
+Teaching order is the `[data-include]` list in `index.html` (same as the sidebar).
+
+1. **Add at the end** of that list: continue from the last lesson on the site plus 1. No shift.
+2. **Insert in the middle**: first lesson of the new chapter is **last lesson of the previous chapter in that list, plus 1**. Then **shift every later chapter up** by the number of new lessons.
+3. Do this even for bonus blocks (Python, NumPy, Pandas). Do not continue from the latest published 100 day if that day sits later in the course.
+
+## Example
+
+Day 12 ends at 80. Python is next on the site, so Python starts at 81. NumPy, Pandas, Day 13, and later all move up.
+
+If you later insert a chapter between Day 20 and Day 21, start from Day 20's last lesson plus 1, then shift Day 21 onward.
+
+## Update every place
+
+- Day file: `id`, `data-section`, `.lesson-card__marker`
+- `index.html` sidebar TOC links
+- Any `href="#section-N"` inside lessons
+- Later chapters after a middle insert (all of the above)
+
+Do **not** restart at 1 inside a chapter. Do **not** leave later chapters on old numbers.
+
+After includes load, `script.js` also numbers cards in page order so the badge cannot jump even if a day file still has an old number. Still keep the HTML numbers in teaching order so files, TOC, and links stay aligned.

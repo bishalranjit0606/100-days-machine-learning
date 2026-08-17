@@ -26,6 +26,7 @@
       if (!url || div.dataset.includeLoaded === "true") {
         return Promise.resolve();
       }
+      url += (url.indexOf("?") >= 0 ? "&" : "?") + "v=serial-1";
       return loadText(url)
         .then(function (html) {
           div.innerHTML = html;

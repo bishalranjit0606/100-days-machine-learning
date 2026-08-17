@@ -66,7 +66,7 @@ Hero and footer stay on the latest **numbered** 100 day (currently Day 38). Pyth
 
 ## Lesson numbers
 
-Continue from the latest published section (now 395, so Python starts at 396). **Do not renumber** NumPy (81–95), Pandas, or Days 13–38. Sidebar order is teaching order. Section numbers are publish order.
+Follow `lesson-numbering.mdc`. Python sits after Day 12, so it continues from Day 12's last lesson, not from the latest published 100 day. Then NumPy, Pandas, and Day 13 onward shift up.
 
 ## CSS
 

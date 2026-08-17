@@ -44,7 +44,7 @@ When the user adds or updates a day file under `days/`:
 1. **Include their material fully** — turn their notes into lessons without cutting important points. Each distinct idea should become a lesson section or clear paragraph.
 2. **Do not invent filler** — never pad lessons with generic fluff, repeated summaries, or "AI voice" padding just to increase length.
 3. **Fix only real issues** — correct grammar, clarity, and structure errors. Do not rewrite their meaning or add topics they did not provide.
-4. **Preserve global lesson numbering** — numbers continue across days (Day 2 does not restart at 1).
+4. **Lesson numbers follow teaching order** — numbers continue across days (Day 2 does not restart at 1). If a chapter is inserted in the middle, it starts after the previous chapter on the site, then later chapters shift up. See `lesson-numbering.mdc`.
 5. **Wire the site** — update `index.html` (chapter, articles, sidebar TOC), keeping `data-chapter` and `data-section` conventions.
 
 ---
@@ -77,7 +77,7 @@ The right sidebar (`.sidebar`) reserves **340px** on the right. Main content liv
 - Long paragraphs without `overflow-wrap: anywhere`
 - Using `100vw` for content width on desktop
 
-After layout or lesson content changes, spot check desktop at **1280px** and **1440px** on lessons **109** (long paragraph), **111** (workflow grid), and one table heavy lesson.
+After layout or lesson content changes, spot check desktop at **1280px** and **1440px** on a long paragraph lesson (Pandas: Multiple Filters and isin), a workflow grid lesson (Pandas: Sorting and Top Bottom Records), and one table heavy lesson.
 
 ### Punctuation for read aloud (TTS)
 
@@ -132,6 +132,6 @@ When adding new lesson blocks:
 - [ ] New day content reflects the user's notes fully without filler.
 - [ ] Icons are Lucide, not emoji.
 - [ ] Copy sounds like teaching the community.
-- [ ] Desktop main content does not render under the right sidebar at 1280px and 1440px (test lessons 109 and 111 for long prose and workflow grids).
+- [ ] Desktop main content does not render under the right sidebar at 1280px and 1440px (test a long prose lesson and a workflow grid lesson).
 - [ ] Lesson bullets and sentences have punctuation so TTS pauses naturally (periods, commas, question marks where appropriate).
 - [ ] TTS reads prose only; code blocks, tables, and diagrams are skipped (test with Listen here on a code heavy lesson).

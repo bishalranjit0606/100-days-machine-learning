@@ -1350,9 +1350,44 @@
     initReveals();
   }
 
+  function numberLessonsInPageOrder() {
+    var cards = document.querySelectorAll(".lesson-card[data-section]");
+    var links = document.querySelectorAll(".toc-link[data-section]");
+    if (!cards.length) return;
+
+    var map = Object.create(null);
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var old = card.getAttribute("data-section");
+      var n = String(i + 1);
+      if (old) map[old] = n;
+      card.id = "section-" + n;
+      card.setAttribute("data-section", n);
+      var marker = card.querySelector(".lesson-card__marker");
+      if (marker) marker.textContent = n;
+    }
+
+    for (var j = 0; j < links.length; j++) {
+      var link = links[j];
+      var n2 = String(j + 1);
+      link.setAttribute("data-section", n2);
+      link.setAttribute("href", "#section-" + n2);
+    }
+
+    document.querySelectorAll('a[href^="#section-"]').forEach(function (a) {
+      if (a.classList.contains("toc-link")) return;
+      var href = a.getAttribute("href") || "";
+      var m = href.match(/^#section-(\d+)$/);
+      if (!m) return;
+      var next = map[m[1]];
+      if (next) a.setAttribute("href", "#section-" + next);
+    });
+  }
+
   function bootContent() {
     if (contentBooted) return;
     contentBooted = true;
+    numberLessonsInPageOrder();
     paintInjectedContent(document);
     initChapterHash();
     initScrollSpy();

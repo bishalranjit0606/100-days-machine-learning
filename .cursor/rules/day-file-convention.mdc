@@ -8,7 +8,7 @@ alwaysApply: true
 
 Every new **numbered** day of the 100 day series (Day 27, Day 28, ... Day 100) must follow this pattern exactly.
 
-**Exception:** beginner Python is a 9 day **bonus** block (`days/python1.html` … `days/python9.html`), not `days/day39.html`. Place it after Day 12 Anaconda and before NumPy. See `python-bonus.mdc`.
+**Exception:** beginner Python is a 9 day **bonus** block (`days/python1.html` … `days/python9.html`), not `days/day39.html`. Place it after Day 12 Anaconda and before NumPy. See `python-bonus.mdc`. Lesson numbers follow teaching order (`lesson-numbering.mdc`), not publish order.
 
 ## 1. Create the day file
 

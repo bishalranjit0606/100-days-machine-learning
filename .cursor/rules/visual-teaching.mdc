@@ -76,4 +76,4 @@ When a lesson shows code:
 - [ ] No invented facts, numbers, or chart data.
 - [ ] Sentences and list items end with punctuation so TTS pauses.
 - [ ] Visual blocks wrap on mobile and clear the desktop sidebar.
-- [ ] Lesson numbering continues from the previous day, and the sidebar TOC is updated.
+- [ ] Lesson numbering continues from the previous chapter in teaching order (see `lesson-numbering.mdc`), and the sidebar TOC is updated.
