@@ -1,0 +1,1029 @@
+      <div class="chapter-divider reveal" id="chapter-python-5" data-chapter="python-5">
+        <span class="chapter-divider__pill">Python 5</span>
+        <h2 class="chapter-divider__title">Loops in Python</h2>
+        <p class="chapter-divider__note">Read this after Python 4 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-143" data-section="143" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">143</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mail" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Loops</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose you have one lakh users, that is 100000 people, and you need to send each person an email. Doing that by hand means you repeat the same work 100000 times.</p>
+            <p>A <strong>loop</strong> writes the work once. Python repeats it.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One send, many users</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">By hand</span>
+                  <span class="workflow__step-desc">You write the send line 100000 times.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="repeat" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">With a loop</span>
+                  <span class="workflow__step-desc">You write the send line once. Python repeats it.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Python has two kinds of loops: a <strong>while</strong> loop and a <strong>for</strong> loop.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">while</p>
+                <p class="concept-card__desc">Runs while a condition stays true. You control when it stops.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">for</p>
+                <p class="concept-card__desc">Walks through a list, a string, a tuple, or a range, one item at a time.</p>
+              </div>
+            </div>
+            <p>Even five repeats hurt if you copy the line. Five print calls do the same job a loop can do in a few lines.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print("hello")
+print("hello")
+print("hello")
+print("hello")
+print("hello")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello
+hello
+hello
+hello
+hello</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-144" data-section="144" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">144</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">While Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A while loop runs until the condition becomes false. If the condition is always true, it never stops.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>while True:
+    print("hello")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello
+hello
+hello
+...</code></pre>
+              <p class="code-io__note">True is always true, so this never ends. Stop the program. Do not leave this running.</p>
+            </div>
+            <p>That is why we use a counter. Start at 1. Print hello. Then add 1. Stop when the counter is past 5. <code>count += 1</code> means <code>count = count + 1</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>count = 1
+while count &lt;= 5:
+    print("hello")
+    count += 1</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello
+hello
+hello
+hello
+hello</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-145" data-section="145" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">145</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-up-down" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Count Up and Count Down</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Print the counter itself if you want the numbers, not the same word. After the loop ends, the next line runs. Here that line is <code>print("done")</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 1
+while i &lt;= 5:
+    print(i)
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+4
+5
+done</code></pre>
+            </div>
+            <p>Count down by subtracting 1 each round. Start at 5. Stop when <code>i</code> is no longer at least 1.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 5
+while i &gt;= 1:
+    print(i)
+    i -= 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5
+4
+3
+2
+1
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-146" data-section="146" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">146</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Infinite Loops</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An infinite loop never stops. It is dangerous. It can freeze your program and stress the system. Never ship one on purpose.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Why True never ends</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Check</span>
+                  <span class="workflow__step-desc">Is the condition true?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Run the body</span>
+                  <span class="workflow__step-desc">Print, send, or whatever you wrote.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="rotate-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Check again</span>
+                  <span class="workflow__step-desc">True is still true. Back to the body.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Give the loop a way out. Change the counter. Or use break, which you will see soon.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-147" data-section="147" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">147</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice with While</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Print the numbers from 1 to 100.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 1
+while i &lt;= 100:
+    print(i)
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+...
+99
+100
+done</code></pre>
+              <p class="code-io__note">The full run prints every integer from 1 to 100.</p>
+            </div>
+            <p>Print the numbers from 100 to 1.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 100
+while i &gt;= 1:
+    print(i)
+    i = i - 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>100
+99
+98
+...
+3
+2
+1
+done</code></pre>
+            </div>
+            <p>Print the multiplication table of a number n. The number stays the same. The other factor runs from 1 to 10. If n is 3, the products are 3, 6, 9, and so on.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>table = int(input("enter the number : "))
+i = 1
+while i &lt;= 10:
+    print(table * i)
+    i += 1</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter the number : 3
+3
+6
+9
+12
+15
+18
+21
+24
+27
+30</code></pre>
+            </div>
+            <p>Print the odd numbers from 1 to 100. A number is odd when <code>i % 2</code> is not 0.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 1
+while i &lt;= 100:
+    if i % 2 != 0:
+        print(i)
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+3
+5
+...
+97
+99
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-148" data-section="148" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">148</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traverse a List</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>By hand you would write <code>nums[0]</code>, then <code>nums[1]</code>, all the way to the last index. Indexes start at 0 and end at length minus 1.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">By hand</th>
+                    <th scope="col">With a loop</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>nums[0]</code> through <code>nums[9]</code>, ten lines.</td>
+                    <td>One while loop. <code>i</code> walks those indexes.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Going through each item one by one in a list, a tuple, a dictionary, or a set is called <strong>traversing</strong>.</p>
+            <p>This form uses the last index: <code>i &lt;= len(nums) - 1</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+i = 0
+total = len(nums) - 1
+while i &lt;= total:
+    print(nums[i])
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+done</code></pre>
+            </div>
+            <p>This form is the same idea: keep going while <code>i</code> is less than the length.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+i = 0
+while i &lt; len(nums):
+    print(nums[i])
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+done</code></pre>
+            </div>
+            <p>The same pattern works for words.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>fruits = ["apple", "banana", "cherry", "date", "elderberry"]
+i = 0
+total = len(fruits) - 1
+while i &lt;= total:
+    print(fruits[i])
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>apple
+banana
+cherry
+date
+elderberry
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-149" data-section="149" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">149</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Search in a Tuple</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Look for a value by checking one index at a time. That walk is called <strong>linear search</strong>.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Find 4 in the tuple</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Index 3</span>
+                  <span class="workflow__step-desc">The first 4 sits here.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Index 10</span>
+                  <span class="workflow__step-desc">Another 4 sits at the end.</span>
+                </li>
+              </ol>
+            </div>
+            <p>This tuple has 4 in two places. With no break, the loop reports both indexes.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 4)
+i = 0
+total = len(tup) - 1
+element = 4
+while i &lt;= total:
+    if tup[i] == element:
+        print("the element is found", i)
+    i += 1</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>the element is found 3
+the element is found 10</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-150" data-section="150" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">150</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Break</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The two keywords you will use inside loops are <strong>break</strong> and <strong>continue</strong>.</p>
+            <p>As soon as Python hits <code>break</code>, the loop stops. Lines after the loop still run.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 1
+while i &lt;= 10:
+    print(i)
+    if i == 5:
+        break
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+4
+5
+done</code></pre>
+              <p class="code-io__note">It prints 5, then break fires, so 6 to 10 never run.</p>
+            </div>
+            <p>In a search, break stops at the first match. The second 4 at index 10 is not printed.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>tup = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 4)
+i = 0
+total = len(tup) - 1
+element = 4
+while i &lt;= total:
+    if tup[i] == element:
+        print("the element is found", i)
+        break
+    i += 1</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>the element is found 3</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-151" data-section="151" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">151</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="skip-forward" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Continue</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>continue</code> ends the current round only. The loop then checks the condition again.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">break</th>
+                    <th scope="col">continue</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Stops the whole loop.</td>
+                    <td>Skips the rest of this round, then loops again.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>In a while loop you must still change the counter. If you <code>continue</code> before <code>i += 1</code>, <code>i</code> stays the same and the loop never leaves that value.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 0
+while i &lt;= 10:
+    print(i)
+    if i == 5:
+        continue
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>0
+1
+2
+3
+4
+5
+5
+5
+...</code></pre>
+              <p class="code-io__note">This is an infinite loop. At 5, continue jumps back and i never becomes 6. Do not run this as is.</p>
+            </div>
+            <p>To skip 5, add 1 first, then continue. Now the output is 0 through 10 with 5 missing.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>i = 0
+while i &lt;= 10:
+    if i == 5:
+        i += 1
+        continue
+    print(i)
+    i += 1
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>0
+1
+2
+3
+4
+6
+7
+8
+9
+10
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-152" data-section="152" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">152</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">For Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A for loop is the usual way to traverse a sequence: a list, a string, a tuple, and the rest.</p>
+            <p>Use while when you control a stopping condition with a counter. Use for when you walk through items.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">while</th>
+                    <th scope="col">for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You set a condition and a counter.</td>
+                    <td>Python hands you each item in order.</td>
+                  </tr>
+                  <tr>
+                    <td>Good when you stop on a rule you write.</td>
+                    <td>Good when you traverse a list, string, or tuple.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for i in nums:
+    print(i)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+4
+5
+6
+7
+8
+9
+10</code></pre>
+            </div>
+            <p>Words in a list work the same way.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>veg = ["potato", "tomato", "onion", "garlic", "carrot"]
+for i in veg:
+    print(i)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>potato
+tomato
+onion
+garlic
+carrot</code></pre>
+            </div>
+            <p>A string is a sequence of characters. The loop prints one letter at a time.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>word = "hello"
+for i in word:
+    print(i)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>h
+e
+l
+l
+o</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-153" data-section="153" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">153</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Else in a Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can put <code>else</code> on a for loop. That <code>else</code> runs when the loop finishes without a break.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for i in nums:
+    print(i)
+else:
+    print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+done</code></pre>
+            </div>
+            <p>You can also print done after the loop. That line always runs, even after a break. The for else block is the one that stays quiet when break fires.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for i in nums:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+done</code></pre>
+            </div>
+            <p>Use else with break when you search. Line else up with for, not with if. If 4 is in the list, break runs and else does not.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+for i in nums:
+    if i == 4:
+        print("the element is found", i)
+        break
+else:
+    print("the element is not found")
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>the element is found 4
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-154" data-section="154" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">154</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice with For</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Print each item in this list.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+for i in nums:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+done</code></pre>
+            </div>
+            <p>Search for a number x in a tuple. Do not add 1 to i inside a for loop. for already moves to the next item. If x is 49, it is found. If x is 7, it is not in this tuple, so else runs.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = (1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+x = 49
+for i in nums:
+    if i == x:
+        print("the element is found", i)
+        break
+else:
+    print("the element is not found")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>the element is found 49</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>nums = (1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+x = 7
+for i in nums:
+    if i == x:
+        print("the element is found", i)
+        break
+else:
+    print("the element is not found")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>the element is not found</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-155" data-section="155" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">155</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Range</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>range</code> gives a sequence of numbers. By default it starts at 0, adds 1 each time, and stops before the number you pass in.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print(range(10))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>range(0, 10)</code></pre>
+            </div>
+            <p>Store it, then loop. You could also read <code>seq[0]</code>, <code>seq[1]</code>, and the rest. A for loop is the clean way.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(10)
+for i in seq:
+    print(i)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>0
+1
+2
+3
+4
+5
+6
+7
+8
+9</code></pre>
+              <p class="code-io__note">10 is not printed. range stops before the stop value.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-156" data-section="156" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">156</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Range Start Stop and Step</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can write range in three ways. Stop is required. Start is optional and defaults to 0. Step is optional and defaults to 1.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Start</p>
+                <p class="concept-card__desc">Where the sequence begins. Skip it and Python uses 0.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Stop</p>
+                <p class="concept-card__desc">Required. The sequence ends before this number.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Step</p>
+                <p class="concept-card__desc">How much to add each time. Skip it and Python uses 1.</p>
+              </div>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(5, 10)
+for i in seq:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5
+6
+7
+8
+9
+done</code></pre>
+            </div>
+            <p>A step of 2 skips every other number.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(5, 10, 2)
+for i in seq:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5
+7
+9
+done</code></pre>
+            </div>
+            <p>Even numbers from 1 to 100 start at 2. Stop must be 101 so 100 is included.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(2, 101, 2)
+for i in seq:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>2
+4
+6
+...
+96
+98
+100
+done</code></pre>
+            </div>
+            <p>Odd numbers from 1 to 100 start at 1 with a step of 2. The last odd value is 99.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(1, 100, 2)
+for i in seq:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+3
+5
+...
+95
+97
+99
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-157" data-section="157" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">157</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice with For and Range</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Print 1 to 100 with a for loop. Stop at 101 so 100 is printed.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>for i in range(1, 101):
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1
+2
+3
+...
+99
+100
+done</code></pre>
+            </div>
+            <p>Print 100 to 1. A step of minus 1 walks backward. Stop at 0 so 1 is the last number printed.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>seq = range(100, 0, -1)
+for i in seq:
+    print(i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>100
+99
+98
+...
+3
+2
+1
+done</code></pre>
+            </div>
+            <p>Print the multiplication table of n from 1 to 10.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>n = int(input("enter the number : "))
+for i in range(1, 11):
+    print(n * i)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter the number : 3
+3
+6
+9
+12
+15
+18
+21
+24
+27
+30
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-158" data-section="158" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">158</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pass</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>pass</code> means do nothing. Python still needs a body in a loop or an if. Use pass when that body should stay empty for now, including an empty if or a try you will fill later.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>for i in range(5):
+    pass
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-159" data-section="159" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">159</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sum and Factorial</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Find the sum of the first n numbers with a while loop. Start a running total at 0. Add i each round.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Sum for n = 5</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Start</span>
+                  <span class="workflow__step-desc">sum is 0. i is 1.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Add</span>
+                  <span class="workflow__step-desc">Add 1, then 2, then 3, then 4, then 5.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="equal" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Result</span>
+                  <span class="workflow__step-desc">The total is 15.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>n = int(input("enter the number : "))
+i = 1
+sum = 0
+while i &lt;= n:
+    sum = sum + i
+    i += 1
+print("the sum of the number is : ", sum)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter the number : 5
+the sum of the number is :  15
+done</code></pre>
+            </div>
+            <p>Find the factorial of n with a for loop. Factorial multiplies 1 times 2 times 3, up through n. For 5 that is 120.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>n = int(input("enter the number : "))
+factorial = 1
+for i in range(1, n + 1):
+    factorial = factorial * i
+print("the factorial of the number is : ", factorial)
+print("done")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>enter the number : 5
+the factorial of the number is :  120
+done</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-160" data-section="160" data-chapter="python-5">
+        <span class="lesson-card__marker" aria-hidden="true">160</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 5 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 5 takeaways</h3>
+              <ul>
+                <li>A loop repeats work so you do not copy the same line 100000 times.</li>
+                <li>Python has two loops: while and for.</li>
+                <li>A while loop runs while the condition is true. Raise a counter or it may never stop.</li>
+                <li>An infinite loop is dangerous. Never leave while True with no way out.</li>
+                <li>Walking through a list, tuple, dictionary, or set one by one is called traversing.</li>
+                <li>Searching one item at a time is linear search.</li>
+                <li>break stops the whole loop. continue skips the rest of this round.</li>
+                <li>If you continue in a while loop before you change the counter, you can get stuck.</li>
+                <li>A for loop walks through a sequence such as a list, a string, a tuple, or a range.</li>
+                <li>else on a for loop runs only if break did not fire.</li>
+                <li>range needs a stop. Start defaults to 0. Step defaults to 1. Stop is not included.</li>
+                <li>pass means do nothing. Use it when Python needs a body and you are not ready to fill it.</li>
+                <li>You can sum the first n numbers with while, and find n factorial with for.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

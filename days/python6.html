@@ -1,0 +1,600 @@
+      <div class="chapter-divider reveal" id="chapter-python-6" data-chapter="python-6">
+        <span class="chapter-divider__pill">Python 6</span>
+        <h2 class="chapter-divider__title">Functions in Python</h2>
+        <p class="chapter-divider__note">Read this after Python 5 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-161" data-section="161" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">161</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Function</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>function</strong> is a block of statements that performs one task. You write it once. Then you can use it many times.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Write once, call many times</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Define</span>
+                  <span class="workflow__step-desc">Write the steps inside def.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Call</span>
+                  <span class="workflow__step-desc">Use the name whenever you need that task.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-162" data-section="162" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">162</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Functions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose you add two numbers, then later you add again, then again. The same three lines keep coming back. That is redundant.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 4
+b = 7
+sum = a + b
+print(sum)
+
+a = 77
+b = 99
+sum = a + b
+print(sum)
+
+a = 65
+b = 65
+sum = a + b
+print(sum)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>11
+176
+130</code></pre>
+            </div>
+            <p>If you have to write the same work again and again, make a function.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-163" data-section="163" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">163</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Calculate Sum</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Put the add steps in <code>cal_sum</code>. <code>return</code> sends the answer back so you can print it, multiply it, or add to it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def cal_sum(a, b):
+    sum = a + b
+    return sum
+
+a = int(input("Enter the first number: "))
+b = int(input("Enter the second number: "))
+print(cal_sum(a, b))
+print(3 * cal_sum(a, b))
+print(cal_sum(a, b) + 10)
+print(cal_sum(a, b) - 10)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Enter the first number: 4
+Enter the second number: 7
+11
+33
+21
+1</code></pre>
+              <p class="code-io__note">You can call the function any time you want. Each call runs the same body with the values you pass in.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-164" data-section="164" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">164</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Parameters and Arguments</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>function definition</strong> starts with <code>def</code>. The names inside the parentheses are <strong>parameters</strong>. They are the variables the function uses.</p>
+            <p>A <strong>function call</strong> is the name plus parentheses. The values you put in are <strong>arguments</strong>.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Definition</th>
+                    <th scope="col">Call</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>def test(a, b):</code> Here a and b are parameters.</td>
+                    <td><code>test(10, 20)</code> Here 10 and 20 are arguments.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def test(a, b):
+    return a + b
+
+print(test(10, 20))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>30</code></pre>
+            </div>
+            <p>The call looks like <code>function_name(arg1, arg2, arg3, ...)</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-165" data-section="165" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">165</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">No Parameter No Return</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A function does not have to take parameters. It does not have to return a value. If you skip <code>return</code>, Python gives back <code>None</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def print_test():
+    print("Hello World")
+
+print(print_test())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Hello World
+None</code></pre>
+              <p class="code-io__note">print_test prints Hello World. Then print prints the return value, which is None.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-166" data-section="166" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">166</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Average of Three</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a function that takes three numbers, adds them, divides by 3, and returns the average.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def average(a, b, c):
+    sum = a + b + c
+    average = sum / 3
+    return average
+
+print(average(10, 20, 30))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>20.0</code></pre>
+              <p class="code-io__note">Python / gives a float, so the average prints as 20.0.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-167" data-section="167" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">167</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="blocks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Built in and User Functions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>print("hello world")</code> is a function call. The string is the argument. Python already gives you print. That is a <strong>built in</strong> function. A function you write is a <strong>user</strong> function.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Built in</p>
+                <p class="concept-card__desc">Already in Python, such as print and len.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">User</p>
+                <p class="concept-card__desc">Made by you with def, such as cal_sum.</p>
+              </div>
+            </div>
+            <p>print can take extra arguments. <code>end=" "</code> keeps the next print on the same line. You need the equals sign.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print("hello", end=" ")
+print("world")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hello world</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-168" data-section="168" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">168</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sliders-horizontal" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Default Parameters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can give a parameter a default value. If the call skips that argument, Python uses the default. Defaults must come last. A parameter with no default cannot sit after one that has a default.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Definition</th>
+                    <th scope="col">Allowed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>def add(a=1, b=1):</code></td>
+                    <td>Yes. Both have defaults. add() works.</td>
+                  </tr>
+                  <tr>
+                    <td><code>def add(a, b=1):</code></td>
+                    <td>Yes. The default is last. You still must pass a.</td>
+                  </tr>
+                  <tr>
+                    <td><code>def add(a=1, b):</code></td>
+                    <td>No. b has no default, but it comes after a.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Both defaults are 1. A call with no arguments adds 1 and 1.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def add(a=1, b=1):
+    print(a + b)
+    return a + b
+
+print(add())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>2
+2</code></pre>
+            </div>
+            <p>Only b has a default. The definition is legal. add() with no arguments still fails, because a is required. Pass a, such as 5.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def add(a, b=1):
+    print(a + b)
+    return a + b
+
+print(add())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>TypeError: add() missing 1 required positional argument: 'a'</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def add(a, b=1):
+    print(a + b)
+    return a + b
+
+print(add(5))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>6
+6</code></pre>
+            </div>
+            <p>Default, then a parameter with no default, is a syntax error.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def add(a=1, b):
+    print(a + b)
+    return a + b
+
+print(add())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>SyntaxError: parameter without a default follows parameter with a default</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-169" data-section="169" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">169</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a function that prints the length of a list. Call it on fruits and on cities.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>fruits = ["apple", "banana", "orange", "mango"]
+cities = ["delhi", "mumbai", "chennai", "kolkata"]
+
+def print_len(items):
+    print(len(items))
+
+print_len(fruits)
+print_len(cities)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>4
+4</code></pre>
+            </div>
+            <p>Write a function that prints the items of a list on one line. The list is the parameter. <code>end=" "</code> keeps each item on the same line.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>cities = ["delhi", "mumbai", "chennai", "kolkata"]
+
+def print_list(items):
+    for i in items:
+        print(i, end=" ")
+
+print_list(cities)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>delhi mumbai chennai kolkata </code></pre>
+            </div>
+            <p>Write a function that finds the factorial of n. n is the parameter.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>n = int(input("Enter the number: "))
+
+def factorial(n):
+    result = 1
+    i = 1
+    while i &lt;= n:
+        result = result * i
+        i += 1
+    return result
+
+print(factorial(n))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Enter the number: 5
+120</code></pre>
+            </div>
+            <p>Write a function that converts US dollars to Indian rupees. This example uses 230 rupees for 1 dollar. Pass the dollar amount. The rate has a default of 230.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def converter(usd, rate=230):
+    return usd * rate
+
+print(converter(1))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>230</code></pre>
+            </div>
+            <p>Write a function that returns even if the number is even, and odd otherwise.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = int(input("Enter the number: "))
+
+def odd_even(a):
+    if a % 2 == 0:
+        return "even"
+    else:
+        return "odd"
+
+print(odd_even(a))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Enter the number: 7
+odd</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-170" data-section="170" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">170</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recursion</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><strong>Recursion</strong> is a function that calls itself. It can look like a loop. The call is to the same function. Work you do with a loop, you can also do with recursion, and the other way around.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Loop</th>
+                    <th scope="col">Recursion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Repeat with while or for.</td>
+                    <td>Repeat by calling the same function.</td>
+                  </tr>
+                  <tr>
+                    <td>A condition or a range stops it.</td>
+                    <td>A base case returns and stops the chain.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>This only prints 10 once. There is no next call.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def show(n):
+    print(n)
+
+show(10)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>10</code></pre>
+            </div>
+            <p>To print 10, then 9, then 8, and so on, call show again with n minus 1. Stop when n is 0. That stop is the <strong>base case</strong>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def show(n):
+    if n == 0:
+        return
+    print(n)
+    show(n - 1)
+
+show(10)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>10
+9
+8
+7
+6
+5
+4
+3
+2
+1</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-171" data-section="171" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">171</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Call Stack</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In C this idea is called a call stack. Python does the same in memory. Each new call sits on top until it returns. For n = 3 the waiting calls are 3, then 2, then 1.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <p class="broadcast-diagram__title">Call stack for show(3). The newest call is on top.</p>
+              <div class="broadcast-row">
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-broadcast-col">
+                    <div class="broadcast-array">
+                      <span class="broadcast-cell broadcast-cell--result">1</span>
+                    </div>
+                    <div class="broadcast-array">
+                      <span class="broadcast-cell broadcast-cell--solid">2</span>
+                    </div>
+                    <div class="broadcast-array">
+                      <span class="broadcast-cell broadcast-cell--solid">3</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">show(3) in order</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">show(3)</span>
+                  <span class="workflow__step-desc">Print 3. Call show(2). Wait.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">show(2)</span>
+                  <span class="workflow__step-desc">Print 2. Call show(1). Wait.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">show(1)</span>
+                  <span class="workflow__step-desc">Print 1. Call show(0).</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">show(0)</span>
+                  <span class="workflow__step-desc">Base case. Return. The stack unwinds.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-172" data-section="172" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">172</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="asterisk" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recursive Factorial</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Factorial of n is n times factorial of n minus 1. The base case is 0 or 1, which returns 1. For 5 that is 5 times 4 times 3 times 2 times 1, which is 120.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def fact(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+print(fact(5))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>120</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-173" data-section="173" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">173</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recursive Sum</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Write a recursive function to add the first n natural numbers. The base case is 0, which returns 0. Otherwise return n plus the sum of n minus 1. For 5 that is 15.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Sum for n = 5</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Unfold</span>
+                  <span class="workflow__step-desc">5 + 4 + 3 + 2 + 1 + 0.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="equal" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Result</span>
+                  <span class="workflow__step-desc">The total is 15.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>def sum_n(n):
+    if n == 0:
+        return 0
+    else:
+        return n + sum_n(n - 1)
+
+print(sum_n(5))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>15</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-174" data-section="174" data-chapter="python-6">
+        <span class="lesson-card__marker" aria-hidden="true">174</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 6 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 6 takeaways</h3>
+              <ul>
+                <li>A function is a block of statements for one task. Write it once and call it many times.</li>
+                <li>Parameters are names in the definition. Arguments are values in the call.</li>
+                <li>return sends a value back. With no return, the result is None.</li>
+                <li>print is a built in function. Functions you write with def are user functions.</li>
+                <li>end=" " keeps the next print on the same line. You need the equals sign.</li>
+                <li>Default parameters must come last. Skip an argument and Python uses the default.</li>
+                <li>Recursion is a function that calls itself. Stop with a base case.</li>
+                <li>Python stores waiting calls on a call stack, the same idea as in C.</li>
+                <li>You can compute factorial and the sum of the first n numbers with a loop or with recursion.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
