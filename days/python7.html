@@ -1,0 +1,552 @@
+      <div class="chapter-divider reveal" id="chapter-python-7" data-chapter="python-7">
+        <span class="chapter-divider__pill">Python 7</span>
+        <h2 class="chapter-divider__title">File Input and Output</h2>
+        <p class="chapter-divider__note">Read this after Python 6 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-175" data-section="175" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">175</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is File Input and Output</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>IO means input and output. Every image, text file, and video is a file. Python can read, write, append, edit, and delete files. The two main jobs are read and write.</p>
+            <p>This day you will open a file, read it, write to it, close it, and delete it.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The usual file path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="folder-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Open</span>
+                  <span class="workflow__step-desc">Connect Python to the file.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Read or write</span>
+                  <span class="workflow__step-desc">Pull data out or put data in.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Close</span>
+                  <span class="workflow__step-desc">A good programmer always closes the file.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-176" data-section="176" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">176</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="memory-stick" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Files</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>RAM means random access memory. When you run code, every variable lives in RAM. RAM is volatile. That means the values go away when the program stops.</p>
+            <p>A file on disk stays. To keep data permanent, you store it in a file.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">RAM</th>
+                    <th scope="col">File</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Holds variables while the program runs.</td>
+                    <td>Holds data after the program stops.</td>
+                  </tr>
+                  <tr>
+                    <td>Volatile. The data is deleted.</td>
+                    <td>Permanent until you change or delete it.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-177" data-section="177" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">177</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="files" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Text and Binary Files</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>text file</strong> stores data as characters, such as .txt, .docx, .pages, and .log. A <strong>binary file</strong> is not plain text, such as .mp4, .mov, .png, and .jpeg. On the disk, every file is still bits.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Text</p>
+                <p class="concept-card__desc">Characters you can open as words, such as txt, docx, pages, log.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Binary</p>
+                <p class="concept-card__desc">Video, sound, or images, such as mp4, mov, png, jpeg.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-178" data-section="178" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">178</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Open Read Close</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The basic operations are open, read, and close. <code>open</code> takes the file name and the mode. If you skip the mode, Python uses read mode.</p>
+            <p>These examples start from a file named <code>demo.txt</code> with this text:</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--output">demo.txt</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python</code></pre>
+            </div>
+            <p><code>read()</code> gives the whole file back as a string.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r")
+print(file.read())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python</code></pre>
+            </div>
+            <p>After you close the file, you cannot read it again. A good programmer always closes the file.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r")
+print(file.read())
+file.close()
+print(file.read())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python
+ValueError: I/O operation on closed file.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-179" data-section="179" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">179</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="settings" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">File Modes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second argument to <code>open</code> is the mode. You can join letters, such as <code>r+</code> or <code>rb</code>. Text is the default, so you do not need <code>t</code>. For binary you do need <code>b</code>.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Mode</th>
+                    <th scope="col">What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>r</code></td>
+                    <td>Read. This is the default.</td>
+                  </tr>
+                  <tr>
+                    <td><code>w</code></td>
+                    <td>Write only. Writes over the whole file.</td>
+                  </tr>
+                  <tr>
+                    <td><code>x</code></td>
+                    <td>Create a new file and open it for writing. Fails if the file already exists.</td>
+                  </tr>
+                  <tr>
+                    <td><code>a</code></td>
+                    <td>Append. Write at the end.</td>
+                  </tr>
+                  <tr>
+                    <td><code>b</code></td>
+                    <td>Binary, such as <code>rb</code> or <code>wb</code>.</td>
+                  </tr>
+                  <tr>
+                    <td><code>t</code></td>
+                    <td>Text. Default, so you can skip it.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-180" data-section="180" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">180</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="text-cursor" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Read Size and Lines</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Python keeps a pointer in the file. Each read moves that pointer forward. <code>read(5)</code> takes the next 5 characters. From the start of <code>demo.txt</code> that is <code>hi ev</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r")
+print(file.read(5))
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi ev</code></pre>
+            </div>
+            <p><code>readline()</code> reads one line at a time, including the newline at the end of the line.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r")
+print(file.readline())
+print(file.readline())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi everyone
+
+we are learning python i/o
+</code></pre>
+            </div>
+            <p>If you already called <code>read()</code> for the whole file, the pointer is at the end. Extra <code>readline()</code> calls give empty strings.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r")
+print(file.read())
+print(file.readline())
+print(file.readline())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python
+</code></pre>
+              <p class="code-io__note">The two readline calls print blank lines because there is nothing left to read.</p>
+            </div>
+            <p>If the file has no data, <code>readline()</code> also gives an empty string.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-181" data-section="181" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">181</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Write and Append</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>w</code> is write only. It writes over the whole file. <code>a</code> is append. It adds at the end. Use <code>\n</code> when you want a new line.</p>
+            <p>If the file does not exist, write or append will create it. That is useful when you start a new file.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo2.txt", "a")
+file.write("learning python i/o")
+file.write("\nlearning python i/o")
+file.write("\nlearning python i/o")
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">demo2.txt after this run</p>
+              <pre class="code-output"><code>learning python i/o
+learning python i/o
+learning python i/o</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-182" data-section="182" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">182</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">r+ w+ and a+</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Add <code>+</code> when you need both read and write. The three plus modes are not the same. Truncate means the old content is wiped when you open the file.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Mode</th>
+                    <th scope="col">Truncate</th>
+                    <th scope="col">Pointer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>r+</code></td>
+                    <td>No</td>
+                    <td>Starts at the beginning. Write covers old text from the start.</td>
+                  </tr>
+                  <tr>
+                    <td><code>w+</code></td>
+                    <td>Yes</td>
+                    <td>Starts empty. Read after write sees nothing unless you move back.</td>
+                  </tr>
+                  <tr>
+                    <td><code>a+</code></td>
+                    <td>No</td>
+                    <td>Starts at the end. New writes go at the end. Read from here is empty.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p><code>r+</code> writes from the start. Here <code>test test</code> covers the first 9 characters. Then <code>read()</code> returns what is left after the pointer.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "r+")
+file.write("test test")
+print(file.read())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>ne
+we are learning python i/o
+using python
+i like python</code></pre>
+              <p class="code-io__note">The file now starts with test test, then the leftover letters from everyone.</p>
+            </div>
+            <p><code>w+</code> wipes the file, then writes. After write, the pointer is at the end, so <code>read()</code> prints nothing. The file on disk still holds <code>test test</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "w+")
+file.write("test test")
+print(file.read())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code></code></pre>
+            </div>
+            <p><code>a+</code> keeps the old text and adds at the end. The pointer is already at the end, so a read after that is empty.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("demo.txt", "a+")
+file.write("")
+print(file.read())
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code></code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-183" data-section="183" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">183</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="check-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">With Syntax</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>with open</code> looks like a small block, the way a function body does. When the block ends, Python closes the file for you. You do not have to remember <code>close()</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("demo.txt", "r") as file:
+    print(file.read())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python</code></pre>
+            </div>
+            <p><code>w</code> is write only. You cannot call <code>read()</code> in that block. Python raises an error.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("demo.txt", "w") as file:
+    file.write("this is a sample file")
+    print(file.read())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>io.UnsupportedOperation: not readable</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-184" data-section="184" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">184</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trash-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Delete a File</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>To delete a file you import the <code>os</code> module. Some modules are already in Python. For a package that is not built in, you install it with pip, such as <code>pip install tensorflow</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>import os
+os.remove("demo.txt")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code></code></pre>
+              <p class="code-io__note">No print means the file is gone. Run this only on a file you are ready to delete.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-185" data-section="185" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">185</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Create Replace and Search</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create a new file and put these four lines in it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("practice.txt", "w")
+file.write("hi everyone\nwe are learning python i/o\nusing python\ni like python")
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">practice.txt</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python</code></pre>
+            </div>
+            <p>The same write with <code>with</code>. Python closes the file at the end of the block.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("test.txt", "w") as file:
+    file.write("hi everyone\nwe are learning python i/o\nusing python\ni like python")</code></pre>
+              <p class="code-io__label code-io__label--output">test.txt</p>
+              <pre class="code-output"><code>hi everyone
+we are learning python i/o
+using python
+i like python</code></pre>
+            </div>
+            <p>Replace every python with java. Read the file into a string, call <code>replace</code>, then write the string back.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("test.txt", "r")
+content = file.read()
+content = content.replace("python", "java")
+file.close()
+
+file = open("test.txt", "w")
+file.write(content)
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">test.txt after replace</p>
+              <pre class="code-output"><code>hi everyone
+we are learning java i/o
+using java
+i like java</code></pre>
+            </div>
+            <p>Check if the word learning is in the file.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>file = open("test.txt", "r")
+content = file.read()
+word = "learning"
+if word in content:
+    print("word found")
+else:
+    print("word not found")
+file.close()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>word found</code></pre>
+            </div>
+            <p>Find the first line that holds learning. <code>enumerate(..., start=1)</code> counts lines from 1, not from 0. <code>break</code> stops at the first match.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("test.txt", "r") as file:
+    for line_number, line in enumerate(file, start=1):
+        if "learning" in line:
+            print("Found on line:", line_number)
+            break</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Found on line: 2</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-186" data-section="186" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">186</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Count Even Numbers</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>From a file of numbers separated by commas, count how many are even. This example file holds 1 through 10. The even values are 2, 4, 6, 8, and 10, so the count is 5.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("practice.txt", "w") as file:
+    file.write("1,2,3,4,5,6,7,8,9,10")</code></pre>
+              <p class="code-io__label code-io__label--output">practice.txt</p>
+              <pre class="code-output"><code>1,2,3,4,5,6,7,8,9,10</code></pre>
+            </div>
+            <p>Split on the comma. Strip spaces. Turn each piece into an int. Keep it if it divides by 2 with no remainder.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("practice.txt", "r") as file:
+    content = file.read()
+
+numbers = content.split(",")
+count = 0
+for num in numbers:
+    if num.strip() and int(num) % 2 == 0:
+        count += 1
+print(count)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5</code></pre>
+            </div>
+            <p>The same count in a short list, then <code>len</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>with open("practice.txt", "r") as file:
+    content = file.read()
+
+numbers = content.split(",")
+even_numbers = [
+    int(num)
+    for num in numbers
+    if num.strip() and int(num) % 2 == 0
+]
+print(len(even_numbers))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>5</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-187" data-section="187" data-chapter="python-7">
+        <span class="lesson-card__marker" aria-hidden="true">187</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 7 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 7 takeaways</h3>
+              <ul>
+                <li>IO means input and output. Images, text, and video are all files.</li>
+                <li>RAM is volatile. Files keep data after the program stops.</li>
+                <li>Text files store characters. Binary files store video, images, and similar data. On disk both are bits.</li>
+                <li>open takes a name and a mode. Skip the mode and Python uses r.</li>
+                <li>read returns a string. Always close the file, or use with so Python closes it.</li>
+                <li>r reads. w writes over. a appends. x creates a new file. b is binary. t is text and is the default.</li>
+                <li>The file pointer moves as you read or write. After a full read, readline is empty.</li>
+                <li>r+ writes from the start and does not wipe the file. w+ wipes then writes. a+ adds at the end.</li>
+                <li>w is write only, so read inside that open will fail.</li>
+                <li>import os and os.remove delete a file. Some modules are built in. Others need pip install.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
