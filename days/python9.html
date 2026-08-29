@@ -1,0 +1,724 @@
+      <div class="chapter-divider reveal" id="chapter-python-9" data-chapter="python-9">
+        <span class="chapter-divider__pill">Python 9</span>
+        <h2 class="chapter-divider__title">OOP Part 2</h2>
+        <p class="chapter-divider__note">Read this after Python 8 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-203" data-section="203" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">203</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trash-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The del Keyword</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>del</code> deletes an object property, or the object itself.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+
+car1 = Car("Toyota", "Corolla", 2020)
+print(car1.make)
+del car1
+print(car1.make)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Toyota
+NameError: name 'car1' is not defined</code></pre>
+            </div>
+            <p>To delete one attribute and keep the object, use <code>del car1.make</code>. Then <code>print(car1.make)</code> raises <code>AttributeError</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-204" data-section="204" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">204</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="unlock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Public and Private</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Other languages have public and private. Public means you can read and change the attribute from outside the class. That is a bad idea for a password. Anyone with the object can print it or overwrite it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Account:
+    def __init__(self, accno, accpass):
+        self.accno = accno
+        self.accpass = accpass
+
+acc1 = Account(1234567890, "1234567890")
+print(acc1.accno)
+print(acc1.accpass)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1234567890
+1234567890</code></pre>
+            </div>
+            <p>Put two underscores in front of the name to mark it private. Then you cannot use <code>acc1.accpass</code> or even <code>acc1.__accpass</code> from outside. Python public and private are similar to other languages, but they are not the same thing.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Account:
+    def __init__(self, accno, accpass):
+        self.accno = accno
+        self.__accpass = accpass
+
+acc1 = Account(1234567890, "1234567890")
+print(acc1.accno)
+print(acc1.accpass)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1234567890
+AttributeError: 'Account' object has no attribute 'accpass'</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-205" data-section="205" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">205</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Getters and Private Methods</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Read a private value with a method inside the class. That method can see <code>self.__accpass</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Account:
+    def __init__(self, accno, accpass):
+        self.accno = accno
+        self.__accpass = accpass
+
+    def get_accpass(self):
+        return self.__accpass
+
+acc1 = Account(1234567890, "1234567890")
+print(acc1.get_accpass())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1234567890</code></pre>
+            </div>
+            <p>A private class attribute or a private method also fails from outside. We still write them because some helpers should only run inside another method.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Person:
+    __name = "John"
+
+p1 = Person()
+print(p1.__name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>AttributeError: 'Person' object has no attribute '__name'</code></pre>
+            </div>
+            <p>Calling a private setter from outside fails too.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Account:
+    def __init__(self, accno, accpass):
+        self.__accno = accno
+        self.__accpass = accpass
+
+    def get_accno(self):
+        return self.__accno
+
+    def get_accpass(self):
+        return self.__accpass
+
+    def __set_accpass(self, accpass):
+        self.__accpass = accpass
+
+    def set_accno(self, accno):
+        self.__accno = accno
+
+acc1 = Account(1234567890, "1234567890")
+print(acc1.get_accno())
+print(acc1.get_accpass())
+print(acc1.__set_accpass("1234567890"))</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>1234567890
+1234567890
+AttributeError: 'Account' object has no attribute '__set_accpass'</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-206" data-section="206" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">206</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Inheritance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In real life we inherit values from parents, and they inherit from theirs. In code, one class derives properties and methods from another class.</p>
+            <p>Every car needs start and stop. A Toyota class should not copy that logic. It inherits attributes and methods from Car. This shape is <strong>single inheritance</strong>: one base class, one derived class.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Single inheritance</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="car" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Car</span>
+                  <span class="workflow__step-desc">The base class. Color, start, stop.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="arrow-right" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Derives</span>
+                  <span class="workflow__step-desc">ToyotaCar(Car) takes the parent features.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="car-front" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">ToyotaCar</span>
+                  <span class="workflow__step-desc">The derived class. Adds its own name.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Call <code>start()</code> and <code>stop()</code> directly. Do not wrap them in <code>print</code>, because they already print and they return None.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    color = "red"
+
+    @staticmethod
+    def start():
+        print("Car started")
+
+    @staticmethod
+    def stop():
+        print("Car stopped")
+
+class ToyotaCar(Car):
+    def __init__(self, name):
+        self.name = name
+
+car1 = ToyotaCar("Toyota")
+print(car1.name)
+car1.start()
+car1.stop()
+print(car1.color)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Toyota
+Car started
+Car stopped
+red</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-207" data-section="207" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">207</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multilevel Inheritance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A derived class can have its own derived class. That chain is <strong>multilevel inheritance</strong>: base, then derived, then derived again. Fortuner gets ToyotaCar features and Car features.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Car, then ToyotaCar, then Fortuner</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="car" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Car</span>
+                  <span class="workflow__step-desc">start, stop, color.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">ToyotaCar</span>
+                  <span class="workflow__step-desc">Adds safety.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="car-front" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fortuner</span>
+                  <span class="workflow__step-desc">Gets all of the above, plus its name.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    color = "red"
+
+    @staticmethod
+    def start():
+        print("Car started")
+
+    @staticmethod
+    def stop():
+        print("Car stopped")
+
+class ToyotaCar(Car):
+    def __init__(self, name):
+        self.name = name
+
+    @staticmethod
+    def safety():
+        print("have safety features")
+
+class Fortuner(ToyotaCar):
+    def __init__(self, name):
+        self.name = name
+
+fortuner1 = Fortuner("fortuner")
+print(fortuner1.name)
+fortuner1.start()
+fortuner1.stop()
+print(fortuner1.color)
+fortuner1.safety()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>fortuner
+Car started
+Car stopped
+red
+have safety features</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-208" data-section="208" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">208</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multiple Inheritance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>One derived class can take more than one parent. That is <strong>multiple inheritance</strong>. Class C takes A and B, so an object of C has varA, varB, and varC.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">A</p>
+                <p class="concept-card__desc">Parent. Holds varA.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">B</p>
+                <p class="concept-card__desc">Parent. Holds varB.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">C(A, B)</p>
+                <p class="concept-card__desc">Child. Holds varC and inherits both parents.</p>
+              </div>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class A:
+    varA = "I am variable A"
+
+class B:
+    varB = "I am variable B"
+
+class C(A, B):
+    varC = "I am variable C"
+
+c1 = C()
+print(c1.varA)
+print(c1.varB)
+print(c1.varC)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>I am variable A
+I am variable B
+I am variable C</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-209" data-section="209" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">209</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-up" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">super</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>super()</code> lets you call a method on the parent class. Use it in the child constructor so the parent can set its own attributes, such as type. You could write <code>self.type = type</code> in the child, but then you skip the rest of the parent constructor. <code>super().__init__(type)</code> runs the parent init.</p>
+            <p>A static method lives on the class. Python does not make a new copy of it for every object.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self, type):
+        self.type = type
+
+    @staticmethod
+    def start():
+        print("Car started")
+
+    @staticmethod
+    def stop():
+        print("Car stopped")
+
+class ToyotaCar(Car):
+    def __init__(self, name, type):
+        self.name = name
+        super().__init__(type)
+        super().start()
+
+car1 = ToyotaCar("fortuner", "suv")
+print(car1.type)
+car1.start()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Car started
+suv
+Car started</code></pre>
+              <p class="code-io__note">The first Car started comes from super().start() inside init. The second comes from car1.start().</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-210" data-section="210" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">210</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Changing a Class Attribute</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If you assign <code>self.name</code> on the object, you do not change the class value. The object makes its own name. <code>Person.name</code> stays anonymous.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Person:
+    name = "anonymous"
+
+    def changeName(self, name):
+        self.name = name
+
+p1 = Person()
+print(p1.name)
+p1.changeName("John")
+print(p1.name)
+print(Person.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>anonymous
+John
+anonymous</code></pre>
+            </div>
+            <p>To change the class attribute, assign on the class: <code>Person.name = name</code>. Then both the object and the class show John.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Person:
+    name = "anonymous"
+
+    def changeName(self, name):
+        Person.name = name
+
+p1 = Person()
+print(p1.name)
+p1.changeName("John")
+print(p1.name)
+print(Person.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>anonymous
+John
+John</code></pre>
+            </div>
+            <p><code>self.__class__.name</code> also changes the class. This version ignores the argument and always sets rahul.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Person:
+    name = "anonymous"
+
+    def changeName(self, name):
+        self.__class__.name = "rahul"
+
+p1 = Person()
+print(p1.name)
+p1.changeName("John")
+print(p1.name)
+print(Person.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>anonymous
+rahul
+rahul</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-211" data-section="211" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">211</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tags" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Class Methods</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A class method is bound to the class. It receives the class as <code>cls</code>, not the object as <code>self</code>. Use <code>@classmethod</code>. Then <code>cls.name = name</code> changes the class attribute and uses the name you passed in.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Person:
+    name = "anonymous"
+
+    @classmethod
+    def changeName(cls, name):
+        cls.name = name
+
+p1 = Person()
+print(p1.name)
+p1.changeName("John")
+print(p1.name)
+print(Person.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>anonymous
+John
+John</code></pre>
+            </div>
+            <p>There are three kinds of methods.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Static</p>
+                <p class="concept-card__desc">@staticmethod. No self and no cls.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Class</p>
+                <p class="concept-card__desc">@classmethod. Gets cls, the class.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Instance</p>
+                <p class="concept-card__desc">Normal method. Gets self, the object.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-212" data-section="212" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">212</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="percent" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Property Decorator</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If you store total in <code>__init__</code>, that number is frozen. Change phy later and <code>st1.total</code> stays 300. <code>calculate_total()</code> does update, because it adds again.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Student:
+    def __init__(self, phy, chem, math):
+        self.phy = phy
+        self.chem = chem
+        self.math = math
+        self.total = phy + chem + math
+
+    def calculate_total(self):
+        return self.phy + self.chem + self.math
+
+st1 = Student(100, 100, 100)
+print(st1.total)
+st1.phy = 70
+print(st1.total)
+print(st1.calculate_total())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>300
+300
+270</code></pre>
+            </div>
+            <p>A <strong>property</strong> decorator turns a method into something you read like an attribute. Each time you use <code>st1.total</code>, Python runs the method again.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Student:
+    def __init__(self, phy, chem, math):
+        self.phy = phy
+        self.chem = chem
+        self.math = math
+
+    @property
+    def total(self):
+        return self.phy + self.chem + self.math
+
+st1 = Student(100, 100, 100)
+print(st1.total)
+st1.phy = 70
+print(st1.total)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>300
+270</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-213" data-section="213" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">213</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shapes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Polymorphism</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Poly means many. Morph means form. The same operator can mean different work. That is <strong>operator overloading</strong>. Python already does this for you. That built in behavior is implicit overloading.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">What + does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>10 + 20</code></td>
+                    <td>Adds numbers. Result 30.</td>
+                  </tr>
+                  <tr>
+                    <td><code>"hello" + "world"</code></td>
+                    <td>Joins strings. Result helloworld.</td>
+                  </tr>
+                  <tr>
+                    <td><code>[1, 2, 3] + [4, 5, 6]</code></td>
+                    <td>Merges lists. Result [1, 2, 3, 4, 5, 6].</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>print(10 + 20)
+print("hello" + "world")
+print([1, 2, 3] + [4, 5, 6])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>30
+helloworld
+[1, 2, 3, 4, 5, 6]</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-214" data-section="214" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">214</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Complex Numbers and Dunder add</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A real number is 1, 2, 3, or minus 1. A complex number has a real part and an imaginary part, written with j, such as 3 + 8j. Complex numbers show up in work such as voice recognition.</p>
+            <p>Python already has a built in complex type. We still write our own class so we can teach what <code>+</code> does. When you write <code>a + b</code>, Python calls <code>a.__add__(b)</code>. A name like <code>__add__</code> is a dunder method, two underscores on each side.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Complex:
+    def __init__(self, real, imaginary):
+        self.real = real
+        self.imaginary = imaginary
+
+    def showNum(self):
+        print(self.real, "+", self.imaginary, "j")
+
+    def __add__(self, other):
+        newReal = self.real + other.real
+        newImaginary = self.imaginary + other.imaginary
+        return Complex(newReal, newImaginary)
+
+num1 = Complex(3, 8)
+num2 = Complex(2, 3)
+num1.showNum()
+num2.showNum()
+num3 = num1 + num2
+num3.showNum()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>3 + 8 j
+2 + 3 j
+5 + 11 j</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-215" data-section="215" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">215</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Circle</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Define a Circle class. The constructor takes radius r. <code>area()</code> is pi times r squared. <code>perimeter()</code> is 2 times pi times r. This class stores pi as 22 / 7. For radius 10, area is about 314.29 and perimeter is about 62.86.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Circle:
+    pi = 22 / 7
+
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return Circle.pi * self.radius ** 2
+
+    def perimeter(self):
+        return 2 * Circle.pi * self.radius
+
+c1 = Circle(10)
+print(c1.area())
+print(c1.perimeter())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>314.2857142857143
+62.857142857142854</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-216" data-section="216" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">216</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="briefcase" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Employee and Engineer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Define an Employee class with roles, department, and salary, plus a <code>show_details()</code> method. Engineer inherits from Employee. The engineer constructor stores name and age, then calls <code>super()</code> with Engineer, IT, and 100000. <code>show_details()</code> prints those employee fields. Name and age stay on the object even though this method does not print them.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Employee:
+    def __init__(self, roles, department, salary):
+        self.roles = roles
+        self.department = department
+        self.salary = salary
+
+    def show_details(self):
+        print("Roles:", self.roles, "Department:", self.department, "Salary:", self.salary)
+
+class Engineer(Employee):
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        super().__init__("Engineer", "IT", 100000)
+
+engg1 = Engineer("bishal", 24)
+engg1.show_details()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Roles: Engineer Department: IT Salary: 100000</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-217" data-section="217" data-chapter="python-9">
+        <span class="lesson-card__marker" aria-hidden="true">217</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 9 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 9 takeaways</h3>
+              <ul>
+                <li>del removes an attribute or the whole object.</li>
+                <li>Two underscores in front of a name marks it private. Read it with a method. Python privacy is similar to other languages, not the same.</li>
+                <li>Private methods are for use inside other methods, not from outside.</li>
+                <li>Inheritance lets a child reuse parent attributes and methods. Single, multilevel, and multiple are three shapes.</li>
+                <li>super() runs a parent method, often the parent constructor.</li>
+                <li>self.name on an object does not change Person.name. Assign on the class, or use a class method with cls.</li>
+                <li>Three method kinds: static, class, and instance.</li>
+                <li>@property makes a method look like an attribute and runs it each time you read it.</li>
+                <li>Polymorphism is many forms. + adds numbers, joins strings, and merges lists.</li>
+                <li>a + b calls a.__add__(b). You can write that dunder so your own class works with +.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

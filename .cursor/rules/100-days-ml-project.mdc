@@ -33,9 +33,11 @@ Live site context: static HTML/CSS/JS (`index.html`, `styles.css`, `script.js`),
 
 ---
 
-## Course order (Anaconda, Python, NumPy)
+## Course order
 
-On the site, **Learning Python** (9 bonus days) sits **after Day 12 Anaconda Setup** and **before Learning NumPy**, then Pandas, then Day 13. Details live in `python-bonus.mdc`. Do not place new Python lessons after NumPy or at the end of the 100 day list.
+On the site, **Learning Python** (9 bonus days, **complete**) sits after Day 12 Anaconda Setup and before Learning NumPy, then Pandas, then Day 13 to Day 38. Do not add more Python days.
+
+**Next numbered days are Day 39, Day 40, … Day 100.** Put each new day after the latest numbered day and **before** Building Agentic AI with ADK. Leave the ADK chapter as it is. Do not rewrite it or move it before Day 38. Details live in `day-file-convention.mdc` and `python-bonus.mdc`.
 
 ## Day content from user notes
 

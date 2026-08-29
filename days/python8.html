@@ -1,0 +1,623 @@
+      <div class="chapter-divider reveal" id="chapter-python-8" data-chapter="python-8">
+        <span class="chapter-divider__pill">Python 8</span>
+        <h2 class="chapter-divider__title">OOP Part 1</h2>
+        <p class="chapter-divider__note">Read this after Python 7 and before NumPy. This bonus day does not count as a course day.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-188" data-section="188" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">188</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shapes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why OOP</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>OOP means object oriented programming. This idea comes up a lot in interviews. You do not have to use it for every program. Functions are still fine. Use a class when it helps you model the work.</p>
+            <p>First we wrote procedural code. Then we learned functions, which cut copy paste and made reuse easy. Classes and objects are the next step when you want a blueprint you can stamp many times.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">How our code style grew</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="align-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Procedural</span>
+                  <span class="workflow__step-desc">Line by line, like add two numbers and print.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="box" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Functions</span>
+                  <span class="workflow__step-desc">Write the work once. Call it many times.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Classes</span>
+                  <span class="workflow__step-desc">A blueprint. Each object is one copy.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>a = 10
+b = 20
+c = a + b
+print(c)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>30</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-189" data-section="189" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">189</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-template" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Class Is a Blueprint</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the real world, a person, a pencil, and a mobile phone are objects. Before you make an object, you write a <strong>class</strong>. The class is the blueprint.</p>
+            <p>A school class has many students. A car model is one class. Cars from that model share features such as four doors and the same kind of engine. Each car you build from it is an object.</p>
+            <p>For a college system you could store students in a list or a dictionary. You can also make a Student class. OOP is mostly this idea: class first, then objects.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Class</p>
+                <p class="concept-card__desc">The blueprint. The shared plan for every copy.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Object</p>
+                <p class="concept-card__desc">One copy made from the class. Also called an instance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-190" data-section="190" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">190</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Create an Object</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Writing the class is not enough. You make an object by calling the class name with parentheses. That object is also called an <strong>instance</strong>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Student:
+    name = "John"
+
+s1 = Student()
+print(s1.name)
+print(s1)
+
+s2 = Student()
+print(s2.name)
+print(s2)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>John
+&lt;__main__.Student object at 0x104bfe7b0&gt;
+John
+&lt;__main__.Student object at 0x104bec410&gt;</code></pre>
+              <p class="code-io__note">print(s1) shows that this is an object in memory. The hex number changes each run. s1 and s2 are two instances.</p>
+            </div>
+            <p>The same idea works for a car. Every object reads the same class values until you give each car its own data.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    color = "red"
+    brand = "BMW"
+    model = "2020"
+    speed = "100 km/h"
+
+car1 = Car()
+print(car1.color)
+print(car1.brand)
+print(car1.model)
+print(car1.speed)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>red
+BMW
+2020
+100 km/h</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-191" data-section="191" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">191</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Constructor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A <strong>constructor</strong> is the <code>__init__</code> function. It runs by itself when you make a new object. You do not call it by name. Python still runs a constructor even if you never write <code>__init__</code>. If you write one, yours is the one that runs.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Make an object, init runs</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Car()</span>
+                  <span class="workflow__step-desc">You create the object.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="zap" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">__init__</span>
+                  <span class="workflow__step-desc">Python runs this automatically.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The first parameter is always the new object. We name it <code>self</code>. That is the standard. Another name such as <code>abc</code> can work, but use <code>self</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    brand = "BMW"
+    def __init__(self):
+        print("this is a constructor")
+
+car1 = Car()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a constructor</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-192" data-section="192" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">192</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="user" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">self and Extra Parameters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can pass more values after <code>self</code>. Store them on the object with <code>self.name = ...</code>. The constructor runs once for every new object.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self, fullname):
+        self.name = fullname
+        print("this is a constructor")
+
+car1 = Car("BMW")
+print(car1.name)
+
+car2 = Car("Audi")
+print(car2.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>this is a constructor
+BMW
+this is a constructor
+Audi</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-193" data-section="193" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">193</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Attributes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The data you store on a class or an object is called an <strong>attribute</strong>. Name and marks here are attributes on each student.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+s1 = Student("John", 90)
+print(s1.name)
+print(s1.marks)
+
+s2 = Student("Jane", 85)
+print(s2.name)
+print(s2.marks)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>John
+90
+Jane
+85</code></pre>
+            </div>
+            <p>Constructors come in two kinds. A <strong>default constructor</strong> is <code>def __init__(self):</code>. Python also makes one for you if you write none. A <strong>parameterized constructor</strong> takes extra values, such as name and marks. In one class we usually write only one constructor.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Default</th>
+                    <th scope="col">Parameterized</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>def __init__(self):</code></td>
+                    <td><code>def __init__(self, name, marks):</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-194" data-section="194" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">194</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Class and Instance Attributes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are two kinds of attributes. A <strong>class attribute</strong> is shared by every object. An <strong>instance attribute</strong> is unique to one object. You set instance data with <code>self</code> in the constructor.</p>
+            <p>Ten students can share one college name. That college name is a class attribute. Each student name is an instance attribute. Shared data on the class also saves memory, because Python stores it once.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Class attribute</th>
+                    <th scope="col">Instance attribute</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Same for every object, such as college name.</td>
+                    <td>Different per object, such as student name.</td>
+                  </tr>
+                  <tr>
+                    <td>Written on the class, like <code>brand = "BMW"</code>.</td>
+                    <td>Written with <code>self.name = name</code>.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    brand = "BMW"
+    def __init__(self, name):
+        self.name = name
+
+car1 = Car("test")
+print(car1.brand)
+print(car1.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>BMW
+test</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-195" data-section="195" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">195</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-up" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Object Attribute Wins</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If the class and the object both have an attribute with the same name, the object value is the one you get. Instance attribute ranks above class attribute.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    brand = "BMW"
+    name = "class attribute"
+    def __init__(self, name):
+        self.name = name
+
+car1 = Car("object attribute")
+print(car1.brand)
+print(car1.name)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>BMW
+object attribute</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-196" data-section="196" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">196</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Methods</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A class has two kinds of things. <strong>Attributes</strong> are the data, the properties. <strong>Methods</strong> are the actions, what the object can do. A car has brand and model. It also starts, stops, and runs. Strings, lists, and dictionaries already give you methods.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Attribute</p>
+                <p class="concept-card__desc">What the object has, such as brand or name.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Method</p>
+                <p class="concept-card__desc">What the object can do, such as hello or stop.</p>
+              </div>
+            </div>
+            <p>A method needs <code>self</code> so it knows which object you called. Use it like <code>car1.hello()</code>. You can put many methods in one class.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self, fullname):
+        self.name = fullname
+
+    def hello(self):
+        print("welcome tester")
+
+    def stop(self):
+        print("car stopped")
+
+car1 = Car("test")
+car1.hello()
+car1.stop()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>welcome tester
+car stopped</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-197" data-section="197" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">197</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Student Average</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create a Student class that takes a name and marks for 3 subjects in the constructor. Add a method that returns the average. Do not put a comma after <code>self.name = name</code>. A trailing comma would store a tuple, not a string.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    def average(self):
+        sum = self.marks[0] + self.marks[1] + self.marks[2]
+        average = sum / 3
+        return average
+
+s1 = Student("John", [90, 80, 70])
+print(s1.average())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>80.0</code></pre>
+            </div>
+            <p>You can change an attribute later by assigning to it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>s1.name = "Jane"
+print(s1.name)
+s1.marks = [100, 90, 80]
+print(s1.marks)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Jane
+[100, 90, 80]</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-198" data-section="198" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">198</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Static Methods</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The methods above are normal methods. They need <code>self</code>. If you write a function in the class with no <code>self</code>, calling it on an object fails. Python still passes the object in, so the function gets one extra argument.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self, fullname):
+        self.name = fullname
+
+    def hello():
+        print("welcome tester")
+
+car1 = Car("test")
+print(car1.hello())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>TypeError: Car.hello() takes 0 positional arguments but 1 was given</code></pre>
+            </div>
+            <p>A <strong>static method</strong> does not use <code>self</code>. Put <code>@staticmethod</code> above it. That line is a <strong>decorator</strong>. It changes how the function behaves. You can call it on an object or on the class, with no object.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    @staticmethod
+    def hello():
+        print("welcome tester")
+
+car1 = Car()
+car1.hello()
+Car.hello()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>welcome tester
+welcome tester</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-199" data-section="199" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">199</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Concepts and Abstraction</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>OOP has four main concepts: abstraction, encapsulation, inheritance, and polymorphism. This part 1 focuses on the first two.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Abstraction</p>
+                <p class="concept-card__desc">Hide extra detail. Show only what the user needs.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Encapsulation</p>
+                <p class="concept-card__desc">Wrap data and methods in one object.</p>
+              </div>
+              <div class="concept-card concept-card--supervised">
+                <p class="concept-card__name">Inheritance</p>
+                <p class="concept-card__desc">A later OOP idea. Named here so you know the four.</p>
+              </div>
+              <div class="concept-card concept-card--unsupervised">
+                <p class="concept-card__name">Polymorphism</p>
+                <p class="concept-card__desc">A later OOP idea. Named here so you know the four.</p>
+              </div>
+            </div>
+            <p>Abstraction is like a car. The driver does not need the engine internals. They need start, stop, and the pedals. Inside <code>start</code> we still set acc, brake, and clutch. The caller only sees <code>car1.start()</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Car:
+    def __init__(self):
+        self.acc = False
+        self.brake = False
+        self.clutch = False
+
+    def start(self):
+        self.acc = True
+        self.brake = True
+        self.clutch = True
+        print("car started")
+
+car1 = Car()
+car1.start()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>car started</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-200" data-section="200" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">200</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="package" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Encapsulation</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Think of a capsule. Encapsulation wraps data and functions into one unit, the object. That is what we have been doing all lesson: attributes plus methods live together on the class.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One object holds both</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data</span>
+                  <span class="workflow__step-desc">Attributes such as balance and name.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Functions</span>
+                  <span class="workflow__step-desc">Methods such as debit and start.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="package" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Object</span>
+                  <span class="workflow__step-desc">The single unit that holds both.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-201" data-section="201" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">201</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wallet" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Practice Account</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create an Account class with two attributes: balance and account number. Add methods to debit, credit, and print the balance. Start at 500. Debit 100. Credit 200. The balance ends at 600.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">500, then debit, then credit</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="minus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Debit 100</span>
+                  <span class="workflow__step-desc">500 minus 100 is 400.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Credit 200</span>
+                  <span class="workflow__step-desc">400 plus 200 is 600.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="printer" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">get_balance</span>
+                  <span class="workflow__step-desc">Prints 600.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input</p>
+              <pre class="code-input"><code>class Account:
+    def __init__(self, balance, account_no):
+        self.balance = balance
+        self.account_no = account_no
+
+    def debit(self, amount):
+        self.balance = self.balance - amount
+        print("Debit amount is successful")
+        print(self.balance)
+
+    def credit(self, amount):
+        self.balance = self.balance + amount
+        print("Credit amount is successful")
+        print(self.balance)
+
+    def get_balance(self):
+        print(self.balance)
+
+account1 = Account(500, 12345)
+account1.debit(100)
+account1.credit(200)
+account1.get_balance()</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>Debit amount is successful
+400
+Credit amount is successful
+600
+600</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-202" data-section="202" data-chapter="python-8">
+        <span class="lesson-card__marker" aria-hidden="true">202</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bookmark" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python 8 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Python 8 takeaways</h3>
+              <ul>
+                <li>OOP means object oriented programming. It is common in interviews. You can still use functions when a class is not needed.</li>
+                <li>A class is a blueprint. An object is one copy. An object is also called an instance.</li>
+                <li>__init__ is the constructor. It runs when you make an object. The first parameter is self.</li>
+                <li>Attributes are stored data. Class attributes are shared. Instance attributes are unique and use self.</li>
+                <li>If both exist with the same name, the instance attribute wins.</li>
+                <li>Methods are actions. Normal methods need self. Static methods use @staticmethod and skip self.</li>
+                <li>A decorator such as @staticmethod changes how a function behaves.</li>
+                <li>Do not put a trailing comma after self.name = name. That would store a tuple.</li>
+                <li>The four OOP ideas are abstraction, encapsulation, inheritance, and polymorphism.</li>
+                <li>Abstraction hides extra detail. Encapsulation wraps data and methods in one object.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

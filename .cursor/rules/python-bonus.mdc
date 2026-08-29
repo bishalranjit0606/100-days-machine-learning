@@ -1,77 +1,28 @@
 ---
-description: Learning Python is a 9 day bonus chapter between Anaconda setup and NumPy
+description: Learning Python (9 bonus days) is complete. Do not add more Python days. Next work is Day 39 of the 100 day series.
 globs: ["days/*.html", "index.html", "styles.css"]
 alwaysApply: true
 ---
 
-# Learning Python (bonus, 9 days)
+# Learning Python (complete)
 
-The next teaching block is **beginner Python for machine learning**. It lasts **9 days**. It is a **bonus chapter**, like NumPy and Pandas. It does **not** count as Days 13 to 21 of the 100 day series.
+The 9 day **Learning Python** bonus is **done** (`days/python1.html` … `days/python9.html`). Do **not** wait for more Python notes. Do **not** add `python10`, extra Python days, or a Python file after Day 38.
 
-Wait for the user's notes. Do not invent a Python syllabus.
+Leave the existing Python chapter where it is. Do not move, rename, or delete it.
 
-## Site order (strict)
+## Site order (do not change)
 
-Teaching order on the site and in the sidebar:
+1. Day 12 Anaconda Setup
+2. Learning Python (`python-1` … `python-9`)
+3. Learning NumPy
+4. Learning Pandas
+5. Day 13 … Day 38, then **Day 39 onward**
+6. Building Agentic AI with ADK (`days/adk.html`) last
 
-1. Day 12 Anaconda Setup (`days/day12.html`)
-2. **Learning Python** (`days/python1.html` … `days/python9.html`)
-3. Learning NumPy (`days/numpy.html`)
-4. Learning Pandas (`days/pandas.html`)
-5. Day 13 onward
+## Next work
 
-Never put Python after NumPy, after Day 38, or as `days/day39.html`.
+New lessons are **Day 39, Day 40, … Day 100**. Files are `days/day39.html`, `days/day40.html`, and so on. See `day-file-convention.mdc`.
 
-## Files
+Python does not change "Day N of 100 published". Numbered days do.
 
-One file per Python day:
-
-```
-days/python1.html
-days/python2.html
-...
-days/python9.html
-```
-
-Each file is only that day's `chapter-divider` plus `lesson-card` blocks.
-
-```html
-<div class="chapter-divider reveal" id="chapter-python-1" data-chapter="python-1">
-  <span class="chapter-divider__pill">Python 1</span>
-  <h2 class="chapter-divider__title">Title from the user's notes</h2>
-  <p class="chapter-divider__note">Short description. This bonus day does not count as a course day.</p>
-</div>
-
-<article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="python-1">
-  ...
-</article>
-```
-
-Use `data-chapter="python-1"` through `python-9`. Pill text is `Python 1` … `Python 9`, never `Day 1`.
-
-## Wire into index.html
-
-TOC: after the Day 12 block, before the NumPy block. Nine `.toc-chapter` entries (`data-chapter="python-1"` … `python-9`).
-
-Includes, in this order:
-
-```html
-<div data-include='days/day12.html'></div>
-<div data-include='days/python1.html'></div>
-<!-- python2 … python9 -->
-<div data-include='days/numpy.html'></div>
-```
-
-Hero and footer stay on the latest **numbered** 100 day (currently Day 38). Python does not change "Day N of 100 published".
-
-## Lesson numbers
-
-Follow `lesson-numbering.mdc`. Python sits after Day 12, so it continues from Day 12's last lesson, not from the latest published 100 day. Then NumPy, Pandas, and Day 13 onward shift up.
-
-## CSS
-
-Add `--chapter-python-1` … `--chapter-python-9` in `styles.css`, plus divider and card color rules. Then run `embed-css.sh`.
-
-## Code lessons
-
-Python days are code heavy. Use `.code-io` with input and output. Do not dump only a `pre` block. Follow `visual-teaching.mdc`.
+If you edit an existing Python day, keep `data-chapter="python-N"`, pill text `Python N`, `.code-io` for code, and `visual-teaching.mdc`.

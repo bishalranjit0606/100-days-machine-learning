@@ -1,76 +1,86 @@
 ---
-description: Enforce the day file pattern for all new day content (Day 27 onward).
+description: Enforce the day file pattern for new numbered 100 day lessons (Day 39 onward after Day 38).
 globs: ["days/*.html", "index.html"]
 alwaysApply: true
 ---
 
 # Day File Convention
 
-Every new **numbered** day of the 100 day series (Day 27, Day 28, ... Day 100) must follow this pattern exactly.
+Every new **numbered** day of the 100 day series must follow this pattern.
 
-**Exception:** beginner Python is a 9 day **bonus** block (`days/python1.html` … `days/python9.html`), not `days/day39.html`. Place it after Day 12 Anaconda and before NumPy. See `python-bonus.mdc`. Lesson numbers follow teaching order (`lesson-numbering.mdc`), not publish order.
+**Next day is Day 39.** Continue Day 38, then Day 39, Day 40, … Day 100. Files:
+
+```
+days/day39.html
+days/day40.html
+...
+days/day100.html
+```
+
+Do **not** add more Python bonus days. Python 1 to 9 is finished. See `python-bonus.mdc`.
+
+## ADK stays last and unchanged
+
+`days/adk.html` is **Building Agentic AI with ADK**. Keep that chapter as it is. Do not rewrite it, delete it, or move it before Day 38.
+
+Place each new numbered day **after Day 38 (or the latest numbered day) and before ADK**:
+
+```html
+<div data-include='days/day38.html'></div>
+<div data-include='days/day39.html'></div>
+<div data-include='days/adk.html'></div>
+```
+
+Sidebar TOC: new Day N block after the previous numbered day, **before** the ADK block. Hero and footer become "Day N of 100 published".
+
+Day 39 lesson numbers start at Day 38's last lesson plus 1, then **shift ADK up**. See `lesson-numbering.mdc`.
 
 ## 1. Create the day file
 
-Write the day's content to its own file:
-
-```
-days/day27.html
-days/day28.html
-...
-```
-
-The file contains **only** the chapter-divider block and lesson-card blocks for that day. Nothing else.
-
-The file must start with the chapter-divider element and end just before the next chapter would begin. Example structure:
+The file contains **only** the chapter-divider and lesson-card blocks.
 
 ```html
-      <div class="chapter-divider reveal" id="chapter-day-27" data-chapter="day-27">
-        <span class="chapter-divider__pill">Day 27</span>
+      <div class="chapter-divider reveal" id="chapter-day-39" data-chapter="day-39">
+        <span class="chapter-divider__pill">Day 39</span>
         <h2 class="chapter-divider__title">Your Day Title Here</h2>
         <p class="chapter-divider__note">Short description of the day.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-27">
+      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-39">
         ...
       </article>
 ```
 
 ## 2. Add the placeholder in index.html
 
-Inside `<main>` in `index.html`, add exactly one line at the correct position (after the previous day's placeholder):
+Inside `<main>`, add exactly one include after the previous numbered day, before ADK:
 
 ```html
-      <div data-include='days/day27.html'></div>
+      <div data-include='days/day39.html'></div>
 ```
 
-**Never add new day content inline in index.html.** The include loader fetches all `[data-include]` divs in parallel before lesson boot finishes.
+**Never add new day content inline in index.html.**
 
 ## 3. What still goes in index.html
 
-These items still belong in `index.html` directly (not in the day file):
-
-- The sidebar TOC entry for the new day (inside `.toc-chapter` list)
-- The hero stat update ("Day N of 100 published")
-- The footer stat update
+- Sidebar TOC for the new day (before the ADK TOC block)
+- Hero and footer "Day N of 100 published"
 
 ## 4. What still goes in styles.css
 
-CSS chapter color rules for the new day still go in `styles.css`:
-
 ```css
-.chapter-divider[data-chapter="day-27"] { border-left-color: var(--chapter-day-27); }
-.lesson-card[data-chapter="day-27"] { border-top-color: var(--chapter-day-27); }
+.chapter-divider[data-chapter="day-39"] { border-left-color: var(--chapter-day-39); }
+.lesson-card[data-chapter="day-39"] { border-top-color: var(--chapter-day-39); }
 ```
 
-After any `styles.css` change, run `embed-css.sh` to sync the embedded `<style>` block in `index.html`.
+After any `styles.css` change, run `embed-css.sh`.
 
-## 5. Checklist before finishing a new day
+## 5. Checklist
 
-- [ ] `days/dayN.html` created with chapter-divider and all lesson-card blocks
-- [ ] `<div data-include='days/dayN.html'></div>` added in the correct position inside `<main>` in `index.html`
-- [ ] Sidebar TOC entry added in `index.html`
-- [ ] Hero and footer day count updated in `index.html`
-- [ ] CSS color rules added in `styles.css`
-- [ ] `embed-css.sh` run after any `styles.css` change
-- [ ] No day content written inline inside `index.html`
+- [ ] `days/dayN.html` created with chapter-divider and lesson-cards
+- [ ] Include added after the previous numbered day, before ADK
+- [ ] Sidebar TOC added before the ADK block
+- [ ] Hero and footer day count updated
+- [ ] CSS color rules added; `embed-css.sh` run if CSS changed
+- [ ] ADK chapter left in place and not rewritten
+- [ ] No day content written inline in `index.html`
