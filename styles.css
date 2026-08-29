@@ -49,6 +49,7 @@
   --chapter-day-36: #ea580c;
   --chapter-day-37: #9333ea;
   --chapter-day-38: #dc2626;
+  --chapter-day-39: #0f766e;
   --chapter-numpy: #ea580c;
   --chapter-pandas: #16a34a;
   --chapter-adk: #1a73e8;
@@ -479,6 +480,9 @@ a:hover {
 .toc-chapter[data-chapter="day-38"] .toc-chapter__toggle {
   border-left: 3px solid var(--chapter-day-38);
 }
+.toc-chapter[data-chapter="day-39"] .toc-chapter__toggle {
+  border-left: 3px solid var(--chapter-day-39);
+}
 
 
 .toc-chapter[data-chapter="numpy"] .toc-chapter__toggle {
@@ -669,6 +673,9 @@ a:hover {
 }
 .toc-chapter[data-chapter="day-38"] .toc-chapter__pill {
   background: var(--chapter-day-38);
+}
+.toc-chapter[data-chapter="day-39"] .toc-chapter__pill {
+  background: var(--chapter-day-39);
 }
 
 
@@ -910,6 +917,9 @@ a:hover {
 }
 .toc-chapter[data-chapter="day-38"] .toc-link.is-active {
   border-color: var(--chapter-day-38);
+}
+.toc-chapter[data-chapter="day-39"] .toc-link.is-active {
+  border-color: var(--chapter-day-39);
 }
 
 
@@ -1935,6 +1945,9 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 .chapter-divider[data-chapter="day-38"] {
   border-left: 5px solid var(--chapter-day-38);
 }
+.chapter-divider[data-chapter="day-39"] {
+  border-left: 5px solid var(--chapter-day-39);
+}
 
 
 .chapter-divider[data-chapter="numpy"] {
@@ -2127,6 +2140,9 @@ html.is-ready .hero__stats { transition-delay: 0.36s; }
 }
 .chapter-divider[data-chapter="day-38"] .chapter-divider__pill {
   background: var(--chapter-day-38);
+}
+.chapter-divider[data-chapter="day-39"] .chapter-divider__pill {
+  background: var(--chapter-day-39);
 }
 
 
@@ -2564,6 +2580,9 @@ pre.code-output code {
 .lesson-card[data-chapter="day-38"] {
   border-left: 5px solid var(--chapter-day-38);
 }
+.lesson-card[data-chapter="day-39"] {
+  border-left: 5px solid var(--chapter-day-39);
+}
 
 
 .lesson-card[data-chapter="numpy"] {
@@ -2765,6 +2784,9 @@ pre.code-output code {
 }
 .lesson-card[data-chapter="day-38"] .lesson-card__marker {
   background: var(--chapter-day-38);
+}
+.lesson-card[data-chapter="day-39"] .lesson-card__marker {
+  background: var(--chapter-day-39);
 }
 
 
@@ -3029,6 +3051,10 @@ pre.code-output code {
 .lesson-card[data-chapter="day-38"] .lesson-card__icon {
   color: var(--chapter-day-38);
   background: rgba(220, 38, 38, 0.15);
+}
+.lesson-card[data-chapter="day-39"] .lesson-card__icon {
+  color: var(--chapter-day-39);
+  background: rgba(15, 118, 110, 0.15);
 }
 
 

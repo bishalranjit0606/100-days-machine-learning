@@ -1,0 +1,334 @@
+      <div class="chapter-divider reveal" id="chapter-day-39" data-chapter="day-39">
+        <span class="chapter-divider__pill">Day 39</span>
+        <h2 class="chapter-divider__title">FastAPI</h2>
+        <p class="chapter-divider__note">Bring AI to the public with an API. We study FastAPI from the ML view, not only the software view.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-546" data-section="546" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">546</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Bring AI to the Public</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When we want the public to use AI, we do it with an API. FastAPI is the framework we will use.</p>
+            <p>Many YouTube FastAPI videos teach it from a software view. We will learn it from an ML view: how a model reaches real users.</p>
+            <p>We will cover FastAPI in three parts. This is the map.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Three parts of FastAPI</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fundamentals</span>
+                  <span class="workflow__step-desc">What an API is, why we need it, and how it talks over the internet.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">API for an ML model</span>
+                  <span class="workflow__step-desc">Wrap a trained model so other apps can call predict.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cloud" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Deploy on AWS</span>
+                  <span class="workflow__step-desc">Put the API on AWS, Amazon Web Services, so the public can reach it.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-547" data-section="547" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">547</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="concierge-bell" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An API lets two software pieces talk. The usual pair is the frontend and the backend. The API is the connector between them.</p>
+            <p>A restaurant makes this easy to see. The customer is the frontend. The kitchen is the backend. The waiter is the API.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Customer, waiter, kitchen</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Customer</span>
+                  <span class="workflow__step-desc">Frontend. Asks for food.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="concierge-bell" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Waiter</span>
+                  <span class="workflow__step-desc">API. Carries the order to the kitchen.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cooking-pot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Kitchen</span>
+                  <span class="workflow__step-desc">Backend. Cooks the food.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-json" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Waiter again</span>
+                  <span class="workflow__step-desc">Brings the food back, plated in a format. That format is JSON.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The customer never walks into the kitchen. The waiter takes the request, the kitchen works, and the waiter returns the result.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-548" data-section="548" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">548</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Life Without an API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Picture a flight booking site. You only want to see how many flights there are. Data moves like this: database, then backend, then frontend. The frontend is wired straight to the backend. You can build that without an API.</p>
+            <p>Without an API, frontend and backend live in one application. That is monolithic architecture. It can work. The cost is tight coupling. If one piece has a problem, it can hit the whole website.</p>
+            <p>This table puts a monolith next to an API.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Monolithic</th>
+                    <th scope="col">With an API</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Frontend and backend sit in one app.</td>
+                    <td>Frontend, backend, and API are separate pieces.</td>
+                  </tr>
+                  <tr>
+                    <td>One issue can affect the whole site.</td>
+                    <td>The site is not locked to one coupled block.</td>
+                  </tr>
+                  <tr>
+                    <td>The backend is not an independent piece you can share.</td>
+                    <td>Other apps can talk to the backend through the API.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-549" data-section="549" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">549</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="handshake" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Partners Need an API</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now suppose companies like Trip.com or Yatra want your flight data and will pay for it. The hard part is how to give it to them.</p>
+            <p>One technical answer is to open the database. That is unsafe. They might change or harm the data. The safer path is to let them reach the backend, not the database.</p>
+            <p>In a monolith the backend is not an independent piece, so you cannot share that way. That is a real restriction. The site will not let you hand the database to a partner.</p>
+            <p>So we stop using monolithic architecture. Frontend is separate. Backend is separate. Partners talk through an API. This flow is the safe way to share data.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Safe share of data</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="building-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Partner</span>
+                  <span class="workflow__step-desc">Trip.com, Yatra, or Make My Trip asks for data.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="unplug" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">API</span>
+                  <span class="workflow__step-desc">Public door. Checks the request before it goes further.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Backend</span>
+                  <span class="workflow__step-desc">Reads what is allowed. The partner never touches the database.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Database</span>
+                  <span class="workflow__step-desc">Stays private. Only the backend talks to it.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-550" data-section="550" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">550</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The API Sits in Front</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An API is a function, but it is a function that lives on the internet. In that sense it is public. Anyone can try to call it.</p>
+            <p>The backend itself is not placed directly on the internet. With an API, the backend becomes reachable through that public door.</p>
+            <p>You can put security on the API. It can check for malicious data before anything reaches the backend.</p>
+            <p>The frontend is not special. A caller gets the same data the sender put on the API. There is no private extra feed just because the screen is yours.</p>
+            <p>The second problem an API fixes is protocol. Everyone on the internet must follow the same rules so the message is understood.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-551" data-section="551" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">551</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">HTTP and JSON</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Because this all happens on the internet, the API follows the HTTP protocol. The data format it uses is JSON.</p>
+            <p>JSON works in every common language. Make My Trip, Yatra, or another partner might be in Python, Java, or something else. We need a format every language can read. JSON is that universal data format.</p>
+            <p>JSON looks a lot like a dict in Python. Same idea: keys and values. The two sides of this block show that likeness.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">JSON</p>
+              <pre class="code-input"><code>{"dish": "tea"}</code></pre>
+              <p class="code-io__label code-io__label--output">Python dict</p>
+              <pre class="code-output"><code>{"dish": "tea"}</code></pre>
+              <p class="code-io__note">Same shape. JSON is the text. A Python dict is what you use in code.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-552" data-section="552" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">552</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="smartphone" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Backend, Many Frontends</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Around the year 2000, a website was no longer enough. A company needed a website, Android, and Apple. Each app was on a different stack. Three apps are hard to keep in sync. They are independent. If a comment changes on the website, Android and Apple need that change too.</p>
+            <p>The fix is to leave the monolith and use an API based architecture. Instead of three databases, use one. You still have three frontends. When they need data, they all talk to the same backend through the API.</p>
+            <p>Here the three frontends share one API.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Three frontends, one backend</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="monitor" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Website</span>
+                  <span class="workflow__step-desc">One frontend.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="smartphone" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Android</span>
+                  <span class="workflow__step-desc">Second frontend.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="tablet" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Apple</span>
+                  <span class="workflow__step-desc">Third frontend.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="unplug" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Same API</span>
+                  <span class="workflow__step-desc">All three ask the same backend and the same database.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-553" data-section="553" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">553</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How APIs Help ML</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In software, the important store is the database. It holds the data. In machine learning, deep learning, and Gen AI, the important piece is a model that is ready for the real world.</p>
+            <p>ChatGPT is the example. OpenAI built it. It is powered by a GPT model. They train the model. To let people use it, they put a website in front.</p>
+            <p>The path looks like this. You train the ML model. You store it in a binary format. You load it in a programming language. That load and the predict function are the backend. The frontend talks to that backend.</p>
+            <p>This table is the software view next to the ML view.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Software view</th>
+                    <th scope="col">ML view</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>API to backend to database.</td>
+                    <td>API to backend to model.</td>
+                  </tr>
+                  <tr>
+                    <td>The database holds the data.</td>
+                    <td>The model holds the trained skill.</td>
+                  </tr>
+                  <tr>
+                    <td>Partners pay for data access.</td>
+                    <td>Companies want the model, for RAG or other apps.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>If the website, the predict code, and the model all sit in one folder, that is still a monolith. When ChatGPT launched, people wanted access to the model. Companies wanted it for RAG. You cannot hand them the backend. That is why the API sits in front.</p>
+            <p>The chain is LLM, then backend, then API, then companies or users. The only change from the software picture is this: instead of a database we use the LLM. That is the ML perspective.</p>
+            <p>The same API can serve a website, Android, Apple, or any app that needs the model.</p>
+            <p>This chain is how a model reaches the public.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Model to the public</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">The trained model, stored in binary form and loaded for predict.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Backend</span>
+                  <span class="workflow__step-desc">Runs predict. Stays off the open internet.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="unplug" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">API</span>
+                  <span class="workflow__step-desc">Public door for companies and users.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="app-window" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Apps</span>
+                  <span class="workflow__step-desc">Website, Android, Apple, or any client that needs the model.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-554" data-section="554" data-chapter="day-39">
+        <span class="lesson-card__marker" aria-hidden="true">554</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 39 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 39 takeaways</h3>
+              <ul>
+                <li>We bring AI to the public with an API. FastAPI is the framework, taught here from the ML view.</li>
+                <li>Three parts: fundamentals, an API for an ML model, then deploy on AWS.</li>
+                <li>An API is a connector. The waiter is the API. JSON is the plated food.</li>
+                <li>A monolith puts frontend and backend in one app. One issue can hit the whole site.</li>
+                <li>Do not share the database. Partners reach the backend through an API.</li>
+                <li>The API is a public function on the internet. HTTP and JSON let any language talk.</li>
+                <li>One backend can serve a website, Android, and Apple.</li>
+                <li>In ML the model plays the role the database plays in software.</li>
+              </ul>
+              <p>Next: FastAPI fundamentals in code.</p>
+            </aside>
+          </div>
+        </div>
+      </article>

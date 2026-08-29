@@ -1,5 +1,5 @@
 ---
-description: Enforce the day file pattern for new numbered 100 day lessons (Day 39 onward after Day 38).
+description: Enforce the day file pattern for new numbered 100 day lessons (Day 40 onward after ADK).
 globs: ["days/*.html", "index.html"]
 alwaysApply: true
 ---
@@ -8,69 +8,70 @@ alwaysApply: true
 
 Every new **numbered** day of the 100 day series must follow this pattern.
 
-**Next day is Day 39.** Continue Day 38, then Day 39, Day 40, … Day 100. Files:
+**Next day is Day 40.** Continue Day 39, then Day 40, Day 41, … Day 100. Files:
 
 ```
-days/day39.html
 days/day40.html
+days/day41.html
 ...
 days/day100.html
 ```
 
 Do **not** add more Python bonus days. Python 1 to 9 is finished. See `python-bonus.mdc`.
 
-## ADK stays last and unchanged
+## ADK stays after Day 38. Do not shift it.
 
-`days/adk.html` is **Building Agentic AI with ADK**. Keep that chapter as it is. Do not rewrite it, delete it, or move it before Day 38.
+`days/adk.html` is **Building Agentic AI with ADK**. It sits after Day 38 and before Day 39. Keep that chapter as it is. Do not rewrite it, delete it, or move it below Day 39.
 
-Place each new numbered day **after Day 38 (or the latest numbered day) and before ADK**:
+Place each new numbered day **after ADK**, at the end of the include list:
 
 ```html
 <div data-include='days/day38.html'></div>
-<div data-include='days/day39.html'></div>
 <div data-include='days/adk.html'></div>
+<div data-include='days/day39.html'></div>
+<div data-include='days/day40.html'></div>
 ```
 
-Sidebar TOC: new Day N block after the previous numbered day, **before** the ADK block. Hero and footer become "Day N of 100 published".
+Sidebar TOC: new Day N block after the previous numbered day (Day 39, then 40, …), **after** the ADK block. Hero and footer become "Day N of 100 published".
 
-Day 39 lesson numbers start at Day 38's last lesson plus 1, then **shift ADK up**. See `lesson-numbering.mdc`.
+Day 40 lesson numbers start at Day 39's last lesson plus 1. **Do not shift ADK.** See `lesson-numbering.mdc`.
 
 ## 1. Create the day file
 
 The file contains **only** the chapter-divider and lesson-card blocks.
 
 ```html
-      <div class="chapter-divider reveal" id="chapter-day-39" data-chapter="day-39">
-        <span class="chapter-divider__pill">Day 39</span>
+      <div class="chapter-divider reveal" id="chapter-day-40" data-chapter="day-40">
+        <span class="chapter-divider__pill">Day 40</span>
         <h2 class="chapter-divider__title">Your Day Title Here</h2>
         <p class="chapter-divider__note">Short description of the day.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-39">
+      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-40">
         ...
       </article>
 ```
 
 ## 2. Add the placeholder in index.html
 
-Inside `<main>`, add exactly one include after the previous numbered day, before ADK:
+Inside `<main>`, add exactly one include after the previous numbered day (after ADK and Day 39):
 
 ```html
-      <div data-include='days/day39.html'></div>
+      <div data-include='days/day40.html'></div>
 ```
 
 **Never add new day content inline in index.html.**
 
 ## 3. What still goes in index.html
 
-- Sidebar TOC for the new day (before the ADK TOC block)
+- Sidebar TOC for the new day (after the ADK TOC block, after the previous numbered day)
 - Hero and footer "Day N of 100 published"
 
 ## 4. What still goes in styles.css
 
 ```css
-.chapter-divider[data-chapter="day-39"] { border-left-color: var(--chapter-day-39); }
-.lesson-card[data-chapter="day-39"] { border-top-color: var(--chapter-day-39); }
+.chapter-divider[data-chapter="day-40"] { border-left-color: var(--chapter-day-40); }
+.lesson-card[data-chapter="day-40"] { border-top-color: var(--chapter-day-40); }
 ```
 
 After any `styles.css` change, run `embed-css.sh`.
@@ -78,9 +79,9 @@ After any `styles.css` change, run `embed-css.sh`.
 ## 5. Checklist
 
 - [ ] `days/dayN.html` created with chapter-divider and lesson-cards
-- [ ] Include added after the previous numbered day, before ADK
-- [ ] Sidebar TOC added before the ADK block
+- [ ] Include added after the previous numbered day, after ADK
+- [ ] Sidebar TOC added after the ADK block
 - [ ] Hero and footer day count updated
 - [ ] CSS color rules added; `embed-css.sh` run if CSS changed
-- [ ] ADK chapter left in place and not rewritten
+- [ ] ADK chapter left after Day 38 and not rewritten or shifted
 - [ ] No day content written inline in `index.html`
