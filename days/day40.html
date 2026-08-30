@@ -1,0 +1,438 @@
+      <div class="chapter-divider reveal" id="chapter-day-40" data-chapter="day-40">
+        <span class="chapter-divider__pill">Day 40</span>
+        <h2 class="chapter-divider__title">FastAPI Philosophy</h2>
+        <p class="chapter-divider__note">What FastAPI is, why it is fast to run and fast to code, then how to install it and write a first app.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-555" data-section="555" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">555</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="zap" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is FastAPI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>FastAPI is a Python framework. It is a modern, high performance web framework for building APIs.</p>
+            <p>You write Python. FastAPI turns that Python into an API other apps can call.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-556" data-section="556" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">556</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Starlette plus Pydantic</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>FastAPI is not one giant new engine. It sits on two tools: Starlette and Pydantic. The two cards below split that pair.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Starlette</p>
+                <p class="concept-card__desc">Handles how the API receives an HTTP request and sends an HTTP response.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Pydantic</p>
+                <p class="concept-card__desc">Checks that data coming in is the right type and the right format.</p>
+              </div>
+            </div>
+            <p>So FastAPI is Starlette plus Pydantic.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-557" data-section="557" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">557</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-left-right" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Starlette Handles a Request</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When you make an API, that API must receive an HTTP request, process it, and send an HTTP response. Starlette manages that path.</p>
+            <p>The steps below are the job Starlette does for FastAPI.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Request in, response out</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="download" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Receive</span>
+                  <span class="workflow__step-desc">The API gets an HTTP request from a client.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cog" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Process</span>
+                  <span class="workflow__step-desc">Starlette runs your route and prepares a result.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="upload" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Respond</span>
+                  <span class="workflow__step-desc">The API sends an HTTP response back to the client.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-558" data-section="558" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">558</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Pydantic Checks Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pydantic is for data validation. That is very useful when you make an API, because other people and other apps will call it.</p>
+            <p>You want to know if a value is a string or not, or an int or not. Pydantic helps with that. It checks if the data coming into your API is correct and in the right format.</p>
+            <p>The two cards below show a pass and a fail.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Right format</p>
+                <p class="concept-card__desc">The API asked for an int and the caller sent an int. Pydantic lets it through.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Wrong format</p>
+                <p class="concept-card__desc">The API asked for an int and the caller sent a string. Pydantic stops it.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-559" data-section="559" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">559</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="history" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why FastAPI Was Built</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Before FastAPI, people built APIs with Django and other frameworks. Those older tools had performance issues. Response time was slow. That delay is latency.</p>
+            <p>Those frameworks also needed a lot of extra setup code before you had a working API.</p>
+            <p>FastAPI was built to be fast to run, so it can handle concurrent users, and fast to code, so you write less extra setup. That is why it is named FastAPI. The table below puts the old pain next to the FastAPI goal.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Before FastAPI</th>
+                    <th scope="col">FastAPI goal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Slow response time and latency.</td>
+                    <td>Fast to run. Handle concurrent users.</td>
+                  </tr>
+                  <tr>
+                    <td>A lot of extra setup code.</td>
+                    <td>Fast to code. Less extra setup.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-560" data-section="560" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">560</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fast to Run</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Why does fast to run matter for us? Think of an API for a machine learning model.</p>
+            <p>The model sits behind a <code>/predict</code> endpoint. That endpoint takes two inputs, i1 and i2, runs predict, and lives on AWS.</p>
+            <p>When you deploy an API on AWS, you send two things: the API code, and a web server. The web server uses ports to listen. It watches for an HTTP request coming in.</p>
+            <p>The chain below is that deploy path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">From model to AWS</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">ML model</span>
+                  <span class="workflow__step-desc">A trained model ready to predict.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="route" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">predict endpoint</span>
+                  <span class="workflow__step-desc">The route is /predict. It takes i1 and i2.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cloud" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Deploy on AWS</span>
+                  <span class="workflow__step-desc">You send API code and a web server.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="radio" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Web server</span>
+                  <span class="workflow__step-desc">It listens on ports for HTTP requests.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-561" data-section="561" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">561</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="unplug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Web Server and SGI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On AWS the path is web server, then SGI, then API code. SGI means Server Gateway Interface. It is a protocol. It lets the web server and the API code talk both ways.</p>
+            <p>Data arrives in HTTP format. API code only understands Python. SGI converts HTTP format to Python, and converts the Python result back to HTTP.</p>
+            <p>The chain below is that conversion.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">HTTP to Python and back</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-json" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Data</span>
+                  <span class="workflow__step-desc">The client sends data in HTTP format.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Web server</span>
+                  <span class="workflow__step-desc">It receives the HTTP request on a port.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="unplug" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">SGI</span>
+                  <span class="workflow__step-desc">It converts HTTP to Python, and Python back to HTTP.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="code" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">API code</span>
+                  <span class="workflow__step-desc">Your Python runs predict and returns a result.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-562" data-section="562" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">562</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">WSGI vs ASGI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>SGI comes in two types. Flask uses WSGI, which means Web Server Gateway Interface. FastAPI uses ASGI, which means Asynchronous Server Gateway Interface. The table below compares them.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">WSGI</th>
+                    <th scope="col">ASGI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Used in</td>
+                    <td>Flask</td>
+                    <td>FastAPI</td>
+                  </tr>
+                  <tr>
+                    <td>How it works</td>
+                    <td>Synchronous. One request at a time.</td>
+                    <td>Asynchronous. Many requests in parallel.</td>
+                  </tr>
+                  <tr>
+                    <td>Library</td>
+                    <td>Werkzeug</td>
+                    <td>Starlette</td>
+                  </tr>
+                  <tr>
+                    <td>Web server</td>
+                    <td>Gunicorn</td>
+                    <td>Uvicorn</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>In Flask the path is web server, then WSGI, then API code. The biggest problem is the synchronous nature. It can process one request at a time. If five users send a request, HTTP cannot convert to Python in parallel. While one runs, the others wait. That is why Flask with Gunicorn has performance issues.</p>
+            <p>In FastAPI the path is web server Uvicorn, then ASGI, then API code on an asynchronous endpoint. It converts HTTP to Python in parallel. That is concurrent processing. Starlette is the library that does ASGI for FastAPI.</p>
+            <p>A restaurant makes the wait versus keep moving idea easy to see.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Flask</th>
+                    <th scope="col">FastAPI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Customer orders. The waiter waits at the kitchen until the food is ready, then serves. Other customers wait.</td>
+                    <td>Customer orders. The waiter leaves it with the kitchen and goes to the next customer. The kitchen keeps cooking.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-563" data-section="563" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">563</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="keyboard" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fast to Code</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second philosophy is fast to code.</p>
+            <p>In Python, types are often automatic. If you write <code>a = 5</code>, Python knows that is an int. An API cannot guess like that. Data comes from other people. You need data validation.</p>
+            <p>FastAPI gives you automatic input validation. It also auto generates interactive documentation. Each endpoint has its own format, such as JSON, and its own expected types. FastAPI builds docs from that, and those docs are interactive.</p>
+            <p>It is a modern framework. It is easy to connect with the modern stack: ML and DL libraries, OAuth, JWT, SQLAlchemy, Docker, and Kubernetes. The three cards below are the fast to code idea.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Automatic validation</p>
+                <p class="concept-card__desc">Incoming data is checked. Wrong types do not silently pass.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Interactive docs</p>
+                <p class="concept-card__desc">Each endpoint documents the format it expects, and you can try it.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Modern stack</p>
+                <p class="concept-card__desc">Fits ML, DL, OAuth, JWT, SQLAlchemy, Docker, and Kubernetes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-564" data-section="564" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">564</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Set Up and Install</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Make a virtual environment, turn it on, then install FastAPI and Uvicorn. Pydantic comes in with FastAPI, so you do not install it as a separate step for this start.</p>
+            <p>The steps below are the order. The commands sit in the block after that.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Create, activate, install</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="folder-plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Create venv</span>
+                  <span class="workflow__step-desc">Create an isolated folder for this project's packages.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="power" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Activate</span>
+                  <span class="workflow__step-desc">Turn that folder on with the activate script.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="download" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Install</span>
+                  <span class="workflow__step-desc">pip install fastapi uvicorn. Pydantic arrives with FastAPI.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Commands</p>
+              <pre class="code-input"><code>python -m venv venv
+source venv/bin/activate
+pip install fastapi uvicorn</code></pre>
+              <p class="code-io__label code-io__label--output">What you should see</p>
+              <pre class="code-output"><code>(venv) in front of your prompt after activate.
+pip downloads FastAPI, Uvicorn, and Pydantic.
+When it finishes, you can write main.py in this environment.</code></pre>
+              <p class="code-io__note">These activate steps are for Mac and Linux.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-565" data-section="565" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">565</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-code" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Your First FastAPI App</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create a file named <code>main.py</code>. This is a first app with two GET routes.</p>
+            <p>Line by line: <code>from fastapi import FastAPI</code> brings in the class. <code>app = FastAPI()</code> makes the app object. <code>@app.get("/")</code> is a GET request on the root route. If your site is bishalranjitkar.com, a hit on the root hits this function. <code>hello</code> returns a dict. FastAPI sends that as JSON. <code>@app.get("/about")</code> is a second GET route.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">main.py</p>
+              <pre class="code-input"><code>from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def hello():
+    return {"message": "Hello World"}
+
+@app.get("/about")
+def about():
+    return {"message": "About Page about bishal website"}</code></pre>
+              <p class="code-io__label code-io__label--output">What the routes return</p>
+              <pre class="code-output"><code>GET /       {"message": "Hello World"}
+GET /about  {"message": "About Page about bishal website"}</code></pre>
+              <p class="code-io__note">Slash means the root route. /about is a second path on the same app.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-566" data-section="566" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">566</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run with Uvicorn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Start the app with Uvicorn. The first word is the file name without <code>.py</code>. The word after the colon is the app object. Our file is <code>main.py</code> and the object is <code>app</code>, so we use <code>main:app</code>.</p>
+            <p>If you named the file <code>fastapi.py</code>, the command would use <code>fastapi:app</code> instead. <code>--reload</code> restarts the server when you save the file.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Command</p>
+              <pre class="code-input"><code>python -m uvicorn main:app --reload</code></pre>
+              <p class="code-io__label code-io__label--output">What you should see</p>
+              <pre class="code-output"><code>Uvicorn starts and watches the file.
+Open http://127.0.0.1:8000 for the hello route.
+Open http://127.0.0.1:8000/about for the about route.</code></pre>
+              <p class="code-io__note">This form works when uvicorn lives inside your venv.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-567" data-section="567" data-chapter="day-40">
+        <span class="lesson-card__marker" aria-hidden="true">567</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 40 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 40 takeaways</h3>
+              <ul>
+                <li>FastAPI is a modern, high performance Python framework for building APIs.</li>
+                <li>FastAPI is Starlette plus Pydantic. Starlette handles HTTP. Pydantic checks data.</li>
+                <li>Older frameworks were slow and needed extra setup code. FastAPI is fast to run and fast to code. That is the name.</li>
+                <li>Deploy sends API code and a web server. SGI converts HTTP to Python and back.</li>
+                <li>Flask uses WSGI. One request at a time. Werkzeug and Gunicorn. FastAPI uses ASGI. Parallel requests. Starlette and Uvicorn.</li>
+                <li>Flask waits at the kitchen. FastAPI takes the next customer while food cooks.</li>
+                <li>Fast to code means automatic validation, interactive docs, and a modern stack.</li>
+                <li>Create a venv, install fastapi and uvicorn, write main.py, then start Uvicorn with reload.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
