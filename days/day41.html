@@ -1,0 +1,348 @@
+      <div class="chapter-divider reveal" id="chapter-day-41" data-chapter="day-41">
+        <span class="chapter-divider__pill">Day 41</span>
+        <h2 class="chapter-divider__title">HTTP Methods in FastAPI</h2>
+        <p class="chapter-divider__note">We start a doctor app. Patients live in a JSON file. HTTP methods do create, read, update, and delete.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-568" data-section="568" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">568</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="heart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Paper Records Fail</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>From this day we will make a project API. It is an app for a doctor.</p>
+            <p>When you visit a doctor, the doctor often gives you a paper file to bring next time, and the time after that. The file is offline. It can get lost.</p>
+            <p>The steps below are that paper path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Paper at the clinic</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Visit</span>
+                  <span class="workflow__step-desc">The patient sees the doctor.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Paper file</span>
+                  <span class="workflow__step-desc">The doctor writes notes to bring next time.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="calendar" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Next visit</span>
+                  <span class="workflow__step-desc">The same paper is needed again.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="x" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Lost</span>
+                  <span class="workflow__step-desc">Because it is offline, the file can disappear.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-569" data-section="569" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">569</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">JSON Instead of a Database</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We will store each patient in a JSON file instead of a database. As backend engineers we will make an API that can create, edit, delete, and read patients. The next lessons show the JSON shape and the routes.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-570" data-section="570" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">570</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="user" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Patient in JSON</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each patient is a key in the JSON file. The key is the patient id. The value is an object with name, age, gender, phone, email, address, city, state, and zip.</p>
+            <p>The block below is one patient, <code>poo1</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">patients.json</p>
+              <pre class="code-input"><code>{
+  "poo1": {
+    "name": "poo1",
+    "age": 20,
+    "gender": "male",
+    "phone": "1234567890",
+    "email": "poo1@gmail.com",
+    "address": "1234567890",
+    "city": "poo1",
+    "state": "poo1",
+    "zip": "poo1"
+  }
+}</code></pre>
+              <p class="code-io__label code-io__label--output">What it means</p>
+              <pre class="code-output"><code>poo1 is the patient id.
+The object under it is that patient's record.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-571" data-section="571" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">571</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="route" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Endpoints We Will Build</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The API will have routes like create, view, view one patient, update, and delete. The table below is that map. Today we start with read.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Route</th>
+                    <th scope="col">Job</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>/create</code></td>
+                    <td>Create a patient.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/view</code></td>
+                    <td>Read all patients.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/view/patient_id</code></td>
+                    <td>Read one patient.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/update/patient_id</code></td>
+                    <td>Edit one patient.</td>
+                  </tr>
+                  <tr>
+                    <td><code>/delete/patient_id</code></td>
+                    <td>Delete one patient.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-572" data-section="572" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">572</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Static vs Dynamic Software</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>HTTP methods matter because software can be static or dynamic. Static software limits the user. You mostly receive data. Dynamic software lets you talk both ways.</p>
+            <p>A calendar is static. It gives dates and days. You do not engage with it much. A clock is the same idea. Microsoft Excel is dynamic. You interact with it a lot. The table below puts those two kinds side by side.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Static</th>
+                    <th scope="col">Dynamic</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>You mostly receive data. Little two way talk.</td>
+                    <td>You can send and change data. Two way talk.</td>
+                  </tr>
+                  <tr>
+                    <td>Calendar. Clock.</td>
+                    <td>Microsoft Excel.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-573" data-section="573" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">573</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">CRUD</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In dynamic software we only interact in four ways. Those four are CRUD. C is create. R is retrieve. U is update. D is delete. The four cards below are that set.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">C Create</p>
+                <p class="concept-card__desc">Make a new record.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">R Retrieve</p>
+                <p class="concept-card__desc">Read data that is already stored.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">U Update</p>
+                <p class="concept-card__desc">Change a record.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">D Delete</p>
+                <p class="concept-card__desc">Remove a record.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-574" data-section="574" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">574</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Website Is Software</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A website is also software. The only difference is where it lives. Installed software sits on your machine. A website sits on a server. Other machines, called clients, use it. That use happens with HTTP methods.</p>
+            <p>A website can be static or dynamic too. A dynamic website also has CRUD. The table below is installed software next to a website.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Installed software</th>
+                    <th scope="col">Website</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Installed on your machine.</td>
+                    <td>Installed on a server.</td>
+                  </tr>
+                  <tr>
+                    <td>You run it on that same machine.</td>
+                    <td>Clients on other machines use it.</td>
+                  </tr>
+                  <tr>
+                    <td>Talk happens inside the app.</td>
+                    <td>Talk happens with HTTP methods.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-575" data-section="575" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">575</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="send" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">HTTP Methods</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>HTTP methods are a very important concept. While you do a task on the web, the verb tells the server what kind of work you want.</p>
+            <p>To retrieve data, use GET. To fill a form, use POST. To update, use PUT. To delete, use DELETE. The four methods are GET, POST, PUT, and DELETE. The table below maps each CRUD job to a verb.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">CRUD job</th>
+                    <th scope="col">HTTP method</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Retrieve</td>
+                    <td>GET</td>
+                  </tr>
+                  <tr>
+                    <td>Create, like filling a form</td>
+                    <td>POST</td>
+                  </tr>
+                  <tr>
+                    <td>Update</td>
+                    <td>PUT</td>
+                  </tr>
+                  <tr>
+                    <td>Delete</td>
+                    <td>DELETE</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-576" data-section="576" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">576</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-code" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Load Patients and GET Routes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we start with retrieve. <code>load_patients</code> opens <code>patients.json</code> and returns the file as a Python dict. <code>GET /</code> says this is a patient management system. <code>GET /about</code> describes the API. <code>GET /patients</code> reads every patient from the JSON file and returns it.</p>
+            <p>That last route is our first read. Later we will add create, update, and delete.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">main.py</p>
+              <pre class="code-input"><code>import json
+from fastapi import FastAPI
+
+def load_patients():
+    with open("patients.json", "r") as f:
+        return json.load(f)
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "patient management system"}
+
+@app.get("/about")
+def about():
+    return {"message": "this is a full API for a patient management system"}
+
+@app.get("/patients")
+def get_patients():
+    data = load_patients()
+    return data</code></pre>
+              <p class="code-io__label code-io__label--output">What GET returns</p>
+              <pre class="code-output"><code>GET /          {"message": "patient management system"}
+GET /about     {"message": "this is a full API for a patient management system"}
+GET /patients  the whole patients.json object, including poo1</code></pre>
+              <p class="code-io__note">json.load turns the file text into a Python dict. FastAPI sends that dict back as JSON.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-577" data-section="577" data-chapter="day-41">
+        <span class="lesson-card__marker" aria-hidden="true">577</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 41 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 41 takeaways</h3>
+              <ul>
+                <li>We are building a doctor app. Paper files get lost. Patients will live in a JSON file, not a database.</li>
+                <li>The API will create, read, edit, and delete. Routes include /create, /view, /view/patient_id, /update/patient_id, and /delete/patient_id.</li>
+                <li>Software is static or dynamic. A calendar is static. Excel is dynamic.</li>
+                <li>Dynamic software uses four interactions: CRUD. Create, retrieve, update, delete.</li>
+                <li>A website is software on a server. Clients reach it with HTTP methods.</li>
+                <li>GET retrieves. POST is for a form. PUT updates. DELETE deletes.</li>
+                <li>Today we load patients.json and expose GET /, GET /about, and GET /patients.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

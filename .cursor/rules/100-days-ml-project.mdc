@@ -37,7 +37,7 @@ Live site context: static HTML/CSS/JS (`index.html`, `styles.css`, `script.js`),
 
 On the site, **Learning Python** (9 bonus days, **complete**) sits after Day 12 Anaconda Setup and before Learning NumPy, then Pandas, then Day 13 to Day 38, then **Building Agentic AI with ADK**, then Day 39 onward. Do not add more Python days.
 
-**Next numbered days are Day 41, Day 42, … Day 100.** Put each new day **after ADK**, after the latest numbered day (Day 40, then 41, …). Leave the ADK chapter after Day 38. Do not rewrite it, delete it, or move it below Day 39. **Do not shift ADK** when adding Day 41. Details live in `day-file-convention.mdc` and `python-bonus.mdc`.
+**Next numbered days are Day 42, Day 43, … Day 100.** Put each new day **after ADK**, after the latest numbered day (Day 41, then 42, …). Leave the ADK chapter after Day 38. Do not rewrite it, delete it, or move it below Day 39. **Do not shift ADK** when adding Day 42. Details live in `day-file-convention.mdc` and `python-bonus.mdc`.
 
 ## Day content from user notes
 
