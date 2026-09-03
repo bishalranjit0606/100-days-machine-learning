@@ -1,0 +1,441 @@
+      <div class="chapter-divider reveal" id="chapter-day-42" data-chapter="day-42">
+        <span class="chapter-divider__pill">Day 42</span>
+        <h2 class="chapter-divider__title">Path and Query Parameters</h2>
+        <p class="chapter-divider__note">Fetch one patient with a path parameter, send the right status code, then sort with query parameters.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-578" data-section="578" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">578</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Patient, Not All</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On the last day, a route like <code>/view</code> or <code>/patients</code> returned every patient in the JSON file. What if we only want the second person?</p>
+            <p>We can call a path like <code>/view/2</code>. That <code>2</code> is dynamic. It can change. The route then shows that one record. This is a path parameter. It is very useful on GET, update, and delete.</p>
+            <p>The chain below is all patients versus one patient.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">All records, then one id</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">All patients</span>
+                  <span class="workflow__step-desc">/patients returns the whole JSON file.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Dynamic piece</span>
+                  <span class="workflow__step-desc">The last part of the path can change, like 2 or P001.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">One patient</span>
+                  <span class="workflow__step-desc">The API returns only that person's data.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-579" data-section="579" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">579</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="route" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Path Parameter in Code</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In FastAPI the dynamic piece sits in curly braces. <code>/patients/{patient_id}</code> is the route. The function argument <code>patient_id</code> is a string. We load the JSON file. If that id is a key, we return that patient. If not, we return a message.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">main.py</p>
+              <pre class="code-input"><code>import json
+from fastapi import FastAPI
+
+def load_patients():
+    with open("patients.json", "r") as f:
+        return json.load(f)
+
+app = FastAPI()
+
+@app.get("/patients/{patient_id}")
+def view_patient(patient_id: str):
+    data = load_patients()
+
+    if patient_id in data:
+        return data[patient_id]
+    else:
+        return {"message": "Patient not found"}</code></pre>
+              <p class="code-io__label code-io__label--output">What GET returns</p>
+              <pre class="code-output"><code>GET /patients/P001
+returns that patient's object from the JSON file.
+
+GET /patients/P003
+{"message": "Patient not found"}</code></pre>
+              <p class="code-io__note">P001 and P003 are sample ids. Use an id that exists in your file to see a record.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-580" data-section="580" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">580</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Path Makes the Docs Better</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We can make the endpoint easier for a client. Import <code>Path</code> from FastAPI and attach it to the argument. <code>Path</code> adds metadata and data validation: title, description, example, <code>ge</code>, <code>gt</code>, <code>le</code>, min length, max length, regex, and more.</p>
+            <p>Three dots <code>...</code> mean the path parameter is required. That is a good habit. Always mark a path id as required.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Path is required</p>
+              <pre class="code-input"><code>import json
+from fastapi import FastAPI, Path
+
+def load_patients():
+    with open("patients.json", "r") as f:
+        return json.load(f)
+
+app = FastAPI()
+
+@app.get("/patients/{patient_id}")
+def view_patient(
+    patient_id: str = Path(
+        ...,
+        description="The ID of the patient to view",
+        example="P001"
+    )
+):
+    data = load_patients()
+
+    if patient_id in data:
+        return data[patient_id]
+    else:
+        return {"message": "Patient not found"}</code></pre>
+              <p class="code-io__label code-io__label--output">What changes for the client</p>
+              <pre class="code-output"><code>The route still reads one patient.
+The docs now show a description and an example id.
+Three dots mean patient_id must be in the path.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-581" data-section="581" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">581</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">HTTP Status Codes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An HTTP status code is a three digit number. A web server, like FastAPI, sends it to show the result of a client's request. The client might be a browser or another API.</p>
+            <p>The client sends a request. The server sends a response. The status code is part of that response. It tells you if the work succeeded or failed.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Request and response</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="monitor" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Client</span>
+                  <span class="workflow__step-desc">Browser or API consumer sends a request.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Server</span>
+                  <span class="workflow__step-desc">FastAPI handles the route.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Status code</span>
+                  <span class="workflow__step-desc">A three digit code comes back with the response.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The first digit is the family. The four cards below are those families. Then the table lists the codes we will use.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">2xx</p>
+                <p class="concept-card__desc">Success. The request worked.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">3xx</p>
+                <p class="concept-card__desc">Another step is needed, often a new URL.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">4xx</p>
+                <p class="concept-card__desc">Client side error. We made a mistake in the request.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">5xx</p>
+                <p class="concept-card__desc">Server side error. The server failed.</p>
+              </div>
+            </div>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>200</td>
+                    <td>Success.</td>
+                  </tr>
+                  <tr>
+                    <td>201</td>
+                    <td>A resource was created.</td>
+                  </tr>
+                  <tr>
+                    <td>204</td>
+                    <td>No data returned, like after a delete.</td>
+                  </tr>
+                  <tr>
+                    <td>400</td>
+                    <td>Bad request. The request is invalid.</td>
+                  </tr>
+                  <tr>
+                    <td>401</td>
+                    <td>Unauthorized. Auth is invalid.</td>
+                  </tr>
+                  <tr>
+                    <td>404</td>
+                    <td>The resource does not exist.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-582" data-section="582" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">582</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Missing Patient Still Returns 200</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There is a problem in the code we just wrote. Say the file has two patients and the client asks for <code>P003</code>. We send the error message, but the status code is still 200. 200 means success. A missing resource should be 404.</p>
+            <p>The table below is that mismatch.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What we send</th>
+                    <th scope="col">What it should be</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Message Patient not found, status 200.</td>
+                    <td>Same idea, but status 404, because the resource does not exist.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-583" data-section="583" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">583</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Raise HTTPException</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>HTTPException</code> is a special built in exception in FastAPI. It returns a custom HTTP error response. If the id is missing, we raise 404 with a detail message instead of returning a normal 200 body.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Raise 404</p>
+              <pre class="code-input"><code>import json
+from fastapi import FastAPI, Path, HTTPException
+
+def load_patients():
+    with open("patients.json", "r") as f:
+        return json.load(f)
+
+app = FastAPI()
+
+@app.get("/patients/{patient_id}")
+def view_patient(
+    patient_id: str = Path(
+        ...,
+        description="The ID of the patient to view",
+        examples=["P001"]
+    )
+):
+    data = load_patients()
+
+    if patient_id in data:
+        return data[patient_id]
+
+    raise HTTPException(
+        status_code=404,
+        detail="Patient not found"
+    )</code></pre>
+              <p class="code-io__label code-io__label--output">What GET returns</p>
+              <pre class="code-output"><code>GET /patients/P001
+status 200, the patient object.
+
+GET /patients/P003
+status 404
+{"detail": "Patient not found"}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-584" data-section="584" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">584</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Query Parameters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the last lesson we created an endpoint that lists patients. We also want to give the user a choice: get that list sorted, in ascending or descending order, on a field such as height, BMI, or age.</p>
+            <p>The client can send extra values at the end of the URL. Those values can be optional. They are for filtering, searching, pagination, and sorting. The endpoint path itself does not change.</p>
+            <p>A query string starts with <code>?</code>. Each piece is a key value pair, written <code>key=value</code>. More than one pair is joined with <code>&amp;</code>. One example is <code>city=kathmandu</code>.</p>
+            <p>The URL below shows those parts.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Path stays. Query is extra.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="route" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Path</span>
+                  <span class="workflow__step-desc">/sort is the route. It does not change.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Question mark</span>
+                  <span class="workflow__step-desc">? starts the query string.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="key" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Pairs</span>
+                  <span class="workflow__step-desc">sort_by=age and order=desc, joined by &amp;.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Path parameters sit inside the URL path. Query parameters sit after the question mark. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Path parameter</th>
+                    <th scope="col">Query parameter</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Inside the path, like /patients/P001.</td>
+                    <td>After ?, like /sort?sort_by=age.</td>
+                  </tr>
+                  <tr>
+                    <td>Often required. Names one resource.</td>
+                    <td>Often optional. Filters, searches, sorts, pages.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-585" data-section="585" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">585</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sort Patients with Query</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We add <code>GET /sort</code>. <code>sort_by</code> is required. It must be height, age, or weight. <code>order</code> is optional and defaults to <code>asc</code>. If <code>order</code> is <code>desc</code>, we reverse the list. If <code>sort_by</code> is not one of those three fields, we raise 400, a bad request.</p>
+            <p>This uses the patient objects inside the JSON file. Those objects need <code>height</code>, <code>age</code>, and <code>weight</code> keys for this sort to run.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">GET /sort</p>
+              <pre class="code-input"><code>from fastapi import Query
+
+@app.get("/sort")
+def sort_patients(
+    sort_by: str = Query(
+        ...,
+        description="Sort patients by height or age or weight",
+        examples=["height", "age", "weight"]
+    ),
+    order: str = Query(
+        "asc",
+        description="Sort order (asc or desc)",
+        examples=["asc", "desc"]
+    )
+):
+    data = load_patients()
+
+    if sort_by == "height":
+        return sorted(
+            data.values(),
+            key=lambda x: x["height"],
+            reverse=order == "desc"
+        )
+    elif sort_by == "age":
+        return sorted(
+            data.values(),
+            key=lambda x: x["age"],
+            reverse=order == "desc"
+        )
+    elif sort_by == "weight":
+        return sorted(
+            data.values(),
+            key=lambda x: x["weight"],
+            reverse=order == "desc"
+        )
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid sort by parameter"
+        )</code></pre>
+              <p class="code-io__label code-io__label--output">What GET returns</p>
+              <pre class="code-output"><code>GET /sort?sort_by=age&amp;order=asc
+patient objects, lowest age first.
+
+GET /sort?sort_by=age&amp;order=desc
+patient objects, highest age first.
+
+GET /sort?sort_by=city
+status 400
+{"detail": "Invalid sort by parameter"}</code></pre>
+              <p class="code-io__note">Import Query next to Path and HTTPException. sort_by is required because of the three dots. order defaults to asc.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-586" data-section="586" data-chapter="day-42">
+        <span class="lesson-card__marker" aria-hidden="true">586</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 42 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 42 takeaways</h3>
+              <ul>
+                <li>A path parameter is the dynamic piece of the URL. /patients/{patient_id} returns one patient. Use it on GET, update, and delete.</li>
+                <li>Path(...) marks the id as required and can add description, example, and validation such as min length or ge.</li>
+                <li>A status code is a three digit result. 2xx is success. 3xx needs another step. 4xx is a client mistake. 5xx is a server failure.</li>
+                <li>200 is success. 201 is created. 204 is no body after a delete. 400 is a bad request. 401 is unauthorized. 404 means the resource does not exist.</li>
+                <li>Returning Patient not found with 200 is wrong. Raise HTTPException with status 404.</li>
+                <li>Query parameters start with ?. Pairs look like key=value. Join them with &amp;. They filter, search, sort, and page without changing the path.</li>
+                <li>GET /sort uses Query for sort_by and order. A bad sort_by raises 400.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
