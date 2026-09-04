@@ -14,13 +14,13 @@ Readers see **1, 2, 3...** in sidebar order. Never jump and never duplicate.
 
 Teaching order is the `[data-include]` list in `index.html` (same as the sidebar).
 
-1. **Add at the end** (this is the usual case now): new numbered days go after ADK and after the latest 100 day (Day 42, then 43, …). First lesson of Day 43 is **Day 42's last lesson plus 1**. **Do not shift ADK.** ADK stays after Day 38 with the same section numbers.
+1. **Add at the end** (this is the usual case now): new numbered days go after ADK and after the latest 100 day (Day 43, then 44, …). First lesson of Day 44 is **Day 43's last lesson plus 1**. **Do not shift ADK.** ADK stays after Day 38 with the same section numbers.
 2. **Insert earlier in the list** (Python, NumPy, or a day before Day 38): first lesson is the previous chapter's last lesson plus 1. Shift every later chapter up, including ADK and Day 39 onward.
-3. Do not put Day 43 between Day 38 and ADK. ADK is not last on the site. New 100 days append after it.
+3. Do not put Day 44 between Day 38 and ADK. ADK is not last on the site. New 100 days append after it.
 
 ## Current example
 
-Site order: Day 38 (520 to 532), ADK (533 to 545), Day 39 (546 to 554), Day 40 (555 to 567), Day 41 (568 to 577), Day 42 (578 to 586). Day 43 therefore starts at 587. ADK does not move.
+Site order: Day 38 (520 to 532), ADK (533 to 545), Day 39 (546 to 554), Day 40 (555 to 567), Day 41 (568 to 577), Day 42 (578 to 586), Day 43 (587 to 600). Day 44 therefore starts at 601. ADK does not move.
 
 Python, NumPy, and Pandas are already in the middle of the course. Do not append new 100 days after them. Do not insert them between Day 38 and ADK.
 
@@ -29,8 +29,8 @@ Python, NumPy, and Pandas are already in the middle of the course. Do not append
 - Day file: `id`, `data-section`, `.lesson-card__marker`
 - `index.html` sidebar TOC links
 - Any `href="#section-N"` inside lessons
-- Later chapters only if you insert **before** ADK (not when adding Day 43 at the end)
+- Later chapters only if you insert **before** ADK (not when adding Day 44 at the end)
 
-Do **not** restart at 1 inside a chapter. Do **not** change ADK numbers when adding Day 43.
+Do **not** restart at 1 inside a chapter. Do **not** change ADK numbers when adding Day 44.
 
 After includes load, `script.js` also numbers cards in page order so the badge cannot jump. Still keep the HTML numbers in teaching order so files, TOC, and links stay aligned.

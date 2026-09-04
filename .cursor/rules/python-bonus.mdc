@@ -1,5 +1,5 @@
 ---
-description: Learning Python (9 bonus days) is complete. Do not add more Python days. Next work is Day 43 of the 100 day series.
+description: Learning Python (9 bonus days) is complete. Do not add more Python days. Next work is Day 44 of the 100 day series.
 globs: ["days/*.html", "index.html", "styles.css"]
 alwaysApply: true
 ---
@@ -22,7 +22,7 @@ Leave the existing Python chapter where it is. Do not move, rename, or delete it
 
 ## Next work
 
-New lessons are **Day 43, Day 44, … Day 100**. Files are `days/day43.html`, `days/day44.html`, and so on. See `day-file-convention.mdc`.
+New lessons are **Day 44, Day 45, … Day 100**. Files are `days/day44.html`, `days/day45.html`, and so on. See `day-file-convention.mdc`.
 
 Place each new numbered day **after ADK**, at the end of the include list. Do **not** put a new numbered day between Day 38 and ADK. Do **not** shift ADK.
 

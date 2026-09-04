@@ -1,0 +1,633 @@
+      <div class="chapter-divider reveal" id="chapter-day-43" data-chapter="day-43">
+        <span class="chapter-divider__pill">Day 43</span>
+        <h2 class="chapter-divider__title">Pydantic</h2>
+        <p class="chapter-divider__note">Python lets any type into a variable. Pydantic checks the shape, the types, and your rules before the data reaches your functions.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-587" data-section="587" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">587</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Python Types Are Dynamic</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Python is not a static type language. It uses dynamic types. When you create a variable, you can store any kind of data in it. That is good for a beginner. In production it is a problem. Bad data can reach a database, an API, or a model.</p>
+            <p>Pydantic helps you validate data and give it a structure. Teams use it in FastAPI, with YAML configs, and in ML pipelines.</p>
+            <p>The table below is beginner Python next to production.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Dynamic Python</th>
+                    <th scope="col">Production need</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A variable can hold an int, a string, or anything else.</td>
+                    <td>Age must be an int. Email must look like an email.</td>
+                  </tr>
+                  <tr>
+                    <td>Easy to start.</td>
+                    <td>Wrong values must stop before they are stored.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-588" data-section="588" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">588</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Any Value Can Slip In</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose we write a function to insert a patient. The age parameter can receive 30, the string "30", or the word thirty. Python still runs. As programmers it is our duty to stop that.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">No type checks</p>
+              <pre class="code-input"><code>def insert_patient_data(name, age):
+    print(name, age)
+    print("inserted into the database")
+
+insert_patient_data("john", 30)
+insert_patient_data("jane", "30")
+insert_patient_data("ram", "thirty")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>john 30
+inserted into the database
+jane 30
+inserted into the database
+ram thirty
+inserted into the database</code></pre>
+              <p class="code-io__note">All three calls succeed. The function does not care what age is.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-589" data-section="589" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">589</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lightbulb" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Type Hints Only Suggest</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We can add type hints: <code>name: str</code> and <code>age: int</code>. That only suggests the types. It does not force them. Wrong values still run. Python does not raise an error from the hint alone.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Hints, still no force</p>
+              <pre class="code-input"><code>def insert_patient_data(name: str, age: int):
+    print(name, age)
+    print("inserted into the database")
+
+insert_patient_data("john", 30)
+insert_patient_data("jane", "30")
+insert_patient_data("ram", "thirty")</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>john 30
+inserted into the database
+jane 30
+inserted into the database
+ram thirty
+inserted into the database</code></pre>
+              <p class="code-io__note">The hints help your editor. They do not stop bad age values at runtime.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-590" data-section="590" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">590</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="copy" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Manual Checks Do Not Scale</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We can write <code>if type(name) == str and type(age) == int</code>. That works for one function. It is not scalable. An update function needs the same checks again. If we add weight, or more functions, we copy those lines by hand.</p>
+            <p>Age also must not be negative. Then we add another rule, like age greater than 0. For these small rules we write long code. Pydantic is built to take that job.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Hand written checks</p>
+              <pre class="code-input"><code>def insert_patient_data(name, age):
+    if type(name) == str and type(age) == int:
+        print(name, age)
+        print("inserted into the database")
+    else:
+        print("invalid data")
+
+insert_patient_data("john", 30)
+insert_patient_data("jane", "30")
+
+def insert_patient_data_age(name, age):
+    if age > 0:
+        print(name, age)
+        print("inserted into the database")
+    else:
+        print("invalid data")
+
+insert_patient_data_age("john", 30)
+insert_patient_data_age("jane", -30)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>john 30
+inserted into the database
+invalid data
+john 30
+inserted into the database
+invalid data</code></pre>
+              <p class="code-io__note">Each new field or new function means more if lines. That is the pain Pydantic removes.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-591" data-section="591" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">591</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Steps in Pydantic</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Pydantic works in three steps. First you make a model class. You list the fields, their types, and rules such as greater than 0. Second you make a dict or JSON like structure. When you build the model, that data is checked. Third you pass the valid model object into your function.</p>
+            <p>Install Pydantic v2. v2 is written in Rust and has newer features.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Model, data, then function</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="layout" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Model</span>
+                  <span class="workflow__step-desc">A class with fields, types, and rules.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-json" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Dict or JSON</span>
+                  <span class="workflow__step-desc">Pydantic checks this data when you build the object.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Function</span>
+                  <span class="workflow__step-desc">Pass the valid object. The function can trust it.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Install, then the three steps</p>
+              <pre class="code-input"><code>pip install pydantic
+
+from pydantic import BaseModel
+
+class Patient(BaseModel):
+    name: str
+    age: int
+
+patient_info = {
+    "name": "john",
+    "age": 30
+}
+
+patient = Patient(**patient_info)
+
+def insert_patient_data(patient: Patient):
+    print(patient.name, patient.age)
+    print("inserted into the database")
+
+insert_patient_data(patient)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>john 30
+inserted into the database</code></pre>
+              <p class="code-io__note">**patient_info unpacks the dict into name and age. If age were a bad type, Patient(...) would fail before the function runs.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-592" data-section="592" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">592</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Optional Fields</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Some fields are not always present. Import <code>Optional</code> from <code>typing</code>. Give a default. If the dict has no allergies, Pydantic fills <code>None</code>. Here married defaults to <code>False</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Defaults fill the gaps</p>
+              <pre class="code-input"><code>from pydantic import BaseModel
+from typing import Optional
+
+class Patient(BaseModel):
+    name: str
+    age: int
+    city: str
+    gender: str
+    height: float
+    contacts: dict[str, str]
+    allergies: Optional[list[str]] = None
+    married: Optional[bool] = False
+
+patient_info = {
+    "name": "john",
+    "age": 30,
+    "city": "New York",
+    "gender": "male",
+    "height": 180.5,
+    "contacts": {
+        "email": "john@example.com",
+        "phone": "1234567890"
+    }
+}
+
+patient = Patient(**patient_info)
+print(patient.name)
+print(patient.age)
+print(patient.city)
+print(patient.gender)
+print(patient.height)
+print(patient.married)
+print(patient.allergies)
+print(patient.contacts)
+print(patient)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>john
+30
+New York
+male
+180.5
+False
+None
+{'email': 'john@example.com', 'phone': '1234567890'}
+name='john' age=30 city='New York' gender='male' height=180.5 contacts={'email': 'john@example.com', 'phone': '1234567890'} allergies=None married=False</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-593" data-section="593" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">593</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mail" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">EmailStr and AnyUrl</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For common shapes like an email or a link, Pydantic already has types. <code>EmailStr</code> checks an email. <code>AnyUrl</code> checks a URL, such as a LinkedIn link. Install with <code>pip install "pydantic[email]"</code> so <code>EmailStr</code> works.</p>
+            <p>If married and allergies are missing, and both default to <code>None</code>, Pydantic fills <code>None</code> for each.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">EmailStr</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, EmailStr
+from typing import Optional
+
+class Patient(BaseModel):
+    name: str
+    age: int
+    city: str
+    gender: str
+    height: float
+    contacts: dict[str, str]
+    email: EmailStr
+    allergies: Optional[list[str]] = None
+    married: Optional[bool] = None
+
+patient_info = {
+    "name": "john",
+    "age": 30,
+    "city": "New York",
+    "gender": "male",
+    "height": 180.5,
+    "contacts": {
+        "email": "john@example.com",
+        "phone": "1234567890"
+    },
+    "email": "john@example.com"
+}
+
+patient = Patient(**patient_info)
+print(patient.married)
+print(patient.allergies)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>None
+None</code></pre>
+              <p class="code-io__note">For a URL field, import AnyUrl and type the field as AnyUrl. Same idea as EmailStr: a common format, checked for you.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-594" data-section="594" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">594</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sliders" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Field and Annotated</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second way to validate is custom rules. Age might need to sit between 40 and 50. Use <code>Field</code>. <code>gt</code> means greater than. <code>lt</code> means less than. A string can have min length and max length. A list can too. In Pydantic v2 those list limits are <code>min_length</code> and <code>max_length</code>.</p>
+            <p><code>Field</code> also stores metadata for APIs. The docs can show a description and an example. Wrap the type with <code>Annotated</code>. <code>Field</code> can set a default as well, such as married False.</p>
+            <p>The sample below uses age 45 so it passes <code>gt=40</code> and <code>lt=50</code>. Age 30 would fail that rule.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Annotated plus Field</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, Field
+from typing import Annotated
+
+class Patient(BaseModel):
+    name: Annotated[str, Field(min_length=3, max_length=50, description="Name of the patient", examples=["John Doe"])]
+    age: Annotated[int, Field(gt=40, lt=50, description="Age of the patient")]
+    city: Annotated[str, Field(min_length=3, max_length=50, description="City of the patient", examples=["New York"])]
+    gender: Annotated[str, Field(min_length=3, max_length=50, description="Gender of the patient", examples=["Male"])]
+    height: Annotated[float, Field(gt=150, lt=200, description="Height of the patient")]
+    allergies: Annotated[list[str], Field(min_length=1, max_length=5, description="Allergies of the patient")]
+    married: Annotated[bool, Field(default=False, description="Marital status of the patient")]
+
+patient = Patient(
+    name="John Doe",
+    age=45,
+    city="New York",
+    gender="Male",
+    height=180.5,
+    allergies=["Penicillin"],
+    married=False
+)
+print(patient)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>name='John Doe' age=45 city='New York' gender='Male' height=180.5 allergies=['Penicillin'] married=False</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-595" data-section="595" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">595</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="building" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Field Validator</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A field validator is for your own business rules, or for a change to the value. Example: the hospital ties up with a bank. An IME employee gets discounted treatment. The email domain must be ime.com or everest.com. Another example: turn the name so the first letter is a capital.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Email domain and name</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, field_validator
+
+class Patient(BaseModel):
+    name: str
+    age: int
+    city: str
+    gender: str
+    height: float
+    allergies: list[str]
+    married: bool
+    email: str
+
+    @field_validator("email")
+    @classmethod
+    def validate_email(cls, value: str) -> str:
+        valid_domains = ["ime.com", "everest.com"]
+        domain = value.split("@")[-1]
+        if domain not in valid_domains:
+            raise ValueError(f"Invalid email domain: {domain}")
+        return value
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: str) -> str:
+        return value.capitalize()
+
+patient_info = {
+    "name": "john doe",
+    "age": 30,
+    "city": "New York",
+    "gender": "Male",
+    "height": 180.5,
+    "allergies": ["Penicillin"],
+    "married": False,
+    "email": "john@ime.com"
+}
+
+patient = Patient(**patient_info)
+print(patient)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>name='John doe' age=30 city='New York' gender='Male' height=180.5 allergies=['Penicillin'] married=False email='john@ime.com'</code></pre>
+              <p class="code-io__note">capitalize makes the first letter of the whole string a capital. So john doe becomes John doe, not John Doe.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-596" data-section="596" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">596</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Validator</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A field validator checks one field by itself. Think of one password: is this password long enough? A model validator compares more than one field together. Think of password and confirm password: do they match?</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">field_validator</th>
+                    <th scope="col">model_validator</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Checks one item by itself.</td>
+                    <td>Compares more than one item together.</td>
+                  </tr>
+                  <tr>
+                    <td>Is this password long enough?</td>
+                    <td>Does password match confirm_password?</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p><code>mode="after"</code> means the check runs after the fields exist on <code>self</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Password and confirm</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, field_validator, model_validator
+
+class UserSignup(BaseModel):
+    password: str
+    confirm_password: str
+
+    @field_validator("password")
+    def password_length(cls, v):
+        if len(v) &lt; 8:
+            raise ValueError("Password must be at least 8 characters")
+        return v
+
+    @model_validator(mode="after")
+    def passwords_match(self):
+        if self.password != self.confirm_password:
+            raise ValueError("Passwords do not match")
+        return self
+
+user_info = {
+    "password": "12345678",
+    "confirm_password": "12345678"
+}
+
+user = UserSignup(**user_info)
+print(user)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>password='12345678' confirm_password='12345678'</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-597" data-section="597" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">597</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Computed Fields</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A computed field is not sent by the user. It is calculated from other fields. You might have first name and last name, and you do not ask for full name. Or you have weight and height, and you need BMI. The example below uses price times quantity.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">total is calculated</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, computed_field
+
+class Item(BaseModel):
+    price: float
+    quantity: int
+
+    @computed_field
+    @property
+    def total(self) -&gt; float:
+        return self.price * self.quantity
+
+item = Item(price=10.0, quantity=3)
+print(item.total)
+print(item.model_dump())</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>30.0
+{'price': 10.0, 'quantity': 3, 'total': 30.0}</code></pre>
+              <p class="code-io__note">Pass only price and quantity. total appears on the object and in model_dump.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-598" data-section="598" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">598</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Nested Models</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A nested model means one model is a field of another. Address could be one string like Bafal, Kathmandu, Nepal. Then it is hard to take only Kathmandu. Split it into city, state, and country.</p>
+            <p>Nested models give better organization, reuse, readability, and validation.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Address inside Patient</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="map-pin" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Address</span>
+                  <span class="workflow__step-desc">city, state, country as their own model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Patient</span>
+                  <span class="workflow__step-desc">name, gender, age, plus an Address field.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Address then Patient</p>
+              <pre class="code-input"><code>from pydantic import BaseModel
+
+class Address(BaseModel):
+    city: str
+    state: str
+    country: str
+
+class Patient(BaseModel):
+    name: str
+    gender: str
+    age: int
+    address: Address
+
+address_dict = {
+    "city": "Kathmandu",
+    "state": "Bagmati",
+    "country": "Nepal"
+}
+
+address = Address(**address_dict)
+print(address)
+
+patient_info = {
+    "name": "John Doe",
+    "gender": "Male",
+    "age": 30,
+    "address": address
+}
+
+patient = Patient(**patient_info)
+print(patient)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>city='Kathmandu' state='Bagmati' country='Nepal'
+name='John Doe' gender='Male' age=30 address=Address(city='Kathmandu', state='Bagmati', country='Nepal')</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-599" data-section="599" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">599</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Serialization</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Serialization means turning a Pydantic object into a dict or JSON. FastAPI uses this a lot. Pydantic has built in methods. <code>model_dump</code> returns a dict. <code>model_dump_json</code> returns a JSON string. You can keep some fields with <code>include</code>, or drop some with <code>exclude</code>.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Dump, include, exclude</p>
+              <pre class="code-input"><code>print(patient.model_dump())
+print(patient.model_dump_json())
+print(patient.model_dump(include={"name", "age"}))
+print(patient.model_dump(exclude={"name", "age"}))</code></pre>
+              <p class="code-io__label code-io__label--output">Output for the nested patient</p>
+              <pre class="code-output"><code>{'name': 'John Doe', 'gender': 'Male', 'age': 30, 'address': {'city': 'Kathmandu', 'state': 'Bagmati', 'country': 'Nepal'}}
+{"name":"John Doe","gender":"Male","age":30,"address":{"city":"Kathmandu","state":"Bagmati","country":"Nepal"}}
+{'name': 'John Doe', 'age': 30}
+{'gender': 'Male', 'address': {'city': 'Kathmandu', 'state': 'Bagmati', 'country': 'Nepal'}}</code></pre>
+              <p class="code-io__note">Run these lines after you build the Patient from the nested model lesson.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-600" data-section="600" data-chapter="day-43">
+        <span class="lesson-card__marker" aria-hidden="true">600</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 43 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 43 takeaways</h3>
+              <ul>
+                <li>Python types are dynamic. Hints suggest. They do not force. Hand written if checks do not scale.</li>
+                <li>Pydantic validates and structures data. Use v2. It is used in FastAPI, YAML work, and ML pipelines.</li>
+                <li>Three steps: model, dict or JSON, then a valid object in your function.</li>
+                <li>Optional fields need a default. EmailStr and AnyUrl cover common formats.</li>
+                <li>Field and Annotated set gt, lt, length, defaults, and docs metadata.</li>
+                <li>field_validator checks one field. model_validator compares fields. computed_field calculates a value the user did not send.</li>
+                <li>Nest models for a clean Address. model_dump and model_dump_json serialize. include and exclude pick fields.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
