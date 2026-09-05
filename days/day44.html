@@ -1,0 +1,335 @@
+      <div class="chapter-divider reveal" id="chapter-day-44" data-chapter="day-44">
+        <span class="chapter-divider__pill">Day 44</span>
+        <h2 class="chapter-divider__title">POST Requests in FastAPI</h2>
+        <p class="chapter-divider__note">Recap the GET patient routes. Then create a patient with POST, a JSON request body, and the Pydantic model from yesterday.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-601" data-section="601" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">601</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap of GET</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>So far the patient API only reads. Home returns a hello world style message. A view route returns every patient. A patient id route returns one patient. That id in the path is a path parameter. Sort uses query parameters so we can filter the list, such as ascending or descending order.</p>
+            <p>The steps below are those GET routes.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">What GET can do so far</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="home" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Home</span>
+                  <span class="workflow__step-desc">GET the hello world message.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="users" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">View all</span>
+                  <span class="workflow__step-desc">GET the full list of patients.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">One id</span>
+                  <span class="workflow__step-desc">GET one patient. The id is a path parameter.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Sort</span>
+                  <span class="workflow__step-desc">Query parameters. Ascending or descending, and similar filters.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-602" data-section="602" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">602</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Create Needs POST</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we learn POST. POST is the create endpoint. We can create a patient. Yesterday we learned Pydantic. We need that model here, because the client will send new patient data.</p>
+            <p>The path is still client, then HTTP request, then server. The only change is the method. This request is POST, not GET.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">POST from client to server</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="monitor" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Client</span>
+                  <span class="workflow__step-desc">Sends a POST request with new patient data.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="send" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">HTTP POST</span>
+                  <span class="workflow__step-desc">Same path idea as GET, but the verb is POST.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Server</span>
+                  <span class="workflow__step-desc">FastAPI receives it and can create the patient.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-603" data-section="603" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">603</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-json" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Request Body</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We send the data in JSON format. That JSON is called the request body. It is the portion of an HTTP request that holds the data the client sends to the server.</p>
+            <p>A request body is used mostly with POST and PUT. For create, the HTTP method is POST and the request body is JSON.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">GET</th>
+                    <th scope="col">POST</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Read data. Path and query carry the extra facts.</td>
+                    <td>Create data. The extra facts sit in the request body.</td>
+                  </tr>
+                  <tr>
+                    <td>Usually no JSON body.</td>
+                    <td>JSON body. POST and PUT use this a lot.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-604" data-section="604" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">604</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Validate the Body</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We must validate that JSON. We may expect age as an int. The client might send the string thirty. It looks like a number in words, but it is still a string. That is why we make a Pydantic model. If the data is valid, we add it to our store. Here the store is a JSON file that acts as the database.</p>
+            <p>The two cards below are a bad body versus a valid body.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Rejected</p>
+                <p class="concept-card__desc">Age was typed as thirty. Pydantic stops it. Nothing is saved.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Accepted</p>
+                <p class="concept-card__desc">Age is a real int, and the other fields match the model. Then we add the patient.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-605" data-section="605" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">605</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="user" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Patient Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The create route takes a <code>Patient</code> object. FastAPI reads the JSON body and builds that object. <code>id</code> is required. The example id is P001. Age must be greater than 0 and less than 100. Gender must be male, female, or other. Height is in meters. Weight is in kilograms. Both must be greater than 0.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Patient fields</p>
+              <pre class="code-input"><code>from pydantic import BaseModel, Field, computed_field
+from typing import Annotated, Literal
+
+class Patient(BaseModel):
+    id: Annotated[str, Field(..., description="The ID of the patient", examples=["P001"])]
+    name: Annotated[str, Field(..., description="The name of the patient")]
+    city: Annotated[str, Field(..., description="The city of the patient")]
+    age: Annotated[int, Field(..., description="The age of the patient", gt=0, lt=100)]
+    gender: Annotated[Literal["male", "female", "other"], Field(..., description="The gender of the patient")]
+    height: Annotated[float, Field(..., description="The height of the patient in meters", gt=0)]
+    weight: Annotated[float, Field(..., description="The weight of the patient in kg", gt=0)]</code></pre>
+              <p class="code-io__label code-io__label--output">What FastAPI does</p>
+              <pre class="code-output"><code>The JSON body must match these fields.
+A missing id, a word for age, or a gender
+outside male, female, other, fails validation.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-606" data-section="606" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">606</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hash" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">BMI and Verdict</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The client does not send BMI or verdict. Those are computed fields. BMI is weight divided by height squared. Height must be in meters. Verdict is a label from that BMI. The table below is the rule in the code.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">BMI</th>
+                    <th scope="col">Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Less than 18.5</td>
+                    <td>Underweight</td>
+                  </tr>
+                  <tr>
+                    <td>Less than 24.9</td>
+                    <td>Normal</td>
+                  </tr>
+                  <tr>
+                    <td>Less than 30</td>
+                    <td>Overweight</td>
+                  </tr>
+                  <tr>
+                    <td>30 or more</td>
+                    <td>Obese</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Computed fields</p>
+              <pre class="code-input"><code>    @computed_field
+    @property
+    def bmi(self) -&gt; float:
+        return self.weight / (self.height ** 2)
+
+    @computed_field
+    @property
+    def verdict(self) -&gt; str:
+        if self.bmi &lt; 18.5:
+            return "Underweight"
+        elif self.bmi &lt; 24.9:
+            return "Normal"
+        elif self.bmi &lt; 30:
+            return "Overweight"
+        else:
+            return "Obese"</code></pre>
+              <p class="code-io__label code-io__label--output">What the client does not send</p>
+              <pre class="code-output"><code>bmi and verdict are calculated after
+height and weight pass validation.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-607" data-section="607" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">607</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">POST /create</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>load_data</code> reads <code>data.json</code>. <code>save_data</code> writes it back with indent 4. <code>POST /create</code> takes a <code>Patient</code>. If that id is already a key, we raise 400, patient already exists. If not, we turn the model into a dict with <code>model_dump(exclude=["id"])</code>. The id is the key in the file, so we do not store it again inside the object. Then we save. We return 201, patient created successfully.</p>
+            <p>The steps below are that create path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">From body to file</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-json" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Load</span>
+                  <span class="workflow__step-desc">Read data.json.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Check id</span>
+                  <span class="workflow__step-desc">If the id exists, return 400.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="save" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Save</span>
+                  <span class="workflow__step-desc">Store the dump under that id, without repeating id.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">201</span>
+                  <span class="workflow__step-desc">Patient created successfully.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Create route</p>
+              <pre class="code-input"><code>from fastapi import FastAPI, status, HTTPException
+from fastapi.responses import JSONResponse
+import json
+
+app = FastAPI()
+
+def load_data():
+    with open("data.json", "r") as f:
+        return json.load(f)
+
+def save_data(data):
+    with open("data.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+@app.post("/create")
+def create_patient(patient: Patient):
+    data = load_data()
+
+    if patient.id in data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Patient already exists"
+        )
+
+    data[patient.id] = patient.model_dump(exclude=["id"])
+    save_data(data)
+
+    return JSONResponse(
+        status_code=status.HTTP_201_CREATED,
+        content={"message": "Patient created successfully"}
+    )</code></pre>
+              <p class="code-io__label code-io__label--output">What POST returns</p>
+              <pre class="code-output"><code>POST /create  new id
+status 201
+{"message": "Patient created successfully"}
+
+POST /create  same id again
+status 400
+{"detail": "Patient already exists"}</code></pre>
+              <p class="code-io__note">Put the Patient class in the same file. FastAPI fills patient from the JSON body.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-608" data-section="608" data-chapter="day-44">
+        <span class="lesson-card__marker" aria-hidden="true">608</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 44 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 44 takeaways</h3>
+              <ul>
+                <li>GET so far: home message, all patients, one patient by path id, and sort with query parameters.</li>
+                <li>POST creates a patient. The client still talks to the server. The verb is POST.</li>
+                <li>The JSON the client sends is the request body. POST and PUT use a body a lot.</li>
+                <li>A Pydantic model checks the body. A string like thirty is not an int. Invalid data is not saved.</li>
+                <li>id, name, city, age, gender, height in meters, and weight in kg are required. BMI and verdict are computed.</li>
+                <li>If the id exists, return 400. If create works, dump without id, save data.json, return 201.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
