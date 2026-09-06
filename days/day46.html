@@ -1,0 +1,446 @@
+      <div class="chapter-divider reveal" id="chapter-day-46" data-chapter="day-46">
+        <span class="chapter-divider__pill">Day 46</span>
+        <h2 class="chapter-divider__title">Gen AI vs Agentic AI</h2>
+        <p class="chapter-divider__note">Gen AI makes new content. Agentic AI works toward a goal. We walk from a plain chatbot to RAG, tools, then an agent, using a hiring story.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-616" data-section="616" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">616</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Gen AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Gen AI creates new content. That can be an image, audio, code, or video. The result often feels like a human made it. The best part of Gen AI is that it mimics humans.</p>
+            <p>Gen AI is constantly improving.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-617" data-section="617" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">617</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Gen AI Products</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Products in this family include ChatGPT, models that make images, LLMs that write code, text to speech models, and video generation models. The cards below are that set.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">ChatGPT</p>
+                <p class="concept-card__desc">A chat product built on a large language model.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Image models</p>
+                <p class="concept-card__desc">Make new pictures from a prompt.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Code LLMs</p>
+                <p class="concept-card__desc">Write and edit program code.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Text to speech</p>
+                <p class="concept-card__desc">Turn written text into spoken audio.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Video models</p>
+                <p class="concept-card__desc">Generate new video.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-618" data-section="618" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">618</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Gen AI vs Traditional AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Traditional AI finds patterns in data and gives a prediction. Classification is one case. Look at an email and decide if it is spam or not. The model takes input and output pairs, learns the pattern, then predicts. Regression is the same idea: input and output, find the pattern, then predict a number.</p>
+            <p>Gen AI does not only find a pattern between one input and one output. If you send it 1000 images of a cat, it tries to learn the distribution of that data so it can generate a new sample. The steps below are that idea.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Learn the spread, then make a new sample</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="images" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Many cats</span>
+                  <span class="workflow__step-desc">You give about 1000 cat images.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Distribution</span>
+                  <span class="workflow__step-desc">The model learns how those images are spread.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">New sample</span>
+                  <span class="workflow__step-desc">It can generate a new cat image that was not in the set.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The table below puts traditional AI next to Gen AI.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Traditional AI</th>
+                    <th scope="col">Gen AI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Find patterns. Predict a label or a number.</td>
+                    <td>Learn the distribution. Generate a new sample.</td>
+                  </tr>
+                  <tr>
+                    <td>Spam or not. Regression from input to output.</td>
+                    <td>A new cat image, a new sentence, a new clip of audio.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-619" data-section="619" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">619</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Where Gen AI Helps</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Gen AI shows up in many jobs. The five cards below are the areas from our notes.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Writing</p>
+                <p class="concept-card__desc">Creative and business writing. Captions, blogs, emails.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Software</p>
+                <p class="concept-card__desc">Help write and change code.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Support</p>
+                <p class="concept-card__desc">Customer support replies.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Education</p>
+                <p class="concept-card__desc">Help with teaching and learning.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Design</p>
+                <p class="concept-card__desc">Help with visual design work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-620" data-section="620" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">620</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="briefcase" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hiring Without Gen AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose we are hiring a backend engineer. You are working as an HR engineer. Without Gen AI you do every step yourself. The chain below is that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Hire a backend engineer by hand</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Write the JD</span>
+                  <span class="workflow__step-desc">Create the job description.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="globe" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Post it</span>
+                  <span class="workflow__step-desc">Put it on LinkedIn or Recruit Nepal.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="filter" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Shortlist</span>
+                  <span class="workflow__step-desc">Cut a large pile, even 1000 people, down to a few.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="messages-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Interview</span>
+                  <span class="workflow__step-desc">Talk with the shortlisted people.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="mail" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Offer</span>
+                  <span class="workflow__step-desc">Roll out the offer letter.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="user-plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Onboard</span>
+                  <span class="workflow__step-desc">Bring the hire into the company.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-621" data-section="621" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">621</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hiring With a Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now the company gives you a chatbot. You still run hiring, but Gen AI helps write. You prompt it for a JD from your details. It can suggest posting on Recruit Nepal. It can give advice for shortlisting, such as people who know the path. It can draft emails, interview questions, and the offer letter. Without Gen AI you write all of that yourself.</p>
+            <p>The table below is each step with the chatbot beside it.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Step</th>
+                    <th scope="col">Chatbot help</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Job description</td>
+                    <td>Write a JD from the details you give.</td>
+                  </tr>
+                  <tr>
+                    <td>Posting</td>
+                    <td>Suggest where to post, such as Recruit Nepal.</td>
+                  </tr>
+                  <tr>
+                    <td>Shortlisting</td>
+                    <td>Give advice, such as look for the right path knowledge.</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>Draft the email to a candidate.</td>
+                  </tr>
+                  <tr>
+                    <td>Interview</td>
+                    <td>List questions to ask.</td>
+                  </tr>
+                  <tr>
+                    <td>Offer letter</td>
+                    <td>Help write the offer letter.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-622" data-section="622" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">622</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why That Chatbot Is Not Enough</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Is the chatbot the best solution? No. We can still do better. You must prompt it every time. It only replies. It does not have lasting memory. It forgets the data in 3 days. It cannot act on its own. It can write an email, but it does not get access to post that email. It also gives generic answers, not answers that match this company.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Prompt only</p>
+                <p class="concept-card__desc">It answers the prompt. It does not run the next step unless you ask.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">No memory</p>
+                <p class="concept-card__desc">It forgets in 3 days.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">No action</p>
+                <p class="concept-card__desc">It can draft an email. It cannot send or post it.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Generic</p>
+                <p class="concept-card__desc">The advice is general, not your company rules.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-623" data-section="623" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">623</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="library" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A RAG Based Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We need to give the chatbot our own files. The cards below are that set. Past JDs. Examples of high performing JDs. Hiring strategies and best practices. An internal salary band. An internal checklist to verify the hire. An onboarding checklist and offer letter samples.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Past JDs</p>
+                <p class="concept-card__desc">Old job descriptions from this company.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Strong JDs</p>
+                <p class="concept-card__desc">Examples of high performing job posts.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Hiring practice</p>
+                <p class="concept-card__desc">Strategies and best practices for hiring.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Salary band</p>
+                <p class="concept-card__desc">Internal pay range for the role.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Hire checklist</p>
+                <p class="concept-card__desc">Internal steps to verify the hire.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Onboarding</p>
+                <p class="concept-card__desc">Onboarding checklist and offer letter samples.</p>
+              </div>
+            </div>
+            <p>That is called RAG. A RAG based chatbot can give company based answers. It still does not fix every issue. It is still reactive. It still has no memory. It still cannot take action.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-624" data-section="624" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">624</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Tool Augmented Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The next improvement is action. The chatbot can send the email or post the JD. We integrate it with the tools below. LinkedIn. A resume parser. A calendar tool for interviews. A mail API. This chatbot is called a tool augmented chatbot.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">LinkedIn</p>
+                <p class="concept-card__desc">Post the JD or work with that portal.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Resume parser</p>
+                <p class="concept-card__desc">Read resumes so shortlisting can use the file.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Calendar</p>
+                <p class="concept-card__desc">Book interview times.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Mail API</p>
+                <p class="concept-card__desc">Send the email, not only draft it.</p>
+              </div>
+            </div>
+            <p>Tools solve the action gap. A few problems remain. It is still reactive. It still has no memory. It still cannot adapt.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-625" data-section="625" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">625</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Agentic AI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we need it to be proactive, to have memory, and to adapt. That chatbot is an AI agent. We call it an agentic AI chatbot. You only state the end goal. You say you want to hire a backend developer with 4 years of experience. The agent plans, processes, and adapts on its own. It can monitor jobs, screen and find a strong candidate, and schedule the calendar.</p>
+            <p>That is why we use agentic AI instead of stopping at Gen AI. The other gaps are closed.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-626" data-section="626" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">626</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Path From Gen AI to Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The line is Gen AI, then RAG plus Gen AI, then tools, then agentic AI. The chain below is that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Four stages</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Gen AI</span>
+                  <span class="workflow__step-desc">Create text, images, and other content.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="library" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">RAG</span>
+                  <span class="workflow__step-desc">Gen AI plus your company files.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Tools</span>
+                  <span class="workflow__step-desc">Send mail, post a JD, open a calendar.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Agentic AI</span>
+                  <span class="workflow__step-desc">Reach the goal. Plan, act, and adapt.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Gen AI is only for content, such as text or an image. Agentic AI tries to achieve the goal any how. Gen AI is reactive. We guide every step. Agentic AI is proactive. A human is there for approval. Gen AI is the building block of agentic AI. Gen AI is the capability. Agentic AI is the behavior.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Gen AI</th>
+                    <th scope="col">Agentic AI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Create content: text, image, and more.</td>
+                    <td>Achieve the goal any how.</td>
+                  </tr>
+                  <tr>
+                    <td>Reactive. You guide every step.</td>
+                    <td>Proactive. A human gives approval.</td>
+                  </tr>
+                  <tr>
+                    <td>A capability. The building block.</td>
+                    <td>A behavior built on that capability.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-627" data-section="627" data-chapter="day-46">
+        <span class="lesson-card__marker" aria-hidden="true">627</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 46 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 46 takeaways</h3>
+              <ul>
+                <li>Gen AI creates new content that can feel human made. ChatGPT, image models, code LLMs, text to speech, and video models sit in this family.</li>
+                <li>Traditional AI predicts from input and output pairs. Gen AI learns a distribution so it can make a new sample, such as a new cat image.</li>
+                <li>Gen AI helps writing, software, support, education, and design. It keeps improving.</li>
+                <li>A hiring chatbot can draft a JD, emails, questions, and an offer. It still needs a prompt, forgets in 3 days, cannot act, and stays generic.</li>
+                <li>RAG adds company files. Tools add actions like mail and calendars. Both can still be reactive and without memory.</li>
+                <li>An agent is proactive, has memory, and adapts. You give the goal, such as hire a backend developer with 4 years of experience.</li>
+                <li>The path is Gen AI, then RAG, then tools, then agentic AI. Gen AI is the capability. Agentic AI is the behavior.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>

@@ -1,0 +1,298 @@
+      <div class="chapter-divider reveal" id="chapter-day-45" data-chapter="day-45">
+        <span class="chapter-divider__pill">Day 45</span>
+        <h2 class="chapter-divider__title">PUT and DELETE in FastAPI</h2>
+        <p class="chapter-divider__note">Update one patient with PUT and a partial body. Then delete a patient by id.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-609" data-section="609" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">609</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Have So Far</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Till now we built a view endpoint for all patients. A particular patient endpoint uses a path parameter. Sort uses a query parameter. Create uses POST. Today we add the update endpoint and the delete endpoint.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Done, then today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="users" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">View</span>
+                  <span class="workflow__step-desc">GET the full list.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="user" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">One patient</span>
+                  <span class="workflow__step-desc">GET by path id.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Sort</span>
+                  <span class="workflow__step-desc">Query parameters.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Create</span>
+                  <span class="workflow__step-desc">POST a new patient.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Today</span>
+                  <span class="workflow__step-desc">PUT to edit. DELETE to remove.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-610" data-section="610" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">610</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">PUT /edit</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The update route is <code>/edit</code>. We provide the patient id in the path. We also provide a request body with the fields we want to change. The HTTP method is PUT.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Id in the path. Changes in the body.</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Path id</span>
+                  <span class="workflow__step-desc">/edit/{patient_id} says which patient to change.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-json" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Request body</span>
+                  <span class="workflow__step-desc">JSON with only the fields the client wants to change.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="send" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">PUT</span>
+                  <span class="workflow__step-desc">The verb that updates that patient.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-611" data-section="611" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">611</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A New Model: PatientUpdate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>First we build a new Pydantic model. The old <code>Patient</code> model requires every field. We do not know if the client will send all fields, or only one field to change. So those update fields must be optional. There is no id on this model. The id comes from the path.</p>
+            <p>The table below is create versus update.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Patient</th>
+                    <th scope="col">PatientUpdate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Used on create. Every field is required, including id.</td>
+                    <td>Used on edit. Every field is optional and defaults to None.</td>
+                  </tr>
+                  <tr>
+                    <td>The client must send the full patient.</td>
+                    <td>The client can send only the fields they want to change.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">PatientUpdate</p>
+              <pre class="code-input"><code>from typing import Annotated, Literal, Optional
+from pydantic import BaseModel, Field
+
+class PatientUpdate(BaseModel):
+    name: Annotated[Optional[str], Field(default=None, description="The name of the patient")] = None
+    gender: Annotated[Optional[Literal["male", "female", "other"]], Field(default=None, description="The gender of the patient")] = None
+    city: Annotated[Optional[str], Field(default=None, description="The city of the patient")] = None
+    age: Annotated[Optional[int], Field(default=None, description="The age of the patient", gt=0, lt=100)] = None
+    height: Annotated[Optional[float], Field(default=None, description="The height of the patient in meters", gt=0)] = None
+    weight: Annotated[Optional[float], Field(default=None, description="The weight of the patient in kilograms", gt=0)] = None</code></pre>
+              <p class="code-io__label code-io__label--output">What a body can look like</p>
+              <pre class="code-output"><code>Only city, or only age, or any mix.
+Fields that are not sent stay None
+and must not overwrite the stored patient.</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-612" data-section="612" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">612</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Merge New Data With Old Data</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Second, we update the new data with the existing data. Load the file. If the id is missing, raise 404. Take the stored patient. Dump only the fields the client actually sent with <code>exclude_unset=True</code>. Merge those keys into the stored dict. Then we must build a full <code>Patient</code> again. That rechecks the rules and refreshes computed fields such as BMI and verdict. BMI is rounded to 2 decimal places. Save the dump without id, because id is still the key.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Find, merge, recheck, save</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Find</span>
+                  <span class="workflow__step-desc">Load data.json. 404 if the id is not there.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-merge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Merge</span>
+                  <span class="workflow__step-desc">exclude_unset keeps only fields the client sent.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="refresh-cw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Recheck</span>
+                  <span class="workflow__step-desc">Patient(**...) rebuilds BMI and verdict.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="save" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Save</span>
+                  <span class="workflow__step-desc">Write the dump back under that id, without repeating id.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-613" data-section="613" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">613</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="send" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Update Route</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>load_data</code> now returns an empty dict if the file is missing or the JSON is broken. <code>PUT /edit/{patient_id}</code> takes the path id and a <code>PatientUpdate</code> body. After a good merge we return a success message and the new stored object.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">PUT /edit/{patient_id}</p>
+              <pre class="code-input"><code>@app.put("/edit/{patient_id}")
+def update_patient(patient_id: str, patient_update: PatientUpdate):
+    data = load_data()
+
+    if patient_id not in data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Patient not found"
+        )
+
+    existing_patient = data[patient_id]
+    updated_data = patient_update.model_dump(exclude_unset=True)
+    existing_patient.update(updated_data)
+
+    existing_patient["id"] = patient_id
+    validated_patient = Patient(**existing_patient)
+
+    data[patient_id] = validated_patient.model_dump(exclude={"id"})
+    save_data(data)
+
+    return {
+        "message": "Patient updated successfully",
+        "data": data[patient_id]
+    }</code></pre>
+              <p class="code-io__label code-io__label--output">What PUT returns</p>
+              <pre class="code-output"><code>PUT /edit/P001  id exists
+{"message": "Patient updated successfully", "data": ...}
+
+PUT /edit/P001  id missing
+status 404
+{"detail": "Patient not found"}</code></pre>
+              <p class="code-io__note">We put id back on the dict only so Patient can validate. We drop id again before we save.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-614" data-section="614" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">614</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trash-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">DELETE /delete</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p><code>DELETE /delete/{patient_id}</code> removes that patient. If the id is not in the file, we raise 404. If it is there, we delete that key, save the file, and return a success message.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Remove one key</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Load</span>
+                  <span class="workflow__step-desc">Read data.json.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Check</span>
+                  <span class="workflow__step-desc">404 if the id is not found.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="trash-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Delete</span>
+                  <span class="workflow__step-desc">del data[patient_id], then save.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">DELETE /delete/{patient_id}</p>
+              <pre class="code-input"><code>@app.delete("/delete/{patient_id}")
+def delete_patient(patient_id: str):
+    data = load_data()
+
+    if patient_id not in data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Patient not found"
+        )
+
+    del data[patient_id]
+    save_data(data)
+
+    return {"message": "Patient deleted successfully"}</code></pre>
+              <p class="code-io__label code-io__label--output">What DELETE returns</p>
+              <pre class="code-output"><code>DELETE /delete/P001  id exists
+{"message": "Patient deleted successfully"}
+
+DELETE /delete/P001  id missing
+status 404
+{"detail": "Patient not found"}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-615" data-section="615" data-chapter="day-45">
+        <span class="lesson-card__marker" aria-hidden="true">615</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 45 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 45 takeaways</h3>
+              <ul>
+                <li>We already had view, one patient by path, sort by query, and create. Today we add update and delete.</li>
+                <li>PUT /edit/{patient_id} takes the id in the path and the changes in the request body.</li>
+                <li>Patient requires every field. PatientUpdate makes each field optional so the client can change one field.</li>
+                <li>exclude_unset keeps only fields the client sent. Merge those into the stored patient.</li>
+                <li>Build Patient again so BMI and verdict update. Round BMI to 2 decimals. Save without id as the key.</li>
+                <li>DELETE /delete/{patient_id} removes that key. Missing id returns 404 on both edit and delete.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
