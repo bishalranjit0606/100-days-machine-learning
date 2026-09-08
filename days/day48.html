@@ -1,0 +1,442 @@
+      <div class="chapter-divider reveal" id="chapter-day-48" data-chapter="day-48">
+        <span class="chapter-divider__pill">Day 48</span>
+        <h2 class="chapter-divider__title">LangChain vs LangGraph</h2>
+        <p class="chapter-divider__note">LangGraph is very famous and top important. We recap LangChain, walk a hiring workflow, then see seven reasons LangGraph fits that kind of work.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-638" data-section="638" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">638</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="library" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangChain Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain is an open source library designed to simplify the process of building applications. It provides the building blocks that let you create sophisticated LLM based workflows with ease.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-639" data-section="639" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">639</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangChain Components</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangChain gives you a few core parts. The cards below are that set. Chain is the important one. The output of one step is the input of the next.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Model</p>
+                <p class="concept-card__desc">Connect an LLM such as OpenAI or Gemini.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Prompt</p>
+                <p class="concept-card__desc">Give a task to the LLM.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Retrievers</p>
+                <p class="concept-card__desc">Fetch relevant documents from a vector store.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Chain</p>
+                <p class="concept-card__desc">Hook steps so one output becomes the next input.</p>
+              </div>
+            </div>
+            <p>One chain looks like this. Prompt, then model, then output parser.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">A simple chain</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Prompt</span>
+                  <span class="workflow__step-desc">Write the task for the model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Model</span>
+                  <span class="workflow__step-desc">The LLM runs that task.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-output" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Output parser</span>
+                  <span class="workflow__step-desc">Turn the model text into a clean result.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-640" data-section="640" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">640</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What LangChain Can Do</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>You can build several kinds of apps with LangChain. The four cards below are that set.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Simple chat</p>
+                <p class="concept-card__desc">Conversational work such as a chatbot or text summarize.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Multi step</p>
+                <p class="concept-card__desc">Prompt, then LLM, then prompt, then LLM, then prompt.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">RAG</p>
+                <p class="concept-card__desc">A RAG application that fetches documents and then answers.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Basic agents</p>
+                <p class="concept-card__desc">Simple agents that connect tools or APIs. The LLM decides what to call. One example is a weather API. The LLM can call it and find the answer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-641" data-section="641" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">641</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Automated Hiring Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Agents can make a workflow. The hiring flow below is static. The steps are set in advance. It still has waits, loops, and jumps.</p>
+            <p>Start with a hiring request. An LLM creates the JD. A human must approve it. If the human says no, go back and create the JD again. If yes, post the JD. Wait 7 days. Monitor applications. If there are less than 10 applications, modify the JD, wait 48 hours, monitor again, and check the count again. That loop repeats while the count stays under 10.</p>
+            <p>If there are not less than 10, shortlist, schedule the interview, and conduct the interview. Check if anyone is selected. If not, send a sorry mail. If yes, send an offer letter. If the offer is not accepted, modify the offer, negotiate, and loop until it ends.</p>
+            <p>The diagram below is that workflow.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 780" role="img">
+                <defs>
+                  <marker id="hire-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                    <path d="M0 0 L8 4 L0 8 Z" fill="#94a3b8"></path>
+                  </marker>
+                </defs>
+                <rect x="130" y="8" width="160" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Start</text>
+                <line x1="210" y1="44" x2="210" y2="60" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="60" width="200" height="36" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"></rect>
+                <text x="210" y="83" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Hiring request</text>
+                <line x1="210" y1="96" x2="210" y2="112" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="112" width="200" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="135" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Create JD by LLM</text>
+                <line x1="210" y1="148" x2="210" y2="164" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="164" width="200" height="36" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="210" y="187" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Human approval</text>
+                <path d="M110 182 L40 182 L40 130 L110 130" fill="none" stroke="#dc2626" stroke-width="1.5" marker-end="url(#hire-arrow)"></path>
+                <text x="36" y="160" text-anchor="end" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">If no</text>
+                <line x1="210" y1="200" x2="210" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <text x="250" y="214" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">If yes</text>
+                <rect x="110" y="220" width="200" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="243" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Post JD</text>
+                <line x1="210" y1="256" x2="210" y2="272" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="272" width="200" height="36" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"></rect>
+                <text x="210" y="295" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Wait 7 days</text>
+                <line x1="210" y1="308" x2="210" y2="324" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="324" width="200" height="36" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="347" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Monitor applications</text>
+                <line x1="210" y1="360" x2="210" y2="376" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="376" width="200" height="36" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"></rect>
+                <text x="210" y="399" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Less than 10?</text>
+                <path d="M110 394 L28 394 L28 290 L110 342" fill="none" stroke="#dc2626" stroke-width="1.5"></path>
+                <text x="8" y="340" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">Yes</text>
+                <text x="8" y="354" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">Modify JD</text>
+                <text x="8" y="368" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">Wait 48 hours</text>
+                <line x1="210" y1="412" x2="210" y2="432" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <text x="250" y="426" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">If no</text>
+                <rect x="110" y="432" width="200" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="455" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Shortlist</text>
+                <line x1="210" y1="468" x2="210" y2="484" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="484" width="200" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="507" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Schedule interview</text>
+                <line x1="210" y1="520" x2="210" y2="536" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="536" width="200" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="559" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Conduct interview</text>
+                <line x1="210" y1="572" x2="210" y2="588" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="588" width="200" height="36" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"></rect>
+                <text x="210" y="611" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Anyone selected?</text>
+                <rect x="318" y="588" width="90" height="36" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+                <text x="363" y="611" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Sorry mail</text>
+                <line x1="310" y1="606" x2="318" y2="606" stroke="#dc2626" stroke-width="1.5" marker-end="url(#hire-arrow)"></line>
+                <text x="363" y="580" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">If not</text>
+                <line x1="210" y1="624" x2="210" y2="644" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <text x="250" y="638" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">If yes</text>
+                <rect x="110" y="644" width="200" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="667" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Send offer letter</text>
+                <line x1="210" y1="680" x2="210" y2="696" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="110" y="696" width="200" height="36" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"></rect>
+                <text x="210" y="719" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Offer accepted?</text>
+                <path d="M110 714 L40 714 L40 662 L110 662" fill="none" stroke="#dc2626" stroke-width="1.5"></path>
+                <text x="8" y="692" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">If not</text>
+                <text x="8" y="706" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">Modify offer</text>
+                <line x1="210" y1="732" x2="210" y2="748" stroke="#94a3b8" stroke-width="2" marker-end="url(#hire-arrow)"></line>
+                <rect x="130" y="748" width="160" height="28" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="767" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">End</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-642" data-section="642" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">642</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 1 Control Complexity</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If we build that hiring system in LangChain we face many issues. Challenge 1 is control complexity.</p>
+            <p>LangChain is used for making chains and linear workflows. Our hiring workflow has too many conditionals, loops, and jumps. Implementing that workflow in LangChain is very hard.</p>
+            <p>We have to write glue code. Glue code means framework code plus actual code. That is LangChain plus Python. When the glue code is large, the object gets very bad. LangChain has code for the chain, the prompt, and similar parts. It has no code for a condition or a loop. That part is Python.</p>
+            <p>In LangGraph we make nodes. We do not have to use glue code or custom Python for those jumps. Every task is a node.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">LangChain</th>
+                    <th scope="col">LangGraph</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Chains and linear workflows.</td>
+                    <td>Each task is a node.</td>
+                  </tr>
+                  <tr>
+                    <td>Conditions and loops need Python glue code.</td>
+                    <td>No glue code for those jumps.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-643" data-section="643" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">643</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 2 Handling State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>State means the important data points in the workflow. In hiring that might be the created JD, how many people applied, and similar facts. We need to maintain that every time.</p>
+            <p>Those data points evolve. First there is none. Then the JD is created. Then we monitor. As we go to the next step, the data evolves. Every workflow has data points, so state scales with the workflow.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">State evolves as we move</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">None</span>
+                  <span class="workflow__step-desc">At the start there is no hiring data yet.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">JD created</span>
+                  <span class="workflow__step-desc">The job description is now in state.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="users" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Monitor</span>
+                  <span class="workflow__step-desc">Application counts and later facts join the same state.</span>
+                </li>
+              </ol>
+            </div>
+            <p>LangChain is stateless. We cannot track state inside it. To track it we must do it manually, by making our own state. LangGraph is stateful. While creating LangGraph we make a state object or dict. It can be added in any node. It is mutable, so it can be edited. That means the state is available in every node. Passing information is very good in LangGraph.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-644" data-section="644" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">644</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="clock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 3 Event Driven Execution</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A workflow can be sequential or event driven. Sequential work runs in a line. Prompt, then LLM, then prompt, then LLM, then a response. That execution works in sequence and stays in a flow.</p>
+            <p>Our hiring workflow has nodes that wait for an event. Once we post on LinkedIn we wait 7 days. Once an offer letter is sent we wait for the candidate to say yes or no.</p>
+            <p>LangChain is not meant for event driven work. It is sequential. If we still use LangChain we make two workflows and custom code to wait 7 days. That is too much glue code. LangGraph gives us event driven facility. LangGraph also gives us a feature like store state.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Sequential</th>
+                    <th scope="col">Event driven</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Prompt, LLM, prompt, LLM, response.</td>
+                    <td>Post, then wait 7 days. Offer, then wait for yes or no.</td>
+                  </tr>
+                  <tr>
+                    <td>LangChain is built for this line.</td>
+                    <td>LangGraph supports this wait.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-645" data-section="645" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">645</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 4 Fault Tolerance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Fault tolerance does not mean the system is bad and it still works. It means the work can continue when a fault happens. That is very important for a long running workflow. We might wait 7 days. The workflow might run for months.</p>
+            <p>A fault can be small or big. A small fault is an API not working. A big fault is the server not working.</p>
+            <p>LangChain does not have fault tolerance. If a node fails in the middle, we have to restart from the beginning.</p>
+            <p>LangGraph is different. If a small error occurs, retry it after some time. For a big fault, such as the server down, recovery uses checkpoints. We track state, and the graph is stateful, so we can restart when we want. Fault tolerance is very high in LangGraph.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Small fault</th>
+                    <th scope="col">Big fault</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>An API is not working.</td>
+                    <td>The server is not working.</td>
+                  </tr>
+                  <tr>
+                    <td>LangGraph can retry after some time.</td>
+                    <td>LangGraph restarts from a checkpoint.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-646" data-section="646" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">646</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="user-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 5 Human in the Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the hiring workflow, when we make the JD we wait for approval. The flow only continues after the human approves. Agents do not have all the control. A human should have all the control.</p>
+            <p>LangChain does not have a default mechanism for the human. What we can do is ask for human input. That only works for a very small time. If the input takes 24 hours, the system might crash because it will wait too long. Human in the loop is not present in LangChain.</p>
+            <p>In LangGraph it is a first class citizen. LangGraph can pause the workflow for a minute, an hour, or a week, until the human response is received, without that crash. Since we track state, there is no issue. We can continue from where we stopped.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-647" data-section="647" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">647</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="network" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 6 Nested Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Nested workflow is a feature of LangGraph. A node can be a graph as well. A nested node can be a subgraph. That is a workflow inside a workflow.</p>
+            <p>For example, conduct interview can have a sub workflow, because we might conduct the interview multiple times. This is the concept of encapsulation in LangGraph. With this feature we can make a multi agent system. The work is reusable. We can use it multiple times, like a function we write in code. LangChain does not have this feature.</p>
+            <p>A self driving car is a good example of multi agent work. The three cards below are those agents. Multi agent setups are used for complex problems.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Sensor agent</p>
+                <p class="concept-card__desc">Takes all the sensor data.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Driving agent</p>
+                <p class="concept-card__desc">Handles driving capability.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Manager agent</p>
+                <p class="concept-card__desc">Works as a manager over the others.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-648" data-section="648" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">648</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenge 7 Observability</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Observability means how easily we can monitor and understand what our work is doing at run time. It is a very important concept.</p>
+            <p>LangSmith helps monitor the application. It can be used for LangChain and for LangGraph. It records what we send in the prompt, and the output tokens.</p>
+            <p>The problem is that LangChain only monitors LangChain, not the glue code. That is the main issue. We get only partial observability if we make a complex workflow in LangChain. LangSmith is tightly tied to LangGraph, and everything is recorded. We can backtrack everything.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-649" data-section="649" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">649</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">When to Use Which</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangGraph is a framework for stateful, multi step, and event driven workflows. It is for both single agent and multi agent agentic AI applications. It covers state management, branching, loops, pausing, and fault memory.</p>
+            <p>The table below is when to use each one.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">LangChain</th>
+                    <th scope="col">LangGraph</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Simple linear workflow.</td>
+                    <td>Complex, non linear workflow.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Should we still use LangChain? Yes. Every component of LangChain is still useful. Prompt templates, retrievers, documentation, tools, and the rest still help us.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-650" data-section="650" data-chapter="day-48">
+        <span class="lesson-card__marker" aria-hidden="true">650</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 48 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 48 takeaways</h3>
+              <ul>
+                <li>LangGraph is very famous and top important. LangChain is still the open source library of building blocks for LLM workflows.</li>
+                <li>LangChain parts are model, prompt, retrievers, and chain. A chain can be prompt, then model, then output parser.</li>
+                <li>LangChain fits chat, multi step prompts, RAG, and basic agents such as a weather API call.</li>
+                <li>A hiring workflow is static but full of approval loops, a 7 day wait, a less than 10 applications loop, interviews, and offer negotiation.</li>
+                <li>LangChain is linear and stateless. Conditions, loops, and waits become glue code. A mid run fault restarts from the beginning. Human waits of 24 hours can crash it. Observability misses the glue code.</li>
+                <li>LangGraph uses nodes, a shared mutable state, event driven waits, retries, checkpoints, pause for a human, nested subgraphs, and full LangSmith traces.</li>
+                <li>Use LangChain for simple linear work. Use LangGraph for complex non linear work. Keep LangChain components such as prompt templates, retrievers, documentation, and tools.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
