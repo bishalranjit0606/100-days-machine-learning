@@ -1,5 +1,5 @@
 ---
-description: Enforce the day file pattern for new numbered 100 day lessons (Day 49 onward after ADK).
+description: Enforce the day file pattern for new numbered 100 day lessons (Day 50 onward after ADK).
 globs: ["days/*.html", "index.html"]
 alwaysApply: true
 ---
@@ -8,11 +8,11 @@ alwaysApply: true
 
 Every new **numbered** day of the 100 day series must follow this pattern.
 
-**Next day is Day 49.** Continue Day 48, then Day 49, Day 50, … Day 100. Files:
+**Next day is Day 50.** Continue Day 49, then Day 50, Day 51, … Day 100. Files:
 
 ```
-days/day49.html
 days/day50.html
+days/day51.html
 ...
 days/day100.html
 ```
@@ -39,34 +39,35 @@ Place each new numbered day **after ADK**, at the end of the include list:
 <div data-include='days/day47.html'></div>
 <div data-include='days/day48.html'></div>
 <div data-include='days/day49.html'></div>
+<div data-include='days/day50.html'></div>
 ```
 
-Sidebar TOC: new Day N block after the previous numbered day (Day 48, then 49, …), **after** the ADK block. Hero and footer become "Day N of 100 published".
+Sidebar TOC: new Day N block after the previous numbered day (Day 49, then 50, …), **after** the ADK block. Hero and footer become "Day N of 100 published".
 
-Day 49 lesson numbers start at Day 48's last lesson plus 1. **Do not shift ADK.** See `lesson-numbering.mdc`.
+Day 50 lesson numbers start at Day 49's last lesson plus 1. **Do not shift ADK.** See `lesson-numbering.mdc`.
 
 ## 1. Create the day file
 
 The file contains **only** the chapter-divider and lesson-card blocks.
 
 ```html
-      <div class="chapter-divider reveal" id="chapter-day-49" data-chapter="day-49">
-        <span class="chapter-divider__pill">Day 49</span>
+      <div class="chapter-divider reveal" id="chapter-day-50" data-chapter="day-50">
+        <span class="chapter-divider__pill">Day 50</span>
         <h2 class="chapter-divider__title">Your Day Title Here</h2>
         <p class="chapter-divider__note">Short description of the day.</p>
       </div>
 
-      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-49">
+      <article class="lesson-card reveal" id="section-N" data-section="N" data-chapter="day-50">
         ...
       </article>
 ```
 
 ## 2. Add the placeholder in index.html
 
-Inside `<main>`, add exactly one include after the previous numbered day (after ADK and Day 48):
+Inside `<main>`, add exactly one include after the previous numbered day (after ADK and Day 49):
 
 ```html
-      <div data-include='days/day49.html'></div>
+      <div data-include='days/day50.html'></div>
 ```
 
 **Never add new day content inline in index.html.**
@@ -79,8 +80,8 @@ Inside `<main>`, add exactly one include after the previous numbered day (after 
 ## 4. What still goes in styles.css
 
 ```css
-.chapter-divider[data-chapter="day-49"] { border-left-color: var(--chapter-day-49); }
-.lesson-card[data-chapter="day-49"] { border-top-color: var(--chapter-day-49); }
+.chapter-divider[data-chapter="day-50"] { border-left-color: var(--chapter-day-50); }
+.lesson-card[data-chapter="day-50"] { border-top-color: var(--chapter-day-50); }
 ```
 
 After any `styles.css` change, run `embed-css.sh`.

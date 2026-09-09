@@ -1,0 +1,403 @@
+      <div class="chapter-divider reveal" id="chapter-day-49" data-chapter="day-49">
+        <span class="chapter-divider__pill">Day 49</span>
+        <h2 class="chapter-divider__title">LangGraph Core Concepts</h2>
+        <p class="chapter-divider__note">LangGraph is a graph of nodes and edges. We recap five common LLM workflows, then state, reducers, and how a run executes.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-651" data-section="651" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">651</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="network" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangGraph Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangGraph is an orchestration framework for building intelligent, stateful, and multi step LLM workflows. Advanced features include parallel work, loops, branching, memory, and resume. It is a strong fit for production grade AI.</p>
+            <p>In LangGraph we make a graph. That graph is the workflow. Every node is connected through edges.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-652" data-section="652" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">652</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is an LLM Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A workflow is a step by step process for building an LLM application. Any workflow that uses an LLM in the flow is called an LLM workflow. Five common kinds show up again and again. The cards below are that set. We open each one next.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Prompt chaining</p>
+                <p class="concept-card__desc">Use the LLM several times in a sequence.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Routing</p>
+                <p class="concept-card__desc">One LLM decides which path to take.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Parallelization</p>
+                <p class="concept-card__desc">Several LLMs work at once, then we merge.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Orchestrator</p>
+                <p class="concept-card__desc">An LLM assigns tasks, then a synthesizer joins the result.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Evaluator optimizer</p>
+                <p class="concept-card__desc">One LLM writes. Another scores it and sends feedback.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-653" data-section="653" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">653</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Prompt Chaining</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Prompt chaining uses the LLM multiple times in a sequence. Input goes to LLM 1, then LLM 2, then LLM 3. This pattern is common.</p>
+            <p>Suppose we need a detailed summary from a topic. Topic becomes an outline, then keywords, then a report. We can put a checkpoint on the report, such as no more than 500 words. The chain below is that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Topic to report</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="bookmark" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Topic</span>
+                  <span class="workflow__step-desc">Start with the subject.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Outline</span>
+                  <span class="workflow__step-desc">The first LLM pass shapes the outline.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="key" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Keywords</span>
+                  <span class="workflow__step-desc">The next pass pulls key words.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Report</span>
+                  <span class="workflow__step-desc">The last pass writes the report. A checkpoint can cap it at 500 words.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-654" data-section="654" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">654</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Routing Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In a routing workflow the input goes to LLM 1, then to LLM 2 or LLM 3 or LLM 4. LLM 1 works as a decision maker. This pattern is used many times. The diagram below is that split.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 220" role="img">
+                <rect x="20" y="88" width="90" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="65" y="113" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Input</text>
+                <line x1="110" y1="108" x2="148" y2="108" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="148" y="80" width="110" height="56" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="203" y="104" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">LLM 1</text>
+                <text x="203" y="120" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#64748b">Decision maker</text>
+                <line x1="258" y1="88" x2="310" y2="40" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="258" y1="108" x2="310" y2="108" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="258" y1="128" x2="310" y2="176" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="310" y="20" width="90" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="355" y="43" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">LLM 2</text>
+                <rect x="310" y="90" width="90" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="355" y="113" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">LLM 3</text>
+                <rect x="310" y="158" width="90" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="355" y="181" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">LLM 4</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-655" data-section="655" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">655</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Parallelization</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Parallelization sends the input to LLM 1, LLM 2, and LLM 3 at the same time. Then we merge, then we get output. Sometimes we use multiple LLMs to get a more accurate result.</p>
+            <p>Suppose we make a YouTube video flag. The input is the video content. We send that content to different LLMs. Then we aggregate. The video passes only if every check passes. The cards below are those three checks.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Guidelines</p>
+                <p class="concept-card__desc">Does the content follow community guidelines?</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Misinformation</p>
+                <p class="concept-card__desc">The second LLM checks for misinformation.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Sexual content</p>
+                <p class="concept-card__desc">The third LLM checks for sexual content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-656" data-section="656" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">656</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="clipboard-list" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Orchestrator Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An orchestrator workflow goes input, then orchestrator, then LLM 1 or LLM 2 or LLM 3, then a synthesizer, then output. The orchestrator is also an LLM. It decides which LLM to use and which LLM gets what task. The tasks depend upon the query. This can also run in parallel.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Orchestrator</p>
+                <p class="concept-card__desc">An LLM that assigns work from the query.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Worker LLMs</p>
+                <p class="concept-card__desc">Each one gets the task the orchestrator chose.</p>
+              </div>
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Synthesizer</p>
+                <p class="concept-card__desc">Joins the worker results into one output.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-657" data-section="657" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">657</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Evaluator Optimizer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Evaluator optimizer is common on creative tasks. Input goes to an LLM generator. An LLM evaluator sits in a loop with it. Then we get output. One LLM generates. The other evaluates. The evaluator has a concrete evaluation. It generates feedback. We move forward only if the feedback is good.</p>
+            <div class="concept-grid">
+              <div class="concept-card concept-card--feature">
+                <p class="concept-card__name">Generator</p>
+                <p class="concept-card__desc">Writes the draft.</p>
+              </div>
+              <div class="concept-card concept-card--label">
+                <p class="concept-card__name">Evaluator</p>
+                <p class="concept-card__desc">Scores it with a concrete check and sends feedback. If the feedback is not good, generate again.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-658" data-section="658" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">658</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pen-line" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">An Essay Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Loksewa in Nepal needs an essay to pass an exam, and that essay carries good marks. We are making a website that helps a user practice the essay. If the score is good we congratulate. If the score is bad we give a chance to rewrite.</p>
+            <p>In LangGraph the pieces are topic generate, collect from the user, evaluate the essay, aggregate, conditional routing, feedback, collect revision, and success.</p>
+            <p>Generate a topic, then write the essay. Evaluate on three things at once: clarity of thought, depth of analysis, and language. Aggregate a final evaluation. Then either success, or fail with feedback. Ask retake. If no, end. If yes, go back to write essay. The diagram below is that graph. You can see the nodes and the edges.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 700" role="img">
+                <rect x="130" y="8" width="160" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Generate topic</text>
+                <line x1="210" y1="44" x2="210" y2="60" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="60" width="200" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="83" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Write essay</text>
+                <line x1="210" y1="96" x2="210" y2="118" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="118" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="76" y="137" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Clarity of</text>
+                <text x="76" y="152" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">thought</text>
+                <rect x="150" y="118" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="210" y="137" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Depth of</text>
+                <text x="210" y="152" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">analysis</text>
+                <rect x="284" y="118" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="344" y="145" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Language</text>
+                <line x1="76" y1="162" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="162" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="344" y1="162" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="188" width="200" height="36" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="211" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Aggregate evaluation</text>
+                <line x1="210" y1="224" x2="210" y2="248" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="248" width="200" height="36" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"></rect>
+                <text x="210" y="271" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Conditional routing</text>
+                <line x1="110" y1="266" x2="70" y2="266" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="70" y1="266" x2="70" y2="312" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="8" y="312" width="124" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="70" y="335" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Success</text>
+                <line x1="310" y1="266" x2="350" y2="266" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="350" y1="266" x2="350" y2="312" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="288" y="312" width="124" height="36" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+                <text x="350" y="335" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Feedback</text>
+                <line x1="350" y1="348" x2="350" y2="372" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="288" y="372" width="124" height="36" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="350" y="395" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Retake?</text>
+                <line x1="288" y1="390" x2="210" y2="430" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="130" y="430" width="160" height="36" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"></rect>
+                <text x="210" y="453" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">If no, end</text>
+                <path d="M412 390 L412 78 L310 78" fill="none" stroke="#dc2626" stroke-width="1.5"></path>
+                <text x="400" y="240" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">If yes</text>
+                <text x="400" y="254" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#dc2626">write again</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-659" data-section="659" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">659</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Nodes and Edges</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each node is a single task. Behind the node, each node is a Python function. The graph is just a set of Python functions. Nodes tell us what to do. Edges are the direction. Edges can be sequential, parallel, or conditional. They also cover branching and looping.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Nodes</th>
+                    <th scope="col">Edges</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A single task. A Python function.</td>
+                    <td>The direction from one task to the next.</td>
+                  </tr>
+                  <tr>
+                    <td>Tell the graph what to do.</td>
+                    <td>Sequential, parallel, conditional, branching, or looping.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-660" data-section="660" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">660</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>State is a very important concept. In every LLM workflow each node needs certain data to work. Each node has an output, and that output is required by the next nodes. State is shared memory. Values are added in key value format.</p>
+            <p>The state changes every time the run gets to the next node. It is mutable. How do we make state? It is a TypedDict dictionary. Nothing special.</p>
+            <p>The main point is this. State is accessed by all the nodes. And it is mutable.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-661" data-section="661" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">661</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="combine" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Reducer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Reducer sits very close to state. Multiple nodes can update the state. Update means remove the previous value and put the new one. A reducer helps define how those node updates are applied on the state. With a reducer we can preserve the past state.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-662" data-section="662" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">662</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Execution Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An interesting fact: LangGraph is inspired by the Google Pregel system. A run has six steps. The chain below is that model.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">From graph to a finished run</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Define</span>
+                  <span class="workflow__step-desc">Define state, nodes, and edges.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="package-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Compile</span>
+                  <span class="workflow__step-desc">Call compile to check the graph structure and prepare it to run.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Invoke</span>
+                  <span class="workflow__step-desc">Start with the initial state. The first node is active. State updates in parts. The updated state goes to the next node through an edge.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Super step</span>
+                  <span class="workflow__step-desc">If several nodes run at the same time, that parallel work is a super step. Results merge through a reducer.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="arrow-right" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Continue</span>
+                  <span class="workflow__step-desc">Keep going until the last node.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Stop</span>
+                  <span class="workflow__step-desc">Execution stops.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Compile and invoke are the two calls. The block below is those names.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Compile, then invoke</p>
+              <pre class="code-input"><code>compile()
+invoke(initial_state)</code></pre>
+              <p class="code-io__note">compile checks the graph and prepares it. invoke starts the first node from the initial state. Updates stay partial as they move along the edges.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-663" data-section="663" data-chapter="day-49">
+        <span class="lesson-card__marker" aria-hidden="true">663</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 49 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 49 takeaways</h3>
+              <ul>
+                <li>LangGraph orchestrates intelligent, stateful, multi step LLM workflows. It supports parallel work, loops, branching, memory, and resume. It fits production grade AI.</li>
+                <li>The graph is the workflow. Nodes connect through edges.</li>
+                <li>An LLM workflow is any workflow that uses an LLM. Common shapes are prompt chaining, routing, parallelization, orchestrator, and evaluator optimizer.</li>
+                <li>Chaining is a line, such as topic, outline, keywords, report, with a 500 word checkpoint. Routing lets LLM 1 pick the next model. Parallelization merges checks such as guidelines, misinformation, and sexual content. An orchestrator LLM assigns tasks from the query. Evaluator optimizer loops until feedback is good.</li>
+                <li>A Loksewa essay site is a graph: topic, write, three scores, aggregate, then success or feedback and a retake loop.</li>
+                <li>Each node is a Python function. Edges set the direction: sequential, parallel, conditional, branching, or looping.</li>
+                <li>State is shared mutable memory in key value form. It is a TypedDict. All nodes can access it.</li>
+                <li>A reducer defines how node updates apply to state, so past state can be preserved.</li>
+                <li>A run defines the graph, compiles, invokes from initial state, may use a super step, continues to the last node, then stops. LangGraph is inspired by Google Pregel.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
