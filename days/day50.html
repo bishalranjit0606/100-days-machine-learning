@@ -1,0 +1,396 @@
+      <div class="chapter-divider reveal" id="chapter-day-50" data-chapter="day-50">
+        <span class="chapter-divider__pill">Day 50</span>
+        <h2 class="chapter-divider__title">Sequential Workflow in LangGraph</h2>
+        <p class="chapter-divider__note">Install LangGraph, open a notebook, then build a BMI calculator, a one node LLM graph, and a prompt chain from topic to outline to blog.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-664" data-section="664" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">664</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-right" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sequential Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A sequential workflow is a straight line. One node finishes, then the next node runs. Today we build that shape in LangGraph. First a BMI calculator with two inputs, height and weight, and an output. Then a simple LLM graph. Then prompt chaining.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-665" data-section="665" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">665</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Install LangGraph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Install LangGraph on your system inside a virtual environment. The steps below are that path. Later LLM cells use ChatOpenRouter, so we also install langchain openrouter. The pip name for dotenv is python dotenv.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Make a venv, then install</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="folder" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">venv</span>
+                  <span class="workflow__step-desc">Create a virtual environment.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Activate</span>
+                  <span class="workflow__step-desc">Turn that environment on.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="package" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Pip</span>
+                  <span class="workflow__step-desc">Install langgraph, langchain openai, langchain openrouter, and python dotenv.</span>
+                </li>
+              </ol>
+            </div>
+            <p>The commands below are what you run in the terminal.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Terminal</p>
+              <pre class="code-input"><code>python3 -m venv venv
+source venv/bin/activate
+pip install langgraph
+pip install langchain_openai
+pip install langchain-openrouter
+pip install python-dotenv</code></pre>
+              <p class="code-io__note">Activate the venv first. Then each pip line adds one package. The ChatOpenRouter import needs the openrouter package from that list.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-666" data-section="666" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">666</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="notebook" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A BMI Calculator in Jupyter</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We will use Jupyter notebook. Make a file named test.ipynb. The first workflow is simple. We make a BMI calculator. We give two inputs, height and weight, and we get an output. LangGraph needs state for those values. We start with three fields: weight, height, and bmi. The label step also writes a category.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-667" data-section="667" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">667</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Define the State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Import StateGraph, START, and END from langgraph.graph. Import TypedDict from typing. Then define State. Each key is a value the nodes share. weight and height are floats. bmi is a float. category is a string for the label.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict
+
+class State(TypedDict):
+    weight: float
+    height: float
+    bmi: float
+    category: str</code></pre>
+              <p class="code-io__note">TypedDict is a dictionary with named keys. Every node can read and update this state.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-668" data-section="668" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">668</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Calculate BMI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The first node is a Python function. It reads weight and height from state. BMI is weight divided by height squared. It returns only the new bmi, rounded to 2 places. LangGraph merges that dict into state.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">calculate_bmi</p>
+              <pre class="code-input"><code>def calculate_bmi(state: State):
+    weight = state["weight"]
+    height = state["height"]
+
+    bmi = weight / (height ** 2)
+
+    return {"bmi": round(bmi, 2)}</code></pre>
+              <p class="code-io__note">height ** 2 is height times height. round(bmi, 2) keeps two digits after the point.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-669" data-section="669" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">669</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tags" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Label BMI</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second node reads bmi from state and returns a category. Under 18.5 is Underweight. Under 24.9 is Normal weight. Under 29.9 is Overweight. Anything else is Obesity.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">label_bmi</p>
+              <pre class="code-input"><code>def label_bmi(state: State):
+    bmi = state["bmi"]
+
+    if bmi &lt; 18.5:
+        return {"category": "Underweight"}
+    elif bmi &lt; 24.9:
+        return {"category": "Normal weight"}
+    elif bmi &lt; 29.9:
+        return {"category": "Overweight"}
+    else:
+        return {"category": "Obesity"}</code></pre>
+              <p class="code-io__note">This function does not compute BMI again. It only labels the bmi that the first node already stored.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-670" data-section="670" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">670</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="share-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build the Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Create a StateGraph with State. Add two nodes. The node name classify_bmi points at the function label_bmi. Then add edges. START goes to calculate_bmi. That node goes to classify_bmi. That node goes to END. The chain below is that line.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">START to END</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">START</span>
+                  <span class="workflow__step-desc">The run begins.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="calculator" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">calculate_bmi</span>
+                  <span class="workflow__step-desc">Write bmi into state.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="tags" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">classify_bmi</span>
+                  <span class="workflow__step-desc">Write category into state.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">END</span>
+                  <span class="workflow__step-desc">The run stops.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Nodes, edges, compile</p>
+              <pre class="code-input"><code>graph = StateGraph(State)
+
+graph.add_node("calculate_bmi", calculate_bmi)
+graph.add_node("classify_bmi", label_bmi)
+
+graph.add_edge(START, "calculate_bmi")
+graph.add_edge("calculate_bmi", "classify_bmi")
+graph.add_edge("classify_bmi", END)
+
+workflow = graph.compile()</code></pre>
+              <p class="code-io__note">compile checks the graph and prepares it to run. After this, the graph is ready for invoke.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-671" data-section="671" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">671</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run the Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Input data is weight 70 and height 1.75. invoke sends that dict in as the initial state. print shows the full state after both nodes. The output below is from this same code.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input and invoke</p>
+              <pre class="code-input"><code>data = {
+    "weight": 70,
+    "height": 1.75
+}
+
+result = workflow.invoke(data)
+
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'weight': 70, 'height': 1.75, 'bmi': 22.86, 'category': 'Normal weight'}</code></pre>
+              <p class="code-io__note">70 divided by 1.75 squared is 22.86. That sits under 24.9, so the label is Normal weight. weight and height stay in state because invoke keeps the keys you started with.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-672" data-section="672" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">672</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Simple LLM Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now a simple LLM based workflow. One node. load_dotenv loads secrets. ChatOpenRouter uses the model openrouter/free with temperature 0. State has prompt, and response is NotRequired because it does not exist until the node runs. The node calls llm.invoke on the prompt and returns response.content. START goes to generate_response, then END. The prompt is What is LangGraph?</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">One node LLM graph</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from langchain_openrouter import ChatOpenRouter
+from typing import TypedDict, NotRequired
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0
+)
+
+class State(TypedDict):
+    prompt: str
+    response: NotRequired[str]
+
+def generate_response(state: State):
+    prompt = state["prompt"]
+    response = llm.invoke(prompt)
+    return {
+        "response": response.content
+    }
+
+graph = StateGraph(State)
+graph.add_node("generate_response", generate_response)
+graph.add_edge(START, "generate_response")
+graph.add_edge("generate_response", END)
+workflow = graph.compile()
+
+data = {
+    "prompt": "What is LangGraph?"
+}
+
+result = workflow.invoke(data)
+print(result)</code></pre>
+              <p class="code-io__note">print(result) shows prompt plus the model text in response. That text depends on the model, so we do not paste a fake answer here. Run the cell in test.ipynb to see yours.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-673" data-section="673" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">673</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Prompt Chaining</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Prompt chaining uses the LLM more than once in a line. Topic becomes a detailed outline, then a blog. The graph is START, then generate_outline, then generate_blog, then END. The chain below is that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Topic to blog</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="bookmark" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Topic</span>
+                  <span class="workflow__step-desc">The input is the topic, here LangGraph.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">generate_outline</span>
+                  <span class="workflow__step-desc">The first LLM pass writes a detailed outline.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">generate_blog</span>
+                  <span class="workflow__step-desc">The second pass writes the blog from that outline.</span>
+                </li>
+              </ol>
+            </div>
+            <p>State holds topic, plus outline and blog as NotRequired. generate_outline asks for a detailed outline about the topic. generate_blog asks for a blog about the topic based on that outline. invoke starts with topic LangGraph. The block below is that notebook cell.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Outline, then blog</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from langchain_openrouter import ChatOpenRouter
+from typing import TypedDict, NotRequired
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0
+)
+
+class State(TypedDict):
+    topic: str
+    outline: NotRequired[str]
+    blog: NotRequired[str]
+
+def generate_outline(state: State):
+    prompt = f"""
+    Generate a detailed outline for a blog post about {state['topic']}.
+    """
+    response = llm.invoke(prompt)
+    return {
+        "outline": response.content
+    }
+
+def generate_blog(state: State):
+    prompt = f"""
+    Generate a blog post about {state['topic']}
+    based on the following outline:
+
+    {state['outline']}
+    """
+    response = llm.invoke(prompt)
+    return {
+        "blog": response.content
+    }
+
+graph = StateGraph(State)
+graph.add_node("generate_outline", generate_outline)
+graph.add_node("generate_blog", generate_blog)
+graph.add_edge(START, "generate_outline")
+graph.add_edge("generate_outline", "generate_blog")
+graph.add_edge("generate_blog", END)
+workflow = graph.compile()
+
+data = {
+    "topic": "LangGraph"
+}
+
+result = workflow.invoke(data)
+print(result)</code></pre>
+              <p class="code-io__note">The second node reads state outline from the first node. print(result) will include topic, outline, and blog. Those strings come from the model, so run the cell to see them.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-674" data-section="674" data-chapter="day-50">
+        <span class="lesson-card__marker" aria-hidden="true">674</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 50 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 50 takeaways</h3>
+              <ul>
+                <li>Make a venv, activate it, and pip install langgraph, langchain openai, langchain openrouter, and python dotenv. Work in a Jupyter file named test.ipynb.</li>
+                <li>A sequential graph is a line of nodes. BMI uses weight, height, bmi, and category in a TypedDict state.</li>
+                <li>calculate_bmi writes bmi. label_bmi writes category. Edges are START, calculate_bmi, classify_bmi, END.</li>
+                <li>For weight 70 and height 1.75, invoke returns bmi 22.86 and category Normal weight.</li>
+                <li>A simple LLM graph has one node. ChatOpenRouter calls the model and stores response.content.</li>
+                <li>Prompt chaining is START, generate_outline, generate_blog, END. Topic LangGraph becomes an outline, then a blog.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
