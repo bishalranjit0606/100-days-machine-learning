@@ -1,0 +1,476 @@
+      <div class="chapter-divider reveal" id="chapter-day-51" data-chapter="day-51">
+        <span class="chapter-divider__pill">Day 51</span>
+        <h2 class="chapter-divider__title">Parallel Workflow in LangGraph</h2>
+        <p class="chapter-divider__note">Fan out from START, wait for every branch, then merge. First a cricket calculator. Then a Loksewa essay graph with structured output and a reducer.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-675" data-section="675" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">675</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Do</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today the graph is parallel. START sends work to strike rate, ball percentage, and boundary share at the same time. Then a summary node waits for all three. Then END. The diagram below is that shape.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 250" role="img">
+                <rect x="155" y="8" width="110" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="210" y1="44" x2="76" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="44" x2="210" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="44" x2="344" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="80" width="120" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="76" y="107" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Strike rate</text>
+                <rect x="150" y="80" width="120" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="99" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Ball</text>
+                <text x="210" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">percentage</text>
+                <rect x="284" y="80" width="120" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="344" y="99" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Boundary</text>
+                <text x="344" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">percentage</text>
+                <line x1="76" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="344" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="130" y="160" width="160" height="36" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="183" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Summary</text>
+                <line x1="210" y1="196" x2="210" y2="212" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="212" width="110" height="30" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="232" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-676" data-section="676" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">676</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Cricket State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Inputs are runs, balls, fours, and sixes. Computed values are sr, bpb, boundary_percentage, and summary. Those computed keys are NotRequired because they do not exist until a node writes them.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State</p>
+              <pre class="code-input"><code>from typing import TypedDict, NotRequired
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):
+    runs: int
+    balls: int
+    fours: int
+    sixes: int
+
+    sr: NotRequired[float]
+    bpb: NotRequired[float]
+    boundary_percentage: NotRequired[float]
+    summary: NotRequired[str]</code></pre>
+              <p class="code-io__note">sr is strike rate. bpb is the ball percentage from fours plus sixes. boundary_percentage is the share of runs that came from boundaries.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-677" data-section="677" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">677</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Calculations</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each function reads the inputs and returns one new key. Strike rate is runs divided by balls, times 100. Ball percentage is fours plus sixes, divided by balls, times 100. Boundary percentage is fours times 4 plus sixes times 6, divided by runs, times 100.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Three nodes</p>
+              <pre class="code-input"><code>def calculate_sr(state: State) -> dict:
+    sr = state["runs"] / state["balls"] * 100
+    return {"sr": sr}
+
+def calculate_bpb(state: State) -> dict:
+    bpb = (state["fours"] + state["sixes"]) / state["balls"] * 100
+    return {"bpb": bpb}
+
+def calculate_boundary_percentage(state: State) -> dict:
+    boundary_runs = state["fours"] * 4 + state["sixes"] * 6
+    boundary_percentage = boundary_runs / state["runs"] * 100
+    return {"boundary_percentage": boundary_percentage}</code></pre>
+              <p class="code-io__note">These three do not wait on each other. Each one only needs the input numbers.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-678" data-section="678" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">678</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fan Out Then Wait</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>summarise reads all three computed values and builds one sentence. Then we add nodes and edges. Three edges leave START. That is the fan out. One edge from a list of three node names into summarise waits for all three. That is the fan in. Then summarise goes to END.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Summary, nodes, edges</p>
+              <pre class="code-input"><code>def summarise(state: State) -> dict:
+    summary = (
+        f"The strike rate is {state['sr']:.2f}, "
+        f"the boundary-ball percentage is {state['bpb']:.2f}%, "
+        f"and {state['boundary_percentage']:.2f}% of runs came from boundaries."
+    )
+    return {"summary": summary}
+
+builder = StateGraph(State)
+
+builder.add_node("calculate_sr", calculate_sr)
+builder.add_node("calculate_bpb", calculate_bpb)
+builder.add_node(
+    "calculate_boundary_percentage",
+    calculate_boundary_percentage
+)
+builder.add_node("summarise", summarise)
+
+builder.add_edge(START, "calculate_sr")
+builder.add_edge(START, "calculate_bpb")
+builder.add_edge(START, "calculate_boundary_percentage")
+
+builder.add_edge(
+    [
+        "calculate_sr",
+        "calculate_bpb",
+        "calculate_boundary_percentage"
+    ],
+    "summarise"
+)
+
+builder.add_edge("summarise", END)
+
+graph = builder.compile()</code></pre>
+              <p class="code-io__note">A list on add_edge means wait for every name in that list before summarise runs.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-679" data-section="679" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">679</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run the Cricket Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The sample innings is 100 runs, 100 balls, 10 fours, and 10 sixes. invoke fills sr, bpb, boundary_percentage, then summary. The output below is from this same code.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Input and invoke</p>
+              <pre class="code-input"><code>data = {
+    "runs": 100,
+    "balls": 100,
+    "fours": 10,
+    "sixes": 10,
+}
+
+result = graph.invoke(data)
+
+print(result)
+print(result["summary"])</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'runs': 100, 'balls': 100, 'fours': 10, 'sixes': 10, 'sr': 100.0, 'bpb': 20.0, 'boundary_percentage': 100.0, 'summary': 'The strike rate is 100.00, the boundary-ball percentage is 20.00%, and 100.00% of runs came from boundaries.'}
+The strike rate is 100.00, the boundary-ball percentage is 20.00%, and 100.00% of runs came from boundaries.</code></pre>
+              <p class="code-io__note">Strike rate is 100. Ball percentage is 20, because 20 of 100 balls were fours or sixes. All 100 runs came from those boundaries, so boundary percentage is 100.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-680" data-section="680" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">680</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pen-line" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Parallel LLM Essay Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now the same shape with an LLM. A Loksewa exam essay goes out in parallel to three checks: clarity of thought, depth of analysis, and language. Each LLM returns two things: text feedback and a score. A final evaluation node sees all the text feedback, summarises it, and averages the scores. Then END. This uses structured output and a reducer. The diagram below is that graph.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 250" role="img">
+                <rect x="155" y="8" width="110" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="210" y1="44" x2="76" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="44" x2="210" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="44" x2="344" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="80" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="76" y="99" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Clarity of</text>
+                <text x="76" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">thought</text>
+                <rect x="150" y="80" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="210" y="99" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Depth of</text>
+                <text x="210" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">analysis</text>
+                <rect x="284" y="80" width="120" height="44" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="344" y="107" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Language</text>
+                <line x1="76" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="344" y1="124" x2="210" y2="160" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="160" width="200" height="36" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="183" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Final evaluation</text>
+                <line x1="210" y1="196" x2="210" y2="212" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="212" width="110" height="30" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="232" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-681" data-section="681" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">681</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Structured Output</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each evaluator must return text feedback and a score, not free prose only. EvaluationSchema is a Pydantic model. feedback is a string. score is an int from 0 to 10. with_structured_output wraps the LLM so invoke returns that schema.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Schema and LLM</p>
+              <pre class="code-input"><code>from langchain_openrouter import ChatOpenRouter
+from pydantic import BaseModel, Field
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0
+)
+
+class EvaluationSchema(BaseModel):
+    feedback: str = Field(
+        description="Constructive feedback for the essay"
+    )
+    score: int = Field(
+        ge=0,
+        le=10,
+        description="Score from 0 to 10"
+    )
+
+structured_output = llm.with_structured_output(EvaluationSchema)</code></pre>
+              <p class="code-io__note">ge is greater or equal. le is less or equal. The score cannot sit outside 0 to 10.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-682" data-section="682" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">682</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="combine" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">State and a List Reducer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>State holds the essay, three feedback strings, overall feedback, and individual_score. We merge three LLM scores, so we need a reducer on that list. Annotated with operator.add tells LangGraph to combine lists from parallel nodes. Each node returns a one item list. add joins them into one list.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State</p>
+              <pre class="code-input"><code>from typing import TypedDict, Annotated
+import operator
+
+class State(TypedDict):
+    essay: str
+
+    language_feedback: str
+    analysis_feedback: str
+    clarity_feedback: str
+
+    overall_feedback: str
+
+    individual_score: Annotated[list[int], operator.add]</code></pre>
+              <p class="code-io__note">Start invoke with individual_score set to an empty list. That empty list is the first value the reducer adds onto.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-683" data-section="683" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">683</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Evaluators</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Each node asks the model to judge only one thing, then stores its own feedback key and appends its score. Language looks at grammar, vocabulary, sentence structure, and writing style. Analysis looks at depth of ideas, reasoning, supporting arguments, and examples. Clarity looks at organization, readability, logical flow, and how clearly ideas are communicated. The block below is all three.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Language, analysis, clarity</p>
+              <pre class="code-input"><code>def language_evaluation(state: State) -> dict:
+    prompt = f"""
+    Evaluate ONLY the language quality of this essay.
+
+    Consider:
+    - grammar
+    - vocabulary
+    - sentence structure
+    - writing style
+
+    Give constructive feedback and a score out of 10.
+
+    Essay:
+    {state["essay"]}
+    """
+    result = structured_output.invoke(prompt)
+    return {
+        "language_feedback": result.feedback,
+        "individual_score": [result.score]
+    }
+
+def analysis_evaluation(state: State) -> dict:
+    prompt = f"""
+    Evaluate ONLY the depth and analysis of this essay.
+
+    Consider:
+    - depth of ideas
+    - reasoning
+    - supporting arguments
+    - examples or evidence
+
+    Give constructive feedback and a score out of 10.
+
+    Essay:
+    {state["essay"]}
+    """
+    result = structured_output.invoke(prompt)
+    return {
+        "analysis_feedback": result.feedback,
+        "individual_score": [result.score]
+    }
+
+def clarity_evaluation(state: State) -> dict:
+    prompt = f"""
+    Evaluate ONLY the clarity of this essay.
+
+    Consider:
+    - organization
+    - readability
+    - logical flow
+    - how clearly ideas are communicated
+
+    Give constructive feedback and a score out of 10.
+
+    Essay:
+    {state["essay"]}
+    """
+    result = structured_output.invoke(prompt)
+    return {
+        "clarity_feedback": result.feedback,
+        "individual_score": [result.score]
+    }</code></pre>
+              <p class="code-io__note">Each return uses a list around the score. operator.add then merges those lists after the three nodes finish.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-684" data-section="684" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">684</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sigma" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Final Evaluation Node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The reducer node is the aggregator. It reads the three feedback strings and the joined score list. It averages the scores. It writes overall_feedback with language, depth, clarity, and the average out of 10. Then we fan out from START, wait for all three evaluators, and go to END.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Reducer and graph</p>
+              <pre class="code-input"><code>def reducer(state: State) -> dict:
+    scores = state["individual_score"]
+    average_score = sum(scores) / len(scores)
+
+    overall_feedback = f"""
+LANGUAGE:
+{state["language_feedback"]}
+
+DEPTH / ANALYSIS:
+{state["analysis_feedback"]}
+
+CLARITY:
+{state["clarity_feedback"]}
+
+AVERAGE SCORE:
+{average_score:.2f}/10
+"""
+    return {
+        "overall_feedback": overall_feedback
+    }
+
+builder = StateGraph(State)
+builder.add_node("language_evaluation", language_evaluation)
+builder.add_node("analysis_evaluation", analysis_evaluation)
+builder.add_node("clarity_evaluation", clarity_evaluation)
+builder.add_node("reducer", reducer)
+
+builder.add_edge(START, "language_evaluation")
+builder.add_edge(START, "analysis_evaluation")
+builder.add_edge(START, "clarity_evaluation")
+
+builder.add_edge(
+    [
+        "language_evaluation",
+        "analysis_evaluation",
+        "clarity_evaluation",
+    ],
+    "reducer"
+)
+builder.add_edge("reducer", END)
+
+graph = builder.compile()
+
+data = {
+    "essay": """
+    Artificial intelligence is changing the way humans work.
+    It can automate repetitive tasks and help people analyze
+    large amounts of information. However, AI also introduces
+    ethical concerns such as bias, privacy, and job displacement.
+    Society must therefore develop responsible ways of using AI.
+    """,
+    "individual_score": []
+}
+
+result = graph.invoke(data)
+
+print("\n--- LANGUAGE ---")
+print(result["language_feedback"])
+print("\n--- ANALYSIS ---")
+print(result["analysis_feedback"])
+print("\n--- CLARITY ---")
+print(result["clarity_feedback"])
+print("\n--- SCORES ---")
+print(result["individual_score"])
+print("\n--- OVERALL ---")
+print(result["overall_feedback"])</code></pre>
+              <p class="code-io__note">The printed feedback and scores come from the model. We do not paste a fake essay grade here. Run the cell to see yours. individual_score should be a list of three ints after the merge.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-685" data-section="685" data-chapter="day-51">
+        <span class="lesson-card__marker" aria-hidden="true">685</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 51 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 51 takeaways</h3>
+              <ul>
+                <li>A parallel workflow fans out from START, then waits for every branch before the next node.</li>
+                <li>The cricket graph computes strike rate, ball percentage, and boundary percentage together, then summarises.</li>
+                <li>For 100 runs, 100 balls, 10 fours, and 10 sixes, sr is 100.0, bpb is 20.0, and boundary percentage is 100.0.</li>
+                <li>A list on add_edge means wait for all those nodes.</li>
+                <li>The Loksewa essay graph sends language, analysis, and clarity to three LLMs. Each returns feedback and a score from 0 to 10 via structured output.</li>
+                <li>operator.add on individual_score merges the three score lists. Start that field as an empty list. The reducer node then averages and writes overall_feedback.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
