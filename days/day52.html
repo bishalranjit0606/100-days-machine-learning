@@ -1,0 +1,469 @@
+      <div class="chapter-divider reveal" id="chapter-day-52" data-chapter="day-52">
+        <span class="chapter-divider__pill">Day 52</span>
+        <h2 class="chapter-divider__title">Conditional Workflow in LangGraph</h2>
+        <p class="chapter-divider__note">Sequential is a line. Parallel takes every branch. Conditional looks branched, but we pick only one path. We build a quadratic graph, then a customer review graph.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-686" data-section="686" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">686</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap Sequential and Parallel</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We already learned sequential workflow and parallel workflow. Sequential executes in a linear way. Parallel does a branching workflow, and we go to every branch. The table below puts those two next to today.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Sequential</th>
+                    <th scope="col">Parallel</th>
+                    <th scope="col">Conditional</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A straight line. One node, then the next.</td>
+                    <td>Branches. We run every branch.</td>
+                    <td>Branches. We choose only one.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-687" data-section="687" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">687</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Conditional</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we learn about the conditional workflow. It looks like a parallel workflow. It has branches like parallel. But we do not go to every branch. We only choose one branch. The example is an if else condition, or a switch. We choose based on a condition. There might be more than one branch.</p>
+            <p>We will make two workflows. One is a non LLM workflow. One is an LLM based customer workflow.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-688" data-section="688" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">688</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="square-function" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Quadratic Equation Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A quadratic equation is a times x squared plus b times x plus c equals 0. It has two roots. We find the discriminant. That is b squared minus 4 a c. Call it d. If d is greater than 0, two real roots. If d equals 0, one real root, also called a repeated root. If d is less than 0, no real roots.</p>
+            <p>The path is START, show equation, calculate discriminant, then one of three possibilities: no real root, real roots, or repeated root. Then END. The diagram below is that graph. Only one of the three result boxes runs.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 280" role="img">
+                <rect x="155" y="8" width="110" height="32" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="29" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="210" y1="40" x2="210" y2="54" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="120" y="54" width="180" height="32" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Show equation</text>
+                <line x1="210" y1="86" x2="210" y2="100" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="100" width="200" height="36" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="210" y="123" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Calculate discriminant</text>
+                <line x1="210" y1="136" x2="76" y2="176" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="136" x2="210" y2="176" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="136" x2="344" y2="176" stroke="#94a3b8" stroke-width="2"></line>
+                <text x="76" y="154" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">d greater than 0</text>
+                <text x="210" y="154" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">d equals 0</text>
+                <text x="344" y="154" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">d less than 0</text>
+                <rect x="16" y="176" width="120" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="76" y="193" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Two real</text>
+                <text x="76" y="208" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">roots</text>
+                <rect x="150" y="176" width="120" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="193" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Repeated</text>
+                <text x="210" y="208" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">root</text>
+                <rect x="284" y="176" width="120" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="344" y="193" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">No real</text>
+                <text x="344" y="208" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">root</text>
+                <line x1="76" y1="216" x2="210" y2="244" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="216" x2="210" y2="244" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="344" y1="216" x2="210" y2="244" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="244" width="110" height="28" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="263" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-689" data-section="689" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">689</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">State Equation and Discriminant</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>State holds a, b, c, the equation string, the discriminant, and the result. show_equation writes the equation text. calculate_discriminant writes b squared minus 4 a c.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State and first two nodes</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Literal
+
+class State(TypedDict):
+    a: float
+    b: float
+    c: float
+    equation: str
+    discriminant: float
+    result: str
+
+def show_equation(state: State):
+    return {
+        "equation": f"{state['a']}x^2 + {state['b']}x + {state['c']} = 0"
+    }
+
+def calculate_discriminant(state: State):
+    return {
+        "discriminant": state["b"] ** 2 - 4 * state["a"] * state["c"]
+    }</code></pre>
+              <p class="code-io__note">Literal later tells the router which node name it may return.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-690" data-section="690" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">690</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="signpost" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Router and Three Results</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>check_discriminant is not a normal node. It is the condition. It returns a string: real_root, repeated_root, or no_real_root. Each result node writes one result string. add_conditional_edges maps those strings to node names. Then every result node goes to END.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Router, nodes, edges</p>
+              <pre class="code-input"><code>def check_discriminant(
+    state: State,
+) -> Literal["real_root", "repeated_root", "no_real_root"]:
+    if state["discriminant"] > 0:
+        return "real_root"
+    elif state["discriminant"] == 0:
+        return "repeated_root"
+    else:
+        return "no_real_root"
+
+def no_real_root(state: State):
+    return {"result": "No real root"}
+
+def real_root(state: State):
+    return {"result": "Two real roots"}
+
+def repeated_root(state: State):
+    return {"result": "Repeated root"}
+
+graph_builder = StateGraph(State)
+graph_builder.add_node("show_equation", show_equation)
+graph_builder.add_node("calculate_discriminant", calculate_discriminant)
+graph_builder.add_node("no_real_root", no_real_root)
+graph_builder.add_node("real_root", real_root)
+graph_builder.add_node("repeated_root", repeated_root)
+
+graph_builder.add_edge(START, "show_equation")
+graph_builder.add_edge("show_equation", "calculate_discriminant")
+
+graph_builder.add_conditional_edges(
+    "calculate_discriminant",
+    check_discriminant,
+    {
+        "real_root": "real_root",
+        "repeated_root": "repeated_root",
+        "no_real_root": "no_real_root"
+    }
+)
+
+graph_builder.add_edge("no_real_root", END)
+graph_builder.add_edge("real_root", END)
+graph_builder.add_edge("repeated_root", END)
+
+graph = graph_builder.compile()</code></pre>
+              <p class="code-io__note">Only the mapped node for the returned string runs. The other two result nodes stay idle.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-691" data-section="691" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">691</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run the Quadratic Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We invoke with a 1, b 2, and c 1. Discriminant is 2 squared minus 4 times 1 times 1, which is 0. The output below is from this same code. The chosen branch is repeated_root.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Invoke</p>
+              <pre class="code-input"><code>result = graph.invoke({
+    "a": 1,
+    "b": 2,
+    "c": 1
+})
+
+print(result)</code></pre>
+              <p class="code-io__label code-io__label--output">Output</p>
+              <pre class="code-output"><code>{'a': 1, 'b': 2, 'c': 1, 'equation': '1x^2 + 2x + 1 = 0', 'discriminant': 0, 'result': 'Repeated root'}</code></pre>
+              <p class="code-io__note">Because d equals 0, the router returns repeated_root. real_root and no_real_root do not run.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-692" data-section="692" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">692</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Customer Review Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now the LLM based workflow. START finds sentiment with an LLM. If positive, write a positive reply with the LLM, then END. If negative, run diagnosis with the LLM, then write a negative response with the LLM, then END. The diagram below is that split. Only one side runs.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 280" role="img">
+                <rect x="155" y="8" width="110" height="32" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="29" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="210" y1="40" x2="210" y2="54" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="115" y="54" width="190" height="32" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="210" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Find sentiment</text>
+                <line x1="210" y1="86" x2="90" y2="120" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="86" x2="330" y2="120" stroke="#94a3b8" stroke-width="2"></line>
+                <text x="90" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">positive</text>
+                <text x="330" y="114" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#64748b">negative</text>
+                <rect x="20" y="120" width="140" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="90" y="137" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Positive</text>
+                <text x="90" y="152" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">response</text>
+                <rect x="260" y="120" width="140" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+                <text x="330" y="145" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Diagnosis</text>
+                <line x1="90" y1="160" x2="90" y2="228" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="330" y1="160" x2="330" y2="176" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="260" y="176" width="140" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+                <text x="330" y="193" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Negative</text>
+                <text x="330" y="208" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">response</text>
+                <line x1="330" y1="216" x2="330" y2="228" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="90" y1="228" x2="210" y2="244" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="330" y1="228" x2="210" y2="244" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="244" width="110" height="28" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="263" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-693" data-section="693" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">693</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Find Sentiment</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>SentimentSchema forces the model to return only positive or negative. ReviewState holds review, sentiment, diagnosis, and response. find_sentiment calls the structured model. route_sentiment returns positive_response if sentiment is positive, otherwise diagnosis.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Schema, state, find, route</p>
+              <pre class="code-input"><code>from langchain_openrouter import ChatOpenRouter
+from langgraph.graph import StateGraph, START, END
+from pydantic import BaseModel, Field
+from typing import Literal
+from typing_extensions import TypedDict
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0
+)
+
+review = """
+I had a great experience with the product.
+The quality was excellent and the customer service was outstanding.
+I would definitely recommend this to my friends and family.
+"""
+
+class SentimentSchema(BaseModel):
+    sentiment: Literal["positive", "negative"] = Field(
+        description="The sentiment of the customer review"
+    )
+
+structured_model = model.with_structured_output(SentimentSchema)
+
+class ReviewState(TypedDict):
+    review: str
+    sentiment: str
+    diagnosis: str
+    response: str
+
+def find_sentiment(state: ReviewState):
+    result = structured_model.invoke(
+        f"""
+        Analyze the sentiment of the following customer review.
+
+        Review:
+        {state["review"]}
+
+        Classify it as positive or negative.
+        """
+    )
+    return {
+        "sentiment": result.sentiment
+    }
+
+def route_sentiment(
+    state: ReviewState
+) -> Literal["positive_response", "diagnosis"]:
+    if state["sentiment"] == "positive":
+        return "positive_response"
+    return "diagnosis"</code></pre>
+              <p class="code-io__note">The sample review is a happy one. The negative path still exists in the graph for other reviews.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-694" data-section="694" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">694</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Positive and Negative Paths</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>positive_response thanks the customer. diagnosis names the main problem, why the customer is unhappy, and what the company should do. negative_response uses that diagnosis to acknowledge, show empathy, apologize, and say the issue will be addressed, without unrealistic promises. diagnosis then goes to negative_response. positive_response goes straight to END.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Nodes, edges, invoke</p>
+              <pre class="code-input"><code>def positive_response(state: ReviewState):
+    result = model.invoke(
+        f"""
+        You are a professional customer support representative.
+
+        The customer left a positive review.
+
+        Review:
+        {state["review"]}
+
+        Write a short, warm and professional response thanking
+        the customer for their feedback.
+        """
+    )
+    return {
+        "response": result.content
+    }
+
+def diagnosis(state: ReviewState):
+    result = model.invoke(
+        f"""
+        You are a customer experience specialist.
+
+        Analyze the following negative customer review.
+
+        Review:
+        {state["review"]}
+
+        Identify:
+        1. The main problem
+        2. Why the customer is unhappy
+        3. What the company should do to resolve it
+
+        Keep the diagnosis concise.
+        """
+    )
+    return {
+        "diagnosis": result.content
+    }
+
+def negative_response(state: ReviewState):
+    result = model.invoke(
+        f"""
+        You are a professional customer support representative.
+
+        Customer review:
+        {state["review"]}
+
+        Internal diagnosis:
+        {state["diagnosis"]}
+
+        Write a professional response to the customer.
+
+        The response should:
+        1. Acknowledge the problem
+        2. Show empathy
+        3. Apologize appropriately
+        4. Mention that the issue will be addressed
+        5. Avoid making unrealistic promises
+
+        Keep the response concise and natural.
+        """
+    )
+    return {
+        "response": result.content
+    }
+
+graph_builder = StateGraph(ReviewState)
+graph_builder.add_node("find_sentiment", find_sentiment)
+graph_builder.add_node("positive_response", positive_response)
+graph_builder.add_node("diagnosis", diagnosis)
+graph_builder.add_node("negative_response", negative_response)
+
+graph_builder.add_edge(START, "find_sentiment")
+graph_builder.add_conditional_edges(
+    "find_sentiment",
+    route_sentiment,
+    {
+        "positive_response": "positive_response",
+        "diagnosis": "diagnosis"
+    }
+)
+graph_builder.add_edge("positive_response", END)
+graph_builder.add_edge("diagnosis", "negative_response")
+graph_builder.add_edge("negative_response", END)
+
+graph = graph_builder.compile()
+
+result = graph.invoke({
+    "review": review
+})
+
+print("Sentiment:")
+print(result["sentiment"])
+print("\nDiagnosis:")
+print(result.get("diagnosis", "Not required"))
+print("\nResponse:")
+print(result["response"])</code></pre>
+              <p class="code-io__note">print shows sentiment, diagnosis if it exists, and the reply. Those strings come from the model, so we do not paste a fake reply here. Run the cell to see yours. If diagnosis never ran, get prints the fallback Not required.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-695" data-section="695" data-chapter="day-52">
+        <span class="lesson-card__marker" aria-hidden="true">695</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 52 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 52 takeaways</h3>
+              <ul>
+                <li>Sequential is a line. Parallel runs every branch. Conditional has branches but chooses only one, like if else or a switch.</li>
+                <li>add_conditional_edges needs a router function that returns a node name, plus a map from those names to nodes.</li>
+                <li>The quadratic graph shows the equation, computes d equals b squared minus 4 a c, then picks two real roots, a repeated root, or no real root.</li>
+                <li>For a 1, b 2, c 1, d is 0, so result is Repeated root.</li>
+                <li>The customer graph classifies sentiment as positive or negative. Positive goes to a thank you. Negative goes to diagnosis, then a careful reply.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
