@@ -1,0 +1,417 @@
+      <div class="chapter-divider reveal" id="chapter-day-53" data-chapter="day-53">
+        <span class="chapter-divider__pill">Day 53</span>
+        <h2 class="chapter-divider__title">Iterative Workflow in LangGraph</h2>
+        <p class="chapter-divider__note">Generate a social post, evaluate it, then either stop or optimize and evaluate again. A loop, a max iteration cap, and a human in the loop before a real post.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-696" data-section="696" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">696</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Iterative</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An iterative workflow repeats until the work is good, or until we hit a limit. START generates. Then we evaluate. If it is good, we approve and end. If it fails, we need improvement. We optimize, then evaluate again. The diagram below is that loop.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 216" role="img">
+                <rect x="145" y="8" width="90" height="28" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="190" y="27" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="190" y1="36" x2="190" y2="50" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="125" y="50" width="130" height="32" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="190" y="71" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Generate</text>
+                <line x1="190" y1="82" x2="190" y2="96" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="125" y="96" width="130" height="36" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
+                <text x="190" y="119" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Evaluate</text>
+                <line x1="255" y1="114" x2="310" y2="114" stroke="#16a34a" stroke-width="2"></line>
+                <text x="282" y="106" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="8" fill="#16a34a">good or max</text>
+                <rect x="310" y="96" width="96" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="358" y="111" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Approve</text>
+                <text x="358" y="125" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">then END</text>
+                <line x1="190" y1="132" x2="190" y2="168" stroke="#dc2626" stroke-width="2"></line>
+                <text x="218" y="154" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#dc2626">bad</text>
+                <rect x="125" y="168" width="130" height="32" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+                <text x="190" y="189" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Optimize</text>
+                <path d="M125 184 L40 184 L40 114 L125 114" fill="none" stroke="#dc2626" stroke-width="1.5"></path>
+                <polygon points="125,114 115,109 115,119" fill="#dc2626"></polygon>
+                <text x="52" y="152" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#dc2626">again</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-697" data-section="697" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">697</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="share-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Social Media Post</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We will make a workflow that posts on social media. It generates, evaluates, then either posts or optimizes and evaluates again. How do we evaluate? We make an iterative workflow. Topic goes to an LLM that generates a post. Another LLM evaluates it with a strict guideline. If approved, we post. Else we optimize through another LLM, then evaluate again. If yes, post. Else optimize again.</p>
+            <p>We do not usually post directly. We use a human in the loop. In the code, a good evaluation or a max iteration cap sends the graph to END. That stop is the approve moment. A person still decides before a real post goes out.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-698" data-section="698" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">698</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Tweet State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>One ChatOpenRouter model serves the whole example. State holds the topic, the current tweet, a good or bad evaluation, feedback, the iteration count, and max iterations. tweet_history and feedback_history are lists. operator.add appends each new version so we keep the past.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">LLM and state</p>
+              <pre class="code-input"><code>from langchain_openrouter import ChatOpenRouter
+from langchain_core.messages import SystemMessage, HumanMessage
+from langgraph.graph import StateGraph, START, END
+from pydantic import BaseModel, Field
+from typing import Literal, Annotated
+from typing_extensions import TypedDict
+import operator
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0
+)
+
+class TweetState(TypedDict):
+    topic: str
+    tweet: str
+    evaluation: Literal["good", "bad"]
+    feedback: str
+    iteration: int
+    max_iterations: int
+    tweet_history: Annotated[list[str], operator.add]
+    feedback_history: Annotated[list[str], operator.add]
+
+graph = StateGraph(TweetState)</code></pre>
+              <p class="code-io__note">Start histories as empty lists. Each node returns a one item list so add can join them.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-699" data-section="699" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">699</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pen-line" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Generate Tweet</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>generate_tweet is a social media manager. It reads the topic, asks the LLM for a high quality tweet, stores that tweet, and appends it to tweet_history. The prints help you watch the loop while it runs.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">generate</p>
+              <pre class="code-input"><code>def generate_tweet(state: TweetState):
+    print("\n==============================")
+    print("GENERATE NODE")
+    print("==============================")
+    print("Topic:")
+    print(state["topic"])
+
+    messages = [
+        SystemMessage(
+            content=(
+                "You are a social media manager. "
+                "Generate a high quality tweet about the given topic."
+            )
+        ),
+        HumanMessage(
+            content=f"Topic: {state['topic']}"
+        )
+    ]
+
+    response = llm.invoke(messages)
+
+    print("\nGenerated Tweet:")
+    print(response.content)
+
+    return {
+        "tweet": response.content,
+        "tweet_history": [response.content]
+    }</code></pre>
+              <p class="code-io__note">This node runs once from START. Later loops go through optimize, not generate again.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-700" data-section="700" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">700</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scale" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Evaluate Tweet</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The evaluator is also an LLM, with a strict guideline. TweetEvaluation forces good or bad, plus feedback. Return good only if the tweet is excellent. Otherwise return bad and explain how it can be improved. The score is not a number here. It is the word good or the word bad.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">evaluate</p>
+              <pre class="code-input"><code>class TweetEvaluation(BaseModel):
+    evaluation: Literal["good", "bad"] = Field(
+        description="Whether the tweet is good or bad."
+    )
+    feedback: str = Field(
+        description="Feedback explaining how the tweet can be improved."
+    )
+
+structured_evaluator_llm = llm.with_structured_output(
+    TweetEvaluation
+)
+
+def evaluate_tweet(state: TweetState):
+    print("\n==============================")
+    print("EVALUATE NODE")
+    print("==============================")
+    print("Current iteration:")
+    print(state["iteration"])
+    print("\nTweet being evaluated:")
+    print(state["tweet"])
+
+    messages = [
+        SystemMessage(
+            content=(
+                "You are a strict social media manager. "
+                "Evaluate the tweet carefully. "
+                "Return good only if the tweet is excellent. "
+                "Otherwise return bad and explain how it can be improved."
+            )
+        ),
+        HumanMessage(
+            content=f"""
+Tweet:
+
+{state["tweet"]}
+"""
+        )
+    ]
+
+    response = structured_evaluator_llm.invoke(messages)
+
+    print("\nEvaluation:")
+    print(response.evaluation)
+    print("\nFeedback:")
+    print(response.feedback)
+
+    return {
+        "evaluation": response.evaluation,
+        "feedback": response.feedback,
+        "feedback_history": [response.feedback]
+    }</code></pre>
+              <p class="code-io__note">Each pass adds one feedback string to feedback_history.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-701" data-section="701" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">701</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wand-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Optimize Tweet</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If the tweet is bad, optimize_tweet improves it with the evaluator feedback. It bumps iteration by 1. It writes the new tweet and appends that version to tweet_history.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">optimize</p>
+              <pre class="code-input"><code>def optimize_tweet(state: TweetState):
+    print("\n==============================")
+    print("OPTIMIZE NODE")
+    print("==============================")
+    print(
+        f"Optimization iteration: "
+        f"{state['iteration'] + 1} of {state['max_iterations']}"
+    )
+    print("\nOld Tweet:")
+    print(state["tweet"])
+    print("\nFeedback:")
+    print(state["feedback"])
+
+    messages = [
+        SystemMessage(
+            content=(
+                "You are a social media manager. "
+                "Improve the tweet using the evaluator feedback."
+            )
+        ),
+        HumanMessage(
+            content=f"""
+Original Tweet:
+
+{state["tweet"]}
+
+Evaluator Feedback:
+
+{state["feedback"]}
+
+Improve the tweet significantly.
+"""
+        )
+    ]
+
+    response = llm.invoke(messages)
+    new_iteration = state["iteration"] + 1
+
+    print("\nImproved Tweet:")
+    print(response.content)
+
+    return {
+        "tweet": response.content,
+        "iteration": new_iteration,
+        "tweet_history": [response.content]
+    }</code></pre>
+              <p class="code-io__note">After optimize, the graph goes back to evaluate. That is the loop.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-702" data-section="702" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">702</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="signpost" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Router</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>route_evaluation chooses the next step. If evaluation is good, return end. If iteration is already at max iterations, also return end. Otherwise the tweet is bad, so return optimize. The map sends optimize to the optimize node, and end to END.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">route_evaluation</p>
+              <pre class="code-input"><code>def route_evaluation(
+    state: TweetState
+) -> Literal["optimize", "end"]:
+    print("\n==============================")
+    print("ROUTER")
+    print("==============================")
+    print("Evaluation:")
+    print(state["evaluation"])
+    print("Iteration:")
+    print(state["iteration"])
+    print("Maximum Iterations:")
+    print(state["max_iterations"])
+
+    if state["evaluation"] == "good":
+        print("\nTweet is GOOD")
+        print("Stopping graph")
+        return "end"
+
+    if state["iteration"] >= state["max_iterations"]:
+        print("\nMaximum iterations reached")
+        print("Stopping graph")
+        return "end"
+
+    print("\nTweet is BAD")
+    print("Sending tweet to optimizer")
+    return "optimize"</code></pre>
+              <p class="code-io__note">max_iterations stops an endless loop if the evaluator never says good.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-703" data-section="703" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">703</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build and Run</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Edges are START to generate, generate to evaluate, then a conditional from evaluate. optimize goes back to evaluate. The topic is The future of AI. iteration starts at 0. max_iterations is 4. evaluation starts as bad. Histories start empty. invoke runs the loop. The prints at the end show the last tweet, evaluation, feedback, iteration count, and both histories.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Edges, compile, invoke</p>
+              <pre class="code-input"><code>graph.add_node("generate", generate_tweet)
+graph.add_node("evaluate", evaluate_tweet)
+graph.add_node("optimize", optimize_tweet)
+
+graph.add_edge(START, "generate")
+graph.add_edge("generate", "evaluate")
+
+graph.add_conditional_edges(
+    "evaluate",
+    route_evaluation,
+    {
+        "optimize": "optimize",
+        "end": END
+    }
+)
+
+graph.add_edge("optimize", "evaluate")
+
+app = graph.compile()
+
+initial_state = {
+    "topic": "The future of AI",
+    "tweet": "",
+    "evaluation": "bad",
+    "feedback": "",
+    "iteration": 0,
+    "max_iterations": 4,
+    "tweet_history": [],
+    "feedback_history": []
+}
+
+result = app.invoke(initial_state)
+
+print("\n\n==============================")
+print("FINAL RESULT")
+print("==============================")
+print("\nFinal Tweet:")
+print(result["tweet"])
+print("\nFinal Evaluation:")
+print(result["evaluation"])
+print("\nFinal Feedback:")
+print(result["feedback"])
+print("\nOptimization Iterations:")
+print(result["iteration"])
+
+print("\n==============================")
+print("TWEET HISTORY")
+print("==============================")
+for index, tweet in enumerate(result["tweet_history"], start=1):
+    print(f"\nTweet Version {index}:")
+    print(tweet)
+
+print("\n==============================")
+print("FEEDBACK HISTORY")
+print("==============================")
+for index, feedback in enumerate(result["feedback_history"], start=1):
+    print(f"\nFeedback {index}:")
+    print(feedback)</code></pre>
+              <p class="code-io__note">The tweet text, evaluation, and feedback come from the model. We do not paste a fake post here. Run the cell to see yours. iteration will be between 0 and 4 depending on how many optimize passes ran.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-704" data-section="704" data-chapter="day-53">
+        <span class="lesson-card__marker" aria-hidden="true">704</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 53 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 53 takeaways</h3>
+              <ul>
+                <li>An iterative graph generates, evaluates, then either stops or optimizes and evaluates again.</li>
+                <li>This social post flow uses a generate LLM, a strict evaluator LLM, and an optimize LLM.</li>
+                <li>If evaluation is good, or iteration reaches max iterations, the router returns end. Otherwise it returns optimize.</li>
+                <li>optimize always goes back to evaluate. generate runs only at the start.</li>
+                <li>tweet_history and feedback_history use operator.add so every version is kept.</li>
+                <li>We do not usually post directly. A human in the loop still approves before a real post.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
