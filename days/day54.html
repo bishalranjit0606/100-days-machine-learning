@@ -1,0 +1,334 @@
+      <div class="chapter-divider reveal" id="chapter-day-54" data-chapter="day-54">
+        <span class="chapter-divider__pill">Day 54</span>
+        <h2 class="chapter-divider__title">Chatbot in LangGraph</h2>
+        <p class="chapter-divider__note">A user talks to a chatbot that remembers earlier turns. The graph is simple. The state is a message list. Memory and persistence come from a reducer, a while loop, and a thread.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-705" data-section="705" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">705</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Memory and a Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we learn advanced LangGraph ideas: memory and persistence. The user task is a chatbot that remembers previous memory. You type. The bot answers. Next turn, it still knows what you said before.</p>
+            <p>The chatbot is a more simple workflow. It is a sequential workflow. The most important thing is the state of this workflow. That state is the message list.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-706" data-section="706" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">706</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-right" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Simple Sequential Chat</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>At the high level the path is START, then the chat node, then END. One line. The diagram below is that simple shape. Later we add a tool on the same graph. The chat idea stays sequential.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 88" role="img">
+                <rect x="16" y="24" width="90" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="61" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">START</text>
+                <line x1="106" y1="44" x2="154" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <polygon points="154,44 144,39 144,49" fill="#94a3b8"></polygon>
+                <rect x="154" y="24" width="110" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="209" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">Chat</text>
+                <line x1="264" y1="44" x2="314" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <polygon points="314,44 304,39 304,49" fill="#94a3b8"></polygon>
+                <rect x="314" y="24" width="90" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="359" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-707" data-section="707" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">707</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The State Is a Message List</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We do not write our own TypedDict for this chatbot. LangGraph gives us MessagesState. That state is a list of messages. Each invoke adds new messages. A reducer is already on that list, so old turns stay. New turns append. That is how the bot can see the full chat.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Imports and MessagesState</p>
+              <pre class="code-input"><code>import requests
+from dotenv import load_dotenv
+from langchain_openrouter import ChatOpenRouter
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.tools import tool
+from langgraph.graph import StateGraph, START
+from langgraph.graph import MessagesState
+from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.checkpoint.memory import InMemorySaver
+
+load_dotenv()</code></pre>
+              <p class="code-io__note">MessagesState is the state of the whole graph. The key is messages. Keep all the data with that reducer. Do not replace the list yourself.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-708" data-section="708" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">708</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model and Timestamp Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>One ChatOpenRouter model serves the chat. We also give it a tool. convert_timestamp takes a Unix timestamp and a timezone. It calls epochcalc and returns JSON. bind_tools lets the model choose that tool when a date conversion is needed.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Model and tool</p>
+              <pre class="code-input"><code>model = ChatOpenRouter(
+    model="openai/gpt-4o-mini",
+    temperature=0
+)
+
+@tool
+def convert_timestamp(
+    timestamp: int,
+    timezone: str
+) -> dict:
+    """
+    Convert a Unix timestamp to a readable date and time
+    for the requested timezone.
+    """
+    url = "https://epochcalc.com/api/v1/convert_timestamp"
+    params = {
+        "timestamp": timestamp,
+        "timezone": timezone
+    }
+    response = requests.get(
+        url,
+        params=params,
+        timeout=10
+    )
+    response.raise_for_status()
+    return response.json()
+
+tools = [convert_timestamp]
+model_with_tools = model.bind_tools(tools)</code></pre>
+              <p class="code-io__note">The JSON from that API is live data. We do not paste a fake result here. Run the tool to see the real response.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-709" data-section="709" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">709</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Chat Node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>chat reads MessagesState. It puts a system message first, then every message already in state. It invokes the model with tools. It returns a one item list with the new AI message. The reducer appends that message to the list.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">chat</p>
+              <pre class="code-input"><code>def chat(state: MessagesState):
+    system_message = SystemMessage(
+        content="You are a helpful assistant."
+    )
+    messages = [
+        system_message,
+        *state["messages"]
+    ]
+    response = model_with_tools.invoke(messages)
+    return {
+        "messages": [response]
+    }</code></pre>
+              <p class="code-io__note">The star before state messages unpacks the old list into this new list. The system line is added on every call, not stored as extra history by us.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-710" data-section="710" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">710</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Tools Condition and Edges</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We add a chat node and a tools node. START always goes to chat. After chat, tools_condition looks at the last message. If the model asked for a tool, we go to tools. ToolNode runs convert_timestamp. Then we go back to chat with the tool result. If the model did not ask for a tool, we go to END. The diagram below is that graph.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 200" role="img">
+                <rect x="155" y="8" width="110" height="28" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="27" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="210" y1="36" x2="210" y2="52" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="145" y="52" width="130" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Chat</text>
+                <line x1="275" y1="70" x2="320" y2="70" stroke="#16a34a" stroke-width="2"></line>
+                <text x="298" y="62" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="8" fill="#16a34a">no tool</text>
+                <rect x="320" y="52" width="84" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="362" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+                <line x1="210" y1="88" x2="210" y2="124" stroke="#7c3aed" stroke-width="2"></line>
+                <text x="248" y="110" font-family="Sora, system-ui, sans-serif" font-size="8" fill="#7c3aed">tool call</text>
+                <rect x="145" y="124" width="130" height="32" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="210" y="145" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Tools</text>
+                <path d="M145 140 L48 140 L48 70 L145 70" fill="none" stroke="#7c3aed" stroke-width="1.5"></path>
+                <polygon points="145,70 135,65 135,75" fill="#7c3aed"></polygon>
+                <text x="48" y="108" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="8" fill="#7c3aed">again</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Graph</p>
+              <pre class="code-input"><code>builder = StateGraph(MessagesState)
+
+builder.add_node("chat", chat)
+builder.add_node("tools", ToolNode(tools))
+
+builder.add_edge(START, "chat")
+
+builder.add_conditional_edges(
+    "chat",
+    tools_condition
+)
+
+builder.add_edge("tools", "chat")</code></pre>
+              <p class="code-io__note">tools_condition is prebuilt. We do not write our own router for this split. It maps a tool request to the tools node, and a normal answer to END.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-711" data-section="711" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">711</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Memory and a Thread</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Persistence uses a thread to remember the last previous data. InMemorySaver is the checkpointer. We compile the graph with that checkpointer. config sets thread_id to user_123. Every invoke that uses the same thread_id loads the saved message list, then writes it back. The picture below is one thread holding the growing chat.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 168" role="img">
+                <rect x="40" y="12" width="340" height="144" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="210" y="36" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">thread_id user_123</text>
+                <rect x="60" y="48" width="300" height="22" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="76" y="63" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">1 Human message</text>
+                <rect x="60" y="76" width="300" height="22" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="76" y="91" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">2 AI message</text>
+                <rect x="60" y="104" width="300" height="22" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="76" y="119" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">3 Next Human message</text>
+                <rect x="60" y="132" width="300" height="16" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="76" y="144" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#9a3412">Saved across invokes</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Checkpointer and thread</p>
+              <pre class="code-input"><code>memory = InMemorySaver()
+
+graph = builder.compile(
+    checkpointer=memory
+)
+
+config = {
+    "configurable": {
+        "thread_id": "user_123"
+    }
+}</code></pre>
+              <p class="code-io__note">Same thread_id means same memory. A different thread_id would be a different chat. InMemorySaver keeps this in process memory while the program runs.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-712" data-section="712" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">712</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Chat Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For continuous chat we use a while loop. Each pass reads input. exit or quit ends the program. Otherwise we invoke with a HumanMessage and the same config. The last item in result messages is the AI reply. We print that content. The next loop still uses thread_id user_123, so previous turns are still there.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">while True chatbot</p>
+              <pre class="code-input"><code>while True:
+    user_input = input("You: ")
+
+    if user_input.lower() in [
+        "exit",
+        "quit"
+    ]:
+        print("Chat ended.")
+        break
+
+    result = graph.invoke(
+        {
+            "messages": [
+                HumanMessage(
+                    content=user_input
+                )
+            ]
+        },
+        config=config
+    )
+
+    response = result["messages"][-1]
+    print("AI:", response.content)</code></pre>
+              <p class="code-io__note">The AI text comes from the model. We do not paste a fake chat here. Run the loop locally. Type exit or quit when you want to stop.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-713" data-section="713" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">713</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Reducer, Loop, and Thread</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Three pieces make the chatbot remember. The cards below are that set. Miss one, and the bot forgets or the chat stops after one turn.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Reducer</p>
+                <p class="concept-card__desc">For keeping all the data. MessagesState appends each new message. Old turns stay in the list.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="repeat" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">While loop</p>
+                <p class="concept-card__desc">For continuous chat. Each pass is one user line, then one invoke, then one AI print.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="link" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Thread</p>
+                <p class="concept-card__desc">For persistence. The same thread_id loads the last previous data on the next invoke.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-714" data-section="714" data-chapter="day-54">
+        <span class="lesson-card__marker" aria-hidden="true">714</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 54 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 54 takeaways</h3>
+              <ul>
+                <li>A LangGraph chatbot is a simple sequential workflow: START, chat, END.</li>
+                <li>The most important thing is the state. That state is a message list, MessagesState.</li>
+                <li>bind_tools plus ToolNode and tools_condition let chat call convert_timestamp, then return to chat.</li>
+                <li>For keeping all the data, use a reducer. MessagesState already appends messages.</li>
+                <li>For continuous chat, use a while loop.</li>
+                <li>For persistence, use a thread_id with InMemorySaver so the graph remembers previous turns.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
