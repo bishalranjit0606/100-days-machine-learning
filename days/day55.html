@@ -113,37 +113,36 @@
             <h2 class="lesson-card__title">Checkpointer</h2>
           </header>
           <div class="lesson-card__body">
-            <p>A checkpointer is the persistence concept that splits a workflow into checkpoints. The graph runs. The checkpointer saves the state. A super step can be one checkpoint. START is one checkpoint. Node 1 is another. Nodes that run together, such as node 3, node 4, and node 5, can share one checkpoint. END is the last checkpoint. The diagram below is that split.</p>
+            <p>A checkpointer is the persistence concept that splits a workflow into checkpoints. The graph runs. The checkpointer saves the state. A super step can be one checkpoint. START is one checkpoint. Node 1 is another. From node 1, node 2, node 3, and node 4 run in parallel. Their results combine at END. Those three nodes share one checkpoint. END is the last checkpoint. The diagram below is that split.</p>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
-              <svg viewBox="0 0 420 168" role="img">
-                <rect x="12" y="16" width="70" height="32" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
-                <text x="47" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
-                <line x1="82" y1="32" x2="108" y2="32" stroke="#94a3b8" stroke-width="2"></line>
-                <rect x="108" y="16" width="70" height="32" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
-                <text x="143" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Node 1</text>
-                <line x1="178" y1="32" x2="214" y2="32" stroke="#94a3b8" stroke-width="2"></line>
-                <rect x="200" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
-                <text x="228" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 3</text>
-                <rect x="262" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
-                <text x="290" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 4</text>
-                <rect x="324" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
-                <text x="352" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 5</text>
-                <line x1="352" y1="28" x2="352" y2="52" stroke="#94a3b8" stroke-width="2"></line>
-                <rect x="318" y="52" width="68" height="28" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
-                <text x="352" y="71" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
-                <rect x="18" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
-                <text x="47" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 1</text>
-                <line x1="47" y1="48" x2="47" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
-                <rect x="114" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
-                <text x="143" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 2</text>
-                <line x1="143" y1="48" x2="143" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
-                <rect x="262" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
-                <text x="291" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 3</text>
-                <line x1="291" y1="28" x2="291" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
-                <rect x="330" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
-                <text x="359" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 4</text>
-                <line x1="352" y1="80" x2="359" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
-                <text x="210" y="156" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#9a3412">Four checkpoints on one run</text>
+              <svg viewBox="0 0 420 248" role="img">
+                <rect x="155" y="8" width="110" height="32" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="210" y="29" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <rect x="338" y="12" width="66" height="24" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="371" y="28" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">CP 1</text>
+                <line x1="210" y1="40" x2="210" y2="56" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="56" width="110" height="32" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a" xml:space="preserve">Node 1</text>
+                <rect x="338" y="60" width="66" height="24" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="371" y="76" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">CP 2</text>
+                <line x1="210" y1="88" x2="62" y2="120" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="88" x2="210" y2="120" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="88" x2="298" y2="120" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="12" y="120" width="100" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="62" y="143" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a" xml:space="preserve">Node 2</text>
+                <rect x="160" y="120" width="100" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="210" y="143" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a" xml:space="preserve">Node 3</text>
+                <rect x="248" y="120" width="100" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="298" y="143" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a" xml:space="preserve">Node 4</text>
+                <rect x="354" y="126" width="58" height="24" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="383" y="142" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">CP 3</text>
+                <line x1="62" y1="156" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="156" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="298" y1="156" x2="210" y2="188" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="155" y="188" width="110" height="32" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="209" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+                <rect x="338" y="192" width="66" height="24" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="371" y="208" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">CP 4</text>
               </svg>
             </figure>
           </div>
@@ -158,7 +157,7 @@
             <h2 class="lesson-card__title">A List That Grows</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Suppose state has a field named number. It is a list of integers with an add reducer. We save after each checkpoint. After START the list is 1. After node 1 it becomes 1, 2 and that list is saved. Nodes 3, 4, and 5 merge into the same list, so we get 1, 2, 3, 4, 5. At the end we have a final state and all four checkpoints. The cells below follow that story.</p>
+            <p>Suppose state has a field named number. It is a list of integers with an add reducer. We save after each checkpoint. After START the list is 1. After node 1 it becomes 1, 2 and that list is saved. Node 2, node 3, and node 4 run in parallel and merge into the same list, so we get 1, 2, 3, 4, 5. At the end we have a final state and all four checkpoints. The cells below follow that story.</p>
             <div class="broadcast-diagram tts-skip" aria-hidden="true">
               <div class="broadcast-row">
                 <p class="broadcast-row__code">CP 1</p>
