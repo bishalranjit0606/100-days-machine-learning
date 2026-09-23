@@ -1,0 +1,442 @@
+      <div class="chapter-divider reveal" id="chapter-day-55" data-chapter="day-55">
+        <span class="chapter-divider__pill">Day 55</span>
+        <h2 class="chapter-divider__title">Persistence in LangGraph</h2>
+        <p class="chapter-divider__note">Save and restore workflow state over time. Checkpoints, threads, fault tolerance, and a joke graph that keeps its saved state.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-715" data-section="715" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">715</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Persistence</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Persistence is the ability to save and restore the state of a workflow over time. Without it, a run finishes and the values you put in at START are gone. With it, those values stay, so you can load them later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-716" data-section="716" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">716</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="network" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: The Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In LangGraph we already learned the concept of the graph. A high level goal becomes a set of tasks. Those tasks are a graph. Every node is a step. Edges are the execution order. The picture below is that idea.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 92" role="img">
+                <rect x="12" y="26" width="88" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="56" y="51" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Goal</text>
+                <line x1="100" y1="46" x2="132" y2="46" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="132" y="26" width="72" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="168" y="51" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Node</text>
+                <line x1="204" y1="46" x2="236" y2="46" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="236" y="26" width="72" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="272" y="51" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Node</text>
+                <line x1="308" y1="46" x2="340" y2="46" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="340" y="26" width="68" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="374" y="51" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-717" data-section="717" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">717</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Recap: State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When we create a graph in LangGraph, we make the state first. State is the input data the workflow needs. It is a dictionary. For a chatbot, that input can be messages. Each node can read the state. Each node can also change the state. Graph and state are the core ideas of LangGraph.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-718" data-section="718" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">718</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Default Run Versus Save</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Watch a normal run. We give input. START runs. Node 1 runs, then node 2, and so on. The state changes at each node. We get a final state. Then the data we put in at START is erased. Persistence changes that behaviour. We can save the values stored in the state. Persistence does not keep only the final value. It also keeps the value after each node. The table below puts those two paths side by side.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Without persistence</th>
+                    <th scope="col">With persistence</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Input goes in. Nodes run. You get a final state.</td>
+                    <td>The same run also writes the state after each node.</td>
+                  </tr>
+                  <tr>
+                    <td>When the run ends, the start data is gone.</td>
+                    <td>You can load the saved values later from a store or a database.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-719" data-section="719" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">719</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fault Tolerance</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose we are running a workflow and node 1 stops for any reason. Because we save the state at each node, we can start again from the node that crashed. We do not restart the whole graph. That is the biggest feature here. It is called fault tolerance. That feature comes from persistence. Persistence values can live in a database.</p>
+            <p>A chatbot uses the same idea. You have two options. Start a fresh conversation. Or continue the previous conversation. Persistence is what makes the second option possible.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-720" data-section="720" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">720</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="flag" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Checkpointer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A checkpointer is the persistence concept that splits a workflow into checkpoints. The graph runs. The checkpointer saves the state. A super step can be one checkpoint. START is one checkpoint. Node 1 is another. Nodes that run together, such as node 3, node 4, and node 5, can share one checkpoint. END is the last checkpoint. The diagram below is that split.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 168" role="img">
+                <rect x="12" y="16" width="70" height="32" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="47" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="82" y1="32" x2="108" y2="32" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="108" y="16" width="70" height="32" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="143" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Node 1</text>
+                <line x1="178" y1="32" x2="214" y2="32" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="200" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
+                <text x="228" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 3</text>
+                <rect x="262" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
+                <text x="290" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 4</text>
+                <rect x="324" y="4" width="56" height="24" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"></rect>
+                <text x="352" y="20" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Node 5</text>
+                <line x1="352" y1="28" x2="352" y2="52" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="318" y="52" width="68" height="28" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="352" y="71" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+                <rect x="18" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="47" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 1</text>
+                <line x1="47" y1="48" x2="47" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
+                <rect x="114" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="143" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 2</text>
+                <line x1="143" y1="48" x2="143" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
+                <rect x="262" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="291" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 3</text>
+                <line x1="291" y1="28" x2="291" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
+                <rect x="330" y="112" width="58" height="22" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1"></rect>
+                <text x="359" y="127" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">CP 4</text>
+                <line x1="352" y1="80" x2="359" y2="112" stroke="#c2410c" stroke-width="1" stroke-dasharray="3 3"></line>
+                <text x="210" y="156" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#9a3412">Four checkpoints on one run</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-721" data-section="721" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">721</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A List That Grows</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose state has a field named number. It is a list of integers with an add reducer. We save after each checkpoint. After START the list is 1. After node 1 it becomes 1, 2 and that list is saved. Nodes 3, 4, and 5 merge into the same list, so we get 1, 2, 3, 4, 5. At the end we have a final state and all four checkpoints. The cells below follow that story.</p>
+            <div class="broadcast-diagram tts-skip" aria-hidden="true">
+              <div class="broadcast-row">
+                <p class="broadcast-row__code">CP 1</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-matrix">
+                    <span class="broadcast-cell broadcast-cell--solid">1</span>
+                  </div>
+                </div>
+              </div>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code">CP 2</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-matrix">
+                    <span class="broadcast-cell broadcast-cell--solid">1</span>
+                    <span class="broadcast-cell broadcast-cell--solid">2</span>
+                  </div>
+                </div>
+              </div>
+              <div class="broadcast-row">
+                <p class="broadcast-row__code">CP 3</p>
+                <div class="broadcast-row__visual">
+                  <div class="broadcast-matrix">
+                    <span class="broadcast-cell broadcast-cell--solid">1</span>
+                    <span class="broadcast-cell broadcast-cell--solid">2</span>
+                    <span class="broadcast-cell broadcast-cell--solid">3</span>
+                    <span class="broadcast-cell broadcast-cell--solid">4</span>
+                    <span class="broadcast-cell broadcast-cell--solid">5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-722" data-section="722" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">722</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Threads</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Run the same workflow two times. The first run gets input 2 and that output is saved. The second run gets input 4 and a different output. Those are two threads. If we need to resume the first run, the database loads that particular workflow. The answer comes from the thread.</p>
+            <p>When we add persistence we assign a unique thread id. Each workflow execution has its own thread id. If we want the values of execution 5, we ask the database for the state of thread 5.</p>
+            <p>A chatbot uses this too. As soon as a user starts a fresh conversation, the app gives that conversation a thread id and stores the data. Later we resume with that same thread id.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 120" role="img">
+                <rect x="16" y="16" width="180" height="88" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="106" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Thread 1</text>
+                <text x="106" y="64" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Input 2</text>
+                <text x="106" y="84" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Saved output A</text>
+                <rect x="224" y="16" width="180" height="88" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"></rect>
+                <text x="314" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Thread 2</text>
+                <text x="314" y="64" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Input 4</text>
+                <text x="314" y="84" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Saved output B</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-723" data-section="723" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">723</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="laugh" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Joke Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We write a workflow that uses persistence and a thread. START goes to gen_joke. Then gen_explanation. Then END. State holds topic, joke, and explanation. The diagram below is that line.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 80" role="img">
+                <rect x="8" y="20" width="70" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="43" y="43" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="78" y1="38" x2="100" y2="38" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="100" y="20" width="96" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="148" y="43" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">gen joke</text>
+                <line x1="196" y1="38" x2="218" y2="38" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="218" y="20" width="120" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="278" y="43" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">gen explanation</text>
+                <line x1="338" y1="38" x2="356" y2="38" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="356" y="20" width="56" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="384" y="43" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State and nodes</p>
+              <pre class="code-input"><code>from typing import TypedDict
+from dotenv import load_dotenv
+from langchain_openrouter import ChatOpenRouter
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import InMemorySaver
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openai/gpt-4o-mini",
+    temperature=0
+)
+
+class JokeState(TypedDict):
+    topic: str
+    joke: str
+    explanation: str
+
+def gen_joke(state: JokeState):
+    prompt = f"Generate a joke about the topic: {state['topic']}"
+    response = llm.invoke(prompt)
+    return {
+        "joke": response.content
+    }
+
+def gen_explanation(state: JokeState):
+    prompt = f"Generate an explanation for this joke: {state['joke']}"
+    response = llm.invoke(prompt)
+    return {
+        "explanation": response.content
+    }</code></pre>
+              <p class="code-io__note">gen_joke writes joke. gen_explanation reads that joke and writes explanation.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-724" data-section="724" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">724</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Compile, Invoke, Get State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We compile with InMemorySaver as the checkpointer. config sets thread_id to 123. invoke sends topic programming. After the run, get_state(config) loads the saved values for that thread. Print result, then print state.values.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Checkpointer, thread, run</p>
+              <pre class="code-input"><code>graph = StateGraph(JokeState)
+
+graph.add_node("gen_joke", gen_joke)
+graph.add_node("gen_explanation", gen_explanation)
+
+graph.add_edge(START, "gen_joke")
+graph.add_edge("gen_joke", "gen_explanation")
+graph.add_edge("gen_explanation", END)
+
+checkpoint = InMemorySaver()
+
+workflow = graph.compile(
+    checkpointer=checkpoint
+)
+
+config = {
+    "configurable": {
+        "thread_id": "123"
+    }
+}
+
+result = workflow.invoke(
+    {
+        "topic": "programming"
+    },
+    config=config
+)
+
+print("RESULT:")
+print(result)
+
+state = workflow.get_state(config)
+
+print("\nSAVED STATE:")
+print(state.values)</code></pre>
+              <p class="code-io__note">The joke text and the explanation come from the model. We do not paste a fake joke here. Run the cell to see yours. InMemorySaver keeps this thread in process memory. A database checkpointer would keep it after the program stops.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-725" data-section="725" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">725</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Benefits</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Persistence gives four benefits. The cards below are that set. We open the last two next.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="brain" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Short term memory</p>
+                <p class="concept-card__desc">To resume a chatbot we need the past conversation. We only have it if we store it, often in a database.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Fault tolerance</p>
+                <p class="concept-card__desc">If a node stops in the middle, we restart from that node. We do not restart the whole workflow.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="user-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Human in the loop</p>
+                <p class="concept-card__desc">The graph can wait for a person. Persistence holds the state until that person answers.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="history" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Time travel</p>
+                <p class="concept-card__desc">Replay an earlier checkpoint. Go back and run again. This helps with debugging.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-726" data-section="726" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">726</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hand" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Human in the Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Imagine a workflow that takes a topic, generates a LinkedIn post, then posts it through the LinkedIn API. Before it posts, we want it to ask us for permission.</p>
+            <p>The person might answer at once, or after two days. The workflow cannot sit running that whole time. LangGraph holds the workflow until the human gives input. As soon as that input arrives, we need persistence to resume. This is similar to fault tolerance, but here we pause on purpose.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Wait, then resume</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="pen-line" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Generate</span>
+                  <span class="workflow__step-desc">Write the LinkedIn post from the topic.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="pause" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Ask</span>
+                  <span class="workflow__step-desc">Hold the saved state. Wait for yes or no.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="send" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Post</span>
+                  <span class="workflow__step-desc">Resume and call the API only after permission.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-727" data-section="727" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">727</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="history" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Time Travel</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In time travel we replay the execution of the workflow. We go back to a previous checkpoint and run again the way we want. We can do debugging with it. The saved checkpoints are the history we step through.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-728" data-section="728" data-chapter="day-55">
+        <span class="lesson-card__marker" aria-hidden="true">728</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 55 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 55 takeaways</h3>
+              <ul>
+                <li>Persistence means save and restore workflow state over time.</li>
+                <li>A graph is nodes and edges. State is the dictionary the nodes read and write.</li>
+                <li>Without persistence, start data is erased after the run. With it, each node can leave a checkpoint.</li>
+                <li>Fault tolerance lets us resume from a crashed node instead of restarting the whole graph.</li>
+                <li>A checkpointer writes those checkpoints. A thread id keeps one execution apart from another.</li>
+                <li>The four benefits are short term memory, fault tolerance, human in the loop, and time travel.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
