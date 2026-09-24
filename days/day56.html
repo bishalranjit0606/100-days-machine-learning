@@ -1,0 +1,353 @@
+      <div class="chapter-divider reveal" id="chapter-day-56" data-chapter="day-56">
+        <span class="chapter-divider__pill">Day 56</span>
+        <h2 class="chapter-divider__title">Chatbot with UI in LangGraph</h2>
+        <p class="chapter-divider__note">Split the chatbot into a LangGraph back end and a Streamlit front end. The user talks to the page. The page talks to the graph. Session state keeps the chat on screen.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-729" data-section="729" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">729</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="map" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Plan of Action</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The chatbot is divided into two parts. The back end is the LangGraph workflow. The front end is Streamlit. The user talks to the front end. The front end talks to LangGraph. The cards below are that split. The diagram after them is the path.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="workflow" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Back end</p>
+                <p class="concept-card__desc">A LangGraph workflow. State is a message list. One chat node. A checkpointer.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="monitor" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Front end</p>
+                <p class="concept-card__desc">A Streamlit page. Chat bubbles and a chat box. It calls the compiled graph.</p>
+              </article>
+            </div>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 88" role="img">
+                <rect x="12" y="24" width="100" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="62" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">User</text>
+                <line x1="112" y1="44" x2="150" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <polygon points="150,44 140,39 140,49" fill="#94a3b8"></polygon>
+                <rect x="150" y="24" width="120" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">Front end</text>
+                <line x1="270" y1="44" x2="308" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <polygon points="308,44 298,39 298,49" fill="#94a3b8"></polygon>
+                <rect x="308" y="24" width="100" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="358" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">LangGraph</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-730" data-section="730" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">730</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="app-window" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Streamlit Basics</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Streamlit is a very simple library. You write Python. It draws a web page. Today we need two pieces from it: chat_message for bubbles, and chat_input for the box at the bottom.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-731" data-section="731" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">731</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Back End State</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The back end lives in a file named langgraph_backend. ChatState holds messages. add_messages is the reducer, so new messages append. ChatOpenAI is the model. Put this file next to the Streamlit file so the front end can import chatbot.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">langgraph_backend.py</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Annotated
+from langchain_core.messages import BaseMessage
+from langchain_openai import ChatOpenAI
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph.message import add_messages
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenAI()
+
+class ChatState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]</code></pre>
+              <p class="code-io__note">messages is a list. The reducer keeps old turns when a node returns a new list item.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-732" data-section="732" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">732</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chat Node and Compile</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>chat_node reads the message list, invokes the model, and returns the new AI message. START goes to chat_node. chat_node goes to END. We compile with InMemorySaver and name the app chatbot. The diagram below is that back end line.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 80" role="img">
+                <rect x="16" y="22" width="90" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"></rect>
+                <text x="61" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="106" y1="40" x2="140" y2="40" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="140" y="22" width="140" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat_node</text>
+                <line x1="280" y1="40" x2="314" y2="40" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="314" y="22" width="90" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="359" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Node, edges, compile</p>
+              <pre class="code-input"><code>def chat_node(state: ChatState):
+    messages = state['messages']
+    response = llm.invoke(messages)
+    return {"messages": [response]}
+
+checkpointer = InMemorySaver()
+
+graph = StateGraph(ChatState)
+graph.add_node("chat_node", chat_node)
+graph.add_edge(START, "chat_node")
+graph.add_edge("chat_node", END)
+
+chatbot = graph.compile(checkpointer=checkpointer)</code></pre>
+              <p class="code-io__note">The front end will import this chatbot object and call invoke on it.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-733" data-section="733" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">733</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Boxes on the Page</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is the front end part of the chatbot. In Streamlit we want two boxes. One is chat_message. The other is chat_input. The steps below are how we build them.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Front end pieces</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">chat_message</span>
+                  <span class="workflow__step-desc">A bubble. User or assistant.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="text-cursor-input" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">chat_input</span>
+                  <span class="workflow__step-desc">The box where the user types.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-734" data-section="734" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">734</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">chat_message</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>st.chat_message draws one bubble. Pass user or assistant. Then st.write puts text inside that bubble. The sample below is four bubbles in a row.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Fixed bubbles</p>
+              <pre class="code-input"><code>import streamlit as st
+
+with st.chat_message("user"):
+    st.write("Hello, how are you?")
+
+with st.chat_message("assistant"):
+    st.write("I'm good, thank you!")
+
+with st.chat_message("user"):
+    st.write("my name is bishal")
+
+with st.chat_message("assistant"):
+    st.write("Nice to meet you, bishal!")</code></pre>
+              <p class="code-io__note">These lines are fixed text. They always show the same four lines.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-735" data-section="735" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">735</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="keyboard" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">chat_input</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second component is chat_input. It returns the string the user typed, or nothing if they have not sent a line yet. If there is input, we draw a user bubble with that text.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Read one line</p>
+              <pre class="code-input"><code>user_input = st.chat_input("Enter your message")
+
+if user_input:
+    with st.chat_message("user"):
+        st.write(user_input)</code></pre>
+              <p class="code-io__note">Run this with streamlit run and type in the box at the bottom of the page.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-736" data-section="736" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">736</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Echo, Then the Rerun Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we make the AI repeat the same thing we write. The assistant bubble writes user_input again. That is only a test. It is not the LangGraph model yet.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Echo</p>
+              <pre class="code-input"><code>import streamlit as st
+
+user_input = st.chat_input("Enter your message")
+
+if user_input:
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    with st.chat_message("assistant"):
+        st.write(user_input)</code></pre>
+              <p class="code-io__note">You send hi. You see hi, then hi again as the assistant line.</p>
+            </div>
+            <p>The data will change again and again. It will not save. Streamlit reruns the whole script after each send. The old bubbles are gone. We need to store conversation history. That is why we use a dictionary on session_state.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Only local variables</th>
+                    <th scope="col">session_state</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The script reruns. Old lines disappear.</td>
+                    <td>The list stays on the page across reruns.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-737" data-section="737" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">737</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="history" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">message_history</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>st.session_state is a dictionary. If message_history is not in it yet, we start it as an empty list. Each item is a small dictionary with role and content. On every rerun we loop that list and draw the old bubbles first. Then we wait for a new line.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">History shape</p>
+              <pre class="code-input"><code>if 'message_history' not in st.session_state:
+    st.session_state['message_history'] = []
+
+for message in st.session_state['message_history']:
+    with st.chat_message(message['role']):
+        st.text(message['content'])
+
+# {'role': 'user', 'content': 'Hi'}
+# {'role': 'assistant', 'content': 'Hello'}</code></pre>
+              <p class="code-io__note">role is user or assistant. content is the text in that bubble.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-738" data-section="738" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">738</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Front End Calls the Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The full front end imports chatbot from langgraph_backend. CONFIG sets thread_id to thread-1 so the checkpointer keeps one conversation. After the user types, we append the user line, invoke the graph with a HumanMessage, take the last message content, append the assistant line, and draw it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Streamlit page</p>
+              <pre class="code-input"><code>import streamlit as st
+from langgraph_backend import chatbot
+from langchain_core.messages import HumanMessage
+
+CONFIG = {'configurable': {'thread_id': 'thread-1'}}
+
+if 'message_history' not in st.session_state:
+    st.session_state['message_history'] = []
+
+for message in st.session_state['message_history']:
+    with st.chat_message(message['role']):
+        st.text(message['content'])
+
+user_input = st.chat_input('Type here')
+
+if user_input:
+    st.session_state['message_history'].append(
+        {'role': 'user', 'content': user_input}
+    )
+    with st.chat_message('user'):
+        st.text(user_input)
+
+    response = chatbot.invoke(
+        {'messages': [HumanMessage(content=user_input)]},
+        config=CONFIG
+    )
+
+    ai_message = response['messages'][-1].content
+    st.session_state['message_history'].append(
+        {'role': 'assistant', 'content': ai_message}
+    )
+    with st.chat_message('assistant'):
+        st.text(ai_message)</code></pre>
+              <p class="code-io__note">The assistant text comes from the model. We do not paste a fake reply here. Run the Streamlit app to see yours. message_history keeps the page. The thread keeps the graph memory.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-739" data-section="739" data-chapter="day-56">
+        <span class="lesson-card__marker" aria-hidden="true">739</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 56 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 56 takeaways</h3>
+              <ul>
+                <li>The chatbot has two parts: a LangGraph back end and a Streamlit front end.</li>
+                <li>The path is user, then front end, then LangGraph.</li>
+                <li>The back end is START, chat_node, END, compiled with InMemorySaver as chatbot.</li>
+                <li>Streamlit uses chat_message for bubbles and chat_input for the box.</li>
+                <li>A rerun wipes local variables. session_state message_history keeps the bubbles on the page.</li>
+                <li>invoke sends a HumanMessage with a thread id. The last message content is the assistant line.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
