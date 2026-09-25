@@ -1,0 +1,270 @@
+      <div class="chapter-divider reveal" id="chapter-day-57" data-chapter="day-57">
+        <span class="chapter-divider__pill">Day 57</span>
+        <h2 class="chapter-divider__title">Streaming in LangGraph</h2>
+        <p class="chapter-divider__note">Tokens arrive as the model writes them. Use stream instead of invoke, message mode, and Streamlit write_stream so the chat feels like a typewriter.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-740" data-section="740" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">740</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hourglass" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Wait Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We notice that when we say give a 500 word essay, it takes time and gives the result at once. It works. The user experience is not good. The page sits still. Then a long block appears. That is why we use streaming.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-741" data-section="741" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">741</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="type" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is Streaming</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In an LLM, streaming means the model starts sending tokens, which are words, as soon as they are generated. It does not wait for the entire response to be ready before returning it. We get the answer token by token. ChatGPT does this. It is like a typewriter effect. The picture below is wait for all versus token by token.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="16" width="180" height="118" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="106" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">invoke</text>
+                <rect x="36" y="56" width="140" height="28" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="106" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#9a3412">Wait</text>
+                <rect x="36" y="92" width="140" height="28" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1"></rect>
+                <text x="106" y="111" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">All text at once</text>
+                <rect x="224" y="16" width="180" height="118" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="314" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">stream</text>
+                <rect x="240" y="56" width="40" height="28" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="260" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">T1</text>
+                <rect x="286" y="56" width="40" height="28" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="306" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">T2</text>
+                <rect x="332" y="56" width="40" height="28" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="352" y="75" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">T3</text>
+                <text x="314" y="112" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Words as they come</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-742" data-section="742" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">742</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Streaming Matters</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Streaming is very important. It increases the user experience by 10x. The cards below are five reasons.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="zap" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Faster feel</p>
+                <p class="concept-card__desc">The first words show sooner. Drop rates stay lower. The user is less likely to think the website is frozen.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="heart" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Human like talk</p>
+                <p class="concept-card__desc">It mimics conversation. That builds trust. It feels alive. It keeps the user engaged.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="volume-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Voice and more</p>
+                <p class="concept-card__desc">Important for a multi modal UI. Ask an Alexa type device for a pasta recipe. A 10 second wait, then one dump, does not feel comfortable.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="code" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Long output</p>
+                <p class="concept-card__desc">Strong UX for long output such as code. If we see the whole code at once, it is hard to understand.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="circle-stop" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Stop and watch</p>
+                <p class="concept-card__desc">We can cancel midway and save tokens. We can also see the process, like an agent open a site and read a blog.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-743" data-section="743" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">743</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-compare" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">invoke Versus stream</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The change is small. Instead of graph.invoke we use graph.stream. stream is a generator. We use a loop to read each chunk. There are multiple stream modes, such as messages and others. For an LLM response we use message mode. The table below puts invoke next to stream.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">invoke</th>
+                    <th scope="col">stream</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Wait. Then return the full answer.</td>
+                    <td>A generator. Yield chunks as they arrive.</td>
+                  </tr>
+                  <tr>
+                    <td>One result at the end.</td>
+                    <td>A loop reads each chunk. Message mode for LLM text.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-744" data-section="744" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">744</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Back End with streaming True</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The back end is the same chat graph as Day 56. ChatState still uses add_messages. The model is ChatOpenRouter with streaming set to True. The node still calls llm.invoke. The compiled chatbot is what the page will stream from.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">langgraph_backend.py</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Annotated
+from langchain_core.messages import BaseMessage
+from langchain_openrouter import ChatOpenRouter
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph.message import add_messages
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0,
+    streaming=True
+)
+
+class ChatState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+
+def chat_node(state: ChatState):
+    messages = state["messages"]
+    response = llm.invoke(messages)
+    return {
+        "messages": [response]
+    }
+
+checkpointer = InMemorySaver()
+
+graph = StateGraph(ChatState)
+graph.add_node("chat_node", chat_node)
+graph.add_edge(START, "chat_node")
+graph.add_edge("chat_node", END)
+
+chatbot = graph.compile(
+    checkpointer=checkpointer
+)</code></pre>
+              <p class="code-io__note">streaming True tells the model it may send tokens as they are made. The front end will call chatbot.stream, not chatbot.invoke.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-745" data-section="745" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">745</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="monitor-play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">write_stream on the Page</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The Streamlit page still keeps message_history. After the user line, we open an assistant bubble. stream_response is a generator. It loops chatbot.stream with stream_mode set to messages. Each item is a message chunk and metadata. If the chunk has content, we yield that text. st.write_stream draws those pieces as they arrive. Then we save the full ai_message in history.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Streamlit page</p>
+              <pre class="code-input"><code>import streamlit as st
+from langgraph_backend import chatbot
+from langchain_core.messages import HumanMessage
+
+CONFIG = {
+    "configurable": {
+        "thread_id": "thread-1"
+    }
+}
+
+if "message_history" not in st.session_state:
+    st.session_state["message_history"] = []
+
+for message in st.session_state["message_history"]:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+user_input = st.chat_input("Type here")
+
+if user_input:
+    st.session_state["message_history"].append(
+        {
+            "role": "user",
+            "content": user_input
+        }
+    )
+
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    with st.chat_message("assistant"):
+
+        def stream_response():
+            for message_chunk, metadata in chatbot.stream(
+                {
+                    "messages": [
+                        HumanMessage(content=user_input)
+                    ]
+                },
+                config=CONFIG,
+                stream_mode="messages"
+            ):
+                if message_chunk.content:
+                    yield message_chunk.content
+
+        ai_message = st.write_stream(
+            stream_response()
+        )
+
+    st.session_state["message_history"].append(
+        {
+            "role": "assistant",
+            "content": ai_message
+        }
+    )</code></pre>
+              <p class="code-io__note">The words on screen come from the model one chunk at a time. We do not paste a fake essay here. Run the app and ask for a long reply to see the typewriter effect.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-746" data-section="746" data-chapter="day-57">
+        <span class="lesson-card__marker" aria-hidden="true">746</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 57 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 57 takeaways</h3>
+              <ul>
+                <li>invoke waits, then returns the whole answer. That feels slow on a 500 word essay.</li>
+                <li>Streaming sends tokens, which are words, as soon as they are generated.</li>
+                <li>It feels faster, more human, better for voice and long code, and you can stop midway.</li>
+                <li>Use graph.stream. It is a generator. For LLM text use stream_mode messages.</li>
+                <li>Set streaming True on the model. On the page, loop the stream and pass it to write_stream.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
