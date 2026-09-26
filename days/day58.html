@@ -1,0 +1,366 @@
+      <div class="chapter-divider reveal" id="chapter-day-58" data-chapter="day-58">
+        <span class="chapter-divider__pill">Day 58</span>
+        <h2 class="chapter-divider__title">Past Chat History in LangGraph</h2>
+        <p class="chapter-divider__note">Start a new chat or resume an old one. The back end stays the same. The Streamlit sidebar holds thread ids and loads the saved conversation.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-747" data-section="747" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">747</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two New Features</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we add two features to our chatbot. Start a new chat. Resume a past chat. We do not need to change the back end. The checkpointer already stores each thread. The front end only needs to pick which thread_id to use. The cards below are those two features.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Start new chat</p>
+                <p class="concept-card__desc">Make a new thread id. Clear the bubbles. Talk in a fresh window.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="history" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Resume chat</p>
+                <p class="concept-card__desc">Click a saved thread id. Load that conversation from the checkpointer.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-748" data-section="748" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">748</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Tasks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We divide this into four tasks. The steps below are that plan. We will build them one by one.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Front end work only</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="panel-left" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Sidebar</span>
+                  <span class="workflow__step-desc">Title, a start chat button, and a My Conversations heading. Make a dynamic thread id and show it.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">New chat click</span>
+                  <span class="workflow__step-desc">Open a new window. Make a new thread_id. Save it in session. Reset message history.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thread list</span>
+                  <span class="workflow__step-desc">Store all thread ids. Load them in the sidebar. Turn each one into a button.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="folder-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Load one chat</span>
+                  <span class="workflow__step-desc">On click of a thread id, load that conversation.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-749" data-section="749" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">749</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Back End Stays the Same</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The graph is still START, chat_node, END. ChatState still uses add_messages. The model still streams. InMemorySaver still saves state per thread_id. We compile chatbot the same way. The front end will call get_state and stream with a chosen thread id.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">langgraph_backend.py</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Annotated
+from langchain_core.messages import BaseMessage
+from langchain_openrouter import ChatOpenRouter
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph.message import add_messages
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0,
+    streaming=True
+)
+
+class ChatState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+
+def chat_node(state: ChatState):
+    messages = state["messages"]
+    response = llm.invoke(messages)
+    return {
+        "messages": [response]
+    }
+
+checkpointer = InMemorySaver()
+
+graph = StateGraph(ChatState)
+graph.add_node("chat_node", chat_node)
+graph.add_edge(START, "chat_node")
+graph.add_edge("chat_node", END)
+
+chatbot = graph.compile(
+    checkpointer=checkpointer
+)</code></pre>
+              <p class="code-io__note">No new nodes. Resume works because this checkpointer already stores each thread.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-750" data-section="750" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">750</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="panel-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sidebar and a Dynamic Thread</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>generate_thread_id uses uuid4 so each chat gets a unique id. We store thread_id, message_history, and threads on session_state. The sidebar title is LangGraph Chatbot. Current Conversation shows the live thread id. The picture below is that sidebar.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 200" role="img">
+                <rect x="20" y="12" width="160" height="176" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"></rect>
+                <text x="100" y="36" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">LangGraph Chatbot</text>
+                <rect x="36" y="48" width="128" height="28" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1"></rect>
+                <text x="100" y="67" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">Start New Chat</text>
+                <text x="100" y="98" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">Current thread id</text>
+                <text x="100" y="128" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">My Conversations</text>
+                <rect x="36" y="140" width="128" height="18" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"></rect>
+                <text x="100" y="153" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#0f172a">thread button</text>
+                <rect x="200" y="40" width="200" height="120" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="300" y="88" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Chat window</text>
+                <text x="300" y="112" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Bubbles for this thread</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Session and sidebar head</p>
+              <pre class="code-input"><code>import streamlit as st
+from langgraph_backend import chatbot
+from langchain_core.messages import HumanMessage
+import uuid
+
+def generate_thread_id():
+    return str(uuid.uuid4())
+
+if "thread_id" not in st.session_state:
+    st.session_state["thread_id"] = generate_thread_id()
+
+if "message_history" not in st.session_state:
+    st.session_state["message_history"] = []
+
+if "threads" not in st.session_state:
+    st.session_state["threads"] = []
+
+st.sidebar.title("LangGraph Chatbot")
+
+st.sidebar.subheader("Current Conversation")
+st.sidebar.write(
+    st.session_state["thread_id"]
+)</code></pre>
+              <p class="code-io__note">threads is the list of past ids. The live id is thread_id. The code later names the list Previous Conversations.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-751" data-section="751" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">751</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Start New Chat</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On click of new chat we open a new chat window. We generate a new thread_id. We save it in session. We reset message history. First we call save_current_thread so the old id goes into the threads list if that chat already has messages. Then st.rerun() redraws the empty window.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Save, then start fresh</p>
+              <pre class="code-input"><code>def save_current_thread():
+    current = st.session_state["thread_id"]
+    if (
+        st.session_state["message_history"]
+        and current not in st.session_state["threads"]
+    ):
+        st.session_state["threads"].append(current)
+
+if st.sidebar.button("Start New Chat"):
+    save_current_thread()
+    st.session_state["thread_id"] = generate_thread_id()
+    st.session_state["message_history"] = []
+    st.rerun()</code></pre>
+              <p class="code-io__note">An empty chat is not added to the list. Only a thread that already has messages is stored.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-752" data-section="752" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">752</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="mouse-pointer-click" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Thread Ids as Buttons</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We create a list to store all thread ids. That list is session_state threads. We load those ids in the sidebar. We convert the sidebar text to clickable buttons. reversed puts the newest id first. Each button key is the thread id so Streamlit can tell them apart.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Previous Conversations</p>
+              <pre class="code-input"><code>st.sidebar.subheader("Previous Conversations")
+
+for thread_id in reversed(st.session_state["threads"]):
+    if st.sidebar.button(thread_id, key=thread_id):
+        save_current_thread()
+        st.session_state["thread_id"] = thread_id
+        st.session_state["message_history"] = load_conversation(thread_id)
+        st.rerun()</code></pre>
+              <p class="code-io__note">Click a button and we switch thread_id, then load that chat into the bubbles.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-753" data-section="753" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">753</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Load One Conversation</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On click of a particular thread id we load that conversation. load_conversation calls chatbot.get_state with that thread id. It reads state.values messages. A human message becomes role user. Anything else becomes assistant. If content is a list, we join the text parts. The picture below is that load path.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 80" role="img">
+                <rect x="8" y="22" width="90" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="53" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Click id</text>
+                <line x1="98" y1="40" x2="124" y2="40" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="124" y="22" width="110" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="179" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">get_state</text>
+                <line x1="234" y1="40" x2="260" y2="40" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="260" y="22" width="150" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="335" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">message_history</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">load_conversation</p>
+              <pre class="code-input"><code>def load_conversation(thread_id):
+    state = chatbot.get_state(
+        config={"configurable": {"thread_id": thread_id}}
+    )
+    messages = []
+    for msg in state.values.get("messages", []):
+        role = "user" if msg.type == "human" else "assistant"
+        content = msg.content
+        if isinstance(content, list):
+            content = "".join(
+                part if isinstance(part, str) else part.get("text", "")
+                for part in content
+            )
+        messages.append(
+            {
+                "role": role,
+                "content": content
+            }
+        )
+    return messages</code></pre>
+              <p class="code-io__note">The words come from the saved state. We do not paste a fake chat here. Start a chat, click Start New Chat, then click the old id to see it return.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-754" data-section="754" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">754</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chat Still Streams</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>CONFIG now uses the thread_id that is in session. Send a line and we still stream with write_stream. New turns write into that thread. The checkpointer keeps them. After a new chat or a resume, this same block talks to the active id.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">CONFIG and stream</p>
+              <pre class="code-input"><code>CONFIG = {
+    "configurable": {
+        "thread_id": st.session_state["thread_id"]
+    }
+}
+
+for message in st.session_state["message_history"]:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+user_input = st.chat_input("Type here")
+
+if user_input:
+    st.session_state["message_history"].append(
+        {
+            "role": "user",
+            "content": user_input
+        }
+    )
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    with st.chat_message("assistant"):
+        def stream_response():
+            for message_chunk, metadata in chatbot.stream(
+                {
+                    "messages": [
+                        HumanMessage(content=user_input)
+                    ]
+                },
+                config=CONFIG,
+                stream_mode="messages"
+            ):
+                if message_chunk.content:
+                    yield message_chunk.content
+
+        ai_message = st.write_stream(
+            stream_response()
+        )
+
+    st.session_state["message_history"].append(
+        {
+            "role": "assistant",
+            "content": ai_message
+        }
+    )</code></pre>
+              <p class="code-io__note">Same stream loop as Day 57. Only the thread id in CONFIG has changed. It now comes from session, not a fixed thread 1 string.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-755" data-section="755" data-chapter="day-58">
+        <span class="lesson-card__marker" aria-hidden="true">755</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 58 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 58 takeaways</h3>
+              <ul>
+                <li>Start new chat and resume chat are front end features. The back end graph does not change.</li>
+                <li>uuid4 makes a dynamic thread id. We store it on session_state with message_history and a threads list.</li>
+                <li>Start New Chat saves the old id if it has messages, then makes a new id and clears the bubbles.</li>
+                <li>The sidebar lists thread ids as buttons under Previous Conversations.</li>
+                <li>Click an id, call get_state, map messages to role and content, then fill message_history.</li>
+                <li>CONFIG uses the active session thread_id so stream writes into that same saved chat.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
