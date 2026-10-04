@@ -1,0 +1,1016 @@
+      <div class="chapter-divider reveal" id="chapter-day-59" data-chapter="day-59">
+        <span class="chapter-divider__pill">Day 59</span>
+        <h2 class="chapter-divider__title">LangSmith</h2>
+        <p class="chapter-divider__note">LangSmith is an observability and evaluation tool. It stores an end to end trace of an LLM workflow so you can see each component, not only the final answer.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-756" data-section="756" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">756</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What is LangSmith</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangSmith is an observability and evaluation tool. Observability is the key word. It helps you see the internal working of a system, component by component. What input did this step take. What output did it give. That trace is stored, so you can open it later.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-757" data-section="757" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">757</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why We Need LangSmith</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We need it because LLM workflows are hard to debug. The three stories below are the same kind of problem. You see input, output, and total time. You do not see which step is slow, costly, or wrong.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="timer" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Latency</p>
+                <p class="concept-card__desc">The job usually takes 2 minutes. One day it takes 9 or 10 minutes. Which node is slow.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="coins" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Cost</p>
+                <p class="concept-card__desc">A caption usually uses 20 tokens. Some captions use 100 tokens. Why did spend jump.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="alert-triangle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Hallucination</p>
+                <p class="concept-card__desc">A RAG bot gives a false leave policy. Was it the retriever or the model.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-758" data-section="758" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">758</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="briefcase" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Latency in a Complex Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We work in a startup. Students find a job on Recruit Nepal. They read the job description. They change the resume and the cover letter by hand, many times. That is slow. So we build an LLM app. The student uploads the job description and the resume. The model matches them. It writes a cover letter and proofreads it. Students like the tool. The flow below is that app.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">JD and resume tool</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="upload" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Upload</span>
+                  <span class="workflow__step-desc">Student sends the job description and the resume.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-compare" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Match</span>
+                  <span class="workflow__step-desc">An LLM matches the JD and the resume.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-pen" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Write</span>
+                  <span class="workflow__step-desc">The model prepares the cover letter and proofreads it.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="send" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cover letter</span>
+                  <span class="workflow__step-desc">The student gets the finished letter.</span>
+                </li>
+              </ol>
+            </div>
+            <p>Normal latency is 2 minutes. One day many emails come. People say the site takes 9 or 10 minutes. We must find the root cause. The workflow is complex. It has many stages, branches, and more than one LLM, such as the JD match. We only have input, output, and total time. We cannot see which node is slow or broken. The issue might be this. Instead of scanning one folder in Google Drive, we scan every folder.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-759" data-section="759" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">759</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="coins" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Cost When Tokens Jump</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The first story was latency. This one is cost. We make a workflow that writes a caption. It usually uses 20 tokens. For some captions it uses 100 tokens. Same kind of app. The spend changes and we cannot see which step used the extra tokens.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-760" data-section="760" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">760</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hallucination in a RAG Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We work at Google. A thousand freshers join. They do not know company rules, so they ask HR every day. HR is tired of the same answers. We build a RAG chatbot so people can ask and the bot can reply.</p>
+            <p>Then the bot hallucinates. A person asks what the leave policy is. The bot says there is no leave policy if you want that. That is big misinformation. A RAG system is very hard to debug. You only see the final answer.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-761" data-section="761" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">761</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Kinds of RAG Mistakes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Any RAG system can hallucinate in two ways. The table below is those two ways. It could be many small settings too. When we update the RAG we might set the retriever to 1 document. That is too low. It should have been 3 or 5. The prompt might be wrong. In the system message we must write, if you do not get the context, say I do not know, instead of making an answer. If we forget that line, the model invents. Debugging this hallucination is very hard.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Retriever</th>
+                    <th scope="col">Generator</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The retriever fetches the wrong document.</td>
+                    <td>The docs are fine. A bad model, a bad prompt, or another LLM issue invents the answer.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-762" data-section="762" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">762</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="radar" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Observability</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The common part of the three stories is this. They are LLM workflows. The hardest part of an LLM system is that it is non deterministic. The same input can give a different output. That is very hard to debug. The problem does not leave a proper trace.</p>
+            <p>Observability helps you know the internal working of any system. You get an end to end trace. That trace is stored somewhere you can open later. LangSmith is the tool we use for this observability idea in our system.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-763" data-section="763" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">763</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What LangSmith Traces</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangSmith records more than the last line of text. The cards below are what a trace can hold.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="arrow-left-right" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Input and output</p>
+                <p class="concept-card__desc">What went in. What came out. For the whole run and for each step.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="git-branch" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Intermediate steps</p>
+                <p class="concept-card__desc">What the retriever set. What it fetched. Each hop in the middle.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="timer" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Latency</p>
+                <p class="concept-card__desc">Time to output, at the component level as well as the whole run.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="hash" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Token usage</p>
+                <p class="concept-card__desc">Input tokens and output tokens.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="badge-dollar-sign" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Cost</p>
+                <p class="concept-card__desc">Spend for that run.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="circle-x" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Error</p>
+                <p class="concept-card__desc">Where a step failed.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="tags" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Tags</p>
+                <p class="concept-card__desc">Labels you add so you can filter later.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="braces" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Metadata</p>
+                <p class="concept-card__desc">Extra facts you attach to the run.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="thumbs-up" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Feedback</p>
+                <p class="concept-card__desc">Signals you store with the trace.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-764" data-section="764" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">764</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Project, Trace, and Run</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is a small chain. User, then prompt, then LLM, then parser, then output. In LangSmith that whole app is a project. The project runs many times. One execution is a trace. The project has components such as the prompt, the LLM, and the parser. Every component that runs is a run. The picture below is that nest.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 200" role="img">
+                <rect x="16" y="12" width="388" height="176" rx="12" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.5"></rect>
+                <text x="210" y="36" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">Project</text>
+                <rect x="36" y="52" width="348" height="118" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="76" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Trace, one execution</text>
+                <rect x="52" y="92" width="96" height="56" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="100" y="126" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Run prompt</text>
+                <rect x="162" y="92" width="96" height="56" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="210" y="126" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Run LLM</text>
+                <rect x="272" y="92" width="96" height="56" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"></rect>
+                <text x="320" y="126" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Run parser</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-765" data-section="765" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">765</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="key-round" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">First Chain and Env Keys</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Turn tracing on with env keys. LANGCHAIN_TRACING_V2 must be true. LANGCHAIN_ENDPOINT points at the LangSmith API. LANGCHAIN_API_KEY is your LangSmith key. LANGCHAIN_PROJECT is the project name. For each new project, use a different project name. The first demo project is langsmith-demo. Then we build a one line prompt, a ChatGroq model, and a string parser. The chain is prompt, then model, then parser. We invoke it with a question. I do not invent the model reply here. Open the LangSmith project after you run it and read the trace.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">.env</p>
+              <pre class="code-input"><code>GROQ_API_KEY=''
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_ENDPOINT='https://api.smith.langchain.com'
+LANGCHAIN_API_KEY=''
+LANGCHAIN_PROJECT='langsmith-demo'</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">prompt, model, parser</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+load_dotenv()
+
+prompt = PromptTemplate.from_template("{question}")
+
+model = ChatGroq(
+    model="openai/gpt-oss-120b",
+    temperature=0
+)
+parser = StrOutputParser()
+
+chain = prompt | model | parser
+
+result = chain.invoke({"question": "What is the capital of Nepal?"})
+print(result)</code></pre>
+              <p class="code-io__note">The pipe builds the chain. Each piece becomes a run inside one trace in the langsmith-demo project.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-766" data-section="766" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">766</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Sequential Chain with Tags</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A sequential chain has more than one model hop. Prompt 1 asks for a detailed report on a topic. The model writes it. The parser turns that into text. Prompt 2 asks for a 5 pointer summary of that text. The same model and parser run again. We set LANGCHAIN_PROJECT to sequential llm app so this work sits in its own project. The config adds a run name, tags, and metadata. Those labels show up on the trace.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">sequential llm app</p>
+              <pre class="code-input"><code>from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+import os
+
+os.environ['LANGCHAIN_PROJECT'] = 'sequential llm app'
+
+load_dotenv()
+
+prompt1 = PromptTemplate(
+    template='Generate a detailed report on {topic}',
+    input_variables=['topic']
+)
+
+prompt2 = PromptTemplate(
+    template='Generate a 5 pointer summary from the following text \n {text}',
+    input_variables=['text']
+)
+
+model = ChatGroq(
+    model="openai/gpt-oss-120b",
+    temperature=0
+)
+
+parser = StrOutputParser()
+
+chain = prompt1 | model | parser | prompt2 | model | parser
+
+config = {
+    "run_name": "Unemployment in India",
+    "tags": ["llm app", "report generation"],
+    "metadata": {
+        "topic": "Unemployment in India",
+        "report_type": "detailed",
+        "report_length": "100 words",
+        "report_format": "markdown",
+        "report_language": "English",
+    }
+}
+
+result = chain.invoke({'topic': 'Unemployment in India'}, config=config)
+
+print(result)</code></pre>
+              <p class="code-io__note">run_name names this execution. tags and metadata help you filter later. We do not paste a fake report here.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-767" data-section="767" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">767</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RAG in Theory and Practice</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A RAG app is this idea. You give a query plus context. You ask a personal question. You send the query and the relevant chunks from a document. The idea is simple in theory. In practice the quality is often not good enough.</p>
+            <p>RAG can have two issues. Retrieval issue: wrong or irrelevant docs are fetched. Generator issue: the retriever gave good text, and the LLM still hallucinates. In production we cannot say the answer is bad because of the retriever or because of the generator. We only get the final answer. LangSmith can show the user query, the retrieved docs, the LLM prompt with those docs inside, and the LLM response.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-768" data-section="768" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">768</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Trace a RAG Chain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This first RAG loads islr.pdf, splits it, builds a FAISS store, and answers from the PDF only. The project name is rag chatbot v1. The retriever uses similarity with k set to 4. The system line says answer only from the PDF context. If the answer is not found, say I do not know. RunnableParallel sends context from the retriever and the question through as is. LangSmith will see the chain hops that are LangChain runnables.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">rag chatbot v1</p>
+              <pre class="code-input"><code>import os
+from dotenv import load_dotenv
+
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+from langchain_core.output_parsers import StrOutputParser
+
+os.environ['LANGCHAIN_PROJECT'] = 'rag chatbot v1'
+
+load_dotenv()
+
+OPENROUTER_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENROUTER_API_KEY:
+    raise ValueError("OPENAI_API_KEY not found in .env file")
+
+PDF_PATH = "islr.pdf"
+
+loader = PyPDFLoader(PDF_PATH)
+docs = loader.load()
+
+print(f"Total pages: {len(docs)}")
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=150
+)
+
+splits = splitter.split_documents(docs)
+
+print(f"Total chunks: {len(splits)}")
+
+embedding = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
+
+vectorstore = FAISS.from_documents(
+    splits,
+    embedding
+)
+
+retriever = vectorstore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 4}
+)
+
+llm = ChatOpenAI(
+    model="openrouter/free",
+    temperature=0.3,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=OPENROUTER_API_KEY
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    (
+        "system",
+        "Answer only from the provided PDF context. "
+        "If the answer is not found, say I don't know."
+    ),
+    (
+        "human",
+        "Question: {question}\n\nContext:\n{context}"
+    )
+])
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+parallel = RunnableParallel(
+    context=retriever | RunnableLambda(format_docs),
+    question=RunnablePassthrough()
+)
+
+chain = (
+    parallel
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+print("PDF RAG ready.")
+
+while True:
+    question = input("\nQ: ").strip()
+
+    if question.lower() in ["exit", "quit"]:
+        break
+
+    if not question:
+        continue
+
+    answer = chain.invoke(question)
+
+    print("\nA:", answer)</code></pre>
+              <p class="code-io__note">Page count and chunk count come from your PDF when you run this. We do not invent those numbers.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-769" data-section="769" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">769</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Problems in the First RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are usually two issues here. The cards below are those two issues.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="eye-off" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Not all steps are traces</p>
+                <p class="concept-card__desc">LangSmith only traces LangChain runnables. The chain is tracked. PDF load, chunk, and embedding are not. The whole RAG app is not in one trace.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="repeat" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Latency grows</p>
+                <p class="concept-card__desc">Each run loads the data, chunks it, and embeds it again. The more you run it, the longer you wait. The store should be saved and reused.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-770" data-section="770" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">770</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tag" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traceable Setup Steps</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For the first issue we wrap setup functions with the langsmith traceable decorator. LangSmith can only see LangChain runnables on its own. @traceable makes a normal function a run too. We name load_pdf, split_documents, build_vectorstore, and an umbrella setup_pipeline. The project name is rag chatbot v2. You can add tags and metadata on each decorator, such as metadata that says the loader is a pypdf loader. That is important. Each traceable decorator can take metadata and tags.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">pip</p>
+              <pre class="code-input"><code>pip install -U langchain langchain-openai langchain-community faiss-cpu pypdf python-dotenv langsmith</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">@traceable setup</p>
+              <pre class="code-input"><code>from langsmith import traceable
+
+os.environ["LANGCHAIN_PROJECT"] = "rag chatbot v2"
+
+@traceable(name="load_pdf")
+def load_pdf(path: str):
+    loader = PyPDFLoader(path)
+    return loader.load()
+
+@traceable(name="split_documents")
+def split_documents(docs, chunk_size=1000, chunk_overlap=150):
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
+    return splitter.split_documents(docs)
+
+@traceable(name="build_vectorstore")
+def build_vectorstore(splits):
+    emb = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+    vs = FAISS.from_documents(splits, emb)
+    return vs
+
+@traceable(name="setup_pipeline")
+def setup_pipeline(pdf_path: str):
+    docs = load_pdf(pdf_path)
+    splits = split_documents(docs)
+    vs = build_vectorstore(splits)
+    return vs
+
+vectorstore = setup_pipeline(PDF_PATH)
+retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
+
+config = {
+    "run_name": "pdf_rag_query"
+}
+
+answer = chain.invoke(question, config=config)</code></pre>
+              <p class="code-io__note">FAISS.from_documents calls the embedding model inside build_vectorstore. The query still uses run_name pdf_rag_query.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-771" data-section="771" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">771</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Tree of Runs</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>v2 traces the functions, but it traces them as two separate things. Setup pipeline is one trace. The RAG query is another. What should happen is one RAG application with setup and the query in one structure. The later code wraps both under one parent named pdf_rag_full_run. That parent calls setup_pipeline, then the chain. The picture below is split traces versus one tree.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 170" role="img">
+                <rect x="16" y="16" width="180" height="138" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="106" y="40" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">v2, two traces</text>
+                <rect x="36" y="56" width="140" height="36" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="106" y="79" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">setup_pipeline</text>
+                <rect x="36" y="102" width="140" height="36" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="106" y="125" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">pdf_rag_query</text>
+                <rect x="224" y="16" width="180" height="138" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"></rect>
+                <text x="314" y="40" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">One parent</text>
+                <rect x="244" y="52" width="140" height="86" rx="8" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"></rect>
+                <text x="314" y="78" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">pdf_rag_full_run</text>
+                <text x="314" y="100" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">setup_pipeline</text>
+                <text x="314" y="118" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">pdf_rag_query</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-772" data-section="772" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">772</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Cache the Index</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we fix the latency issue. We save the FAISS index under .indices. A fingerprint of the PDF plus chunk settings plus the embedding model name becomes a folder key. load_or_build_index is not traced. It only picks a path. If the folder exists, load_index_run loads it. If not, build_index_run loads the PDF, splits, embeds, saves the store, and writes meta.json. setup_pipeline calls that dispatcher. setup_pipeline_and_query is the parent named pdf_rag_full_run. The project name is rag chatbot v4. The flow below is cache hit versus build.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Load or build</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="fingerprint" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Key</span>
+                  <span class="workflow__step-desc">Hash the PDF fingerprint, chunk size, overlap, and embed model.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="folder-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cache hit</span>
+                  <span class="workflow__step-desc">load_index_run reads the saved FAISS folder.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="folder-plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cache miss</span>
+                  <span class="workflow__step-desc">build_index_run loads, splits, embeds, and saves.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Query</span>
+                  <span class="workflow__step-desc">The parent run then asks the chain.</span>
+                </li>
+              </ol>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">rag chatbot v4</p>
+              <pre class="code-input"><code>import os
+import json
+import hashlib
+from pathlib import Path
+from dotenv import load_dotenv
+
+from langsmith import traceable
+
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_community.vectorstores import FAISS
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+from langchain_core.output_parsers import StrOutputParser
+
+os.environ["LANGCHAIN_PROJECT"] = "rag chatbot v4"
+
+load_dotenv()
+
+OPENROUTER_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENROUTER_API_KEY:
+    raise ValueError("OPENAI_API_KEY not found in .env file")
+
+EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+
+PDF_PATH = "islr.pdf"
+INDEX_ROOT = Path(".indices")
+INDEX_ROOT.mkdir(exist_ok=True)
+
+@traceable(name="load_pdf")
+def load_pdf(path: str):
+    return PyPDFLoader(path).load()
+
+@traceable(name="split_documents")
+def split_documents(docs, chunk_size=1000, chunk_overlap=150):
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
+    return splitter.split_documents(docs)
+
+@traceable(name="build_vectorstore")
+def build_vectorstore(splits, embed_model_name: str):
+    emb = HuggingFaceEmbeddings(model_name=embed_model_name)
+    return FAISS.from_documents(splits, emb)
+
+def _file_fingerprint(path: str) -> dict:
+    p = Path(path)
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return {"sha256": h.hexdigest(), "size": p.stat().st_size, "mtime": int(p.stat().st_mtime)}
+
+def _index_key(pdf_path: str, chunk_size: int, chunk_overlap: int, embed_model_name: str) -> str:
+    meta = {
+        "pdf_fingerprint": _file_fingerprint(pdf_path),
+        "chunk_size": chunk_size,
+        "chunk_overlap": chunk_overlap,
+        "embedding_model": embed_model_name,
+        "format": "v1",
+    }
+    return hashlib.sha256(json.dumps(meta, sort_keys=True).encode("utf-8")).hexdigest()
+
+@traceable(name="load_index", tags=["index"])
+def load_index_run(index_dir: Path, embed_model_name: str):
+    emb = HuggingFaceEmbeddings(model_name=embed_model_name)
+    return FAISS.load_local(
+        str(index_dir),
+        emb,
+        allow_dangerous_deserialization=True
+    )
+
+@traceable(name="build_index", tags=["index"])
+def build_index_run(pdf_path: str, index_dir: Path, chunk_size: int, chunk_overlap: int, embed_model_name: str):
+    docs = load_pdf(pdf_path)
+    splits = split_documents(docs, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    vs = build_vectorstore(splits, embed_model_name)
+    index_dir.mkdir(parents=True, exist_ok=True)
+    vs.save_local(str(index_dir))
+    (index_dir / "meta.json").write_text(json.dumps({
+        "pdf_path": os.path.abspath(pdf_path),
+        "chunk_size": chunk_size,
+        "chunk_overlap": chunk_overlap,
+        "embedding_model": embed_model_name,
+    }, indent=2))
+    return vs
+
+def load_or_build_index(
+    pdf_path: str,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 150,
+    embed_model_name: str = EMBED_MODEL,
+    force_rebuild: bool = False,
+):
+    key = _index_key(pdf_path, chunk_size, chunk_overlap, embed_model_name)
+    index_dir = INDEX_ROOT / key
+    cache_hit = index_dir.exists() and not force_rebuild
+    if cache_hit:
+        return load_index_run(index_dir, embed_model_name)
+    else:
+        return build_index_run(pdf_path, index_dir, chunk_size, chunk_overlap, embed_model_name)
+
+llm = ChatOpenAI(
+    model="openrouter/free",
+    temperature=0.3,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=OPENROUTER_API_KEY,
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Answer ONLY from the provided context. If not found, say you don't know."),
+    ("human", "Question: {question}\n\nContext:\n{context}")
+])
+
+def format_docs(docs):
+    return "\n\n".join(d.page_content for d in docs)
+
+@traceable(name="setup_pipeline", tags=["setup"])
+def setup_pipeline(pdf_path: str, chunk_size=1000, chunk_overlap=150, embed_model_name=EMBED_MODEL, force_rebuild=False):
+    return load_or_build_index(
+        pdf_path=pdf_path,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        embed_model_name=embed_model_name,
+        force_rebuild=force_rebuild,
+    )
+
+@traceable(name="pdf_rag_full_run")
+def setup_pipeline_and_query(
+    pdf_path: str,
+    question: str,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 150,
+    embed_model_name: str = EMBED_MODEL,
+    force_rebuild: bool = False,
+):
+    vectorstore = setup_pipeline(pdf_path, chunk_size, chunk_overlap, embed_model_name, force_rebuild)
+    retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
+
+    parallel = RunnableParallel({
+        "context": retriever | RunnableLambda(format_docs),
+        "question": RunnablePassthrough(),
+    })
+    chain = parallel | prompt | llm | StrOutputParser()
+
+    return chain.invoke(
+        question,
+        config={"run_name": "pdf_rag_query", "tags": ["qa"], "metadata": {"k": 4}}
+    )
+
+if __name__ == "__main__":
+    print("PDF RAG ready.")
+
+    while True:
+        question = input("\nQ: ").strip()
+
+        if question.lower() in ["exit", "quit"]:
+            break
+
+        if not question:
+            continue
+
+        answer = setup_pipeline_and_query(PDF_PATH, question)
+        print("\nA:", answer)</code></pre>
+              <p class="code-io__note">load_or_build_index has no decorator. The child runs are load_index or build_index. The parent is pdf_rag_full_run.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-773" data-section="773" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">773</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">When the Index Rebuilds</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The cache key changes, so a new index is built, in these cases. The list below is those cases.</p>
+            <ul>
+              <li>No cache exists yet. This is the first ever run.</li>
+              <li>PDF content changes. The sha256 in the fingerprint changes.</li>
+              <li>PDF file metadata changes, such as size or mtime.</li>
+              <li>Chunk params change. Chunk size or chunk overlap.</li>
+              <li>The embedding model name changes.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-774" data-section="774" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">774</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Agent Traces</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The same env tracing works for an agent. The project name is agent. We pull the ReAct prompt from the LangChain Hub with Client().pull_prompt. We add a line so the agent waits for the tool result and does not write Observation itself. AgentExecutor wraps the agent. Tools are DuckDuckGo search and a weather tool. Put the weather key in an env var. Do not paste a live key in code. Try questions such as the current temp of Gurgaon, the release date of Dhadak 2, or the birthplace of Kalpana Chawla plus that city temperature. I do not invent those answers here. Open the agent project in LangSmith after you run it.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">agent project</p>
+              <pre class="code-input"><code>import os
+import requests
+from dotenv import load_dotenv
+
+from langchain_groq import ChatGroq
+from langchain_core.tools import tool
+from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_classic.agents import create_react_agent, AgentExecutor
+from langsmith import Client
+
+os.environ["LANGCHAIN_PROJECT"] = "agent"
+
+load_dotenv()
+
+if not os.getenv("GROQ_API_KEY"):
+    raise ValueError("GROQ_API_KEY not found in .env file")
+
+search_tool = DuckDuckGoSearchRun()
+
+@tool
+def get_weather_data(city: str) -> str:
+    """
+    This function fetches the current weather data for a given city
+    """
+    url = (
+        "https://api.weatherstack.com/current"
+        f"?access_key={os.getenv('WEATHER_API_KEY')}&query={city}"
+    )
+
+    response = requests.get(url)
+    response.raise_for_status()
+
+    return str(response.json())
+
+llm = ChatGroq(
+    model="openai/gpt-oss-120b",
+    temperature=0,
+)
+
+prompt = Client().pull_prompt(
+    "hwchase17/react",
+    dangerously_pull_public_prompt=True,
+)
+prompt.template += (
+    "\nAfter Action Input, stop. Do not write Observation yourself. "
+    "Wait for the tool result, then write Thought and Final Answer.\n"
+)
+
+agent = create_react_agent(
+    llm=llm,
+    tools=[search_tool, get_weather_data],
+    prompt=prompt
+)
+
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=[search_tool, get_weather_data],
+    verbose=True,
+    max_iterations=5,
+    handle_parsing_errors=True,
+)
+
+response = agent_executor.invoke({"input": "What is the current temp of gurgaon"})
+print(response)
+
+print(response['output'])</code></pre>
+              <p class="code-io__note">Set WEATHER_API_KEY in .env. Do not hard code a live weather key in the file.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-775" data-section="775" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">775</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangGraph Traces</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we look at LangGraph with LangSmith. LangGraph helps you see the project as a workflow. You identify the project. LangGraph debug is very hard on its own. The whole graph execution can be logged in LangSmith as a trace. Each node, such as a retriever, an LLM, a tool call, or a subgraph, becomes a run inside that trace. You can see the path taken. The chain below is one path. START, retriever, ranker, LLM answer, END.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One graph path</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="circle-play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">START</span>
+                  <span class="workflow__step-desc">The graph begins.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retriever</span>
+                  <span class="workflow__step-desc">Fetch chunks. This node is a run.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="list-ordered" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Ranker</span>
+                  <span class="workflow__step-desc">Order the docs. This node is a run.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM answer</span>
+                  <span class="workflow__step-desc">Write the reply. Then END.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-776" data-section="776" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">776</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="panels-top-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">More Than Observability</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we mainly learned observability. LangSmith has more. The cards below are those other parts. They are used a lot in production.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="bell" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Monitoring and alerting</p>
+                <p class="concept-card__desc">Set an alert. Watch traces. If too many requests come at once, you can cut them. If latency rises across many traces, that is a problem.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="scale" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Evaluation</p>
+                <p class="concept-card__desc">LLMs are non deterministic. A prompt change or a model change can give a new answer. Measure on a standard dataset. LLM as a judge is a common example. Use a pre built evaluator or make your own. This sits under LLM Ops.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="flask-conical" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Prompt experiments</p>
+                <p class="concept-card__desc">Test and compare prompt versions in a systematic way. Run an A B test. There is a prompt engineering section and a playground.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="database" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Datasets and annotation</p>
+                <p class="concept-card__desc">Build a dataset for evaluation and fine tuning. Support manual annotation. Store the dataset.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="thumbs-up" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">User feedback</p>
+                <p class="concept-card__desc">Capture up and down, a rating, or structured feedback from users in production.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="share-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Collaboration</p>
+                <p class="concept-card__desc">Copy the link of a trace and share it with the team.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-777" data-section="777" data-chapter="day-59">
+        <span class="lesson-card__marker" aria-hidden="true">777</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 59 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 59 takeaways</h3>
+              <ul>
+                <li>LangSmith is an observability and evaluation tool for LLM workflows.</li>
+                <li>Latency, cost, and hallucination are hard to debug when you only see input, output, and total time.</li>
+                <li>RAG can fail in the retriever or in the generator. You need the middle steps to know which one.</li>
+                <li>LLM systems are non deterministic. The same input can give a different output. A stored end to end trace helps.</li>
+                <li>A project holds many traces. One execution is a trace. Each component that runs is a run.</li>
+                <li>LangSmith traces input, output, middle steps, latency, tokens, cost, errors, tags, metadata, and feedback.</li>
+                <li>Use a new LANGCHAIN_PROJECT name for each app. Add run_name, tags, and metadata on invoke.</li>
+                <li>LangSmith traces LangChain runnables. Use @traceable for load, split, and embed. Prefer one parent run.</li>
+                <li>Save the FAISS index. Rebuild when the PDF, chunk settings, or embed model change.</li>
+                <li>Agents and LangGraph nodes show up as runs. Monitoring, evaluation, prompt tests, datasets, feedback, and share links are the rest of the product.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
