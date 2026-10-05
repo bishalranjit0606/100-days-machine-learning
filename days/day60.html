@@ -1,0 +1,522 @@
+      <div class="chapter-divider reveal" id="chapter-day-60" data-chapter="day-60">
+        <span class="chapter-divider__pill">Day 60</span>
+        <h2 class="chapter-divider__title">Observability in the LangGraph Chatbot</h2>
+        <p class="chapter-divider__note">We keep the same chatbot. We send the thread id to LangSmith as well as to SQLite, so each chat has its own thread of traces.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-778" data-section="778" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">778</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Chatbot We Already Built</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Until now we made a chatbot in LangGraph. It streams. It can start a new chat. It can resume an old chat. Today we add observability to that same chatbot.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-779" data-section="779" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">779</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pencil" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">We Do Not Rewrite the Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We do not need to change the whole code. The graph is still START, chat_node, END. We add a bit of config so LangSmith can group traces by chat. The cards below are what stays and what we add.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="lock" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Same graph</p>
+                <p class="concept-card__desc">ChatState, add_messages, one chat_node, compile with a checkpointer.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">New bits</p>
+                <p class="concept-card__desc">Env keys for LangSmith, make_config with thread_id, pass config into the model, list threads from SQLite.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-780" data-section="780" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">780</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shuffle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Traces Can Feel Mismanaged</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We might ask this. We open a new chat, a new thread. That run also saves in the same LangSmith store. We go back to a previous chat, send a line, and a new trace is stored in LangSmith too. It can feel mismanaged. All chats look dumped in one pile. The picture below is that mix versus one thread per chat.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 170" role="img">
+                <rect x="16" y="16" width="180" height="138" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="106" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">One pile</text>
+                <text x="106" y="72" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#9a3412">New chat trace</text>
+                <text x="106" y="96" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#9a3412">Old chat trace</text>
+                <text x="106" y="120" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#9a3412">Hard to sort</text>
+                <rect x="224" y="16" width="180" height="138" rx="10" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.5"></rect>
+                <text x="314" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Per thread</text>
+                <rect x="244" y="56" width="140" height="36" rx="6" fill="#ccfbf1" stroke="#5eead4" stroke-width="1"></rect>
+                <text x="314" y="79" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Thread A chat</text>
+                <rect x="244" y="102" width="140" height="36" rx="6" fill="#ccfbf1" stroke="#5eead4" stroke-width="1"></rect>
+                <text x="314" y="125" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Thread B chat</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-781" data-section="781" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">781</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">One Thread Id for Both Stores</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In LangSmith we can use a different thread for each conversation. Each thread stores that chat only. We put the thread id in the code. LangSmith has an option to show the thread conversation. The same id also goes to the LangGraph checkpointer. The steps below are that shared id.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Same thread_id two ways</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">thread_id</span>
+                  <span class="workflow__step-desc">One id for this chat window.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">SQLite</span>
+                  <span class="workflow__step-desc">configurable thread_id saves the graph state.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="eye" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LangSmith</span>
+                  <span class="workflow__step-desc">metadata thread_id groups the traces for that chat.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="messages-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thread view</span>
+                  <span class="workflow__step-desc">LangSmith can show that thread convo.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-782" data-section="782" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">782</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="key-round" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Copy Old Env Names</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We still load .env next to the backend file. Older LangChain names still work. If LANGCHAIN_TRACING_V2 is true, we also set LANGSMITH_TRACING. We copy LANGCHAIN_API_KEY, LANGCHAIN_PROJECT, and LANGCHAIN_ENDPOINT to the current LangSmith names when those keys exist. If LANGSMITH_PROJECT is still empty, we default it to langsmith-demo. That is the same project name from Day 59.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Env copy</p>
+              <pre class="code-input"><code>load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
+if os.getenv("LANGCHAIN_TRACING_V2", "").lower() == "true":
+    os.environ.setdefault("LANGSMITH_TRACING", "true")
+if os.getenv("LANGCHAIN_API_KEY"):
+    os.environ.setdefault("LANGSMITH_API_KEY", os.environ["LANGCHAIN_API_KEY"])
+if os.getenv("LANGCHAIN_PROJECT"):
+    os.environ.setdefault("LANGSMITH_PROJECT", os.environ["LANGCHAIN_PROJECT"])
+if os.getenv("LANGCHAIN_ENDPOINT"):
+    os.environ.setdefault("LANGSMITH_ENDPOINT", os.environ["LANGCHAIN_ENDPOINT"])
+
+os.environ.setdefault("LANGSMITH_PROJECT", "langsmith-demo")</code></pre>
+              <p class="code-io__note">setdefault does not overwrite a value that is already set. Your .env can use the old names or the new names.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-783" data-section="783" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">783</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="settings-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">make_config</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>make_config takes a thread_id. It returns one dict. configurable thread_id is for the LangGraph checkpointer. metadata thread_id is for LangSmith. run_name is chat. The comment in the code says it. Same id for the saved chat and the LangSmith thread.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">make_config</p>
+              <pre class="code-input"><code>def make_config(thread_id: str) -> dict:
+    # Same id for the saved chat and the LangSmith thread.
+    return {
+        "configurable": {"thread_id": thread_id},
+        "metadata": {"thread_id": thread_id},
+        "run_name": "chat",
+    }</code></pre>
+              <p class="code-io__note">The front end calls this for stream, for get_state, and for the live CONFIG.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-784" data-section="784" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">784</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="forward" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pass Config into the Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>chat_node now takes config as a RunnableConfig. It still reads state messages. It calls llm.invoke with those messages and that config. The trace can then carry the thread id. The graph compile is the same as before.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">chat_node</p>
+              <pre class="code-input"><code>def chat_node(state: ChatState, config: RunnableConfig):
+    messages = state["messages"]
+    response = llm.invoke(messages, config)
+    return {
+        "messages": [response]
+    }</code></pre>
+              <p class="code-io__note">Without this second argument, the model call would not get the thread metadata.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-785" data-section="785" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">785</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Threads from SQLite</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The checkpointer is SqliteSaver on chatbot.db next to the backend file. check_same_thread is False so Streamlit can use this connection. get_all_threads reads the checkpoints table. It groups by thread_id and orders by the latest checkpoint_id, newest first. Old chats then stay after a restart. They do not live only in session_state.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">SqliteSaver</p>
+              <pre class="code-input"><code>db_path = os.path.join(os.path.dirname(__file__), "chatbot.db")
+
+conn = sqlite3.connect(db_path, check_same_thread=False)
+
+checkpointer = SqliteSaver(conn)
+
+def get_all_threads():
+    query = """
+        SELECT thread_id
+        FROM checkpoints
+        GROUP BY thread_id
+        ORDER BY MAX(checkpoint_id) DESC
+    """
+
+    with checkpointer.cursor(transaction=False) as cur:
+        cur.execute(query)
+        return [row[0] for row in cur.fetchall()]
+
+graph = StateGraph(ChatState)
+graph.add_node("chat_node", chat_node)
+graph.add_edge(START, "chat_node")
+graph.add_edge("chat_node", END)
+
+chatbot = graph.compile(
+    checkpointer=checkpointer
+)</code></pre>
+              <p class="code-io__note">The sidebar later lists these ids, except the one that is already open.</p>
+            </div>
+            <p>The full backend file puts the env copy, the LLM helper, make_config, chat_node, and this checkpointer in one module named langgraph_backend.py.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">langgraph_backend.py</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Annotated
+
+from langchain_core.messages import BaseMessage
+from langchain_core.runnables import RunnableConfig
+from langchain_openrouter import ChatOpenRouter
+
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph.message import add_messages
+
+import sqlite3
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
+if os.getenv("LANGCHAIN_TRACING_V2", "").lower() == "true":
+    os.environ.setdefault("LANGSMITH_TRACING", "true")
+if os.getenv("LANGCHAIN_API_KEY"):
+    os.environ.setdefault("LANGSMITH_API_KEY", os.environ["LANGCHAIN_API_KEY"])
+if os.getenv("LANGCHAIN_PROJECT"):
+    os.environ.setdefault("LANGSMITH_PROJECT", os.environ["LANGCHAIN_PROJECT"])
+if os.getenv("LANGCHAIN_ENDPOINT"):
+    os.environ.setdefault("LANGSMITH_ENDPOINT", os.environ["LANGCHAIN_ENDPOINT"])
+
+os.environ.setdefault("LANGSMITH_PROJECT", "langsmith-demo")
+
+
+def _make_llm():
+    openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip()
+    if openrouter_key and openrouter_key != "your_openrouter_key_here":
+        return ChatOpenRouter(
+            model="openrouter/free",
+            temperature=0,
+            streaming=True,
+        )
+
+    groq_key = os.getenv("GROQ_API_KEY", "").strip()
+    if groq_key and groq_key != "your_groq_key_here":
+        from langchain_groq import ChatGroq
+
+        return ChatGroq(
+            model="openai/gpt-oss-20b",
+            temperature=0,
+        )
+
+    raise RuntimeError(
+        "Add OPENROUTER_API_KEY or GROQ_API_KEY to .env before you start the chatbot."
+    )
+
+
+llm = _make_llm()
+
+
+class ChatState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+
+
+def make_config(thread_id: str) -> dict:
+    return {
+        "configurable": {"thread_id": thread_id},
+        "metadata": {"thread_id": thread_id},
+        "run_name": "chat",
+    }
+
+
+def chat_node(state: ChatState, config: RunnableConfig):
+    messages = state["messages"]
+    response = llm.invoke(messages, config)
+    return {
+        "messages": [response]
+    }
+
+
+db_path = os.path.join(os.path.dirname(__file__), "chatbot.db")
+conn = sqlite3.connect(db_path, check_same_thread=False)
+checkpointer = SqliteSaver(conn)
+
+
+def get_all_threads():
+    query = """
+        SELECT thread_id
+        FROM checkpoints
+        GROUP BY thread_id
+        ORDER BY MAX(checkpoint_id) DESC
+    """
+
+    with checkpointer.cursor(transaction=False) as cur:
+        cur.execute(query)
+        return [row[0] for row in cur.fetchall()]
+
+
+graph = StateGraph(ChatState)
+graph.add_node("chat_node", chat_node)
+graph.add_edge(START, "chat_node")
+graph.add_edge("chat_node", END)
+
+chatbot = graph.compile(
+    checkpointer=checkpointer
+)</code></pre>
+              <p class="code-io__note">This is the whole back end. The next lessons only zoom in on the LLM helper and the Streamlit page.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-786" data-section="786" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">786</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="cpu" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pick OpenRouter or Groq</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>_make_llm looks at .env. If OPENROUTER_API_KEY is set and is not the placeholder string, it uses ChatOpenRouter with openrouter/free, temperature 0, streaming True. Else if GROQ_API_KEY is set and is not the placeholder, it uses ChatGroq with openai/gpt-oss-20b. Else it raises a RuntimeError and tells you to add a key before you start.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">_make_llm</p>
+              <pre class="code-input"><code>def _make_llm():
+    openrouter_key = os.getenv("OPENROUTER_API_KEY", "").strip()
+    if openrouter_key and openrouter_key != "your_openrouter_key_here":
+        return ChatOpenRouter(
+            model="openrouter/free",
+            temperature=0,
+            streaming=True,
+        )
+
+    groq_key = os.getenv("GROQ_API_KEY", "").strip()
+    if groq_key and groq_key != "your_groq_key_here":
+        from langchain_groq import ChatGroq
+
+        return ChatGroq(
+            model="openai/gpt-oss-20b",
+            temperature=0,
+        )
+
+    raise RuntimeError(
+        "Add OPENROUTER_API_KEY or GROQ_API_KEY to .env before you start the chatbot."
+    )
+
+llm = _make_llm()</code></pre>
+              <p class="code-io__note">Put a real key in .env. Do not leave the placeholder text.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-787" data-section="787" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">787</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-dashboard" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Front End Uses make_config</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The page still has a sidebar, Start New Chat, and previous conversations. generate_thread_id now uses uuid7 from langsmith. load_conversation calls chatbot.get_state with make_config. Start New Chat makes a new id and clears the bubbles. Previous threads come from get_all_threads, skipping the open id. CONFIG is make_config of the session thread_id. Stream still uses stream_mode messages. The same thread id goes to SQLite and to LangSmith. I do not invent chat text here. Open LangSmith after you talk and look at that thread.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">streamlit_frontend.py</p>
+              <pre class="code-input"><code>import streamlit as st
+
+from langgraph_backend import chatbot, get_all_threads, make_config
+from langchain_core.messages import HumanMessage
+from langsmith import uuid7
+
+
+def generate_thread_id():
+    return str(uuid7())
+
+
+if "thread_id" not in st.session_state:
+    st.session_state["thread_id"] = generate_thread_id()
+
+if "message_history" not in st.session_state:
+    st.session_state["message_history"] = []
+
+st.sidebar.title("LangGraph Chatbot")
+
+st.sidebar.subheader("Current Conversation")
+st.sidebar.write(
+    st.session_state["thread_id"]
+)
+
+
+def load_conversation(thread_id):
+    state = chatbot.get_state(make_config(thread_id))
+    messages = []
+    for msg in state.values.get("messages", []):
+        role = "user" if msg.type == "human" else "assistant"
+        content = msg.content
+        if isinstance(content, list):
+            content = "".join(
+                part if isinstance(part, str) else part.get("text", "")
+                for part in content
+            )
+        messages.append(
+            {
+                "role": role,
+                "content": content
+            }
+        )
+    return messages
+
+
+if st.sidebar.button("Start New Chat"):
+    st.session_state["thread_id"] = generate_thread_id()
+    st.session_state["message_history"] = []
+    st.rerun()
+
+previous_threads = [
+    thread_id
+    for thread_id in get_all_threads()
+    if thread_id != st.session_state["thread_id"]
+]
+
+st.sidebar.subheader("Previous Conversations")
+
+for thread_id in previous_threads:
+    if st.sidebar.button(thread_id, key=thread_id):
+        st.session_state["thread_id"] = thread_id
+        st.session_state["message_history"] = load_conversation(thread_id)
+        st.rerun()
+
+CONFIG = make_config(st.session_state["thread_id"])
+
+for message in st.session_state["message_history"]:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+user_input = st.chat_input("Type here")
+
+if user_input:
+    st.session_state["message_history"].append(
+        {
+            "role": "user",
+            "content": user_input
+        }
+    )
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    with st.chat_message("assistant"):
+        def stream_response():
+            for message_chunk, metadata in chatbot.stream(
+                {
+                    "messages": [
+                        HumanMessage(content=user_input)
+                    ]
+                },
+                config=CONFIG,
+                stream_mode="messages"
+            ):
+                if message_chunk.content:
+                    yield message_chunk.content
+
+        ai_message = st.write_stream(
+            stream_response()
+        )
+
+    st.session_state["message_history"].append(
+        {
+            "role": "assistant",
+            "content": ai_message
+        }
+    )</code></pre>
+              <p class="code-io__note">Day 58 kept ids in session. Today the list comes from SQLite, so a restart still shows old chats.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-788" data-section="788" data-chapter="day-60">
+        <span class="lesson-card__marker" aria-hidden="true">788</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 60 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 60 takeaways</h3>
+              <ul>
+                <li>We add observability to the LangGraph chatbot. We do not rewrite the graph.</li>
+                <li>New chats and resumed chats all write traces. Without a thread id they look dumped in one pile.</li>
+                <li>LangSmith can keep a different thread per conversation and show that thread convo.</li>
+                <li>make_config puts the same thread_id in configurable and in metadata. run_name is chat.</li>
+                <li>chat_node passes that config into llm.invoke so the model run stays on the thread.</li>
+                <li>Copy LANGCHAIN env names to LANGSMITH names. Default project is langsmith-demo.</li>
+                <li>SqliteSaver stores chats in chatbot.db. get_all_threads fills the sidebar after a restart.</li>
+                <li>uuid7 makes the new thread id. Stream still uses that CONFIG.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
