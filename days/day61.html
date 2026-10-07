@@ -1,0 +1,1001 @@
+      <div class="chapter-divider reveal" id="chapter-day-61" data-chapter="day-61">
+        <span class="chapter-divider__pill">Day 61</span>
+        <h2 class="chapter-divider__title">Tools in LangGraph</h2>
+        <p class="chapter-divider__note">The chatbot can talk and remember. Today we give it hands. A ToolNode runs tools. A loop sends the tool result back to the LLM so the user hears a normal sentence.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-789" data-section="789" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">789</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="ban" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Until Now, No Hands</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Until now we made a chatbot that can answer a question, remember the previous conversation, use observability, and save chats in a SQLite db. It is not capable of connecting to any tools. Tools are like giving the chatbot hands. We can give it any tools we need.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-790" data-section="790" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">790</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hand" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We are adding three tools. The cards below are those three. A search example is what are the top news in Kathmandu. A stock tool gives a company real time share price.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="calculator" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Calculator</p>
+                <p class="concept-card__desc">Math, including the cost of many shares.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="search" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Internet search</p>
+                <p class="concept-card__desc">Current events and news, such as top news in Kathmandu.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="line-chart" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Stock price</p>
+                <p class="concept-card__desc">The latest quote for a ticker such as AAPL.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-791" data-section="791" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">791</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Plan of Action</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We do this in two parts. First the fundamental of adding a tool in LangGraph. Then we add the tools in our chatbot. The old graph is still START, chat_node, END. The user asks. chat_node has the LLM. Then END.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Two steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Fundamentals</span>
+                  <span class="workflow__step-desc">ToolNode, tools_condition, bind_tools, and the loop.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">The chatbot</span>
+                  <span class="workflow__step-desc">Put calculator, search, and stock into that graph.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-792" data-section="792" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">792</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-fork" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chat or Action</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The chatbot needs a normal conversation and also hands that can work. Inside the simple chat_node we need a decision. Is the user chatting, or is this a working thing. If the user asks what is the capital of Nepal, it will chat. If the user asks what is the latest news in Nepal, it will chat and also decide to take an action. The picture below is that fork.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="50" width="110" height="50" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="71" y="80" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">User ask</text>
+                <line x1="126" y1="75" x2="168" y2="75" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="168" y="50" width="110" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="223" y="80" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat_node</text>
+                <line x1="278" y1="60" x2="318" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="278" y1="90" x2="318" y2="114" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="318" y="12" width="86" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="361" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Chat END</text>
+                <rect x="318" y="98" width="86" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="361" y="123" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Use a tool</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-793" data-section="793" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">793</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">ToolNode</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>To add tools in LangGraph we put all the tools in a ToolNode. That is calculator, DuckDuckGo search, and stock price. ToolNode is the guy who executes a tool. It is a pre built node. It acts as a bridge between the graph and an external tool.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Import</p>
+              <pre class="code-input"><code>from langgraph.prebuilt import ToolNode, tools_condition
+from langchain_core.tools import tool</code></pre>
+              <p class="code-io__note">The names are ToolNode and tools_condition from langgraph.prebuilt. That is the working import.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-794" data-section="794" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">794</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">tools_condition</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>tools_condition is built in LangGraph. It tells what to do next. Call a tool, or do a normal chat. It is a pre built conditional edge function. We add it with add_conditional_edges on chat_node.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Conditional edge</p>
+              <pre class="code-input"><code>graph.add_conditional_edges("chat_node", tools_condition)</code></pre>
+              <p class="code-io__note">If the model asks for a tool, go to the tools node. If not, go to END.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-795" data-section="795" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">795</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="blocks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pre Built and Custom Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are two types of tool. Pre built tools are given by LangChain, such as DuckDuckGoSearchRun. Custom tools are ones we make. For a custom tool we use the @tool decorator. Always add a docstring while making the tool. That text is how the model knows when to call it. In this chatbot the three tools are custom @tool functions.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Pre built</th>
+                    <th scope="col">Custom</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>LangChain already wrote it. Example DuckDuckGoSearchRun.</td>
+                    <td>We write it. Use @tool and a docstring.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-796" data-section="796" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">796</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Bind Tools to the LLM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Make a list of tools. Then bind that list to the model. The chat node must use llm_with_tools, not the bare llm. Otherwise the model cannot ask for a tool call.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">List and bind</p>
+              <pre class="code-input"><code>tools = [calculator, get_stock_price, duckduckgo_search]
+llm_with_tools = llm.bind_tools(tools)</code></pre>
+              <p class="code-io__note">The names must match the @tool functions. Order in the list does not change the graph shape.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-797" data-section="797" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">797</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">First Graph, Tools Go to END</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A first try looks like this. START goes to chat_node. From chat_node we can go to END, or we can go to tools and then END. The picture below is that first graph.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="50" width="70" height="44" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="51" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="86" y1="72" x2="118" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="118" y="50" width="100" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="168" y="77" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">chat_node</text>
+                <line x1="218" y1="60" x2="268" y2="28" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="218" y1="84" x2="268" y2="116" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="268" y="8" width="70" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="303" y="33" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+                <rect x="268" y="96" width="70" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="303" y="121" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">tools</text>
+                <line x1="338" y1="116" x2="368" y2="116" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="368" y="96" width="40" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="388" y="121" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-798" data-section="798" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">798</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Problems with That Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There is still an issue. If we ask a normal question we get an answer from the LLM. If we ask the stock of Apple, we get a reply in a technical manner, like JSON. Not how we wanted, like an LLM talking to us. That is because we are getting the answer directly from the tool itself. A normal user will not understand that answer. That is the first problem.</p>
+            <p>If we ask a random complex thing, such as what is the stock of Apple and how much will it cost to buy 50 shares, we get a weird or bad answer. The current structure is not good. We need to modify the answer. We need to share the tool answer with chat_node again. The LLM will look at the answer by the tool and then give the correct answer. It is kind of a loop.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Tools go to END</th>
+                    <th scope="col">What we need</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The user sees the raw tool result.</td>
+                    <td>The LLM turns that result into a normal sentence.</td>
+                  </tr>
+                  <tr>
+                    <td>Two jobs in one question fail.</td>
+                    <td>The model can call a tool, think, then call another tool.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-799" data-section="799" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">799</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Loop Tools Back to chat_node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We need to create a loop between the LLM and the tool. START still goes to chat_node. From chat_node we can END. From chat_node we can go to tools. From tools we go back to chat_node, not to END. The picture below is that loop.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 170" role="img">
+                <rect x="20" y="16" width="80" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="60" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="100" y1="36" x2="140" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="140" y="16" width="120" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="200" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat_node</text>
+                <line x1="260" y1="28" x2="310" y2="28" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="310" y="8" width="90" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="355" y="33" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+                <line x1="200" y1="56" x2="200" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="140" y="88" width="120" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="200" y="113" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">tools</text>
+                <path d="M 140 108 H 70 V 36 H 140" fill="none" stroke="#7c3aed" stroke-width="2"></path>
+                <polygon points="140,36 132,32 132,40" fill="#7c3aed"></polygon>
+                <text x="48" y="76" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#6d28d9">back</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Loop edges</p>
+              <pre class="code-input"><code>graph.add_edge(START, "chat_node")
+graph.add_conditional_edges("chat_node", tools_condition)
+graph.add_edge("tools", "chat_node")</code></pre>
+              <p class="code-io__note">tools go back to chat_node. The model can talk, or call another tool, or stop.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-800" data-section="800" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">800</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calculator" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Calculator</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>calculator is a custom tool. The docstring says to use it for arithmetic, including the cost of many shares. Pass only the expression, for example 50 * 191.25. We parse that expression with ast and only allow plus, minus, times, divide, mod, and power. If the expression is not safe math, we return an error string. We do not invent a share total here. Run it when you have a real price.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">_calc_eval</p>
+              <pre class="code-input"><code>_CALC_OPS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Mod: operator.mod,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+}
+
+def _calc_eval(node):
+    if isinstance(node, ast.Expression):
+        return _calc_eval(node.body)
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return node.value
+    if isinstance(node, ast.UnaryOp) and type(node.op) in _CALC_OPS:
+        return _CALC_OPS[type(node.op)](_calc_eval(node.operand))
+    if isinstance(node, ast.BinOp) and type(node.op) in _CALC_OPS:
+        return _CALC_OPS[type(node.op)](
+            _calc_eval(node.left),
+            _calc_eval(node.right),
+        )
+    raise ValueError("Use only numbers and + - * / % **.")</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">calculator</p>
+              <pre class="code-input"><code>@tool
+def calculator(expression: str) -> str:
+    """Calculate a math expression.
+
+    Use this for arithmetic, including the cost of many shares.
+    Pass only the expression, for example 50 * 191.25 or (100 + 5) / 2.
+    """
+    try:
+        value = _calc_eval(ast.parse(expression.strip(), mode="eval"))
+    except Exception as exc:
+        return f"Could not calculate that: {exc}"
+
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    return str(value)</code></pre>
+              <p class="code-io__note">_calc_eval walks the ast tree. It only runs the operators in _CALC_OPS.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-801" data-section="801" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">801</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="line-chart" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Stock Price</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>get_stock_price is a custom tool. The docstring says to pass a ticker, for example AAPL for Apple. It reads Yahoo Finance chart JSON. It returns a sentence with the name, ticker, latest price, and currency. I do not invent a live price here. Call the tool to see the number of that day.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">get_stock_price</p>
+              <pre class="code-input"><code>@tool
+def get_stock_price(symbol: str) -> str:
+    """Get the latest stock price for a ticker symbol.
+
+    Use this when the user asks for a share price or stock quote.
+    Pass the ticker, for example AAPL for Apple, TSLA for Tesla, or MSFT for Microsoft.
+    """
+    ticker = "".join(ch for ch in symbol.upper().strip() if ch.isalnum() or ch in ".-")
+    if not ticker:
+        return "Give a ticker symbol such as AAPL."
+
+    url = (
+        "https://query1.finance.yahoo.com/v8/finance/chart/"
+        f"{urllib.parse.quote(ticker)}?interval=1d&range=1d"
+    )
+    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            payload = json.load(response)
+    except Exception as exc:
+        return f"Could not get the price for {ticker}: {exc}"
+
+    result = (payload.get("chart") or {}).get("result") or []
+    if not result:
+        return f"No stock price found for {ticker}. Use a ticker like AAPL."
+
+    meta = result[0].get("meta") or {}
+    price = meta.get("regularMarketPrice")
+    if price is None:
+        return f"No latest price found for {ticker}."
+
+    name = meta.get("shortName") or ticker
+    currency = meta.get("currency") or ""
+    return f"{name} ({ticker}) latest price is {price} {currency}.".strip()</code></pre>
+              <p class="code-io__note">The model should pass AAPL, not the word Apple, so this URL can find the quote.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-802" data-section="802" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">802</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Search the Web</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>duckduckgo_search is a custom tool for current events, news, office holders, sports results, and facts that change. It first tries an instant answer from the DuckDuckGo API. Then it tries web and news rows with ddgs. If a result is Wikipedia, it can pull a few infobox facts. If web search fails, a Wikipedia search is the backup. If nothing comes back, it tells the model the search failed, and the model must not guess from older memory. I do not paste fake Kathmandu news here.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Search helpers</p>
+              <pre class="code-input"><code>def _instant_answer(query):
+    url = "https://api.duckduckgo.com/?" + urllib.parse.urlencode(
+        {
+            "q": query,
+            "format": "json",
+            "no_html": 1,
+            "skip_disambig": 1,
+        }
+    )
+    request = urllib.request.Request(url, headers={"User-Agent": "langgraph-chatbot"})
+    with urllib.request.urlopen(request, timeout=15) as response:
+        payload = json.load(response)
+    lines = []
+    abstract = (payload.get("AbstractText") or "").strip()
+    if abstract:
+        heading = (payload.get("Heading") or query).strip()
+        lines.append(f"{heading}: {abstract}")
+    topics = list(payload.get("RelatedTopics") or [])
+    added = 0
+    while topics and added < 4:
+        topic = topics.pop(0)
+        if not isinstance(topic, dict):
+            continue
+        topics = list(topic.get("Topics") or []) + topics
+        text = (topic.get("Text") or "").strip()
+        if text:
+            lines.append(text)
+            added += 1
+    return lines
+
+def _web_results(query):
+    from ddgs import DDGS
+    last_error = None
+    for kind in ("text", "news"):
+        for _attempt in range(2):
+            try:
+                with DDGS(timeout=20) as ddgs:
+                    if kind == "text":
+                        rows = ddgs.text(query, max_results=5, backend="duckduckgo") or []
+                    else:
+                        rows = ddgs.news(query, max_results=5, backend="duckduckgo") or []
+                if rows:
+                    return rows
+            except Exception as exc:
+                last_error = exc
+    if last_error and not last_error.__class__.__name__.endswith("Exception"):
+        raise last_error
+    return []</code></pre>
+              <p class="code-io__note">_wiki_facts and _wikipedia_backup sit in the same file. They read Wikipedia when the web rows are thin.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">duckduckgo_search</p>
+              <pre class="code-input"><code>@tool
+def duckduckgo_search(query: str) -> str:
+    """Search the web with DuckDuckGo.
+
+    Use this for current events, news, office holders, sports results, and facts that change.
+    Input should be a search query.
+    """
+    query = query.strip()
+    if not query:
+        return "Give a search query."
+
+    queries = [query]
+    simpler = query
+    for prefix in ("who is the ", "who is ", "what is the ", "what is ", "current "):
+        while simpler.lower().startswith(prefix):
+            simpler = simpler[len(prefix):].strip()
+    if simpler and simpler.lower() != query.lower():
+        queries.append(simpler)
+
+    parts = []
+    instant = []
+    for one_query in queries:
+        try:
+            instant = _instant_answer(one_query)
+        except Exception:
+            instant = []
+        if instant:
+            break
+    if instant:
+        parts.append("Instant answer:\n" + "\n".join(instant))
+
+    results = []
+    web_error = None
+    for one_query in queries:
+        try:
+            results = _web_results(one_query)
+        except Exception as exc:
+            results = []
+            web_error = exc
+        if results:
+            break
+    if web_error and not results:
+        parts.append(f"Web search failed ({type(web_error).__name__}).")
+
+    pages = []
+    wiki_notes = []
+    for item in results[:5]:
+        title = item.get("title") or ""
+        body = item.get("body") or ""
+        link = item.get("href") or item.get("url") or item.get("source") or ""
+        pages.append(f"{title}. {body} ({link})".strip())
+        if len(wiki_notes) < 2 and "wikipedia.org" in link:
+            try:
+                facts = _wiki_facts(link)
+            except Exception:
+                facts = []
+            if facts:
+                wiki_notes.append(f"{title}: " + "; ".join(facts))
+
+    if pages:
+        parts.append("Web results:\n" + "\n".join(pages))
+    if wiki_notes:
+        parts.append("Wikipedia facts:\n" + "\n".join(wiki_notes))
+
+    if not pages and not wiki_notes:
+        try:
+            backup = _wikipedia_backup(queries[-1])
+        except Exception:
+            backup = []
+        if backup:
+            parts.append("Wikipedia:\n" + "\n".join(backup))
+
+    if not parts:
+        return (
+            "Search failed. Tell the user you could not look this up. "
+            "Do not guess from older memory."
+        )
+    return "\n\n".join(parts)</code></pre>
+              <p class="code-io__note">Helpers _instant_answer, _web_results, _wiki_facts, and _wikipedia_backup sit above this tool in the backend file.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-803" data-section="803" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">803</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">System Prompt and chat_node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The system prompt tells the model when to chat and when to use each tool. After a tool runs, answer from that tool result in a normal sentence. Use only names, dates, and numbers that appear in the tool result. Do not replace the tool result with older memory. chat_node prepends that system message, then calls llm_with_tools.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Prompt and node</p>
+              <pre class="code-input"><code>SYSTEM_PROMPT = SystemMessage(
+    content=(
+        "You are a helpful chatbot. Answer normal questions directly. "
+        "Use duckduckgo_search for current events, news, office holders, sports results, and facts that change. "
+        "Use get_stock_price for the latest share price. Pass a ticker such as AAPL. "
+        "Use calculator for arithmetic, including a follow-up like the cost of many shares. "
+        "After a tool runs, answer from that tool result in a normal sentence. "
+        "Use only names, dates, and numbers that appear in the tool result. "
+        "Do not replace the tool result with older memory. "
+        "If the tool says the search failed, say you could not look it up."
+    )
+)
+
+def chat_node(state: ChatState, config: RunnableConfig):
+    messages = [SYSTEM_PROMPT, *state["messages"]]
+    response = llm_with_tools.invoke(messages, config)
+    return {
+        "messages": [response]
+    }</code></pre>
+              <p class="code-io__note">The loop works because the tool message stays in state messages. The next chat_node call can read it.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-804" data-section="804" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">804</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Compile the Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Add a tools node with ToolNode(tools, handle_tool_errors=True). SQLite and make_config stay from Day 60. If the app folder starts with /mount/src, that folder is read only on Community Cloud, so the db goes under the home folder instead. Env copy for LangSmith is the same as Day 60. The block below is the graph compile.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Graph</p>
+              <pre class="code-input"><code>graph = StateGraph(ChatState)
+
+graph.add_node("chat_node", chat_node)
+graph.add_node("tools", ToolNode(tools, handle_tool_errors=True))
+
+graph.add_edge(START, "chat_node")
+graph.add_conditional_edges("chat_node", tools_condition)
+graph.add_edge("tools", "chat_node")
+
+chatbot = graph.compile(
+    checkpointer=checkpointer
+)</code></pre>
+              <p class="code-io__note">handle_tool_errors True keeps a failed tool from crashing the whole run. The error still goes back to the LLM.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">DB path</p>
+              <pre class="code-input"><code>def _chat_db_path() -> str:
+    app_dir = os.path.dirname(os.path.abspath(__file__))
+    if app_dir.startswith("/mount/src"):
+        data_dir = os.path.join(os.path.expanduser("~"), ".langgraph-chat")
+        os.makedirs(data_dir, exist_ok=True)
+        return os.path.join(data_dir, "chatbot.db")
+    return os.path.join(app_dir, "chatbot.db")</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-805" data-section="805" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">805</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="panel-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Titles and Tool Labels</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The Streamlit sidebar still has Start New Chat and previous conversations. Current Conversation now shows the first user question as the title, not the raw thread id. Buttons for old chats use that title too. When we load a saved thread we skip tool messages. We keep a short list of tools that the assistant used, so the UI can show a status chip. I do not invent those titles. They come from the first user line in that thread.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Labels and load</p>
+              <pre class="code-input"><code>TOOL_LABELS = {
+    "duckduckgo_search": "DuckDuckGo search",
+    "get_stock_price": "Stock price",
+    "calculator": "Calculator",
+}
+
+def title_from_messages(messages):
+    for message in messages:
+        if message.get("role") == "user" and (message.get("content") or "").strip():
+            return short_title(message["content"])
+    return "New chat"
+
+def load_conversation(thread_id):
+    state = chatbot.get_state(make_config(thread_id))
+    messages = []
+    pending_tools = []
+
+    for msg in state.values.get("messages", []):
+        if msg.type == "ai" and getattr(msg, "tool_calls", None):
+            for call in msg.tool_calls:
+                name = call.get("name") or "tool"
+                pending_tools.append(
+                    {
+                        "name": name,
+                        "label": tool_label(name),
+                    }
+                )
+            continue
+
+        if msg.type == "tool":
+            continue
+
+        if msg.type == "human":
+            pending_tools = []
+            messages.append(
+                {
+                    "role": "user",
+                    "content": message_text(msg.content),
+                    "tools": [],
+                }
+            )
+            continue
+
+        if msg.type == "ai":
+            content = message_text(msg.content)
+            if not content and not pending_tools:
+                continue
+            messages.append(
+                {
+                    "role": "assistant",
+                    "content": content,
+                    "tools": pending_tools,
+                }
+            )
+            pending_tools = []
+
+    return messages</code></pre>
+              <p class="code-io__note">An AI message that only asks for a tool is not shown as a bubble. The later AI sentence is the bubble the user reads.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-806" data-section="806" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">806</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="activity" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Stream Tool Status</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>While the graph streams, we still use stream_mode messages. If a chunk has tool_calls or tool_call_chunks, we open st.status and write Using that label. When a tool message arrives, we mark that status complete. Then we stream the final sentence as markdown. If a request fails, we mark the status as error and show a sorry line. We still do not invent the model text. The empty fallback is only I could not finish that reply. Please try again.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Stream loop</p>
+              <pre class="code-input"><code>for message_chunk, metadata in chatbot.stream(
+    {
+        "messages": [
+            HumanMessage(content=user_input)
+        ]
+    },
+    config=CONFIG,
+    stream_mode="messages",
+):
+    if getattr(message_chunk, "type", "") == "tool":
+        finish_tool(item)
+        continue
+
+    calls = getattr(message_chunk, "tool_calls", None) or []
+    if calls:
+        for call in calls:
+            start_tool(call.get("name") or "tool", call.get("id"))
+        continue
+
+    content = message_text(message_chunk.content)
+    if content:
+        answer += content
+        show_answer(answer)</code></pre>
+              <p class="code-io__note">The full front end also maps a late call id onto a status box that started with only a name.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">streamlit_frontend.py</p>
+              <pre class="code-input"><code>import streamlit as st
+
+from langgraph_backend import chatbot, get_all_threads, make_config
+from langchain_core.messages import HumanMessage
+from langsmith import uuid7
+
+
+def generate_thread_id():
+    return str(uuid7())
+
+
+if "thread_id" not in st.session_state:
+    st.session_state["thread_id"] = generate_thread_id()
+
+if "message_history" not in st.session_state:
+    st.session_state["message_history"] = []
+
+st.sidebar.title("LangGraph Chatbot")
+st.sidebar.subheader("Current Conversation")
+current_title = st.sidebar.empty()
+
+TOOL_LABELS = {
+    "duckduckgo_search": "DuckDuckGo search",
+    "get_stock_price": "Stock price",
+    "calculator": "Calculator",
+}
+
+
+def message_text(content):
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return "".join(
+            part if isinstance(part, str) else part.get("text", "")
+            for part in content
+        )
+    return ""
+
+
+def tool_label(name):
+    return TOOL_LABELS.get(name, (name or "Tool").replace("_", " "))
+
+
+def short_title(text):
+    text = " ".join(text.split())
+    if len(text) <= 42:
+        return text
+    return text[:42].rstrip() + "..."
+
+
+def title_from_messages(messages):
+    for message in messages:
+        if message.get("role") == "user" and (message.get("content") or "").strip():
+            return short_title(message["content"])
+    return "New chat"
+
+
+def thread_title(thread_id):
+    if thread_id == st.session_state.get("thread_id"):
+        history = st.session_state.get("message_history") or []
+        if history:
+            return title_from_messages(history)
+    return title_from_messages(load_conversation(thread_id))
+
+
+def show_message(message):
+    with st.chat_message(message["role"]):
+        for tool in message.get("tools") or []:
+            st.status(f"{tool['label']} used", state="complete", expanded=False)
+        if message.get("content"):
+            st.write(message["content"])
+
+
+if st.sidebar.button("Start New Chat"):
+    st.session_state["thread_id"] = generate_thread_id()
+    st.session_state["message_history"] = []
+    st.rerun()
+
+previous_threads = [
+    thread_id
+    for thread_id in get_all_threads()
+    if thread_id != st.session_state["thread_id"]
+]
+
+st.sidebar.subheader("Previous Conversations")
+current_title.write(thread_title(st.session_state["thread_id"]))
+
+for thread_id in previous_threads:
+    if st.sidebar.button(thread_title(thread_id), key=thread_id):
+        st.session_state["thread_id"] = thread_id
+        st.session_state["message_history"] = load_conversation(thread_id)
+        st.rerun()
+
+CONFIG = make_config(st.session_state["thread_id"])
+
+for message in st.session_state["message_history"]:
+    show_message(message)
+
+user_input = st.chat_input("Type here")
+
+if user_input:
+    st.session_state["message_history"].append(
+        {
+            "role": "user",
+            "content": user_input
+        }
+    )
+    current_title.write(title_from_messages(st.session_state["message_history"]))
+
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    with st.chat_message("assistant"):
+        answer_box = {"widget": None}
+        answer = ""
+        tools_used = []
+        running_tools = {}
+
+        def show_answer(text):
+            if answer_box["widget"] is None:
+                answer_box["widget"] = st.empty()
+            answer_box["widget"].markdown(text)
+
+        def start_tool(name, call_id):
+            if call_id and call_id in running_tools:
+                return
+            if call_id:
+                for key, running in list(running_tools.items()):
+                    if (
+                        not running["done"]
+                        and running["name"] == name
+                        and str(key).startswith("tool-")
+                    ):
+                        running_tools[call_id] = running
+                        return
+            label = tool_label(name)
+            status = st.status(f"Using {label}...", state="running", expanded=True)
+            detail = status.empty()
+            detail.write(f"{label} is running.")
+            running_tools[call_id or f"tool-{len(running_tools)}-{label}"] = {
+                "name": name,
+                "label": label,
+                "status": status,
+                "detail": detail,
+                "done": False,
+            }
+
+        def finish_tool(item):
+            if item["done"]:
+                return
+            item["done"] = True
+            if item.get("detail") is not None:
+                item["detail"].write(f"{item['label']} finished.")
+            item["status"].update(
+                label=f"{item['label']} used",
+                state="complete",
+                expanded=False,
+            )
+            tools_used.append(
+                {
+                    "name": item["name"],
+                    "label": item["label"],
+                }
+            )
+
+        try:
+            for message_chunk, metadata in chatbot.stream(
+                {
+                    "messages": [
+                        HumanMessage(content=user_input)
+                    ]
+                },
+                config=CONFIG,
+                stream_mode="messages",
+            ):
+                if getattr(message_chunk, "type", "") == "tool":
+                    call_id = getattr(message_chunk, "tool_call_id", None)
+                    item = running_tools.get(call_id)
+                    if item is None:
+                        tool_name = getattr(message_chunk, "name", None)
+                        item = next(
+                            (
+                                running
+                                for running in running_tools.values()
+                                if not running["done"] and running["name"] == tool_name
+                            ),
+                            None,
+                        )
+                    if item:
+                        finish_tool(item)
+                    continue
+
+                calls = getattr(message_chunk, "tool_calls", None) or []
+                if calls:
+                    for call in calls:
+                        start_tool(call.get("name") or "tool", call.get("id"))
+                    continue
+
+                for call in getattr(message_chunk, "tool_call_chunks", None) or []:
+                    if call.get("name"):
+                        start_tool(call.get("name"), call.get("id"))
+                    if call.get("name") or call.get("id"):
+                        break
+                else:
+                    content = message_text(message_chunk.content)
+                    if content:
+                        answer += content
+                        show_answer(answer)
+
+            for item in running_tools.values():
+                finish_tool(item)
+
+            if not answer:
+                answer = "I could not finish that reply. Please try again."
+                show_answer(answer)
+        except Exception:
+            for item in running_tools.values():
+                if not item["done"]:
+                    item["status"].update(
+                        label=f"{item['label']} failed",
+                        state="error",
+                        expanded=False,
+                    )
+            answer = "Sorry, that request failed. Please try again."
+            show_answer(answer)
+
+    st.session_state["message_history"].append(
+        {
+            "role": "assistant",
+            "content": answer,
+            "tools": tools_used,
+        }
+    )</code></pre>
+              <p class="code-io__note">Keep load_conversation from the previous lesson in this same file. Streamlit runs the file from the top on each rerun.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-807" data-section="807" data-chapter="day-61">
+        <span class="lesson-card__marker" aria-hidden="true">807</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 61 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 61 takeaways</h3>
+              <ul>
+                <li>Until now the chatbot could talk, remember, and trace. It had no hands.</li>
+                <li>We add three tools. Calculator, DuckDuckGo search, and real time stock price.</li>
+                <li>chat_node must decide. Normal chat, or call a tool.</li>
+                <li>ToolNode runs the tools. tools_condition is the pre built fork to tools or END.</li>
+                <li>Custom tools use @tool and a docstring. Bind the list with llm.bind_tools.</li>
+                <li>If tools go straight to END, the user sees raw tool text, and two step questions fail.</li>
+                <li>Loop tools back to chat_node so the LLM can speak, or call the next tool.</li>
+                <li>The system prompt says to answer from the tool result, and not from older memory.</li>
+                <li>The page shows chat titles and a status chip when a tool runs.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
