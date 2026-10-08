@@ -1,0 +1,440 @@
+      <div class="chapter-divider reveal" id="chapter-day-62" data-chapter="day-62">
+        <span class="chapter-divider__pill">Day 62</span>
+        <h2 class="chapter-divider__title">MCP in LangGraph</h2>
+        <p class="chapter-divider__note">MCP is a standard way to connect tools. The chatbot is the client. An MCP server holds the tools. We stay on the client and run it with async.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-808" data-section="808" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">808</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">MCP Is a Better Way to Add Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>MCP is the improved version of tools. We added tools in the chatbot to make it more capable. There is a problem, and MCP solves that problem. It is a better way to add tools to an LLM application. It is a standardized way of connecting a tool.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-809" data-section="809" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">809</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="github" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The GitHub Problem</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In our chatbot we added three tools. Search with DuckDuckGo, latest share price, and calculator. DuckDuckGo is a library based tool. The other two are user defined tools. Now we want the chatbot to connect with GitHub, read the code, and give an answer. GitHub did not give us that tool. So we would write our own code. Tokens. Headers. And more. For only a pull request we would make a different tool. For a commit another tool. Same for push, pull, and the rest. That process can break at any time.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One GitHub app, many tools</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="git-pull-request" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">PR tool</span>
+                  <span class="workflow__step-desc">Write tokens and headers for pull requests.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-commit" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Commit tool</span>
+                  <span class="workflow__step-desc">Another tool for commits.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-merge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Push and pull</span>
+                  <span class="workflow__step-desc">Still more tools. Any one of them can break.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-810" data-section="810" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">810</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="unplug" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">APIs Change and More Apps Arrive</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose we used a GitHub API. A get URL might change, like from /git to /github-pull. After that change, our code will not work. As a coder we have to update the code. We go to the GitHub website, see the version is updated, and we need to update every time. If it is only 1 tool, it might be okay. For 10 API requests of GitHub we need to change all of them. Then the company says connect Slack, Gmail, and more. That takes too much time and effort. This is the biggest problem of the tool.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-811" data-section="811" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">811</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sigma" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">m times n Versus m plus n</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Without MCP it would be m times n. With MCP it would be m plus n. Each app does not rewrite every tool. The table below is that idea.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Without MCP</th>
+                    <th scope="col">With MCP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>m times n. Every client writes every GitHub, Slack, and Gmail call.</td>
+                    <td>m plus n. Each client plus each server. The server owns the tools.</td>
+                  </tr>
+                  <tr>
+                    <td>An API change means we edit many tools in our app.</td>
+                    <td>The server updates. Our client config can stay the same.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-812" data-section="812" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">812</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-right-left" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Client and Server</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The chatbot is the client. It talks to an MCP server that holds the tools. With any changes on the server side, our client side config should not need to change. The heavy lifting is done by the server side rather than the client side. The picture below is that split.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 110" role="img">
+                <rect x="16" y="28" width="150" height="54" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="91" y="52" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Chatbot client</text>
+                <text x="91" y="70" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">LangGraph app</text>
+                <line x1="166" y1="55" x2="218" y2="55" stroke="#94a3b8" stroke-width="2"></line>
+                <polygon points="218,55 210,51 210,59" fill="#94a3b8"></polygon>
+                <rect x="218" y="28" width="186" height="54" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="311" y="52" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">MCP server</text>
+                <text x="311" y="70" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">Tools live here</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-813" data-section="813" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">813</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="braces" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Small Config Instead of a Tool</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Only almost this much code is enough, instead of making the tool ourselves. We point at a server with a transport, a command, and args. The sketch below is that idea, using GitHub as the story. Later we use the same shape for time, weather, and scores.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Sketch</p>
+              <pre class="code-input"><code>server = {
+    "github": {
+        "transport": "stdio",
+        "command": "github-cli",
+        "args": ["--help"],
+    },
+}</code></pre>
+              <p class="code-io__note">stdio means the client starts that command and talks on standard input and output.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-814" data-section="814" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">814</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="server" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">We Build the Client</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For MCP we need to create two things. An MCP server and an MCP client. We will work with the MCP client. We cannot make the MCP server from LangGraph. We need FastMCP for a server. In this chatbot we connect to servers that already exist. Time, weather, and SportScore.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-815" data-section="815" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">815</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="timer" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">MCP Client Needs Async</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Our code so far is in synchronous mode. The MCP client works only in async mode. So we need to convert it to async and await. Why do we use async code. In sync code, suppose we say find the weather of Kathmandu and the score of a cricket match. First it will find the weather, then only find the score. With async it will be much faster. MCP client only works with async. The picture below is wait in a line versus overlap.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="16" width="180" height="118" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="106" y="40" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Sync</text>
+                <rect x="36" y="56" width="140" height="26" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="106" y="74" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Weather first</text>
+                <rect x="36" y="92" width="140" height="26" rx="6" fill="#ffedd5" stroke="#fdba74" stroke-width="1"></rect>
+                <text x="106" y="110" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Then cricket</text>
+                <rect x="224" y="16" width="180" height="118" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"></rect>
+                <text x="314" y="40" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Async</text>
+                <rect x="244" y="56" width="140" height="26" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"></rect>
+                <text x="314" y="74" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Weather</text>
+                <rect x="244" y="92" width="140" height="26" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"></rect>
+                <text x="314" y="110" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Cricket too</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-816" data-section="816" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">816</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">MultiServerMCPClient</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The working import is langchain_mcp_adapters.client. MultiServerMCPClient. We start each MCP server with this project Python, so it runs in the same virtual env. Time uses mcp_server_time with local timezone Asia/Kathmandu. Weather uses mcp_weather_server. SportScore uses npx sportscore-mcp. transport is stdio. tool_name_prefix True so names like time_get_current_time do not clash.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">_mcp_client</p>
+              <pre class="code-input"><code>from langchain_mcp_adapters.client import MultiServerMCPClient
+
+def _mcp_client():
+    python = sys.executable
+    return MultiServerMCPClient(
+        {
+            "time": {
+                "command": python,
+                "args": ["-m", "mcp_server_time", "--local-timezone=Asia/Kathmandu"],
+                "transport": "stdio",
+            },
+            "weather": {
+                "command": python,
+                "args": ["-m", "mcp_weather_server"],
+                "transport": "stdio",
+            },
+            "sportscore": {
+                "command": shutil.which("npx") or "npx",
+                "args": ["-y", "sportscore-mcp"],
+                "transport": "stdio",
+            },
+        },
+        tool_name_prefix=True,
+    )</code></pre>
+              <p class="code-io__note">We did not write these three servers in LangGraph. We only start them and ask for their tools.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-817" data-section="817" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">817</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Our Old Tools Become Async</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>calculator, get_stock_price, and duckduckgo_search stay, but they are now async def. Stock and search fetch with httpx.AsyncClient. DuckDuckGo still uses the ddgs library, which is sync, so we wrap _web_results in asyncio.to_thread. chat_node awaits llm_with_tools.ainvoke. I do not invent weather, time, or scores here.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">httpx and ainvoke</p>
+              <pre class="code-input"><code>async def _get_json(url: str, timeout: float = 15, user_agent: str = "langgraph-chatbot"):
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+        response = await client.get(url, headers={"User-Agent": user_agent})
+        response.raise_for_status()
+        return response.json()
+
+@tool
+async def calculator(expression: str) -> str:
+    ...
+
+async def chat_node(state: ChatState, config: RunnableConfig):
+    messages = [SYSTEM_PROMPT, *state["messages"]]
+    response = await llm_with_tools.ainvoke(messages, config)
+    return {
+        "messages": [response]
+    }</code></pre>
+              <p class="code-io__note">The calculator body is the same ast math as Day 61. Only the function is async.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-818" data-section="818" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">818</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Load MCP Tools and Compile</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>_open_chatbot is async. It makes the MCP client, awaits get_tools, then builds one tools list. Local tools plus MCP tools. It binds that list. The checkpointer is AsyncSqliteSaver on aiosqlite. The graph is still START, chat_node, tools_condition, and tools back to chat_node.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">_open_chatbot</p>
+              <pre class="code-input"><code>async def _open_chatbot():
+    global llm_with_tools, tools, _mcp
+
+    _mcp = _mcp_client()
+    mcp_tools = await _mcp.get_tools()
+    tools = [calculator, get_stock_price, duckduckgo_search, *mcp_tools]
+    llm_with_tools = llm.bind_tools(tools)
+
+    conn = await aiosqlite.connect(db_path)
+    saver = AsyncSqliteSaver(conn)
+    await saver.setup()
+
+    graph = StateGraph(ChatState)
+    graph.add_node("chat_node", chat_node)
+    graph.add_node("tools", ToolNode(tools, handle_tool_errors=True))
+    graph.add_edge(START, "chat_node")
+    graph.add_conditional_edges("chat_node", tools_condition)
+    graph.add_edge("tools", "chat_node")
+    return graph.compile(checkpointer=saver), saver</code></pre>
+              <p class="code-io__note">Import AsyncSqliteSaver from langgraph.checkpoint.sqlite.aio. The db path helper is the same as Day 61.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-819" data-section="819" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">819</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="waypoints" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Streamlit Stays Synchronous</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Streamlit stays synchronous. We start one asyncio loop on a daemon thread. _run sends a coroutine to that loop and waits. _iter_async turns astream into a normal for loop, so the page can still stream chunks. _Chatbot.stream and get_state wrap the compiled graph. get_all_threads runs the same SQL as Day 61, but with await on the async connection.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Loop bridge</p>
+              <pre class="code-input"><code>_loop = asyncio.new_event_loop()
+_loop_ready = threading.Event()
+
+def _run_loop():
+    asyncio.set_event_loop(_loop)
+    _loop.call_soon(_loop_ready.set)
+    _loop.run_forever()
+
+threading.Thread(target=_run_loop, name="langgraph-async", daemon=True).start()
+_loop_ready.wait()
+
+def _run(coro):
+    return asyncio.run_coroutine_threadsafe(coro, _loop).result()
+
+_compiled, checkpointer = _run(_open_chatbot())
+
+class _Chatbot:
+    def stream(self, inputs, config, stream_mode="messages"):
+        return _iter_async(
+            lambda: _compiled.astream(inputs, config, stream_mode=stream_mode)
+        )
+
+    def get_state(self, config):
+        return _run(_compiled.aget_state(config))
+
+chatbot = _Chatbot()</code></pre>
+              <p class="code-io__note">_iter_async uses a queue. The loop thread puts items. The Streamlit thread yields them.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-820" data-section="820" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">820</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="message-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Tell the Model About MCP Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The system prompt still covers search, stock, and calculator. It also names the time MCP tools, weather MCP tools, and SportScore MCP tools. Nepal timezone is Asia/Kathmandu. Pass a city such as Kathmandu for weather. The sport argument is football, cricket, basketball, or tennis. After a tool runs, answer from that tool result in a normal sentence.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">SYSTEM_PROMPT</p>
+              <pre class="code-input"><code>SYSTEM_PROMPT = SystemMessage(
+    content=(
+        "You are a helpful chatbot. Answer normal questions directly. "
+        "Use duckduckgo_search for current events, news, office holders, sports results, and facts that change. "
+        "Use get_stock_price for the latest share price. Pass a ticker such as AAPL. "
+        "Use calculator for arithmetic, including a follow-up like the cost of many shares. "
+        "Use the time MCP tools for the current time and for converting time between timezones. "
+        "Nepal's timezone is Asia/Kathmandu. "
+        "Use the weather MCP tools for current weather, a forecast, and air quality. "
+        "Pass a city name such as Kathmandu. "
+        "Use the SportScore MCP tools for live and recent football, cricket, basketball, and tennis scores, fixtures, and standings. "
+        "The sport argument is football, cricket, basketball, or tennis. "
+        "After a tool runs, answer from that tool result in a normal sentence. "
+        "Use only names, dates, and numbers that appear in the tool result. "
+        "Do not replace the tool result with older memory. "
+        "If the tool says the search failed, say you could not look it up."
+    )
+)</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-821" data-section="821" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">821</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="tags" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Front End Labels for MCP Tools</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The Streamlit page is the same stream and title logic as Day 61. We add labels so status chips read Time, Weather, and Sports scores, not raw tool names. Prefixes match tool_name_prefix True.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">TOOL_LABELS</p>
+              <pre class="code-input"><code>TOOL_LABELS = {
+    "duckduckgo_search": "DuckDuckGo search",
+    "get_stock_price": "Stock price",
+    "calculator": "Calculator",
+    "time_get_current_time": "Time",
+    "time_convert_time": "Time conversion",
+    "weather_get_current_weather": "Weather",
+    "weather_get_weather_byDateTimeRange": "Weather forecast",
+    "weather_get_weather_details": "Weather details",
+    "weather_get_current_datetime": "Weather time",
+    "weather_get_timezone_info": "Timezone",
+    "weather_convert_time": "Weather time conversion",
+    "weather_get_air_quality": "Air quality",
+    "weather_get_air_quality_details": "Air quality details",
+    "sportscore_get_matches": "Sports scores",
+    "sportscore_get_match_detail": "Match details",
+    "sportscore_get_team_schedule": "Team schedule",
+    "sportscore_get_standings": "Standings",
+    "sportscore_get_top_scorers": "Top scorers",
+    "sportscore_get_player": "Player stats",
+    "sportscore_get_bracket": "Bracket",
+    "sportscore_get_tracker": "Live tracker",
+}</code></pre>
+              <p class="code-io__note">The rest of the front end is the Day 61 stream. chatbot.stream still looks sync because _Chatbot wraps astream.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-822" data-section="822" data-chapter="day-62">
+        <span class="lesson-card__marker" aria-hidden="true">822</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 62 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 62 takeaways</h3>
+              <ul>
+                <li>MCP is a standard way to connect tools. It is the improved version of writing every tool yourself.</li>
+                <li>GitHub, Slack, and Gmail would need many custom tools. Tokens, headers, and API changes break them.</li>
+                <li>Without MCP the work is m times n. With MCP it is m plus n.</li>
+                <li>The chatbot is the client. The MCP server holds the tools. Heavy lifting stays on the server.</li>
+                <li>LangGraph does not build the server. Use FastMCP for a server. We use MultiServerMCPClient.</li>
+                <li>MCP client is async only. We await get_tools, ainvoke, astream, and aget_state.</li>
+                <li>This app starts time, weather, and SportScore over stdio, then binds those tools with the local three.</li>
+                <li>Streamlit stays sync. A background loop runs the async graph.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
