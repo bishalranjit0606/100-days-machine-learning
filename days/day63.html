@@ -1,0 +1,326 @@
+      <div class="chapter-divider reveal" id="chapter-day-63" data-chapter="day-63">
+        <span class="chapter-divider__pill">Day 63</span>
+        <h2 class="chapter-divider__title">RAG in LangGraph</h2>
+        <p class="chapter-divider__note">The chatbot can talk, use tools, and use MCP. Today we add RAG. Upload a PDF, retrieve the useful chunks, and talk with that file.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-823" data-section="823" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">823</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Multi Utility Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Until now we made a chatbot. Now we make a RAG chatbot. We can upload a PDF file and have a conversation with it. This is a multi utility chatbot. It can use a tool, MCP, RAG, and also a normal chatbot. The cards below are those four jobs.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="message-circle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Normal chat</p>
+                <p class="concept-card__desc">Answer from the model, with memory and traces.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wrench" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Tools</p>
+                <p class="concept-card__desc">Calculator, search, and stock from Day 61.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="plug" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">MCP</p>
+                <p class="concept-card__desc">Time, weather, and scores from Day 62.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="file-search" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">RAG</p>
+                <p class="concept-card__desc">Talk with a PDF you upload.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-824" data-section="824" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">824</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Plan of Action</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We follow three steps. First a quick recap of RAG. Then we treat RAG as its own piece in LangGraph. Then we integrate it in the existing chatbot. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Three steps</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Recap RAG</span>
+                  <span class="workflow__step-desc">Why we need it, and how retrieve then generate works.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="code" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">RAG in LangGraph</span>
+                  <span class="workflow__step-desc">Keep RAG as a separate tool, not a new graph shape.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-merge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Integrate</span>
+                  <span class="workflow__step-desc">Bind that tool with chat, tools, and MCP.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-825" data-section="825" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">825</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="calendar-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Outdated Knowledge</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Why is RAG important? Outdated knowledge. Every LLM has a knowledge cutoff date. The training is completed on a particular date. By definition, if an LLM is ready on 31 August 2026, and today we ask about something after that, it will not be able to answer from its own weights. You might think ChatGPT replies with the latest answer. Behind it, it calls web search and then answers. That is extra knowledge at ask time, not new training. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">From weights</th>
+                    <th scope="col">At ask time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Training stopped on a date, like 31 August 2026.</td>
+                    <td>ChatGPT can search the web, then answer.</td>
+                  </tr>
+                  <tr>
+                    <td>Facts after that date are missing.</td>
+                    <td>The extra knowledge is retrieve, not new training.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-826" data-section="826" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">826</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lock" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Privacy</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second biggest problem RAG helps with is privacy. GPT can answer many public things. If we ask a personal question, like our salary, it will not be able to answer. That fact is not in public training. If the salary lives in our own PDF, RAG can retrieve that private sheet and answer from it, instead of guessing.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-827" data-section="827" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">827</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Hallucination</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The third problem is hallucination. The model gives false information, with confidence. It is still a big problem. RAG helps with this. We ground the answer in retrieved chunks. The biggest use cases of RAG sit in these three: cutoff, privacy, and hallucination.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="calendar" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Cutoff</p>
+                <p class="concept-card__desc">Training stopped on a date. New facts need retrieve.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="user-round" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Privacy</p>
+                <p class="concept-card__desc">Personal files are not in GPT. RAG can read yours.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield-alert" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Hallucination</p>
+                <p class="concept-card__desc">Answer from chunks, not from a confident guess.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-828" data-section="828" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">828</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-marked" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">In Context Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>RAG works on a simple principle, like in context learning. We give context to the LLM. The LLM gets the query and the context. We give a prompt. The LLM also has parametric knowledge, which is what it learned in training.</p>
+            <p>Suppose we have an expense sheet. We ask the LLM about it, but parametric knowledge does not have that sheet. What we do is give the expense sheet, the whole sheet, in the prompt. Then the model can answer from that context. The picture below is query plus context.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 90" role="img">
+                <rect x="16" y="22" width="100" height="46" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="66" y="50" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Query</text>
+                <text x="132" y="50" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="18" fill="#64748b">+</text>
+                <rect x="148" y="22" width="110" height="46" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="203" y="50" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">Context</text>
+                <line x1="258" y1="45" x2="292" y2="45" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="292" y="22" width="112" height="46" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="348" y="50" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">LLM answer</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-829" data-section="829" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">829</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Context Filtering</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The only problem is we cannot give the whole context every time. It has a context size. If the folder has 100 books, that information will cross the context size. A second example is a code base. We do not give the whole repo every time we ask. We only give the context that is required. Context filtering is the most important part. In context learning plus context filtering. That pair is RAG retrieve.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-830" data-section="830" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">830</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">PDF to Vector Store</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We take the PDF, chunk it, then embed each chunk. Embedding converts the chunk into a vector. That vector captures the semantic meaning of the chunk. We save those embeddings in a vector store, for example FAISS or Chroma. The steps below are that index path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Build the store</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="file-up" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">PDF</span>
+                  <span class="workflow__step-desc">Upload the file you want to talk with.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chunk</span>
+                  <span class="workflow__step-desc">Cut the PDF into smaller pieces.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Embed</span>
+                  <span class="workflow__step-desc">Turn each chunk into a vector of meaning.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Store</span>
+                  <span class="workflow__step-desc">Save the vector and the real chunk text, in FAISS or Chroma.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-831" data-section="831" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">831</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Query to Answer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The user asks a query. A retriever converts the question into an embedding. It compares that query embedding with the vector store. That is semantic search. It might pick chunk 1, 4, and 5. In the vector store we store the embedding and its real data as well. Then the prompt is the query plus that context, all three chunks we got. Then the LLM answers. The picture below is that ask path.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 88" role="img">
+                <rect x="8" y="24" width="70" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="43" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">User</text>
+                <line x1="78" y1="44" x2="98" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="98" y="24" width="78" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="137" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Retriever</text>
+                <line x1="176" y1="44" x2="196" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="196" y="24" width="90" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="241" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Chunks 1 4 5</text>
+                <line x1="286" y1="44" x2="306" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="306" y="24" width="106" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="359" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Prompt then LLM</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-832" data-section="832" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">832</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="wrench" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RAG as a Tool in LangGraph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>To implement RAG there are multiple ways. We will define it as a tool. That is the best way of doing it. Always try to do RAG as a tool. Then the same chat_node can decide. Normal chat, a calculator, MCP weather, or retrieve from the PDF. We do not need a second graph. We keep START, chat_node, tools_condition, and the loop back from tools. RAG sits in the ToolNode with the other tools. The retrieve tool lives in the live app. Open that app and upload a PDF to see it run.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="20" y="16" width="80" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="60" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="100" y1="36" x2="140" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="140" y="16" width="120" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="200" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat_node</text>
+                <line x1="260" y1="28" x2="310" y2="28" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="310" y="8" width="90" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="355" y="33" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+                <line x1="200" y1="56" x2="200" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="88" width="180" height="44" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="200" y="115" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">tools, including RAG</text>
+                <path d="M 110 110 H 50 V 36 H 140" fill="none" stroke="#7c3aed" stroke-width="2"></path>
+                <polygon points="140,36 132,32 132,40" fill="#7c3aed"></polygon>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-833" data-section="833" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">833</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="external-link" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Try the Live Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The chatbot is live. You can check it. Upload a PDF and ask. Use a tool, MCP, RAG, or plain chat. The link below opens that app.</p>
+            <p><a href="https://langgraph-app-chat-persistence-fvm4mttbzpbvwzkwigncvi.streamlit.app/" rel="noopener noreferrer" target="_blank">Open the live chatbot</a></p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Live URL</p>
+              <pre class="code-input"><code>https://langgraph-app-chat-persistence-fvm4mttbzpbvwzkwigncvi.streamlit.app/</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-834" data-section="834" data-chapter="day-63">
+        <span class="lesson-card__marker" aria-hidden="true">834</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 63 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 63 takeaways</h3>
+              <ul>
+                <li>This chatbot is multi utility. Normal chat, tools, MCP, and RAG on a PDF.</li>
+                <li>RAG matters for cutoff dates, private files like a salary sheet, and hallucination.</li>
+                <li>ChatGPT can look new because it searches the web, not because training restarted.</li>
+                <li>RAG is in context learning plus context filtering. Do not paste 100 books every turn.</li>
+                <li>Index path is PDF, chunk, embed, vector store. FAISS and Chroma are examples.</li>
+                <li>Ask path is query, retriever, semantic search, prompt with those chunks, then LLM.</li>
+                <li>In LangGraph, treat RAG as a tool. Keep the same loop. Always try RAG as a tool.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
