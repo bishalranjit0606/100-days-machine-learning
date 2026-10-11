@@ -1,0 +1,560 @@
+      <div class="chapter-divider reveal" id="chapter-day-64" data-chapter="day-64">
+        <span class="chapter-divider__pill">Day 64</span>
+        <h2 class="chapter-divider__title">Human in the Loop</h2>
+        <p class="chapter-divider__note">Agents can look things up on their own. A person still makes the last call. Today we pause a LangGraph run with interrupt, then resume with yes or no.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-835" data-section="835" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">835</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hand" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">HITL Is a Design Approach</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Human in the loop, or HITL, is a design approach. We made AI agents for autonomy, so we do not have to work every step by hand. A customer support agent is that idea. The agent takes the easy tickets, and we save human time.</p>
+            <p>We still cannot depend on the AI alone. We keep a person in the middle for the final decision. The cards below are that split.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="bot" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Autonomy</p>
+                <p class="concept-card__desc">The agent looks up facts and drafts work, so people do less busy work.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="user-round" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">A person in the middle</p>
+                <p class="concept-card__desc">A human still approves the last step, such as a send or a payment.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-836" data-section="836" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">836</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plane" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Flight Ticket Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Think of a flight ticket agent. The agent should find the flight and the time. It should not book by itself. It should ask. I did this. Can I book it using payment?</p>
+            <p>The table below is that split. Lookup is free. Booking waits.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">The agent may do</th>
+                    <th scope="col">The agent must ask</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Find the flight and the time.</td>
+                    <td>Book the seat and take payment.</td>
+                  </tr>
+                  <tr>
+                    <td>Show the price.</td>
+                    <td>Confirm with a person first.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-837" data-section="837" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">837</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Supervise, Approve, Correct</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>HITL is the design approach in an AI system where a human is actively required. The human is there to supervise, approve, or correct. The cards below are those three jobs.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="eye" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Supervise</p>
+                <p class="concept-card__desc">Watch what the agent is about to do.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Approve</p>
+                <p class="concept-card__desc">Say yes before a send, a book, or a delete.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="pencil" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Correct</p>
+                <p class="concept-card__desc">Fix a draft, or say no and stop the action.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-838" data-section="838" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">838</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Help the Agent</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Why does HITL exist? First, to help an agentic system. An LLM is not perfect today. We cannot trust it alone. It can get the wrong prompt. It can read a prompt in the wrong way. It can hallucinate. We take the help of a human for judgment.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-839" data-section="839" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">839</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scale" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Accountability</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Second, we add accountability. AI systems are getting more powerful. An AI system cannot be accountable. So we keep a human in the loop. We need accountability for us.</p>
+            <p>A Gmail bot can read a mail and write a reply. It should not send that reply by itself. It should ask. We got this email. I wrote this reply. Should we send it?</p>
+            <p>Payment is the same idea. Many agents want to pay. A person still owns that yes.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="mail" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Gmail bot</p>
+                <p class="concept-card__desc">Read and draft are fine. Send waits for a person.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wallet" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Payment</p>
+                <p class="concept-card__desc">The agent can prepare the pay. A human confirms it.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-840" data-section="840" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">840</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Accuracy and Safety</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>HITL has two clear pluses. Human judgment raises the accuracy of the agent. It also raises safety. Say we tell a chatbot to delete files we have not used for 30 days. The agent should still ask before it deletes. Some of those files may still sit in a project. The cards below are those two pluses.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="target" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Accuracy</p>
+                <p class="concept-card__desc">A person checks the draft or the plan, so fewer wrong actions go through.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="trash-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Safety</p>
+                <p class="concept-card__desc">A delete, a send, or a pay waits. The agent asks first.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-841" data-section="841" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">841</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four HITL Patterns</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>These four patterns show up again and again. Action approval is approve or reject before the tool runs. Payment, email, and deletes sit here. Output review is look at the work after the agent finishes a draft. A research agent can research and write a post, then ask if it should post. Clarification is when the model is confused and asks a person. Escalation is when the agent cannot solve the problem, so it hands the case to a human. The cards below are those four.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="badge-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Action approval</p>
+                <p class="concept-card__desc">Approve or reject before execution. Payment, email, deletes.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="file-pen" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Output review</p>
+                <p class="concept-card__desc">Research is done. Should we post it?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="message-circle-question" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Clarification</p>
+                <p class="concept-card__desc">The model is confused, so it asks a person.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="phone-forwarded" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Escalation</p>
+                <p class="concept-card__desc">The agent cannot solve it, so a human takes over.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-842" data-section="842" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">842</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="share-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Social Media Manager</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>How does HITL work in LangGraph? Suppose we made a social media manager agent. It can write a tweet caption and post it. The user enters a topic. Then the agent researches. Then it posts. First it makes a caption. Second it posts.</p>
+            <p>Behind the scenes the simple graph is START, research, post, END. The user types a topic and clicks submit. That click invokes the graph. START gets the topic. Research helps find the info. Then we generate the tweet. Then post would put it live. The steps below are that path with no pause yet.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">No pause yet</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="type" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Topic</span>
+                  <span class="workflow__step-desc">The user types a topic and clicks submit. The graph starts.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Research</span>
+                  <span class="workflow__step-desc">Find info and write a tweet for that topic.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="send" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Post</span>
+                  <span class="workflow__step-desc">Put the tweet live. This is the step we will pause.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-843" data-section="843" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">843</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="pause" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">interrupt Pauses the Graph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>HITL sits in the post step. We call interrupt. The graph looks at that call and pauses. It saves the current state in a checkpointer, such as a SQLite db. It prepares a message like I have made this draft, should I post it. That message goes to the front end. The user sees it and types yes or no. Then we invoke the graph again with a Command, and that Command carries yes or no.</p>
+            <p>In HITL the graph execution gets paused. The picture below is that pause, then the resume.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 168" role="img">
+                <rect x="8" y="16" width="88" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="52" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Run graph</text>
+                <line x1="96" y1="36" x2="118" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="118" y="16" width="88" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="162" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">interrupt</text>
+                <line x1="206" y1="36" x2="228" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="228" y="16" width="88" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="272" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Save state</text>
+                <line x1="316" y1="36" x2="338" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="338" y="16" width="74" height="40" rx="8" fill="#fce7f3" stroke="#be185d" stroke-width="1.5"></rect>
+                <text x="375" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Ask user</text>
+                <line x1="375" y1="56" x2="375" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="318" y="88" width="94" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="365" y="113" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">yes or no</text>
+                <line x1="318" y1="108" x2="200" y2="108" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="106" y="88" width="94" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="153" y="113" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Command</text>
+                <line x1="106" y1="108" x2="52" y2="108" stroke="#7c3aed" stroke-width="2"></line>
+                <line x1="52" y1="108" x2="52" y2="56" stroke="#7c3aed" stroke-width="2"></line>
+                <polygon points="52,56 48,64 56,64" fill="#7c3aed"></polygon>
+                <text x="210" y="154" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#64748b">Resume. Then post, or reject.</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-844" data-section="844" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">844</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Draft Then Ask</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The idea was research then post. The sample we write stays small. Two nodes. draft writes one short tweet. post calls interrupt and waits for yes or no. State holds topic, draft, and decision. The model is ChatOpenRouter. We do not invent a tweet here. Run the file to see the draft your model writes.</p>
+            <p>draft_node sends one prompt, then stores message.content in draft. If content is a list, we join the text parts. post_node is where we pause. interrupt gets the draft plus the ask. If the resume answer is yes, we print Posted and the draft. If not, we print Not posted. Then we save the answer in decision.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">State and nodes</p>
+              <pre class="code-input"><code>class State(TypedDict):
+    topic: str
+    draft: str
+    decision: str
+
+
+def draft_node(state: State):
+    message = llm.invoke(
+        f"Write one short tweet about {state['topic']}. Reply with only the tweet."
+    )
+    text = message.content
+    if isinstance(text, list):
+        text = "".join(
+            part if isinstance(part, str) else part.get("text", "")
+            for part in text
+        )
+    return {"draft": text}
+
+
+def post_node(state: State):
+    # pause here and wait for yes or no
+    answer = interrupt(
+        "Draft:\n" + state["draft"] + "\n\nPost it? Type yes or no."
+    )
+
+    if str(answer).strip().lower() == "yes":
+        print("Posted:", state["draft"])
+    else:
+        print("Not posted.")
+
+    return {"decision": str(answer)}</code></pre>
+              <p class="code-io__note">interrupt stops the node. The string we pass is what the front end can show.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-845" data-section="845" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">845</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Resume with Command</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We add draft, then post. START goes to draft. draft goes to post. post goes to END. compile needs a checkpointer. This sample uses InMemorySaver. The idea we taught still holds. A checkpointer can be a SQLite db when you want the pause to survive a restart.</p>
+            <p>In main we ask for a topic. config uses thread_id so the pause and the resume share one thread. We stream the first input. When the event has __interrupt__, we print that value, read yes or no, then invoke with Command(resume=answer) and the same config. The blocks below are that graph and that loop.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Imports and model</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from typing import TypedDict
+
+from langchain_openrouter import ChatOpenRouter
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import START, END, StateGraph
+from langgraph.types import Command, interrupt
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0,
+)</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Compile and resume</p>
+              <pre class="code-input"><code>graph = StateGraph(State)
+graph.add_node("draft", draft_node)
+graph.add_node("post", post_node)
+graph.add_edge(START, "draft")
+graph.add_edge("draft", "post")
+graph.add_edge("post", END)
+
+app = graph.compile(checkpointer=InMemorySaver())
+
+
+if __name__ == "__main__":
+    topic = input("Topic: ")
+    config = {"configurable": {"thread_id": "1"}}
+
+    for event in app.stream({"topic": topic}, config):
+        if "__interrupt__" in event:
+            print(event["__interrupt__"][0].value)
+            answer = input("yes or no: ")
+            app.invoke(Command(resume=answer), config)</code></pre>
+              <p class="code-io__note">The first stream runs until interrupt. The Command call is the second invoke, on the same thread.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-846" data-section="846" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">846</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-branch" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">HITL in a Flight Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Example 2 puts HITL in a chatbot before a buy. The same idea as buying a share. The sample we write looks up a flight for free, and waits before it books. START goes to chat. From chat we can END, or go to tools. tools go back to chat. find_flight is the lookup. book_flight is the dummy book. The picture below is that loop.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 168" role="img">
+                <rect x="20" y="16" width="80" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="60" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="100" y1="36" x2="140" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="140" y="16" width="120" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="200" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat</text>
+                <line x1="260" y1="28" x2="310" y2="28" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="310" y="8" width="90" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="355" y="33" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+                <line x1="200" y1="56" x2="200" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="110" y="88" width="180" height="44" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="200" y="108" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">tools</text>
+                <text x="200" y="124" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#9a3412">find free, book waits</text>
+                <path d="M 110 110 H 50 V 36 H 140" fill="none" stroke="#7c3aed" stroke-width="2"></path>
+                <polygon points="140,36 132,32 132,40" fill="#7c3aed"></polygon>
+              </svg>
+            </figure>
+            <p>find_flight returns a fixed next flight line. book_flight returns a booked line. Those strings are in the tool, not from a live airline. The system prompt says use find_flight to look up, and use book_flight only when the user wants to book.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Two tools</p>
+              <pre class="code-input"><code>@tool
+def find_flight(city: str) -&gt; str:
+    """Find the next flight time and price for a city."""
+    return f"Next flight to {city} is at 10:00 AM. Price is $200."
+
+
+@tool
+def book_flight(city: str) -&gt; str:
+    """Book a flight to a city."""
+    return f"Booked the flight to {city}."
+
+
+tools = [find_flight, book_flight]
+tools_by_name = {item.name: item for item in tools}
+llm_with_tools = llm.bind_tools(tools)</code></pre>
+              <p class="code-io__note">Lookup and book are both tools. Only book trips the pause inside tool_node.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-847" data-section="847" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">847</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-alert" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">tool_node Waits to Book</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>chat_node prepends a SystemMessage, then calls llm_with_tools. tool_node reads the last message. If any tool call is book_flight, we interrupt and ask Book this flight? Type yes or no. Lookup is free. Booking waits for a person. If the answer is not yes, we send a ToolMessage for each call that says the user said no. If the answer is yes, we run the tools and send those results back. Then the edge goes to chat again.</p>
+            <p>as_text turns a list content into one string. chat_node puts a SystemMessage first, then the chat history, then invokes llm_with_tools. ask streams the graph. On __interrupt__ it prints the value, reads yes or no, and calls ask again with Command(resume=answer). When there is no interrupt, it prints the last message as text. The main loop reads You until quit or exit. The blocks below are those pieces.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">chat_node</p>
+              <pre class="code-input"><code>def as_text(content):
+    if isinstance(content, list):
+        return "".join(
+            part if isinstance(part, str) else part.get("text", "")
+            for part in content
+        )
+    return content
+
+
+def chat_node(state: MessagesState):
+    messages = [
+        SystemMessage(
+            content=(
+                "You help with flights. "
+                "Use find_flight to look up a flight. "
+                "Use book_flight only when the user wants to book."
+            )
+        ),
+        *state["messages"],
+    ]
+    return {"messages": [llm_with_tools.invoke(messages)]}</code></pre>
+              <p class="code-io__note">The star unpacks the old messages after the system line.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">tool_node</p>
+              <pre class="code-input"><code>def tool_node(state: MessagesState):
+    last = state["messages"][-1]
+    wants_to_book = any(call["name"] == "book_flight" for call in last.tool_calls)
+
+    # look up is free. booking waits for a person.
+    if wants_to_book:
+        answer = interrupt("Book this flight? Type yes or no.")
+        if str(answer).strip().lower() != "yes":
+            return {
+                "messages": [
+                    ToolMessage(
+                        content="The user said no. Do not book.",
+                        tool_call_id=call["id"],
+                    )
+                    for call in last.tool_calls
+                ]
+            }
+
+    messages = []
+    for call in last.tool_calls:
+        result = tools_by_name[call["name"]].invoke(call["args"])
+        messages.append(
+            ToolMessage(content=str(result), tool_call_id=call["id"])
+        )
+    return {"messages": messages}</code></pre>
+              <p class="code-io__note">find_flight never hits interrupt. book_flight does, before invoke.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Graph and ask</p>
+              <pre class="code-input"><code>graph = StateGraph(MessagesState)
+graph.add_node("chat", chat_node)
+graph.add_node("tools", tool_node)
+graph.add_edge(START, "chat")
+graph.add_conditional_edges("chat", tools_condition)
+graph.add_edge("tools", "chat")
+
+app = graph.compile(checkpointer=InMemorySaver())
+config = {"configurable": {"thread_id": "1"}}
+
+
+def ask(graph_input):
+    for event in app.stream(graph_input, config):
+        if "__interrupt__" in event:
+            print(event["__interrupt__"][0].value)
+            answer = input("yes or no: ")
+            ask(Command(resume=answer))
+            return
+
+    last = app.get_state(config).values["messages"][-1]
+    print("Bot:", as_text(last.content))</code></pre>
+              <p class="code-io__note">tools_condition sends tool calls to the tools node. A no still returns ToolMessages so chat can talk again.</p>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Imports and the chat loop</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+
+from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
+from langchain_core.tools import tool
+from langchain_openrouter import ChatOpenRouter
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import START, MessagesState, StateGraph
+from langgraph.prebuilt import tools_condition
+from langgraph.types import Command, interrupt
+
+if __name__ == "__main__":
+    print("Ask about a flight. Type quit to stop.")
+    while True:
+        text = input("You: ").strip()
+        if text.lower() in {"quit", "exit"}:
+            break
+        if text:
+            ask({"messages": [HumanMessage(content=text)]})</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-848" data-section="848" data-chapter="day-64">
+        <span class="lesson-card__marker" aria-hidden="true">848</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 64 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 64 takeaways</h3>
+              <ul>
+                <li>HITL is a design approach. Agents can look up. A person still owns the last yes.</li>
+                <li>We keep HITL because models err, and because an AI cannot be accountable.</li>
+                <li>Accuracy and safety go up. A delete, a send, or a pay can wait.</li>
+                <li>Common patterns are action approval, output review, clarification, and escalation.</li>
+                <li>interrupt pauses the graph, saves state in a checkpointer, and asks the front end.</li>
+                <li>We resume with Command and the same thread. yes posts or books. Anything else stops.</li>
+                <li>In the chatbot, find_flight is free. book_flight waits inside tool_node.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
