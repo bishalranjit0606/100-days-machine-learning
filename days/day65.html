@@ -1,0 +1,467 @@
+      <div class="chapter-divider reveal" id="chapter-day-65" data-chapter="day-65">
+        <span class="chapter-divider__pill">Day 65</span>
+        <h2 class="chapter-divider__title">Subgraphs in LangGraph</h2>
+        <p class="chapter-divider__note">Until now each task was a node. Today a node can be a whole graph. We embed that graph, run it, and keep the parent simple.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-849" data-section="849" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">849</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="network" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What Is a Subgraph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Until now we have made a graph in LangGraph. That graph is made of nodes. Each task is a node. What if we replace a node with a graph? The node becomes a bigger graph that still sits in one place. A subgraph in LangGraph usually means a graph that is embedded and executed as a node inside another graph. The picture below is that idea.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 130" role="img">
+                <rect x="16" y="42" width="100" height="46" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="66" y="70" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">A node</text>
+                <text x="148" y="70" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="18" fill="#64748b">=</text>
+                <rect x="176" y="20" width="228" height="90" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 4"></rect>
+                <text x="290" y="42" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#9a3412">A graph used as a node</text>
+                <rect x="196" y="54" width="80" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="236" y="78" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">step</text>
+                <rect x="292" y="54" width="90" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="337" y="78" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">step</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-850" data-section="850" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">850</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Apps Get Complex</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Why use a subgraph? First, when we make a Gen AI system it can look like user, then LLM, then output. As we go on, it gets more complex. Retry. Memory. Guard rails. HITL. A big Gen AI app can have a lot of things. One flat graph gets hard to see. The steps below are that growth.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">From simple to many jobs</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">User to LLM</span>
+                  <span class="workflow__step-desc">Ask, get an answer. One line of work.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="plus" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">More pieces</span>
+                  <span class="workflow__step-desc">Retry, memory, guard rails, and HITL join the same app.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="boxes" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Split the graph</span>
+                  <span class="workflow__step-desc">Put a cluster of jobs in a subgraph so the parent stays small.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-851" data-section="851" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">851</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="building-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Teams in a Software Company</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Suppose we are making software like a PM in a software company. There is a front end team and a back end team. They combine and send work to a test team. Then it goes to a devops team. That can feel like one huge thing. We make it simple by dividing the work. One node is front end. One node is back end. We convert this big architecture into a small multi agent architecture. The steps below are those teams.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Divide the work</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="layout" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Front end</span>
+                  <span class="workflow__step-desc">One team, one node, or one subgraph.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="server" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Back end</span>
+                  <span class="workflow__step-desc">Another team. Combine with front end when both are ready.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="flask-conical" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Test</span>
+                  <span class="workflow__step-desc">The combined work goes to the test team.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cloud" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Devops</span>
+                  <span class="workflow__step-desc">Tested work goes to devops.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-852" data-section="852" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">852</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="puzzle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Modularity, Reuse, Maintain</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Why use a subgraph in the code? Three reasons sit here. Modularity means we break the code base into functions, like small graphs. Reusability means we can call the same subgraph from more than one parent. Maintainability means a change in translate does not force a rewrite of generate. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="boxes" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Modularity</p>
+                <p class="concept-card__desc">Break the code base into functions. Each subgraph is one job.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="repeat" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Reusability</p>
+                <p class="concept-card__desc">Compile once. Use that graph as a node in more than one parent.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wrench" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Maintainability</p>
+                <p class="concept-card__desc">Fix one subgraph without touching every other node.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-853" data-section="853" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">853</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LangGraph Benefits</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LangGraph also gives three subgraph benefits. Failure isolation: if a subgraph is down, the other nodes do not all go down with it. State separation: each graph has state. If every component shared the same keys, those keys could clash. A subgraph can keep its own state so the parent and the child do not mismatch. Observability: each subgraph can be observed separately in LangGraph. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="unplug" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Failure isolation</p>
+                <p class="concept-card__desc">A down subgraph does not take every other node with it.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="database" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">State separation</p>
+                <p class="concept-card__desc">Each graph can hold its own state. Keys do not clash.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="eye" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Observability</p>
+                <p class="concept-card__desc">Watch one subgraph on its own in LangGraph traces.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-854" data-section="854" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">854</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-fork" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Ways to Add a Subgraph</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>How do we implement a subgraph in LangGraph? There are two ways. First, we invoke the graph inside a node. The parent graph calls the subgraph from that node. Second, we add the compiled graph as a subgraph instead of a function node. The first way has its own state. The second way shares the same state. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Invoke inside a node</th>
+                    <th scope="col">Add the graph as a node</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A parent node calls subgraph.invoke.</td>
+                    <td>parent_builder.add_node takes the compiled subgraph.</td>
+                  </tr>
+                  <tr>
+                    <td>The subgraph has its own state.</td>
+                    <td>Parent and subgraph share the same state.</td>
+                  </tr>
+                  <tr>
+                    <td>We map parent keys into subgraph keys, then map back.</td>
+                    <td>The same field names flow through both graphs.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-855" data-section="855" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">855</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="languages" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">English Then Nepali</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Here is the use case. The user asks. An LLM generates an answer in English. Another LLM translates that answer into Nepali. Then we output. The graph is START, generate, translate, output. Translate is the subgraph. The steps below are that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Generate, then translate</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">START</span>
+                  <span class="workflow__step-desc">The parent gets user_input.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Generate</span>
+                  <span class="workflow__step-desc">Answer the question in English. This stays in the parent.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="network" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Translate</span>
+                  <span class="workflow__step-desc">This node is the subgraph. English becomes Nepali.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="flag" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">END</span>
+                  <span class="workflow__step-desc">The parent holds the final Nepali answer.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-856" data-section="856" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">856</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="arrow-left-right" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Own State, Then Map</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We start with the first way. The subgraph has SubState: english_text and nepali_text. The parent has ParentState: user_input, english_answer, and final_answer. Names do not match, so the parent node maps them. english_answer becomes english_text. nepali_text becomes final_answer. The picture below is that map. We do not invent the texts. Run the graph to see yours.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="12" y="12" width="160" height="126" rx="10" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="92" y="36" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">ParentState</text>
+                <text x="92" y="62" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">user_input</text>
+                <text x="92" y="86" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">english_answer</text>
+                <text x="92" y="110" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">final_answer</text>
+                <rect x="248" y="28" width="160" height="94" rx="10" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="328" y="52" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">SubState</text>
+                <text x="328" y="78" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">english_text</text>
+                <text x="328" y="102" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">nepali_text</text>
+                <line x1="172" y1="82" x2="248" y2="74" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="248" y1="98" x2="172" y2="106" stroke="#7c3aed" stroke-width="2"></line>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Two state types</p>
+              <pre class="code-input"><code>class SubState(TypedDict):
+    english_text: str
+    nepali_text: str
+
+
+class ParentState(TypedDict):
+    user_input: str
+    english_answer: str
+    final_answer: str</code></pre>
+              <p class="code-io__note">The subgraph never sees user_input. The parent never stores english_text.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-857" data-section="857" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">857</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="box" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Invoke the Subgraph Inside a Node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>translate_to_nepali reads english_text, asks the model to return only the translation, and writes nepali_text. We compile that as subgraph. In the parent, call_translation_subgraph builds the subgraph input from english_answer, calls subgraph.invoke, then returns final_answer from nepali_text. That is invoke inside a node. The blocks below are those pieces.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Subgraph node and compile</p>
+              <pre class="code-input"><code>def translate_to_nepali(state: SubState):
+    response = llm.invoke([
+        SystemMessage(
+            content="Translate the following English text into "
+                    "natural Nepali. Return only the translation."
+        ),
+        HumanMessage(content=state["english_text"])
+    ])
+
+    return {"nepali_text": response.content}
+
+
+sub_builder = StateGraph(SubState)
+sub_builder.add_node("translate", translate_to_nepali)
+sub_builder.add_edge(START, "translate")
+sub_builder.add_edge("translate", END)
+subgraph = sub_builder.compile()</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Map, invoke, map back</p>
+              <pre class="code-input"><code>def call_translation_subgraph(state: ParentState):
+    subgraph_result = subgraph.invoke({
+        "english_text": state["english_answer"]
+    })
+    return {
+        "final_answer": subgraph_result["nepali_text"]
+    }</code></pre>
+              <p class="code-io__note">This function is a normal parent node. Inside it we call the compiled subgraph.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-858" data-section="858" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">858</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="workflow" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build the Parent, Way 1</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>generate_answer reads user_input and writes english_answer. The parent adds generate, then translate, which is call_translation_subgraph. START to generate, generate to translate, translate to END. We invoke with user_input set to What is artificial intelligence? We print english_answer and final_answer. We do not invent those two strings here. Run the file to see what your model writes.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Imports and model</p>
+              <pre class="code-input"><code>from dotenv import load_dotenv
+from typing_extensions import TypedDict
+
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openrouter import ChatOpenRouter
+from langgraph.graph import START, END, StateGraph
+
+load_dotenv()
+
+llm = ChatOpenRouter(
+    model="openrouter/free",
+    temperature=0,
+)</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Parent graph and run</p>
+              <pre class="code-input"><code>def generate_answer(state: ParentState):
+    response = llm.invoke([
+        SystemMessage(
+            content="Answer the user's question in English."
+        ),
+        HumanMessage(content=state["user_input"])
+    ])
+    return {"english_answer": response.content}
+
+
+parent_builder = StateGraph(ParentState)
+parent_builder.add_node("generate", generate_answer)
+parent_builder.add_node("translate", call_translation_subgraph)
+parent_builder.add_edge(START, "generate")
+parent_builder.add_edge("generate", "translate")
+parent_builder.add_edge("translate", END)
+graph = parent_builder.compile()
+
+result = graph.invoke({
+    "user_input": "What is artificial intelligence?"
+})
+print("English Answer:", result["english_answer"])
+print("Nepali Answer:", result["final_answer"])</code></pre>
+              <p class="code-io__note">translate in the parent is a function that invokes the subgraph. It is not add_node with the compiled graph yet.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-859" data-section="859" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">859</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="link-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Add the Graph as a Node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second way shares one GraphState: user_input, english_answer, and final_answer. translate_to_nepali reads english_answer and writes final_answer. We compile that subgraph on GraphState. The parent adds generate as a function, then adds the compiled subgraph with parent_builder.add_node("translate", subgraph). No mapping function. Same keys. Same invoke input as way 1. The picture below is parent plus nested translate. The block below is that add_node call.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="16" width="70" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="51" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="86" y1="36" x2="112" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="112" y="16" width="100" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="162" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">generate</text>
+                <line x1="212" y1="36" x2="236" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="236" y="8" width="168" height="96" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 4"></rect>
+                <text x="320" y="28" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#9a3412">translate subgraph</text>
+                <rect x="256" y="40" width="128" height="48" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="320" y="68" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">translate_to_nepali</text>
+                <line x1="320" y1="104" x2="320" y2="122" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="280" y="122" width="80" height="22" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="320" y="137" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Shared state and add_node</p>
+              <pre class="code-input"><code>class GraphState(TypedDict):
+    user_input: str
+    english_answer: str
+    final_answer: str
+
+
+def translate_to_nepali(state: GraphState):
+    response = llm.invoke([
+        SystemMessage(
+            content="Translate the following English text "
+                    "into natural Nepali. Return only the translation."
+        ),
+        HumanMessage(content=state["english_answer"])
+    ])
+    return {"final_answer": response.content}
+
+
+sub_builder = StateGraph(GraphState)
+sub_builder.add_node("translate_to_nepali", translate_to_nepali)
+sub_builder.add_edge(START, "translate_to_nepali")
+sub_builder.add_edge("translate_to_nepali", END)
+subgraph = sub_builder.compile()
+
+
+parent_builder = StateGraph(GraphState)
+parent_builder.add_node("generate", generate_answer)
+parent_builder.add_node("translate", subgraph)
+parent_builder.add_edge(START, "generate")
+parent_builder.add_edge("generate", "translate")
+parent_builder.add_edge("translate", END)
+graph = parent_builder.compile()</code></pre>
+              <p class="code-io__note">generate_answer is the same idea as way 1. It still writes english_answer from user_input.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-860" data-section="860" data-chapter="day-65">
+        <span class="lesson-card__marker" aria-hidden="true">860</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 65 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 65 takeaways</h3>
+              <ul>
+                <li>A subgraph is a graph embedded and run as a node inside another graph.</li>
+                <li>We use it when an app grows: retry, memory, guard rails, HITL, many teams.</li>
+                <li>Modularity, reuse, and maintainability keep the parent small.</li>
+                <li>LangGraph also gives failure isolation, state separation, and separate traces.</li>
+                <li>Way 1 invokes the subgraph inside a node and maps its own state.</li>
+                <li>Way 2 adds the compiled subgraph with add_node and shares GraphState.</li>
+                <li>Our path is generate English, then a translate subgraph into Nepali.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
