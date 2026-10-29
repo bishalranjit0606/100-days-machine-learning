@@ -1,0 +1,434 @@
+      <div class="chapter-divider reveal" id="chapter-day-66" data-chapter="day-66">
+        <span class="chapter-divider__pill">Day 66</span>
+        <h2 class="chapter-divider__title">How LLMs Remember</h2>
+        <p class="chapter-divider__note">An LLM at inference is a math function with no memory. We build a system around it so a chatbot can keep a thread, and later keep facts that last.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-861" data-section="861" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">861</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="function-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">A Parameterized Math Function</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Let us start with a simple statement. An LLM at inference is just a parameterized math function. We write y equals f of x with theta. In math, parameterized means we need the input and the parameters to find the output.</p>
+            <p>The next example is linear regression. y equals m x plus b. Here m and b are the parameters. We find them from the data. We can also write y equals f of x with m and b. Theta in the LLM formula stands for the billions of parameters. That is why we say a 100 billion parameter model, or a 100 million parameter model. The picture below is those formulas.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 188" role="img">
+                <rect x="16" y="12" width="388" height="50" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="210" y="45" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="22" fill="#0f172a">y = f<tspan baseline-shift="sub" font-size="14">θ</tspan>(x)</text>
+                <rect x="16" y="74" width="388" height="50" rx="10" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="210" y="107" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="20" fill="#0f172a">y = mx + b</text>
+                <rect x="16" y="136" width="388" height="50" rx="10" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="210" y="169" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="20" fill="#0f172a">y = f<tspan baseline-shift="sub" font-size="13">m,b</tspan>(x)</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-862" data-section="862" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">862</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sigma" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">x, y, and Theta</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We now name x, y, and theta in that function. x is the input tokens. We can call it the prompt. y is the output tokens. y depends on both theta and x. Theta is fixed. It is trained at the beginning. x is not fixed. That is why when we change the prompt we get a different answer. The cards below are those three parts.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="log-in" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">x</p>
+                <p class="concept-card__desc">Input tokens. The prompt. This changes every turn.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="log-out" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">y</p>
+                <p class="concept-card__desc">Output tokens. The answer the model writes.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="lock" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">theta</p>
+                <p class="concept-card__desc">The trained weights. Fixed at inference. Billions of numbers.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-863" data-section="863" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">863</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Stateless by Nature</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The interesting property of the formula is this. It is stateless. That means it only depends on the current input, not on anything that happened before. An LLM is stateless by nature. That means the LLM does not have memory, and it cannot remember the past conversation on its own.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-864" data-section="864" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">864</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">We Invent Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Every LLM app still needs memory. What happens in a chatbot is this. You send a message and it replies. Next turn, if we do not send the old context, the model will not remember. It will not remember that my name is Bishal. So we build a system that acts as memory. We invent that system around the model. The table below is the gap we fill.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">The model alone</th>
+                    <th scope="col">The system we build</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Sees only the current prompt.</td>
+                    <td>Sends history, or saved facts, with the prompt.</td>
+                  </tr>
+                  <tr>
+                    <td>Forgets the name Bishal on the next call.</td>
+                    <td>Puts that name back into x, so y can use it.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-865" data-section="865" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">865</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scan" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Context Window</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>First question. How much x, that is input tokens, can we send? Is there a max? The answer is the context window. Every LLM has a context window. The context window is the limit an LLM can read and remember before giving the answer.</p>
+            <p>The analogy is a camera. If the lens is small, we capture a small part. If the lens is big, we get a big picture. Today some context windows are 1 million tokens, like Gemini. We can upload up to 200 pages of PDF as well. That is a very important power. We can send a lot of tokens in the input. The cards below are that lens idea.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="aperture" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Small lens</p>
+                <p class="concept-card__desc">A small context window. The model sees only a thin slice of text.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="focus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Big lens</p>
+                <p class="concept-card__desc">A large window, such as 1 million tokens. More of the file fits in x.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-866" data-section="866" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">866</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="book-open" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">In Context Learning</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When we train an LLM, we give a huge amount of data. The LLM finds patterns in the data and puts them in the parameters. When we ask a prompt, that prompt goes through those parameters. If the answer lives there, the model can write it.</p>
+            <p>As models got stronger, we found they do not only use the parameters. They also look at the prompt. They try to find details from the prompt as well. For example, we give a PDF of 100 pages. It is private company data. We ask a question about that PDF. The LLM does not have that PDF in theta. It can still read the PDF in x and answer.</p>
+            <p>In context learning is an emergent ability. It lets an LLM use information and patterns present in the prompt itself, then generate an answer. The table below is parameters versus the prompt.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">From theta</th>
+                    <th scope="col">From the prompt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Patterns learned in training, stored in weights.</td>
+                    <td>Facts sitting in x right now, such as a private PDF.</td>
+                  </tr>
+                  <tr>
+                    <td>Fixed until we train again.</td>
+                    <td>New each call. This is in context learning.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-867" data-section="867" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">867</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Concat History</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>When we invoke the LLM, we concat the whole context and send it. At first we did y1 equals f of x1 with theta, then y2 equals f of x2 with theta. Each call was alone. What we do now is concat the old turns into x. For the second answer we send concat of x1, y1, and x2. We are not telling the LLM to learn everything into theta. We are giving history as context. The list we add acts as temporary memory. That is short term memory. The picture below is that concat.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 118" role="img">
+                <rect x="8" y="36" width="58" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="37" y="61" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x1</text>
+                <rect x="74" y="36" width="58" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="103" y="61" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">y1</text>
+                <rect x="140" y="36" width="58" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="169" y="61" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x2</text>
+                <text x="220" y="61" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="16" fill="#64748b">+</text>
+                <rect x="240" y="28" width="168" height="56" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="324" y="52" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">y<tspan baseline-shift="sub" font-size="8">2</tspan> = f<tspan baseline-shift="sub" font-size="8">θ</tspan>(concat)</text>
+                <text x="324" y="70" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">(x<tspan baseline-shift="sub" font-size="8">1</tspan>, y<tspan baseline-shift="sub" font-size="8">1</tspan>, x<tspan baseline-shift="sub" font-size="8">2</tspan>)</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-868" data-section="868" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">868</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="messages-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Thread Scoped Short Term Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>How do we implement short term memory in a chatbot? The UI has multiple chats in the sidebar. We only concat the messages of that chat session. If we have 1000 conversations with ChatGPT, we cannot put one short term memory over all of them. One chat is one short term memory. The next conversation has no effect on this one. We can call a conversation a thread. Short term memory is thread scoped. It is just a conversation buffer. It holds all the turns with the chatbot in that thread.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-869" data-section="869" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">869</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fragile, Then Persist</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Short term memory has cons. It is fragile. It can break. If the code is reset, it will remove the whole conversation. We need persistence to save the convo for longer. As we chat, and as we go to a new chat, we store the data in a db. We save every convo in the db. We use a thread for it. Then the bot can reply using the previous context after a restart. The steps below are that save.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Keep the buffer</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chat</span>
+                  <span class="workflow__step-desc">Turns live in the conversation buffer for this thread.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Persist</span>
+                  <span class="workflow__step-desc">Write that thread into a db so a reset does not wipe it.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="rotate-ccw" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Reload</span>
+                  <span class="workflow__step-desc">Load the thread, concat it, and reply with that context.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-870" data-section="870" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">870</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Trim and Summarize</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second problem is the context window. An LLM can only take a max, such as 1 million tokens, in the input. If we use a chatbot for a very long time, the model needs to read the whole convo for context. If we tokenize that history, it can exceed the context window. The LLM might hallucinate, or forget. The solution is trimming plus summarization. In trimming we send only n messages, such as the last 10. The problem with trimming is we will not have the context of the whole conversation. So we also summarize the older convo, and we send that summary with the last messages. The table below is that pair.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Trimming</th>
+                    <th scope="col">Summarization</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Send only the last n messages, such as the last 10.</td>
+                    <td>Send a short recap of the older turns.</td>
+                  </tr>
+                  <tr>
+                    <td>Fits the window. Loses the start of the chat.</td>
+                    <td>Keeps the gist so the model is not blind to the past.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-871" data-section="871" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">871</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="unlink" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Thread Scope Is a Limit</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The third problem. Short term memory is thread scoped. Each convo has its own thread id. Thread scope is also a disadvantage. No user can keep continuity across chats. For a solution we need a new kind of memory. It should store information that survives beyond a single conversation, beyond a single session, and sometimes beyond days and weeks. That is the kind of information that defines continuity. Who the user is. How the system is expected to behave for them. What usually fails. What decisions were already made in the past.</p>
+            <p>The second property is this. It has to be selective. Only information that proves stable, useful, and reusable should survive beyond a single thread. Everything else should fade away. This is long term memory.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-872" data-section="872" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">872</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Types of Long Term Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are three types of long term memory in LLM systems. Episodic memory lets us know what happened in the past. A solution the user rejected. Credentials that were wrong before. The benefit is we can ask what did we do last time, and did we use this technique last time. Semantic memory is the most common and most important. It is made of facts about the user and the system. The user is a Python developer. They use this tech. We store what is true about the user or the system. Procedural memory stores rules, strategies, and learned behaviour. Preferred workflow. When to do what. How. These compound over time. Because of this, the AI can feel better in the long term. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="history" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Episodic</p>
+                <p class="concept-card__desc">What happened. A rejected plan. Wrong credentials last time.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="book-marked" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Semantic</p>
+                <p class="concept-card__desc">Facts. The user is a Python developer. What is true about them.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="route" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Procedural</p>
+                <p class="concept-card__desc">Rules and workflows. When to do what. They grow over time.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-873" data-section="873" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">873</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How Long Term Memory Works</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Step 1 is creation or update. The user talks with the chatbot. We ask if anything from what just happened is worth remembering beyond this conversation. We look at the user message, the model output, and also tool outcomes. We extract memory candidates. For example the user says I like Python more than JS. We filter out noise. We decide scope, such as user, agent, or app. We decide whether to create a new memory, update one, or ignore it.</p>
+            <p>Step 2 is storage. We store it so we do not lose it. We add metadata. The main purpose is that it survives any restart and crash. There are many options, like a relational store, a key value store, a log, or a vector db. For each type of memory the store can be different.</p>
+            <p>Step 3 is retrieval. The user starts a new chat. This is where retrieval comes in. The system asks if the memory is required or not. Retrieval is selective. The steps below are those three, then injection in the next lesson.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Create, store, retrieve</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Create or update</span>
+                  <span class="workflow__step-desc">Extract candidates. Filter noise. Create, update, or ignore.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hard-drive" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Store</span>
+                  <span class="workflow__step-desc">Save with metadata so a crash does not wipe the facts.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retrieve</span>
+                  <span class="workflow__step-desc">On a new chat, pick only the memory this turn needs.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-874" data-section="874" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">874</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="syringe" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Injection Into the Prompt</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Step 4 is injection. It is very important. Long term memory is searched. The hits go into short term memory, into the context, then into the LLM. It becomes part of the prompt. The picture below is that path.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 88" role="img">
+                <rect x="8" y="24" width="70" height="40" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"></rect>
+                <text x="43" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">LTM</text>
+                <line x1="78" y1="44" x2="98" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="98" y="24" width="78" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="137" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">Search</text>
+                <line x1="176" y1="44" x2="196" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="196" y="24" width="90" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="241" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">STM context</text>
+                <line x1="286" y1="44" x2="306" y2="44" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="306" y="24" width="106" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="359" y="49" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">LLM prompt</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-875" data-section="875" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">875</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="library" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Challenges and Libraries</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The key challenges for building such memory are these. Deciding what is worth remembering. The user chats a lot, and deciding what is important is hard. Retrieving the right memory at the right time, while the user is in the conversation. Orchestrating the entire system. That part is very hard. It is tricky.</p>
+            <p>There are managed solutions that act as a memory layer. The app calls a function. The library handles the rest. LangMem. Mem0, for Gen AI apps. SuperMemory as well. They manage long term memory. LLMs do not have default memory. A few labs are in process, such as a Google research paper on Titans plus MIRAS. Currently that is not in use. The research is not complete. The cards below are the libraries named in the notes.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="boxes" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">LangMem</p>
+                <p class="concept-card__desc">A memory layer you call. It handles long term store and retrieve.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="box" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Mem0</p>
+                <p class="concept-card__desc">For Gen AI apps. You function call. It manages the memory.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="layers" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">SuperMemory</p>
+                <p class="concept-card__desc">Another managed layer for long term memory.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-876" data-section="876" data-chapter="day-66">
+        <span class="lesson-card__marker" aria-hidden="true">876</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 66 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 66 takeaways</h3>
+              <ul>
+                <li>At inference an LLM is y equals f of x with theta. Theta is fixed. x is the prompt.</li>
+                <li>The function is stateless. The model does not remember Bishal unless we send that fact again.</li>
+                <li>The context window is the max x. A big window is a big camera lens, such as 1 million tokens.</li>
+                <li>In context learning uses patterns in the prompt, including a private PDF that is not in theta.</li>
+                <li>Short term memory concats the thread. Persist it in a db. Trim and summarize when the window fills.</li>
+                <li>Long term memory is selective, and it lasts beyond one thread. Episodic, semantic, and procedural.</li>
+                <li>The path is create, store, retrieve, then inject into the prompt. Libraries like LangMem and Mem0 help. Titans plus MIRAS is still research.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
