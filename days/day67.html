@@ -1,0 +1,439 @@
+      <div class="chapter-divider reveal" id="chapter-day-67" data-chapter="day-67">
+        <span class="chapter-divider__pill">Day 67</span>
+        <h2 class="chapter-divider__title">Short Term Memory in LangGraph</h2>
+        <p class="chapter-divider__note">The model is stateless. A checkpointer plus a thread id give us a conversation buffer. Then we trim, or we summarize, so the context window does not overflow.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-877" data-section="877" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">877</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We will learn about short term memory, the persistence concept, and the context window problem. We will also learn trimming, deletion, and summarization. Those are the techniques for today. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="brain" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">STM</span>
+                  <span class="workflow__step-desc">Checkpointer, threads, and the conversation buffer.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Persist</span>
+                  <span class="workflow__step-desc">RAM first, then a db so a restart does not wipe the chat.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Trim</span>
+                  <span class="workflow__step-desc">Keep last messages under a token cap. Do not show the rest to the LLM.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-text" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Summarize</span>
+                  <span class="workflow__step-desc">Keep recent turns. Summarize the old ones. Then delete those old turns.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-878" data-section="878" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">878</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">LLMs Have No Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Before we start, recall short term memory. An LLM does not have its own memory. It cannot remember the data. It is stateless. Every time we do llm.invoke, a fresh conversation starts. The table below is that fact.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What we might think</th>
+                    <th scope="col">What is true</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The model keeps the last chat inside it.</td>
+                    <td>Each invoke is a new call. No past turns live in the weights.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-879" data-section="879" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">879</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-plus" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Send Previous Messages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>What we can do is this. We do not only send the user message. We also send the previous messages. Then the LLM has that past as context. Short term memory is also known as the conversation buffer. That buffer is the list we concat into the prompt.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-880" data-section="880" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">880</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="save" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Checkpointer and Threads</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A checkpointer helps us implement short term memory. We store the state at every super step. We also implement threads. That is a thread id. With the thread id we can access the previous data. First we store it in RAM. Then we store it in a db. The steps below are that path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">How the buffer is kept</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Invoke</span>
+                  <span class="workflow__step-desc">The graph runs. Messages sit in MessagesState.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hard-drive" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Super step</span>
+                  <span class="workflow__step-desc">The checkpointer writes that state after the step.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Thread id</span>
+                  <span class="workflow__step-desc">The same id loads the old buffer on the next invoke.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-881" data-section="881" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">881</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="memory-stick" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">InMemorySaver Lives in RAM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We import InMemorySaver to store the data in RAM. We make a checkpointer. We can make a thread id. The problem is this. It is saved in RAM. RAM can be deleted, or the process can restart. Then the conversation is gone. The block below is that saver. Next we persist to a db.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">InMemorySaver</p>
+              <pre class="code-input"><code>from langgraph.checkpoint.memory import InMemorySaver
+
+checkpointer = InMemorySaver()</code></pre>
+              <p class="code-io__note">Good for a demo. A restart wipes the buffer.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-882" data-section="882" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">882</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Save Threads in Postgres</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>PostgresSaver writes the checkpoint to Postgres. We compile the graph with that checkpointer. Each config has a thread id. Thread 1 and thread 2 are different buffers. We invoke Hello, how are you on thread 1. We invoke what is my name on thread 2. We print the last message content. We do not invent those two replies here. Run the file against your db to see them.</p>
+            <p>call_model takes MessagesState, calls the LLM on state messages, and returns a new message list. START goes to call_model. setup() prepares the tables. The blocks below are that graph and the two threads.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Graph and PostgresSaver</p>
+              <pre class="code-input"><code>from langgraph.graph import StateGraph, START, MessagesState
+from langgraph.checkpoint.postgres import PostgresSaver
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatGroq(model="openai/gpt-oss-20b", temperature=0)
+
+
+def call_model(state: MessagesState):
+    response = llm.invoke(state["messages"])
+    return {"messages": [response]}
+
+
+builder = StateGraph(MessagesState)
+builder.add_node("call_model", call_model)
+builder.add_edge(START, "call_model")
+
+DB_URI = "postgresql://postgres:postgres@localhost:15432/postgres"</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Two threads</p>
+              <pre class="code-input"><code>with PostgresSaver.from_conn_string(DB_URI) as checkpointer:
+    checkpointer.setup()
+    graph = builder.compile(checkpointer=checkpointer)
+
+    t1 = {"configurable": {"thread_id": "thread-1"}}
+    out1 = graph.invoke(
+        {"messages": [{"role": "user", "content": "Hello, how are you?"}]},
+        t1,
+    )
+    print("Thread1:", out1["messages"][-1].content)
+
+with PostgresSaver.from_conn_string(DB_URI) as checkpointer:
+    checkpointer.setup()
+    graph = builder.compile(checkpointer=checkpointer)
+
+    t2 = {"configurable": {"thread_id": "thread-2"}}
+    out2 = graph.invoke(
+        {"messages": [{"role": "user", "content": "what is my name"}]},
+        t2
+    )
+    print("Thread2:", out2["messages"][-1].content)</code></pre>
+              <p class="code-io__note">Same db. Different thread ids. Thread 2 does not see thread 1.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-883" data-section="883" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">883</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Context Overflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Every LLM has a context window. That shows how much context it can take at one time before maxing out. That is max tokens. If we go past it, the LLM might hallucinate. We cannot trust the LLM response. The input tokens should be way less than the context tokens.</p>
+            <p>Sometimes we send a very long input. We send the whole conversation as context. If the conversation is long, that concat can get bigger than the window. That is the context overflow problem. The table below is that risk.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Safe input</th>
+                    <th scope="col">Overflow</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Input tokens stay well under the window.</td>
+                    <td>The full convo concat is bigger than max tokens.</td>
+                  </tr>
+                  <tr>
+                    <td>The model can read what we sent.</td>
+                    <td>The model may hallucinate. We cannot trust the reply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-884" data-section="884" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">884</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scissors" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Trimming</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Trimming is the first technique. We set a max token limit, like 500 tokens. Every time we send all the messages, we look at whether that send is less than 500 tokens, including the whole convo. If it exceeds, we trim. We keep the last n messages. We only take the messages whose total tokens are less than 500, and we drop the others from what the LLM sees. The idea is simple. Set max tokens. Only take the messages that fit. The steps below are that check.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Fit under 500</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Cap</span>
+                  <span class="workflow__step-desc">Set max tokens, such as 500.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scale" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Count</span>
+                  <span class="workflow__step-desc">Count tokens on the messages we would send.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scissors" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Keep last</span>
+                  <span class="workflow__step-desc">If over the cap, keep the last messages that still fit.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-885" data-section="885" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">885</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="code" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">trim_messages</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We have a trim_messages function. We pass state messages. strategy is last. token_counter is count_tokens_approximately. max_tokens is 500. The role we give, like user, and the content, all get converted into tokens. If the previous message itself is more than the max tokens, it will only keep the current question. The block below is that call.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">trim_messages</p>
+              <pre class="code-input"><code>messages = trim_messages(
+    state["messages"],
+    strategy="last",
+    token_counter=count_tokens_approximately,
+    max_tokens=500,
+)</code></pre>
+              <p class="code-io__note">strategy last means keep the newest turns that still fit under max_tokens.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-886" data-section="886" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">886</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">We Do Not Delete</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>An important thing. In trimming we are not deleting the message. We are just not showing it to the LLM. The messages will still be in the state. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">In state</th>
+                    <th scope="col">Sent to the LLM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The full conversation buffer stays.</td>
+                    <td>Only the trimmed slice, under the token cap.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-887" data-section="887" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">887</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-alert" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Flaw in Trimming</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Trimming has a flaw. It will take recent messages only and ignore the old messages. The LLM does not know if there is an older message. We might think we only need the recent convo. In the real world that goes wrong, because the old convo is necessary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-888" data-section="888" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">888</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Summarization</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second technique is summarization. It works like trimming, but it is more advanced. We still send the recent messages. We do not ignore the old messages. We send the previous convo to the LLM and make a summary. So we send the summary of the previous convo, plus n recent convos, as context.</p>
+            <p>Like this. We have 500 convos. Only 100 of them fit under max tokens. We make a summary of the other 400 and send that to the LLM. This is why it is better than trimming. It preserves the context a bit. The table below is that pair.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Trimming</th>
+                    <th scope="col">Summarization</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Keep last messages under the cap. Drop the rest from the prompt.</td>
+                    <td>Keep n recent turns. Summarize the older ones. Send both.</td>
+                  </tr>
+                  <tr>
+                    <td>The LLM never sees the old turns.</td>
+                    <td>The LLM sees a short recap of the old turns.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-889" data-section="889" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">889</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="trash-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Delete After We Summarize</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In this technique we delete the previous conversation, since we already made the summary of it. First we have to delete it. We use RemoveMessage. The graph is START, then chat. If the check is true, we go to summarization, then END. If the check is false, we go to END. We need to check if the list in the state is greater than a number we pick, like 6 or 10. That number is n. The user defines it. If it is greater than 6, we make a summary. The picture below is that branch.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="16" width="70" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="51" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="86" y1="36" x2="118" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="118" y="16" width="90" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="163" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chat</text>
+                <line x1="208" y1="28" x2="248" y2="16" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="208" y1="44" x2="248" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="248" y="8" width="88" height="36" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="292" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">true, summarize</text>
+                <rect x="248" y="72" width="88" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="292" y="95" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">false, END</text>
+                <line x1="336" y1="26" x2="368" y2="26" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="368" y="8" width="40" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="388" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">RemoveMessage</p>
+              <pre class="code-input"><code>from langchain_core.messages import RemoveMessage</code></pre>
+              <p class="code-io__note">The name is RemoveMessage from langchain_core.messages. That is the working import.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-890" data-section="890" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">890</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">First Summary, Then Update</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Summary has a condition. We perform the summary the first time. If there is already a summary, we add that summary plus the new messages to make a new summary. We do not invent that update function here. The idea is: first write a summary, later fold new turns into it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-891" data-section="891" data-chapter="day-67">
+        <span class="lesson-card__marker" aria-hidden="true">891</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 67 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 67 takeaways</h3>
+              <ul>
+                <li>The LLM is stateless. Each invoke is a fresh call unless we send previous messages.</li>
+                <li>A checkpointer stores state each super step. A thread id reloads that conversation buffer.</li>
+                <li>InMemorySaver lives in RAM. PostgresSaver keeps threads in a db after a restart.</li>
+                <li>Input tokens should stay well under the context window, or the model may hallucinate.</li>
+                <li>Trimming keeps last messages under a cap. It does not delete them from state. Old turns are hidden from the LLM.</li>
+                <li>Summarization keeps recent turns and a recap of the rest. Then we delete the old turns with RemoveMessage.</li>
+                <li>If a summary already exists, fold it with the new messages into a new summary.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
