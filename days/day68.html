@@ -1,0 +1,605 @@
+      <div class="chapter-divider reveal" id="chapter-day-68" data-chapter="day-68">
+        <span class="chapter-divider__pill">Day 68</span>
+        <h2 class="chapter-divider__title">Long Term Memory in LangGraph</h2>
+        <p class="chapter-divider__note">Short term memory lives inside one thread. Long term memory lives in a store, across threads, so the product can remember the user.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-892" data-section="892" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">892</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Last day we learned about short term memory. We learned what memory is, and how we build it. Then there were two types, STM and LTM. We learned how we implement short term memory in LangGraph. Today we implement long term memory. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="messages-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Why LTM</span>
+                  <span class="workflow__step-desc">Facts sit in many threads. We persist them in a db.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Store</span>
+                  <span class="workflow__step-desc">BaseStore, then InMemoryStore, PostgresStore, RedisStore.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Search</span>
+                  <span class="workflow__step-desc">put, get, search, then search by meaning with embeddings.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-merge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Graph</span>
+                  <span class="workflow__step-desc">Use the store in chat. Write new memories. Then merge both nodes.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-893" data-section="893" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">893</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="rewind" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Quick Recap</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In an LLM system like the chatbot we build, we make multiple threads. Like in ChatGPT, we make a separate convo for each separate chat. A checkpointer plus a thread id keep that buffer. That is short term memory. It does not follow the user into a new thread. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Short term</th>
+                    <th scope="col">Long term</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>One thread. The conversation buffer.</td>
+                    <td>Across threads. Facts in a store.</td>
+                  </tr>
+                  <tr>
+                    <td>Checkpointer and thread id.</td>
+                    <td>BaseStore and a namespace.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-894" data-section="894" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">894</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="users" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Details Across Threads</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We need to improve the product so the user becomes comfortable. The user did not say everything about themselves in a single chat. In one thread they say they like Python programming. In the next thread they might like to visit Laos. In the next thread they might say something else. Those details sit in multiple threads. So we need to store them in a db. The cards below are that scatter.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="code" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Thread 1</p>
+                <p class="concept-card__desc">They like Python programming.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="plane" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Thread 2</p>
+                <p class="concept-card__desc">They might like to visit Laos.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Thread 3</p>
+                <p class="concept-card__desc">They say something else. Still the same user.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-895" data-section="895" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">895</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="database" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Persist in a db</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This persistence is stored in the db. Like this. In two months we say we need to go to the Mardi Himal trek. We need to store that in storage. Later the LLM can still use it. The data is persistence. It outlives one thread, and it outlives a restart if the store is a db.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-896" data-section="896" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">896</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scan-text" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Extract Details As They Ask</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>As the user asks a question, we need to not only answer. We need to extract the details from the question and store them in the db. The steps below are that loop.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Ask, extract, store, answer</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Ask</span>
+                  <span class="workflow__step-desc">The user sends a question in some thread.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Extract</span>
+                  <span class="workflow__step-desc">Pull facts about the user from that question.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="save" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Store</span>
+                  <span class="workflow__step-desc">Write those facts into the db.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="reply" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Answer</span>
+                  <span class="workflow__step-desc">Reply, using the store when it helps.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-897" data-section="897" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">897</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="check-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The LLM Checks the Store</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The LLM will check if the db has something that can give a better answer. Like this. We write a code for addition. Then the LLM will check if the code should be written in Python, since the user loves Python, and that was stored in the db. The table below is that lookup.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Without the store</th>
+                    <th scope="col">With the store</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Write addition in any language the model picks.</td>
+                    <td>The db already says the user loves Python. Write it in Python.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-898" data-section="898" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">898</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">BaseStore</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>How we implement this in LangGraph. The store concept is implemented on a class. Its name is BaseStore. This is an abstract class. Other store classes inherit from it. The picture below is that idea.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="130" y="12" width="160" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="210" y="37" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" fill="#0f172a">BaseStore</text>
+                <line x1="210" y1="52" x2="210" y2="78" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="70" y1="78" x2="350" y2="78" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="70" y1="78" x2="70" y2="92" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="78" x2="210" y2="92" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="350" y1="78" x2="350" y2="92" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="92" width="108" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="70" y="119" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">InMemoryStore</text>
+                <rect x="156" y="92" width="108" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="210" y="119" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">PostgresStore</text>
+                <rect x="296" y="92" width="108" height="44" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="350" y="119" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">RedisStore</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-899" data-section="899" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">899</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What a Store Can Do</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>BaseStore has what a memory store can do. Create a new memory. Search memory. Edit memory. And delete them. The cards below are those four jobs. We will code create and retrieve next. We do not invent an edit function or a delete sample here.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Create</p>
+                <p class="concept-card__desc">Write a new memory. We use put for that.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="search" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Search</p>
+                <p class="concept-card__desc">Find memories. get for one key. search for more.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="pencil" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Edit</p>
+                <p class="concept-card__desc">Change a memory that is already there.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="trash-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Delete</p>
+                <p class="concept-card__desc">Remove a memory from the store.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-900" data-section="900" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">900</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Store Classes</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are other inherit classes as well from BaseStore. InMemoryStore stores in RAM. It is used in the prototype. Another class used is PostgresStore. It stores those in Postgres. RedisStore is also a production grade store, to store in Redis. The table below is that choice.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Where it lives</th>
+                    <th scope="col">Use</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>InMemoryStore</td>
+                    <td>RAM</td>
+                    <td>Prototype.</td>
+                  </tr>
+                  <tr>
+                    <td>PostgresStore</td>
+                    <td>Postgres</td>
+                    <td>A db that lasts after a restart.</td>
+                  </tr>
+                  <tr>
+                    <td>RedisStore</td>
+                    <td>Redis</td>
+                    <td>Production grade store.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-901" data-section="901" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">901</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plus-square" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">put Writes a Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We use the put method. It has three values. Namespace, key, and value. put inserts into that namespace. We learned create using put. The first block writes two keys under user u1. The second block writes two keys under user u2. We use the name namespace after we point it at u2. The notes had namespace2 there. That name was not set, so the working code uses namespace.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">InMemoryStore and put</p>
+              <pre class="code-input"><code>from langgraph.store.memory import InMemoryStore
+
+store = InMemoryStore()
+
+namespace = ("user", "u1")
+store.put(namespace, "1", {"data": "hello i am bishal"})
+store.put(namespace, "2", {"data": "hello i am kiran"})
+
+namespace = ("user", "u2")
+store.put(namespace, "1", {"data": "bishal likes python"})
+store.put(namespace, "2", {"data": "bishal likes javascript"})</code></pre>
+              <p class="code-io__note">Same store. Two namespaces. u1 and u2 do not mix.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-902" data-section="902" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">902</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="folder-tree" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Namespace Is a Folder</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Think of the memory store as Google Drive. Namespace is like a folder in Google Drive. We make a users folder. u1 has user one details. u2 is another folder that has u2 details. A namespace can be user and u1. Or it can be users, u1, profile. Profile is a folder inside u1. The picture below is that tree.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 168" role="img">
+                <rect x="16" y="12" width="100" height="36" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="66" y="35" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">users</text>
+                <line x1="66" y1="48" x2="66" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="66" y1="72" x2="210" y2="72" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="210" y1="72" x2="210" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="88" width="100" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="66" y="111" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">u1</text>
+                <rect x="160" y="88" width="100" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="111" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">u2</text>
+                <line x1="66" y1="124" x2="66" y2="140" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="16" y="140" width="100" height="24" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="66" y="157" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">profile</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-903" data-section="903" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">903</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="download" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">get and search</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Retrieve has two methods. get and search. get is used if we have the exact key. search is used to get all the items. We learned create using put, and retrieve with those two. The first block gets one key at a time. The second block searches the namespace and loops the items. We print each item. We do not invent that print here.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">get</p>
+              <pre class="code-input"><code>store.get(namespace, "1")
+store.get(namespace, "2")
+
+namespace = ("user", "u2")
+store.get(namespace, "1")
+store.get(namespace, "2")</code></pre>
+            </div>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">search</p>
+              <pre class="code-input"><code>items = store.search(namespace)
+
+for item in items:
+    print(item)</code></pre>
+              <p class="code-io__note">get needs the key. search returns the items in that namespace.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-904" data-section="904" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">904</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="waypoints" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Semantic Search</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There is one situation both get and search cannot help. get gets a single item if we have the key. search gets all. Like we are using a chatbot, and we talk about the travel plan. The memory has all the details, like name, travel, programming. If we bring all the data from memory and give it to the LLM, the LLM might get confused. The best situation is to retrieve only the data that is related to travel. What we need is semantic searching. We fetch them based on meaning. We use the same search function. The table below is that gap.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Bring all</th>
+                    <th scope="col">Search by meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name, travel, and programming all go into the prompt.</td>
+                    <td>Only the travel facts come back for a travel question.</td>
+                  </tr>
+                  <tr>
+                    <td>The LLM might get confused.</td>
+                    <td>The LLM sees the related slice.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-905" data-section="905" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">905</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Search with Embeddings</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We send the embedding model to the store so it can store the data for search by meaning. This is a very important concept. We still call search. Now we pass a query and a limit. limit is 3. We loop the items and print them. We do not invent those three hits. The working constructor takes index, with embed set to the embedding model. The notes had embedding as a direct argument. That name is not the store API.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">InMemoryStore with embeddings</p>
+              <pre class="code-input"><code>from langchain_community.embeddings import OpenAIEmbeddings
+from dotenv import load_dotenv
+from langgraph.store.memory import InMemoryStore
+
+load_dotenv()
+
+embedding = OpenAIEmbeddings()
+
+store = InMemoryStore(index={"embed": embedding})
+namespace = ("user", "u1")
+store.put(namespace, "1", {"data": "hello i am bishal"})
+store.put(namespace, "2", {"data": "hello i am kiran"})
+store.put(namespace, "3", {"data": "hello i am bishal"})
+store.put(namespace, "4", {"data": "hello i am kiran"})
+store.put(namespace, "5", {"data": "hello i am bishal"})
+store.put(namespace, "6", {"data": "hello i am kiran"})
+store.put(namespace, "7", {"data": "hello i am bishal"})
+store.put(namespace, "8", {"data": "hello i am kiran"})
+store.put(namespace, "9", {"data": "hello i am bishal"})
+store.put(namespace, "10", {"data": "hello i am kiran"})
+
+items = store.search(namespace, query="what is memory learning", limit=3)
+
+for item in items:
+    print(item)</code></pre>
+              <p class="code-io__note">Same search method. query ranks by meaning. limit keeps three.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-906" data-section="906" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">906</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bot" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chatbot Uses Existing Memory</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we connect the memory store with the chatbot. The graph is START, then chatbot, then END. In this chatbot they only use the existing memory. We do not only send the message. We take the long term memory with the short term memory. We put those data in the system prompt. We do not invent that chatbot node here. The picture below is that path.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 72" role="img">
+                <rect x="16" y="16" width="80" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="56" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="96" y1="36" x2="148" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="148" y="16" width="124" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="210" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">chatbot</text>
+                <line x1="272" y1="36" x2="324" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="324" y="16" width="80" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="364" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-907" data-section="907" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">907</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="lightbulb" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Remember Node</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>How to create a new memory in the store. The graph is START, then remember, then END. The remember node will have the memory store, but empty at first. We create a node. The LLM decides if it has a memory, meaning if it needs to be stored. If yes, put them in the list. We do not invent that remember function here. The steps below are that build.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Build remember</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="download" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Import</span>
+                  <span class="workflow__step-desc">Bring in the store class.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Create store</span>
+                  <span class="workflow__step-desc">Make the store. It starts empty.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scale" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM decides</span>
+                  <span class="workflow__step-desc">If a fact should be stored, put it in the list.</span>
+                </li>
+              </ol>
+            </div>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 72" role="img">
+                <rect x="16" y="16" width="80" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="56" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">START</text>
+                <line x1="96" y1="36" x2="148" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="148" y="16" width="124" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="210" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">remember</text>
+                <line x1="272" y1="36" x2="324" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="324" y="16" width="80" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="364" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-908" data-section="908" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">908</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="git-merge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Dedup Then Merge</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This process has the problem of duplication. We need to take care of deduplication as well. We need to implement deduplication strategies. There are many. What we can do is add a prompt in the system prompt saying there is already content in the previous memory. We can now merge them. The graph is START, then remember, then chatnode, then END. The picture below is that merge.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 72" role="img">
+                <rect x="8" y="16" width="70" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="43" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="78" y1="36" x2="108" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="108" y="16" width="96" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="156" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">remember</text>
+                <line x1="204" y1="36" x2="234" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="234" y="16" width="96" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="282" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">chatnode</text>
+                <line x1="330" y1="36" x2="360" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="360" y="16" width="52" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="386" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">END</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-909" data-section="909" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">909</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="hard-drive" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Postgres Not Only RAM</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The problem is we are using a memory store that only saves in RAM. We need Postgres to save in the db. Last day, PostgresSaver was the checkpointer for short term threads. Here the store class is PostgresStore. RedisStore is the other production grade option. We do not invent that PostgresStore setup here. The table below is that move.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Prototype</th>
+                    <th scope="col">Keep it after a restart</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>InMemoryStore lives in RAM.</td>
+                    <td>PostgresStore writes the memories in Postgres.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-910" data-section="910" data-chapter="day-68">
+        <span class="lesson-card__marker" aria-hidden="true">910</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 68 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 68 takeaways</h3>
+              <ul>
+                <li>Short term memory is one thread. Long term memory is a store across threads.</li>
+                <li>As the user asks, extract details and persist them in a db so later answers can use them.</li>
+                <li>BaseStore is the abstract class. InMemoryStore is RAM. PostgresStore and RedisStore are production grade.</li>
+                <li>put takes namespace, key, and value. Namespace is like a folder. get needs the exact key. search can return all items.</li>
+                <li>Semantic search uses the same search method with a query, so the LLM sees related facts, not every fact.</li>
+                <li>Chat can read existing memory into the system prompt with short term memory. Remember writes new memories. Then merge both nodes.</li>
+                <li>Dedup matters. Tell the model what the previous memory already contains. Do not leave the store in RAM for a real product.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
