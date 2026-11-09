@@ -1,7 +1,7 @@
       <div class="chapter-divider reveal" id="chapter-day-69" data-chapter="day-69">
         <span class="chapter-divider__pill">Day 69</span>
         <h2 class="chapter-divider__title">CRAG Corrective RAG</h2>
-        <p class="chapter-divider__note">Traditional RAG trusts every retrieved chunk. CRAG checks that chunk first. Then it refines, searches the web, or does both.</p>
+        <p class="chapter-divider__note">Traditional RAG retrieves docs and uses them. CRAG first scores those docs, then refines, searches the web, or does both.</p>
       </div>
 
       <article class="lesson-card reveal" id="section-911" data-section="911" data-chapter="day-69">
@@ -12,29 +12,29 @@
             <h2 class="lesson-card__title">What We Will Learn</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Today is CRAG, Corrective RAG. First we recap traditional RAG. Then we name the problem. Then we put a check before the LLM. We learn knowledge refinement, retrieval evaluation, web search, query rewrite, and how we handle a partial hit. The steps below are that plan.</p>
+            <p>Today is CRAG, Corrective RAG. First we recap traditional RAG. Then we name the problem. Then we put a retrieval evaluator before the main LLM. We learn Top K retrieval, scores, thresholds, knowledge refinement, web search, query rewrite, and the ambiguous path. The steps below are that plan.</p>
             <div class="workflow" aria-hidden="true">
               <p class="workflow__title">Today</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="book-open" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Recap RAG</span>
-                  <span class="workflow__step-desc">Retrieval, then augment, then generation.</span>
+                  <span class="workflow__step-desc">Question, Top K docs, then the LLM answers.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="alert-triangle" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">The problem</span>
-                  <span class="workflow__step-desc">The LLM blindly trusts the retrieved docs.</span>
+                  <span class="workflow__step-desc">Retrieved docs are not always relevant or accurate.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="scale" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Evaluate</span>
-                  <span class="workflow__step-desc">Correct, partial, or incorrect. Then refine or search.</span>
+                  <span class="workflow__step-desc">Score each doc. Decide correct, incorrect, or ambiguous.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">CRAG path</span>
-                  <span class="workflow__step-desc">Rewrite the query. Mix internal and web knowledge.</span>
+                  <span class="workflow__step-label">Three paths</span>
+                  <span class="workflow__step-desc">Refine internals, search the web, or combine both.</span>
                 </li>
               </ol>
             </div>
@@ -47,25 +47,25 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Recap Traditional RAG</h2>
+            <h2 class="lesson-card__title">Why We Need CRAG</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Traditional RAG is a process of three steps. Retrieval. Augmented. Generation. The user gives a query. We retrieve docs. We add those docs to the query. The LLM generates a response. The cards below are those three names.</p>
+            <p>In traditional RAG the user asks a question. The retriever finds the Top K documents. Those documents are sent to the LLM. The LLM generates an answer. That is retrieval, then augment, then generation. The problem is this. Retrieved documents are not always relevant or accurate. Traditional RAG may use them without properly checking their quality. CRAG solves this by introducing a retrieval evaluator to check the documents before generating an answer. The cards below are those RAG names.</p>
             <div class="concept-grid">
               <article class="concept-card">
                 <i data-lucide="search" class="concept-card__icon" aria-hidden="true"></i>
                 <p class="concept-card__name">Retrieval</p>
-                <p class="concept-card__desc">Find docs that look close to the query.</p>
+                <p class="concept-card__desc">Find the Top K docs that look close to the question.</p>
               </article>
               <article class="concept-card">
                 <i data-lucide="plus" class="concept-card__icon" aria-hidden="true"></i>
                 <p class="concept-card__name">Augmented</p>
-                <p class="concept-card__desc">Put the retrieved data and the query into the LLM.</p>
+                <p class="concept-card__desc">Put the retrieved data and the question into the LLM.</p>
               </article>
               <article class="concept-card">
                 <i data-lucide="sparkles" class="concept-card__icon" aria-hidden="true"></i>
                 <p class="concept-card__name">Generation</p>
-                <p class="concept-card__desc">The LLM writes the response.</p>
+                <p class="concept-card__desc">The LLM writes the answer.</p>
               </article>
             </div>
           </div>
@@ -77,35 +77,28 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Retrieval</h2>
+            <h2 class="lesson-card__title">Retrieve Top K Documents</h2>
           </header>
           <div class="lesson-card__body">
-            <p>The user gives a query. We take that query to the embedding model. It converts the data into vector data. We take that vector to the vector database. The vector database already has the data. We do a semantic search. This process is called retrieval. We will get some documents. The steps below are that retrieve path.</p>
-            <div class="workflow" aria-hidden="true">
-              <p class="workflow__title">Retrieve</p>
-              <ol class="workflow__steps">
-                <li class="workflow__step">
-                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">Query</span>
-                  <span class="workflow__step-desc">The user asks a question.</span>
-                </li>
-                <li class="workflow__step">
-                  <i data-lucide="hash" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">Embed</span>
-                  <span class="workflow__step-desc">The embedding model turns it into a vector.</span>
-                </li>
-                <li class="workflow__step">
-                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">Search</span>
-                  <span class="workflow__step-desc">The vector database does a semantic search.</span>
-                </li>
-                <li class="workflow__step">
-                  <i data-lucide="files" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">Docs</span>
-                  <span class="workflow__step-desc">We get some retrieved documents.</span>
-                </li>
-              </ol>
-            </div>
+            <p>The user gives a query. We take that query to the embedding model. It converts the data into vector data. We take that vector to the vector database. We do a semantic search. This process is called retrieval. Suppose K is 4. The retriever returns D1, D2, D3, and D4. Top K simply means the K documents or text chunks that the retriever considers most relevant. The picture below is that retrieve step.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 72" role="img">
+                <rect x="8" y="16" width="92" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="54" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">question</text>
+                <line x1="100" y1="36" x2="124" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="124" y="16" width="92" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="170" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">retriever</text>
+                <line x1="216" y1="36" x2="240" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="240" y="16" width="40" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="260" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D1</text>
+                <rect x="284" y="16" width="40" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="304" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D2</text>
+                <rect x="328" y="16" width="40" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="348" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D3</text>
+                <rect x="372" y="16" width="40" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="392" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D4</text>
+              </svg>
+            </figure>
           </div>
         </div>
       </article>
@@ -118,7 +111,7 @@
             <h2 class="lesson-card__title">Augment and Generate</h2>
           </header>
           <div class="lesson-card__body">
-            <p>We take the retrieved data and the query into the LLM. This process is called augmented. The LLM generates the response. This process is called generation. That is the rest of RAG. The picture below is that last hop.</p>
+            <p>In traditional RAG we take the retrieved data and the query into the LLM. This process is called augmented. The LLM generates the response. This process is called generation. There is no quality check in between. The picture below is that last hop.</p>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
               <svg viewBox="0 0 420 72" role="img">
                 <rect x="8" y="16" width="88" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
@@ -144,7 +137,7 @@
             <h2 class="lesson-card__title">The LLM Blindly Trusts the Docs</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Where is the problem in traditional RAG? When we give the documentation to the LLM, the LLM blindly trusts it. If retrieval is a miss, generation still treats those docs as the answer. The table below is that trust.</p>
+            <p>When we give the documentation to the LLM, the LLM blindly trusts it. Traditional RAG may use those docs without properly checking their quality. If retrieval is a miss, generation still treats those docs as the answer. The table below is that trust.</p>
             <div class="comparison-table-wrap tts-skip" aria-hidden="true">
               <table class="comparison-table">
                 <thead>
@@ -213,10 +206,10 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="shield-check" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">CRAG Puts a Model Before the LLM</h2>
+            <h2 class="lesson-card__title">CRAG Puts a Check Before the LLM</h2>
           </header>
           <div class="lesson-card__body">
-            <p>The big difference in CRAG is this. We do not directly send the retrieved docs to the LLM. We put a model before the LLM. It checks if the retrieved data we got is useful or not. CRAG does not assume the docs are right. This is done with the help of a retrieval evaluator. The picture below is that extra check.</p>
+            <p>The big difference in CRAG is this. We do not directly send the retrieved docs to the main LLM. We put a retrieval evaluator before it. It checks if the retrieved data we got is useful or not. CRAG does not assume the docs are right. The picture below is that extra check.</p>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
               <svg viewBox="0 0 420 72" role="img">
                 <rect x="8" y="16" width="88" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
@@ -241,27 +234,27 @@
             <h2 class="lesson-card__title">Three Cases</h2>
           </header>
           <div class="lesson-card__body">
-            <p>There are three cases. The docs are relevant, not relevant, or partially relevant. If relevant, CRAG uses that. If not relevant, it might use tools like web search, then reply. If it is partially relevant, it sends the relevant data to the LLM, then uses web search to get the other data. This is how CRAG works. The table below is that branch.</p>
+            <p>After scoring, CRAG picks one of three cases. Correct means at least one document has a high enough score. Then we refine the original documents into internal knowledge. Incorrect means all documents have very low scores. Then we discard those originals and search the web for external knowledge. Ambiguous means neither clearly correct nor incorrect. Then we refine the originals and also search the web, and we combine both knowledge sources. The table below is that branch.</p>
             <div class="comparison-table-wrap tts-skip" aria-hidden="true">
               <table class="comparison-table">
                 <thead>
                   <tr>
-                    <th scope="col">Case</th>
+                    <th scope="col">Decision</th>
                     <th scope="col">What CRAG does</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Relevant, correct</td>
-                    <td>Use the retrieved docs, after we refine them.</td>
+                    <td>Correct</td>
+                    <td>Refine the original docs. Send internal knowledge to the main LLM.</td>
                   </tr>
                   <tr>
-                    <td>Not relevant, incorrect</td>
-                    <td>Do not trust those docs. Use web search, then reply.</td>
+                    <td>Incorrect</td>
+                    <td>Discard the originals. Rewrite the query. Search the web. Send external knowledge.</td>
                   </tr>
                   <tr>
-                    <td>Partially relevant, ambiguous</td>
-                    <td>Keep the useful retrieved data, and also search the web.</td>
+                    <td>Ambiguous</td>
+                    <td>Refine the originals and search the web. Combine both knowledge sources.</td>
                   </tr>
                 </tbody>
               </table>
@@ -278,14 +271,14 @@
             <h2 class="lesson-card__title">Traditional RAG Graph</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Before CRAG, we still build a simple RAG graph so we can see the gap. Import the libraries. Load the docs. Split with RecursiveCharacterTextSplitter. Import the embedding model. Use a FAISS vector store. Create a retriever. Search type is similarity. The search kwargs set k to 4. Add an LLM and a prompt. Make state for LangGraph. Store the docs in the state. Join the docs as a string. The LLM sees the query plus that context string. The graph is START, retrieve, generate, END. We do not invent the full node bodies here. The block below is the retriever shape. The picture below is that graph.</p>
+            <p>Before CRAG, we still build a simple RAG graph so we can see the gap. Import the libraries. Load the docs. Split with RecursiveCharacterTextSplitter. Import the embedding model. Use a FAISS vector store. Create a retriever. Search type is similarity. The search kwargs set k to 4. That k is Top K. Add an LLM and a prompt. Make state for LangGraph. Store the docs in the state. Join the docs as a string. The LLM sees the query plus that context string. The graph is START, retrieve, generate, END. We do not invent the full node bodies here. The block below is the retriever shape. The picture below is that graph.</p>
             <div class="code-io">
               <p class="code-io__label code-io__label--input">Retriever</p>
               <pre class="code-input"><code>retriever = vectorstore.as_retriever(
     search_type="similarity",
     search_kwargs={"k": 4},
 )</code></pre>
-              <p class="code-io__note">Similarity search. k 4 means four docs come back.</p>
+              <p class="code-io__note">Similarity search. k 4 means four docs come back. That is Top K.</p>
             </div>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
               <svg viewBox="0 0 420 72" role="img">
@@ -314,7 +307,7 @@
             <h2 class="lesson-card__title">Knowledge Refinement</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Starting with iteration 1, knowledge refinement. If the retrieved documentation is correct, we use it. Like this. We get the relevant data, but there might be some extra data as well. We get that extra data because of chunking. That is why we need knowledge refinement. We do this with d1, then d2, then d3, and so on. The graph becomes START, retrieve, refine, generate, END. The picture below is that extra node.</p>
+            <p>When at least one document scores above the upper threshold, CRAG follows the Correct path. We perform knowledge refinement. We apply refinement to the retrieved documents, not just the ones scoring above the upper threshold. Why? Even a low scoring document might contain a useful sentence. During filtering, the evaluator checks the smaller pieces again. In the paper, it keeps up to 5 useful strips, with a filtering threshold of minus 0.5. We send the original question and this refined internal knowledge to the main LLM. The LLM generates the answer. The graph below is retrieve, then refine, then generate.</p>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
               <svg viewBox="0 0 420 72" role="img">
                 <rect x="4" y="16" width="58" height="40" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
@@ -345,24 +338,24 @@
             <h2 class="lesson-card__title">Decompose, Filter, Recompose</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Knowledge refinement has three steps. Decomposition, filter, recomposition. Decomposition means dividing the document that we retrieved into sentences. These are called strips. Filter means we send the query plus the strips. We check each strip, which are important and which are not. Recomposition means now we have the important strips. We join them back to a document. That is merge them. The steps below are that clean up.</p>
+            <p>Think of refinement as three stages across the retrieved documents. Decompose all. Filter the pieces. Recompose useful pieces. Decomposition means breaking documents into smaller text pieces called strips. Filter means score each strip and remove the ones that are not relevant. Recompose means combine useful strips in order. That merge is internal knowledge. In actual code, processing each document using a loop is also possible. The steps below are those three stages.</p>
             <div class="workflow" aria-hidden="true">
-              <p class="workflow__title">Refine one doc</p>
+              <p class="workflow__title">Refine the retrieved docs</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
                   <i data-lucide="split" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Decompose</span>
-                  <span class="workflow__step-desc">Cut the retrieved doc into sentence strips.</span>
+                  <span class="workflow__step-desc">Break D1, D2, D3, D4 into smaller strips.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="filter" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Filter</span>
-                  <span class="workflow__step-desc">Query plus strips. Keep the important strips.</span>
+                  <span class="workflow__step-desc">Score each strip. Drop the ones that are not relevant.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="combine" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Recompose</span>
-                  <span class="workflow__step-desc">Join the kept strips back into one document.</span>
+                  <span class="workflow__step-desc">Join useful strips in order. That is internal knowledge.</span>
                 </li>
               </ol>
             </div>
@@ -375,26 +368,37 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="scale" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Retrieval Evaluation</h2>
+            <h2 class="lesson-card__title">Retrieval Evaluator</h2>
           </header>
           <div class="lesson-card__body">
-            <p>The second improvement is retrieval evaluation. That is iteration 2. We will check if the retrieval is correct, ambiguous, that is partial, or incorrect. We will use an LLM for it. First we give d1, then d2, and so on. Each doc gets a score. We also store why each doc is given that score. The cards below are those three labels.</p>
-            <div class="concept-grid">
-              <article class="concept-card">
-                <i data-lucide="check" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Correct</p>
-                <p class="concept-card__desc">The retrieved docs are relevant.</p>
-              </article>
-              <article class="concept-card">
-                <i data-lucide="circle-help" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Ambiguous</p>
-                <p class="concept-card__desc">Partial. Some of the docs help.</p>
-              </article>
-              <article class="concept-card">
-                <i data-lucide="x" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Incorrect</p>
-                <p class="concept-card__desc">The retrieved docs are not useful.</p>
-              </article>
+            <p>We send each document along with the original question to the retrieval evaluator. The evaluator gives each document a score. Higher score means more relevant to the question. The paper uses a specially trained T5 model to evaluate the documents. That is not the main LLM that writes the final answer. The paper evaluator gives scores between minus 1 and plus 1. In our own CRAG we can use Jev for this job, or another latest classification model that gives a score. Jev is built to score and classify, not to write the final answer. If we switch the scorer, we also retune the thresholds, because the numbers will not match the T5 range. Here is a paper style example with K equal to 4. The table below is that scoring.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Document</th>
+                    <th scope="col">Example score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>D1</td>
+                    <td>0.90</td>
+                  </tr>
+                  <tr>
+                    <td>D2</td>
+                    <td>minus 0.40</td>
+                  </tr>
+                  <tr>
+                    <td>D3</td>
+                    <td>0.50</td>
+                  </tr>
+                  <tr>
+                    <td>D4</td>
+                    <td>minus 0.80</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -405,38 +409,30 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="sliders-horizontal" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Thresholds 0.3 and 0.7</h2>
+            <h2 class="lesson-card__title">Correct, Incorrect, or Ambiguous</h2>
           </header>
           <div class="lesson-card__body">
-            <p>We will give them a threshold. Lower is 0.3. Higher is 0.7. First condition, if the score is greater than 0.7, that doc is correct. Second, if the score is less than 0.3, that doc is incorrect. Third, if the score is between 0.3 and 0.7, that doc is partial. We can set the threshold based on us. Let us suppose we have d1, d2, and d3. d1 is 0.8. d2 is 0.4. d3 is 0.2. If any of the documents is greater than the higher threshold, the retrieval is correct. Here d1 is 0.8, so the verdict is correct. But we will not use all docs for generation. We will only use d1 and d2, since d2 is partial, and d3 is below 0.3. The table below is that scoring.</p>
+            <p>We use two thresholds. The upper threshold determines whether a document is good enough. The lower threshold determines whether a document is very poor. For illustration, suppose the upper threshold is 0.8 and the lower threshold is minus 0.3. Correct means at least one document scores above the upper threshold. Incorrect means all retrieved documents score below the lower threshold. Ambiguous is the rest. Not every document needs to score in the middle. For ambiguous, some documents can be below the lower threshold. The only requirement is that no document is above the upper threshold, and not all documents are below the lower threshold. The table below is that decision.</p>
             <div class="comparison-table-wrap tts-skip" aria-hidden="true">
               <table class="comparison-table">
                 <thead>
                   <tr>
-                    <th scope="col">Doc</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Label</th>
-                    <th scope="col">Keep for generate</th>
+                    <th scope="col">Scores of 4 documents</th>
+                    <th scope="col">Decision</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>d1</td>
-                    <td>0.8</td>
-                    <td>Correct, above 0.7</td>
-                    <td>Yes.</td>
+                    <td>0.9, 0.2, minus 0.5, 0.1</td>
+                    <td>Correct. One score is above 0.8.</td>
                   </tr>
                   <tr>
-                    <td>d2</td>
-                    <td>0.4</td>
-                    <td>Partial, between 0.3 and 0.7</td>
-                    <td>Yes.</td>
+                    <td>minus 0.8, minus 0.5, minus 0.6, minus 0.9</td>
+                    <td>Incorrect. All scores are below minus 0.3.</td>
                   </tr>
                   <tr>
-                    <td>d3</td>
-                    <td>0.2</td>
-                    <td>Incorrect, below 0.3</td>
-                    <td>No.</td>
+                    <td>0.5, 0.3, minus 0.7, 0.1</td>
+                    <td>Ambiguous. None above 0.8, and not all below minus 0.3.</td>
                   </tr>
                 </tbody>
               </table>
@@ -450,26 +446,37 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="clipboard-list" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Good Docs, Verdict, Reason</h2>
+            <h2 class="lesson-card__title">How We Pick Thresholds</h2>
           </header>
           <div class="lesson-card__body">
-            <p>State will have good docs, verdict, and reason. Good docs are the ones we keep. Verdict is correct, ambiguous, or incorrect. Reason stores why each doc is given that score. We do not invent that state class here. The cards below are those three fields.</p>
-            <div class="concept-grid">
-              <article class="concept-card">
-                <i data-lucide="files" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Good docs</p>
-                <p class="concept-card__desc">The docs we keep for generation.</p>
-              </article>
-              <article class="concept-card">
-                <i data-lucide="gavel" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Verdict</p>
-                <p class="concept-card__desc">Correct, ambiguous, or incorrect.</p>
-              </article>
-              <article class="concept-card">
-                <i data-lucide="message-square-quote" class="concept-card__icon" aria-hidden="true"></i>
-                <p class="concept-card__name">Reason</p>
-                <p class="concept-card__desc">Why each doc got its score.</p>
-              </article>
+            <p>The paper does mention the thresholds in its appendix. Those are the values the researchers used. They are not universal. Your own evaluator may give very different scores. For your own CRAG system, collect around 100 real questions, score their retrieved documents, test different threshold values, and see which settings produce the best answers. The table below is the paper values.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">Upper</th>
+                    <th scope="col">Lower</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PopQA</td>
+                    <td>0.59</td>
+                    <td>minus 0.99</td>
+                  </tr>
+                  <tr>
+                    <td>PubHealth and Arc Challenge</td>
+                    <td>0.50</td>
+                    <td>minus 0.91</td>
+                  </tr>
+                  <tr>
+                    <td>Biography</td>
+                    <td>0.95</td>
+                    <td>minus 0.91</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -480,22 +487,22 @@
         <div class="lesson-card__inner">
           <header class="lesson-card__header">
             <i data-lucide="globe" class="lesson-card__icon" aria-hidden="true"></i>
-            <h2 class="lesson-card__title">Web Search When Incorrect</h2>
+            <h2 class="lesson-card__title">Incorrect Path and Web Search</h2>
           </header>
           <div class="lesson-card__body">
-            <p>If the retrieval is incorrect, add a web search tool. We also need filtering, because the web search tool also gives multiple docs. So we need to refine them. Like strip them, filter them, then rejoin. Same three refine steps, now on the web docs. The table below is that extra clean up.</p>
+            <p>When all retrieved documents score below the lower threshold, CRAG decides Incorrect. It discards the original retrieved documents. Then it rewrites the question, searches the web, extracts web page text, and selects relevant information. That useful web information is called external knowledge. Web results are documents too, in a practical sense. The search returns website links. CRAG accesses those web pages and extracts their text. Knowledge refinement is also applied to web results, but with a small difference. For internal documents, CRAG breaks text into smaller strips. For web pages, the paper uses existing paragraphs from the pages and selects the relevant ones. It generally does not need to split them further. Finally the original question plus external knowledge goes to the main LLM. The table below is that difference.</p>
             <div class="comparison-table-wrap tts-skip" aria-hidden="true">
               <table class="comparison-table">
                 <thead>
                   <tr>
-                    <th scope="col">From the vector store</th>
-                    <th scope="col">From web search</th>
+                    <th scope="col">Internal documents</th>
+                    <th scope="col">Web pages</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Refine the retrieved chunks when they are useful.</td>
-                    <td>Refine the web docs too. Strip, filter, rejoin.</td>
+                    <td>Break text into smaller strips, then filter and recompose.</td>
+                    <td>Use existing paragraphs. Select the relevant ones. No extra split, in general.</td>
                   </tr>
                 </tbody>
               </table>
@@ -512,24 +519,30 @@
             <h2 class="lesson-card__title">Query Rewrite</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Iteration 4 is query rewrite. We do not search the query directly. We improve the query. The user query can be vague, underspecified, missing keywords, missing time constraint. So this iteration is very important. This is done in the incorrect path. Do this with the help of an LLM. Then web search uses that better query. The steps below are that rewrite.</p>
+            <p>We do not search the original question directly. The original user question may not be ideal for a search engine. Query rewriting is used for web search, not for the Correct path. In the paper, ChatGPT is used to create search keywords. Then web search uses that better query. The block below is that rewrite. The steps below are the Incorrect path.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Rewrite for search</p>
+              <pre class="code-input"><code>Original question: Who invented the telephone?
+Rewritten search query: telephone inventor Alexander Graham Bell history</code></pre>
+              <p class="code-io__note">The rewrite adds search keywords. It is not used on the Correct path.</p>
+            </div>
             <div class="workflow" aria-hidden="true">
               <p class="workflow__title">Incorrect path</p>
               <ol class="workflow__steps">
                 <li class="workflow__step">
-                  <i data-lucide="file-warning" class="workflow__step-icon" aria-hidden="true"></i>
-                  <span class="workflow__step-label">Incorrect</span>
-                  <span class="workflow__step-desc">The retrieved docs are not useful.</span>
+                  <i data-lucide="trash-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Discard</span>
+                  <span class="workflow__step-desc">All retrieved docs scored below the lower threshold.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Rewrite</span>
-                  <span class="workflow__step-desc">The LLM improves the vague query.</span>
+                  <span class="workflow__step-desc">Turn the question into web search keywords.</span>
                 </li>
                 <li class="workflow__step">
                   <i data-lucide="globe" class="workflow__step-icon" aria-hidden="true"></i>
                   <span class="workflow__step-label">Web search</span>
-                  <span class="workflow__step-desc">Search with the new query. Then refine those docs.</span>
+                  <span class="workflow__step-desc">Open pages, pick useful paragraphs, then generate.</span>
                 </li>
               </ol>
             </div>
@@ -545,7 +558,7 @@
             <h2 class="lesson-card__title">Handling Ambiguity</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Iteration 5 is handling ambiguity. Let us suppose we have multiple docs like d1, d2, d3. We will take all the docs that are more than 0.3, and all the docs given by the web search. So the generator sees the refined internal knowledge and the external web knowledge together. The table below is what each path sends.</p>
+            <p>When CRAG is unsure about the retrieved documents, it uses both sources. Ambiguous means no document is above the upper threshold, and not all documents are below the lower threshold. Some documents can still be below the lower threshold. We refine the original documents into internal knowledge. We also search the web and select useful text as external knowledge. Then we combine both knowledge sources. The original question plus that combined knowledge goes to the main LLM. This path is useful because CRAG does not have to completely trust or completely discard uncertain retrieved information. The table below is what each path sends.</p>
             <div class="comparison-table-wrap tts-skip" aria-hidden="true">
               <table class="comparison-table">
                 <thead>
@@ -557,15 +570,15 @@
                 <tbody>
                   <tr>
                     <td>Correct</td>
-                    <td>The query plus refined internal knowledge.</td>
+                    <td>The original question plus refined internal knowledge.</td>
                   </tr>
                   <tr>
                     <td>Ambiguous</td>
-                    <td>The query plus internal knowledge plus web knowledge.</td>
+                    <td>The original question plus internal knowledge plus external knowledge.</td>
                   </tr>
                   <tr>
                     <td>Incorrect</td>
-                    <td>The query plus web knowledge.</td>
+                    <td>The original question plus external knowledge.</td>
                   </tr>
                 </tbody>
               </table>
@@ -582,22 +595,24 @@
             <h2 class="lesson-card__title">The Full CRAG Picture</h2>
           </header>
           <div class="lesson-card__body">
-            <p>Here is the full CRAG flow. Retrieval gets d1 and d2. The retrieval evaluator asks if those docs are correct for the query. Correct goes to knowledge refinement only. That path decomposes into strips, filters, then recomposes into internal knowledge. Incorrect rewrites the query, searches the web, then selects external knowledge. Ambiguous uses both. Then the generator writes. The picture below is that map. kin is the refined internal knowledge. kex is the knowledge from web search.</p>
+            <p>Here is the complete CRAG flow at a glance. The user asks a question. We retrieve Top K documents. The retrieval evaluator scores each document and decides. Correct refines the original documents into internal knowledge. Incorrect discards the originals, searches the web, and builds external knowledge. Ambiguous does both, then combines both knowledge sources. The main LLM generates the final answer. The picture below is that map. kin is internal knowledge. kex is external knowledge from web search.</p>
             <figure class="lesson-figure tts-skip" aria-hidden="true">
               <svg viewBox="0 0 420 560" role="img">
                 <text x="8" y="22" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Retrieval</text>
-                <rect x="8" y="32" width="248" height="40" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4 3"></rect>
-                <text x="132" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x: the user query</text>
-                <line x1="256" y1="52" x2="292" y2="52" stroke="#334155" stroke-width="1.5"></line>
-                <text x="274" y="44" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#334155">docs</text>
-                <rect x="296" y="32" width="52" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
-                <text x="322" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">d1</text>
-                <rect x="356" y="32" width="52" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
-                <text x="382" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="12" fill="#0f172a">d2</text>
+                <rect x="8" y="32" width="168" height="40" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4 3"></rect>
+                <text x="92" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">user question</text>
+                <line x1="176" y1="52" x2="204" y2="52" stroke="#334155" stroke-width="1.5"></line>
+                <rect x="208" y="32" width="48" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="232" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D1</text>
+                <rect x="260" y="32" width="48" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="284" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D2</text>
+                <rect x="312" y="32" width="48" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="336" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D3</text>
+                <rect x="364" y="32" width="48" height="40" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"></rect>
+                <text x="388" y="57" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">D4</text>
                 <line x1="8" y1="88" x2="412" y2="88" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4"></line>
 
-                <text x="8" y="112" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Knowledge correction</text>
-                <text x="8" y="132" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#334155">Retrieval evaluator</text>
+                <text x="8" y="112" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Evaluator decides</text>
                 <rect x="8" y="140" width="88" height="28" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
                 <text x="52" y="159" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#14532d">Correct</text>
                 <rect x="8" y="176" width="88" height="28" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
@@ -606,46 +621,38 @@
                 <text x="52" y="231" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#7f1d1d">Incorrect</text>
 
                 <rect x="116" y="140" width="296" height="88" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"></rect>
-                <text x="264" y="158" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" font-weight="600" fill="#14532d">Knowledge refinement</text>
-                <rect x="128" y="168" width="40" height="24" rx="6" fill="#fff" stroke="#0f172a" stroke-width="1"></rect>
-                <text x="148" y="185" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">d1 d2</text>
-                <text x="186" y="185" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#334155">strips</text>
-                <text x="248" y="185" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#334155">filter</text>
-                <text x="300" y="185" font-family="Sora, system-ui, sans-serif" font-size="9" fill="#334155">recompose</text>
-                <rect x="360" y="168" width="40" height="24" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1"></rect>
-                <text x="380" y="185" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">kin</text>
-                <text x="264" y="214" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">Correct uses this path.</text>
+                <text x="264" y="158" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" font-weight="600" fill="#14532d">Refine original docs</text>
+                <text x="264" y="186" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">decompose, filter, recompose</text>
+                <rect x="360" y="198" width="40" height="22" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1"></rect>
+                <text x="380" y="214" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">kin</text>
 
                 <rect x="116" y="236" width="296" height="88" rx="10" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"></rect>
-                <text x="264" y="254" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" font-weight="600" fill="#9a3412">Knowledge searching</text>
-                <text x="132" y="278" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">x rewrite</text>
-                <text x="220" y="278" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">web search</text>
-                <text x="300" y="278" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">select</text>
-                <rect x="360" y="262" width="40" height="24" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1"></rect>
-                <text x="380" y="279" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">kex</text>
-                <text x="264" y="308" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#334155">Incorrect uses this path. Ambiguous uses both.</text>
+                <text x="264" y="254" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" font-weight="600" fill="#9a3412">Web search</text>
+                <text x="264" y="278" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">rewrite, search, select paragraphs</text>
+                <rect x="360" y="290" width="40" height="22" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1"></rect>
+                <text x="380" y="306" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">kex</text>
 
                 <line x1="8" y1="340" x2="412" y2="340" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4"></line>
                 <text x="8" y="364" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Generation</text>
 
                 <rect x="8" y="376" width="128" height="72" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"></rect>
                 <text x="72" y="398" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#14532d">Correct</text>
-                <text x="72" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x + kin</text>
+                <text x="72" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">question + kin</text>
 
                 <rect x="146" y="376" width="128" height="72" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"></rect>
                 <text x="210" y="398" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#854d0e">Ambiguous</text>
-                <text x="210" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x + kin + kex</text>
+                <text x="210" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">question + both</text>
 
                 <rect x="284" y="376" width="128" height="72" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
                 <text x="348" y="398" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#7f1d1d">Incorrect</text>
-                <text x="348" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">x + kex</text>
+                <text x="348" y="422" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">question + kex</text>
 
                 <line x1="72" y1="448" x2="72" y2="472" stroke="#94a3b8" stroke-width="2"></line>
                 <line x1="210" y1="448" x2="210" y2="472" stroke="#94a3b8" stroke-width="2"></line>
                 <line x1="348" y1="448" x2="348" y2="472" stroke="#94a3b8" stroke-width="2"></line>
                 <line x1="72" y1="472" x2="348" y2="472" stroke="#94a3b8" stroke-width="2"></line>
                 <rect x="70" y="480" width="280" height="40" rx="8" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"></rect>
-                <text x="210" y="505" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Generator</text>
+                <text x="210" y="505" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="13" font-weight="600" fill="#0f172a">Main LLM, the generator</text>
               </svg>
             </figure>
           </div>
@@ -660,16 +667,76 @@
             <h2 class="lesson-card__title">Day 69 takeaways</h2>
           </header>
           <div class="lesson-card__body">
+            <p>The one sentence to remember is this. Traditional RAG retrieves documents and uses them to answer. CRAG first evaluates those documents, decides whether to use them or search for better information, removes content that is not relevant, and then sends the useful information to the LLM. CRAG improves the quality of information given to the LLM, but it cannot guarantee that every retrieved fact or final answer is correct. The table below is the word list.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Term</th>
+                    <th scope="col">Simple meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Top K</td>
+                    <td>Number of documents retrieved.</td>
+                  </tr>
+                  <tr>
+                    <td>Retrieval evaluator</td>
+                    <td>Model that checks document relevance. The paper uses a trained T5. We can also use Jev, or another classification model that gives a score.</td>
+                  </tr>
+                  <tr>
+                    <td>Score</td>
+                    <td>How useful a document seems for the question. Paper range is minus 1 to plus 1.</td>
+                  </tr>
+                  <tr>
+                    <td>Threshold</td>
+                    <td>Limit used to make a decision. Pick it on your data. Paper values are not universal.</td>
+                  </tr>
+                  <tr>
+                    <td>Correct</td>
+                    <td>At least one document has a high enough score.</td>
+                  </tr>
+                  <tr>
+                    <td>Incorrect</td>
+                    <td>All documents have very low scores.</td>
+                  </tr>
+                  <tr>
+                    <td>Ambiguous</td>
+                    <td>Neither clearly Correct nor Incorrect.</td>
+                  </tr>
+                  <tr>
+                    <td>Knowledge strip</td>
+                    <td>Small piece of document text.</td>
+                  </tr>
+                  <tr>
+                    <td>Internal knowledge</td>
+                    <td>Useful information from original documents, after refine.</td>
+                  </tr>
+                  <tr>
+                    <td>Query rewriting</td>
+                    <td>Turn a question into web search keywords. Used for web search, not the Correct path.</td>
+                  </tr>
+                  <tr>
+                    <td>External knowledge</td>
+                    <td>Useful information found through web search.</td>
+                  </tr>
+                  <tr>
+                    <td>Generator</td>
+                    <td>Main LLM that produces the answer.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <aside class="summary-callout">
               <h3>Day 69 takeaways</h3>
               <ul>
-                <li>Traditional RAG is retrieval, then augment, then generation. The LLM blindly trusts the retrieved docs.</li>
-                <li>A far neighbor, like chatbot or random forest docs for an LLM question, still gets turned into a reply.</li>
-                <li>If the leave policy is missing, RAG may still hand a wrong doc, or the model may fall back to parametric data and hallucinate.</li>
-                <li>CRAG puts a retrieval evaluator before the LLM. Docs can be correct, ambiguous, or incorrect.</li>
-                <li>Knowledge refinement splits a doc into strips, filters them with the query, then joins the useful strips.</li>
-                <li>Scores use a low threshold of 0.3 and a high threshold of 0.7. Any doc above 0.7 can make the verdict correct. We still drop docs below 0.3.</li>
-                <li>Incorrect rewrites the query and searches the web. Ambiguous keeps docs above 0.3 and also uses the web docs.</li>
+                <li>Traditional RAG sends Top K docs to the LLM with no quality check.</li>
+                <li>CRAG scores each doc, then picks Correct, Incorrect, or Ambiguous.</li>
+                <li>Correct refines all retrieved docs into internal knowledge, not only the high scoring ones.</li>
+                <li>Incorrect discards the originals, rewrites the question, and searches the web.</li>
+                <li>Ambiguous uses both internal knowledge and external knowledge.</li>
+                <li>CRAG cannot guarantee every fact or answer is correct.</li>
               </ul>
             </aside>
           </div>
