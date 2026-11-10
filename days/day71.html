@@ -1,0 +1,626 @@
+      <div class="chapter-divider reveal" id="chapter-day-71" data-chapter="day-71">
+        <span class="chapter-divider__pill">Day 71</span>
+        <h2 class="chapter-divider__title">Intro to LLM Evals</h2>
+        <p class="chapter-divider__note">LLM evals are how we judge an LLM or an LLM based app against clear criteria, so we know if it is safe to ship.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-947" data-section="947" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">947</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Till now we have learned LangChain, RAG, agents, n8n, and LLM ops like LangSmith and LangGraph. Today we start LLM evals. We learn how to evaluate LLM performance, and how to decide if we can release the app to production. Interview questions sound like this. How do you evaluate your RAG application? How do you evaluate your agentic system? The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Vibe testing</span>
+                  <span class="workflow__step-desc">Casual prompts and a gut feel. Fine for a personal project. Not for production.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="megaphone" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Three cases</span>
+                  <span class="workflow__step-desc">Air Canada. Chevrolet. Fake court cases. Hallucination and jailbreak hurt people.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-compare" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Why it is hard</span>
+                  <span class="workflow__step-desc">Software is deterministic. LLM apps are not. We need multi dimensional checks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Two kinds</span>
+                  <span class="workflow__step-desc">Model evals read benchmarks. Application evals test the whole product.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-948" data-section="948" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">948</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Study LLM Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We study LLM evals because we need to know about production and scalability. We already made different applications. But do we evaluate those applications? The cards below are why this topic comes next.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="factory" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Production</p>
+                <p class="concept-card__desc">Can we release this LLM app to real users?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="expand" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Scalability</p>
+                <p class="concept-card__desc">Does the same quality hold when many people use it?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="messages-square" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Interview questions</p>
+                <p class="concept-card__desc">How do you evaluate your RAG app? How do you evaluate your agentic system?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-949" data-section="949" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">949</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Vibe Testing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We say we tested. We asked a question. We got an answer. We think the agent is working. That testing is called vibe testing. Vibe testing means we test an LLM app casually with a few prompts, and we judge it by feel. It is informal, subjective, and usually not repeatable. It only works at the personal project level. For production we need LLM evals. The cards below are that gap.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="hand" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Casual</p>
+                <p class="concept-card__desc">A few prompts. No proper dataset. No edge cases.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="heart" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">By feel</p>
+                <p class="concept-card__desc">We judge the answer with our gut, not with clear criteria.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shuffle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Not repeatable</p>
+                <p class="concept-card__desc">Informal and subjective. The next person cannot run the same test.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="home" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Personal project</p>
+                <p class="concept-card__desc">Fine at that level. Not enough for production.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-950" data-section="950" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">950</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="plane" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Air Canada Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A person's grandmother died. The user asked the Air Canada chatbot if they would get any discount for urgent travel. The chatbot hallucinated. It replied, first pay, then we will refund you. The actual policy was the opposite. The person should get the discount first. There is no later refund. Staff said no, there is no such thing. The user was not happy, so they sued. The court said the chatbot is company property, so the company should pay. The company got a lot of backlash. The flow below is that case.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">What happened</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="message-square" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Ask</span>
+                  <span class="workflow__step-desc">Urgent travel after a death. Will I get a discount?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="bot" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Hallucinate</span>
+                  <span class="workflow__step-desc">Pay first. We will refund you later.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="file-x" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Real policy</span>
+                  <span class="workflow__step-desc">Discount first. No later refund. Staff said no.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scale" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Court</span>
+                  <span class="workflow__step-desc">The chatbot is company property. The company should pay.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-951" data-section="951" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">951</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="car" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Chevrolet Chatbot</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A Chevrolet car company chatbot was jailbroken. The user made it so the chatbot cannot say no. Then the user asked, can you give the car for 1 dollar? The user posted that chat on social media. The company got backlash. The cards below are that case.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="unlock" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Jailbreak</p>
+                <p class="concept-card__desc">The user pushed the chatbot so it cannot refuse.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="badge-dollar-sign" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">1 dollar car</p>
+                <p class="concept-card__desc">The chatbot agreed to give the car for 1 dollar.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="share-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Social media</p>
+                <p class="concept-card__desc">The post spread. The company got backlash.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-952" data-section="952" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">952</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gavel" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fake Cases in Court</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>On a flight, a passenger was injured and sued the airline. The lawyer asked GPT to give cases where an airline caused a passenger injury. GPT hallucinated and gave random fake data. The lawyer took that to court. The court tried to verify it. The court gave a 5000 dollar fine for the fake case study. They lost. The table below is that miss.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What GPT did</th>
+                    <th scope="col">What the court did</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>It made up cases that looked real.</td>
+                    <td>It checked the cases. They were fake.</td>
+                  </tr>
+                  <tr>
+                    <td>The lawyer filed those cases.</td>
+                    <td>The court gave a 5000 dollar fine. They lost.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-953" data-section="953" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">953</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why We Skip Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We might think, if LLM evaluation is this important, why do we not do it often? The main answer is it is not that straight. LLM based applications are tricky to evaluate. The next lessons show why software apps are easier, and why LLM apps need a different kind of test.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-954" data-section="954" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">954</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="columns-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Software Apps vs LLM Apps</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A software based app is deterministic. For a given input, the output is always the same. An LLM based app is non deterministic. By nature it is probabilistic. Every answer can be different. It can give one answer this time, a different answer in six months, and another answer after that. That is why software based evaluation is much easier than LLM based evaluation. The table below is that split.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Software based app</th>
+                    <th scope="col">LLM based app</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deterministic. Same input, same output.</td>
+                    <td>Non deterministic. Probabilistic by nature.</td>
+                  </tr>
+                  <tr>
+                    <td>The answer stays the same later.</td>
+                    <td>This time one answer. In six months a different answer.</td>
+                  </tr>
+                  <tr>
+                    <td>The benchmark is correctness. Is 2 plus 2 equal to 4?</td>
+                    <td>We need multi dimensional checks, not one score.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-955" data-section="955" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">955</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layout-grid" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multi Dimensional Checks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In software we only look if 2 plus 2 is 4. In an LLM based app we need a multi dimensional check. We can evaluate fact check, tonality, how much time it took to give the answer, and how much it cost. What we check is different from application to application. The cards below are those dimensions.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="check-circle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Fact check</p>
+                <p class="concept-card__desc">Is the answer true, or did the model make it up?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="volume-2" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Tonality</p>
+                <p class="concept-card__desc">Is the tone right for this user and this product?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="timer" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Latency</p>
+                <p class="concept-card__desc">How much time did it take to give the answer?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wallet" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Cost</p>
+                <p class="concept-card__desc">How much did that answer cost to run?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-956" data-section="956" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">956</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="clipboard-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What LLM Evals Are</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLM evals are systematic, repeatable, replicable tests used to judge an LLM or an LLM powered system against clear criteria. The main things are these three. They are systematic. They are repeatable. They have clear criteria. Without those, we are just vibe testing again.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-957" data-section="957" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">957</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Systematic, Repeatable, Clear Criteria</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Systematic means we are not doing vibe testing. We create a proper dataset. We cover every edge case for a proper test of the LLM based system. We test based on 100 real use chat queries from that dataset. Repeatable means even if we change everything, the model, the prompt, the retriever, the test should still work the same way. That is how we find which version is working. Clear criteria means we name what good looks like. Correct. Simple explain. Grounded content. Safe. Policy compliant. Without criteria we are just vibe testing. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="database" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Systematic</p>
+                <p class="concept-card__desc">A proper dataset. Edge cases. 100 real use chat queries.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="repeat" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Repeatable</p>
+                <p class="concept-card__desc">Change the model, prompt, or retriever. Run the same test. Compare versions.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="target" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Clear criteria</p>
+                <p class="concept-card__desc">Correct. Simple explain. Grounded. Safe. Policy compliant.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-958" data-section="958" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">958</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="boxes" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Evals Are the Whole Setup</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Important notice. Evals are not just metrics. They are not only numbers. Evals mean the complete test setup for testing the LLM. What are we evaluating, like the retriever? What does good mean, like the accuracy of the retriever? When are we running the test, like online or in production? Which tools are we using, like Ragas? So LLM evals are the whole setup for testing. What we are testing. Where. How. Why. Which tools. The steps below are that setup.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The setup</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">What</span>
+                  <span class="workflow__step-desc">What are we evaluating? The retriever, the answer, the whole app?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="badge-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Good means</span>
+                  <span class="workflow__step-desc">What does good mean? Accuracy of the retriever, for example.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="clock" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">When</span>
+                  <span class="workflow__step-desc">When do we run the test? Online, or in production?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="wrench" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Which tools</span>
+                  <span class="workflow__step-desc">Which tools are we using? Ragas is one example.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-959" data-section="959" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">959</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="flag" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Goal of Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The goal of LLM evals is not scoring. A score is not the point. Evals give the answer to a particular question. Can the model be used for a particular task or application? Is the system good enough to ship? Is it safe for the user? The cards below are those questions.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="cpu" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Can we use this model?</p>
+                <p class="concept-card__desc">Can it do this particular task or application?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="rocket" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Good enough to ship?</p>
+                <p class="concept-card__desc">Is the system ready for production users?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Safe for the user?</p>
+                <p class="concept-card__desc">Will it harm people with a wrong or unsafe answer?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-960" data-section="960" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">960</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Types of Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>LLM evals have two types. Model evals and application evals. Disclaimer. Model evals and application evals are not the real terms. We are using them anyway. Model evals are the kind of evals where we evaluate the LLM. Application evals are the kind of evals where we evaluate the LLM based application. The cards below are that split.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="brain" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Model evals</p>
+                <p class="concept-card__desc">We evaluate the LLM itself. GPT vs Claude vs Gemini, and other models.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="app-window" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Application evals</p>
+                <p class="concept-card__desc">We evaluate the LLM based application, not only the model inside it.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-961" data-section="961" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">961</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Model Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Model evals evaluate the model itself. The main idea is to test and evaluate the capabilities of a model. Like GPT vs Claude vs Gemini. We use a benchmark to check if it works well. We find how capable the LLM is. All of this is done with the help of the benchmark. As an AI engineer we usually do not work on model evals. We just need to learn what model evals are, what a benchmark is, and how to read the benchmark. That still matters. When we make an LLM based application we need to select the LLM. We can select it based on the benchmark. We feel more literate.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-962" data-section="962" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">962</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Eight Capabilities</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>These are the main categories that each LLM is evaluated on. Reasoning. Knowledge. Math. Coding. Instruction following. Long context. Multimodal understanding. Tool usage. The cards below are those eight.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="lightbulb" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Reasoning</p>
+                <p class="concept-card__desc">Can it reason?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="book-open" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Knowledge</p>
+                <p class="concept-card__desc">Can it answer knowledge based questions?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="calculator" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Math</p>
+                <p class="concept-card__desc">Can it solve math problems?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="code" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Coding</p>
+                <p class="concept-card__desc">Can it write code?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="list-todo" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Instruction following</p>
+                <p class="concept-card__desc">Can it follow instructions?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="file-text" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Long context</p>
+                <p class="concept-card__desc">Can it follow a long document?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="image" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Multimodal</p>
+                <p class="concept-card__desc">Can it understand images, audio, video?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="hammer" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Tool usage</p>
+                <p class="concept-card__desc">Can it use tools to get the answer?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-963" data-section="963" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">963</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="bar-chart-3" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">How We Read Benchmarks</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>For knowledge and reasoning we use the MMLU benchmark. It asks subject and reasoning questions across domains like science, history, law, and medicine. For coding we use SWE bench and HumanEval. We do not have to build these tests ourselves. We need to read them when we pick a model. The table below is that map.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What we check</th>
+                    <th scope="col">Benchmark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Knowledge and reasoning across domains.</td>
+                    <td>MMLU. Science, history, law, medicine, and more.</td>
+                  </tr>
+                  <tr>
+                    <td>Coding.</td>
+                    <td>SWE bench. HumanEval.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-964" data-section="964" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">964</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="app-window" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Application Evals</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is the most important kind for the AI engineer. An LLM application does not mean everything important is the LLM. The LLM is important, but we need other important things as well. Prompt layer. Tools like an API. Orchestration workflow. Guardrails. Output parser. For RAG, retrieval, embedding model, vector database. Monitoring. Logging. Feedback loop. Application evals assess the behavior and performance of an LLM based app, whether at the level of the entire system, or a system component within it. The cards below are those extra pieces.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="pen-line" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Prompt and parser</p>
+                <p class="concept-card__desc">Prompt layer. Output parser.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="workflow" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Tools and workflow</p>
+                <p class="concept-card__desc">Tools like an API. Orchestration workflow.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Guardrails</p>
+                <p class="concept-card__desc">Stops like jailbreak, unsafe answers, policy breaks.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="library" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">RAG pieces</p>
+                <p class="concept-card__desc">Retrieval. Embedding model. Vector database.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="activity" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Observe and learn</p>
+                <p class="concept-card__desc">Monitoring. Logging. Feedback loop.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-965" data-section="965" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">965</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="smartphone" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Smartphone Analogy</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The best analogy is a smartphone. We have chips. The chip has a benchmark, so we find which processor is strong. But a strong processor does not mean the phone is good. We need a good OS, camera, sound, graphics card, and the rest. If all of those work, then the smartphone works well. So we need to test all those components as well. In application evals we ask, does the product work? Is the question answered? Is the answer faithful? Is it safe? Is it fast? The steps below are that analogy.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Phone vs app</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Chip</span>
+                  <span class="workflow__step-desc">The LLM has a benchmark. A strong model is not the whole product.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="smartphone" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">The rest</span>
+                  <span class="workflow__step-desc">OS, camera, sound, graphics. Prompt, tools, RAG, guardrails.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="circle-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Does it work?</span>
+                  <span class="workflow__step-desc">Answered. Faithful. Safe. Fast.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-966" data-section="966" data-chapter="day-71">
+        <span class="lesson-card__marker" aria-hidden="true">966</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 71 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 71 takeaways</h3>
+              <ul>
+                <li>Vibe testing is a few prompts judged by feel. Informal, subjective, usually not repeatable. Fine for a personal project. Not for production.</li>
+                <li>Air Canada, Chevrolet, and fake court cases show why evals matter. Hallucination and jailbreak can reach users, courts, and social media.</li>
+                <li>Software apps are deterministic. LLM apps are non deterministic. We check facts, tone, latency, and cost, not only correctness.</li>
+                <li>LLM evals are systematic, repeatable tests against clear criteria. They are the whole setup, not only a number.</li>
+                <li>Model evals read benchmarks like MMLU, SWE bench, and HumanEval so we can pick a model. Application evals test the product, because a strong LLM is not a strong app.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
