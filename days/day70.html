@@ -1,0 +1,459 @@
+      <div class="chapter-divider reveal" id="chapter-day-70" data-chapter="day-70">
+        <span class="chapter-divider__pill">Day 70</span>
+        <h2 class="chapter-divider__title">Self RAG</h2>
+        <p class="chapter-divider__note">Self RAG means self reflective RAG. The LLM judges its own retrieval, evidence, and answer, instead of blindly trusting the retrieved docs.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-931" data-section="931" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">931</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today is Self RAG, self reflective RAG. First we name three problems in traditional RAG. Then we see how Self RAG judges its own retrieval, evidence, and answer. We learn when to retrieve, how to keep only relevant docs, how to catch hallucination, and how to check if the answer is useful. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="alert-triangle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Three problems</span>
+                  <span class="workflow__step-desc">Retrieve when we should not. Blind trust. No answer check.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="help-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Four questions</span>
+                  <span class="workflow__step-desc">Need retrieval. Docs relevant. Answer grounded. Answer useful.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Judge</span>
+                  <span class="workflow__step-desc">Keep relevant docs. Score fully, partial, or no support.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="repeat" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Two loops</span>
+                  <span class="workflow__step-desc">Revise a weak answer. Rewrite a weak query. Max tries stops the loop.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-932" data-section="932" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">932</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Problems in Traditional RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are three main problems in traditional RAG. It retrieves even when retrieval is unnecessary. The LLM blindly trusts the retrieved context. And RAG does not verify its own answer. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="download" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Indiscriminate retrieval</p>
+                <p class="concept-card__desc">It retrieves for every query, even when the LLM already knows.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="eye-off" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Blind trust</p>
+                <p class="concept-card__desc">It uses the retrieved docs no matter what semantic search returned.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield-off" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">No verify</p>
+                <p class="concept-card__desc">Once the answer is generated, nothing checks it.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-933" data-section="933" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">933</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="file-warning" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Retrieval When We Do Not Need It</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The first main problem is this. RAG retrieves even when retrieval is unnecessary. Like this. We make a RAG chatbot to reply. A child asks how many seconds are in a minute. The issue is RAG will retrieve all the details from the vector db. There are many docs that we retrieve. The LLM knows the answer, but RAG still provides other context. That extra context is not good. It is unnecessary. There are certain scenarios where we do not need to retrieve, but in traditional RAG we retrieve no matter what the query is. This is called indiscriminate retrieval, and this is very bad. The table below is that miss.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">The question</th>
+                    <th scope="col">What traditional RAG does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>How many seconds are in a minute?</td>
+                    <td>It still pulls many docs from the vector db. Extra context the LLM does not need.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-934" data-section="934" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">934</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="eye-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The LLM Blindly Trusts Retrieval</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The second problem is this. The LLM blindly trusts the retrieved context. As we know, the docs are retrieved with semantic search, and RAG usually tries to use those retrieved docs no matter what. Last day, CRAG put a check before generation. Self RAG also refuses to trust the docs blindly. It judges them itself.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-935" data-section="935" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">935</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">RAG Does Not Verify Its Answer</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The third problem is this. RAG does not verify its own answer. Ideally, once the answer is generated, it needs to be checked. Traditional RAG stops at generation. Self RAG keeps going. It asks if the answer came from the docs, and if it actually answers the user.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-936" data-section="936" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">936</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="brain" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Self Reflective RAG</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Self RAG means self reflective RAG. The LLM actively judges its own retrieval, evidence, and answer, instead of blindly trusting retrieved documentation. Self RAG judges its own action by itself. It is self conscious. It is aware of its own action and decision. That is the main strength. The table below is that shift.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Traditional RAG</th>
+                    <th scope="col">Self RAG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Retrieve, then generate. Trust the docs.</td>
+                    <td>Judge retrieval, evidence, and the answer first.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-937" data-section="937" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">937</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Four Questions</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Self RAG tries to answer four most important questions. Is retrieval even required? Are the retrieved documents relevant? Does the answer come from the documentation itself, or did the LLM generate it by hallucinating? Does the response actually answer the user query? The cards below are those four.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="help-circle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Need retrieve?</p>
+                <p class="concept-card__desc">Is retrieval required for this query, or not?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="files" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Docs relevant?</p>
+                <p class="concept-card__desc">Is each retrieved document relevant?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="link" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">From the docs?</p>
+                <p class="concept-card__desc">Did the answer come from the docs, or from hallucination?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="target" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Answers the user?</p>
+                <p class="concept-card__desc">Does the response actually answer the query?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-938" data-section="938" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">938</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="split" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Decide If Retrieval Is Required</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Step 1. START, then decide if we need retrieval or not. We use an LLM here to decide. If retrieval is required, we retrieve from the vector store. If not, we answer through parametric knowledge. That is the knowledge already inside the model. Like this. Retrieval is needed if the user asks how many paid leave days employees get per year. What is a paid leave? Now we do not need retrieval. We will answer through a parametric reply. The picture below is that first branch.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 150" role="img">
+                <rect x="16" y="16" width="70" height="36" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"></rect>
+                <text x="51" y="39" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">START</text>
+                <line x1="86" y1="34" x2="118" y2="34" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="118" y="16" width="110" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="173" y="39" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">need retrieve?</text>
+                <line x1="228" y1="26" x2="268" y2="16" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="228" y1="42" x2="268" y2="88" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="268" y="8" width="136" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="336" y="31" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">yes, retrieve</text>
+                <rect x="268" y="72" width="136" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="336" y="95" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">no, parametric</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-939" data-section="939" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">939</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="filter" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Keep Only Relevant Docs</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Step 2. Once we retrieve, we check if each retrieved document is relevant. We only keep the ones that are relevant. We discard the rest. If there is one document that is relevant, we use it for the next step. We generate the answer based on the relevant documentation. The steps below are that filter.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">After retrieve</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="files" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">All docs</span>
+                  <span class="workflow__step-desc">The vector store sent some chunks.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="scale" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Ask per doc</span>
+                  <span class="workflow__step-desc">Is this documentation relevant to the query?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Keep relevant</span>
+                  <span class="workflow__step-desc">Discard the rest. Generate from the ones we kept.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-940" data-section="940" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">940</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="circle-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">If None Are Relevant</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If none of the documentation is relevant, we return no answer found. We can also say we do not have the details. What we can do, if none is relevant, is add a web search tool. For that we need to add query rewrite, then search. We do not invent that web search node here. The table below is that choice.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Simple stop</th>
+                    <th scope="col">Optional extra</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Return no answer found. We do not have the details.</td>
+                    <td>Rewrite the query, then search the web.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-941" data-section="941" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">941</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="scan-search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Generate Then Judge the Evidence</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Once the answer is generated, we check if the answer is correct, or if it is giving an answer from that documentation. We check if the generated answer used the context we gave. That is so the AI is not hallucinating. This is an LLM that is judging, based on the query and the context, whether the LLM is generating a correct answer. Like this. We have 3 docs as context, but the LLM only used 2. We still need to see if what it wrote is supported. The picture below is generate, then judge.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 72" role="img">
+                <rect x="8" y="16" width="100" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="58" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">relevant docs</text>
+                <line x1="108" y1="36" x2="136" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="136" y="16" width="100" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="186" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">generate</text>
+                <line x1="236" y1="36" x2="264" y2="36" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="264" y="16" width="148" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="338" y="41" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">judge support</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-942" data-section="942" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">942</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Fully Supported, Partial, No Support</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>There are conditions like fully supported, partial supported, and incorrect, that is no support. Fully supported means the answer comes from the documentation. We accept that. Partial supported means it takes a partial answer from the documentation, and the LLM adds its own answer on top. No support means the LLM is not taking anything from the documentation and is generating the answer on its own. The model is generating its own answer. That is a proper hallucination. Partial supported and no support go into a loop. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Fully supported</p>
+                <p class="concept-card__desc">The answer comes from the docs. We accept it.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="blend" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Partial supported</p>
+                <p class="concept-card__desc">Part from the docs. The LLM adds its own words.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="x" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">No support</p>
+                <p class="concept-card__desc">Nothing from the docs. That is hallucination.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-943" data-section="943" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">943</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Revise Answer Loop</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>We use a revise answer node in a loop. We check again and again to fix the partial answer and the no support answer. If the judge says okay, we go on. If it is false, we go back to retrieve the docs, and the loop starts. We need to add a max tries condition to break the loop, so it can stop an infinite try. After a certain number of loops we end the loop. The picture below is that loop.</p>
+            <figure class="lesson-figure tts-skip" aria-hidden="true">
+              <svg viewBox="0 0 420 120" role="img">
+                <rect x="16" y="16" width="100" height="36" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"></rect>
+                <text x="66" y="39" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">generate</text>
+                <line x1="116" y1="34" x2="148" y2="34" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="148" y="16" width="124" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+                <text x="210" y="39" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">judge support</text>
+                <line x1="272" y1="26" x2="308" y2="16" stroke="#94a3b8" stroke-width="2"></line>
+                <line x1="272" y1="42" x2="308" y2="80" stroke="#94a3b8" stroke-width="2"></line>
+                <rect x="308" y="8" width="96" height="32" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+                <text x="356" y="29" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="11" fill="#0f172a">fully, next</text>
+                <rect x="308" y="64" width="96" height="40" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"></rect>
+                <text x="356" y="81" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">partial or none</text>
+                <text x="356" y="96" text-anchor="middle" font-family="Sora, system-ui, sans-serif" font-size="10" fill="#0f172a">revise, max tries</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-944" data-section="944" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">944</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="target" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Is the Answer Useful</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now the last step. Evaluate if the generated answer is useful or not, from the query. Why use this when we already checked the answer in the previous node and only got the right answer? Because although the answer is totally right, and it is not hallucinating, it can still miss the main point. Like it only uses doc 2 and doc 3, but ignores doc 1, which has the main answer. We send it to an LLM evaluation. That LLM evaluates if the answer is useful or not. The table below is that sick leave case.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What we had</th>
+                    <th scope="col">What the LLM said</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Question. What is the policy for sick leave?</td>
+                    <td>You need to write a letter for approval and apply through the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Doc 1. You can take 10 sick leave per year.</td>
+                    <td>This main fact is missing.</td>
+                  </tr>
+                  <tr>
+                    <td>Doc 2. You need to write an email for leave approval. Doc 3. You can apply leave through the portal.</td>
+                    <td>The reply used these two. It is not hallucinating. It is still not the useful answer.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-945" data-section="945" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">945</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="refresh-cw" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Rewrite and Try Again</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If the answer is useful, we end the workflow. If it is not useful, we need to rewrite the query. That means optimize it, using an LLM, and go back to retrieve. The loop starts again. We retrieve the docs, check if they are relevant, and so on. Here as well it is a proper loop. Add a max tries condition to break the loop so it can stop an infinite try. If we do not get the answer after that, we return no answer is found. The steps below are that last loop.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Useful or not</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="check-circle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Useful</span>
+                  <span class="workflow__step-desc">End the workflow. The user gets the answer.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Not useful</span>
+                  <span class="workflow__step-desc">Rewrite the query with an LLM. Retrieve again.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="octagon-x" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Max tries</span>
+                  <span class="workflow__step-desc">Stop the infinite try. Return no answer found.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-946" data-section="946" data-chapter="day-70">
+        <span class="lesson-card__marker" aria-hidden="true">946</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 70 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 70 takeaways</h3>
+              <ul>
+                <li>Traditional RAG has three problems. Indiscriminate retrieval. Blind trust. No check on the generated answer.</li>
+                <li>Self RAG means self reflective RAG. The LLM judges its own retrieval, evidence, and answer.</li>
+                <li>First decide if retrieval is required. Paid leave counts need the store. What is paid leave can use parametric knowledge.</li>
+                <li>Keep only relevant docs. If none are relevant, return no answer found, or rewrite and search the web.</li>
+                <li>Accept fully supported answers. Loop on partial support and no support. Use max tries so the loop can stop.</li>
+                <li>An answer can be grounded and still not useful, like the sick leave reply that skipped the 10 days. If it is not useful, rewrite the query and retrieve again.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
