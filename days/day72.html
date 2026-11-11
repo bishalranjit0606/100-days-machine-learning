@@ -1,0 +1,553 @@
+      <div class="chapter-divider reveal" id="chapter-day-72" data-chapter="day-72">
+        <span class="chapter-divider__pill">Day 72</span>
+        <h2 class="chapter-divider__title">How to Evaluate LLM Applications</h2>
+        <p class="chapter-divider__note">A Pathao Food email router shows the eval loop. Define the task, build a golden dataset, score, improve, then deploy and watch production.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-967" data-section="967" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">967</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Today we learn how we evaluate an LLM based application. We use one company story, Pathao Food, and one task, email routing. Then we walk the eval loop. Define the task. Set success criteria. Build a golden dataset. Pick a method. Run. Score. Improve. Deploy and monitor. This same loop is used for RAG, agents, and other LLM apps. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="utensils" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Pathao Food</span>
+                  <span class="workflow__step-desc">Thousands of emails. Route billing, technical, or general.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="repeat" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">The eval loop</span>
+                  <span class="workflow__step-desc">Task, criteria, dataset, method, run, score, improve.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="table-2" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Golden dataset</span>
+                  <span class="workflow__step-desc">50 to 500 real rows. Input message. Expected label.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Several evals</span>
+                  <span class="workflow__step-desc">One RAG app can run many evals, not only one score.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-968" data-section="968" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">968</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="utensils" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Pathao Food Email Routing</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Let’s suppose we are working in a company like Pathao Food, as an AI engineer. They get thousands of emails. They want to automate them. Each customer email is billing, or technical, or general. The cards below are those three routes.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="receipt" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Billing</p>
+                <p class="concept-card__desc">Charges, invoices, refunds, payment issues.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wrench" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Technical</p>
+                <p class="concept-card__desc">App crashes, login codes, bugs.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="mail" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">General</p>
+                <p class="concept-card__desc">Hours, menu, anything that is not billing or technical.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-969" data-section="969" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">969</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="route" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Email to Route</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The product flow is short. Email goes in. An LLM model reads it. The system routes it. This workflow looks easy. We still need to evaluate it. The steps below are that product.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The product</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="inbox" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Email</span>
+                  <span class="workflow__step-desc">A customer writes. Billing, technical, or general.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM model</span>
+                  <span class="workflow__step-desc">The model reads the message and picks a label.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Route</span>
+                  <span class="workflow__step-desc">The email goes to the matching team.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-970" data-section="970" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">970</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="repeat" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Evaluation Workflow</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is how we evaluate the LLM based application. We define the task and the target. We define success criteria. We build a dataset. We define an evaluation method. We run the model. We evaluate the result. We analyze. We improve the system. Then we go back and run again. It works in a loop. Once it is good enough, we deploy and monitor. If production fails, we go back to the dataset and repeat. The steps below are that loop. Later lessons open each step.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">The loop</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="target" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Task and target</span>
+                  <span class="workflow__step-desc">What workflow? What task?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="badge-check" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Success criteria</span>
+                  <span class="workflow__step-desc">What does good mean? Which metric?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Dataset</span>
+                  <span class="workflow__step-desc">The most important step. Real labeled rows.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="settings" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Eval method</span>
+                  <span class="workflow__step-desc">Automated, human, or another LLM.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Run and score</span>
+                  <span class="workflow__step-desc">Send the dataset. Check the metric.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Improve</span>
+                  <span class="workflow__step-desc">Change the prompt or the LLM. Run again.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="rocket" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Deploy</span>
+                  <span class="workflow__step-desc">Ship, then monitor.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="alert-triangle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Production failure</span>
+                  <span class="workflow__step-desc">If yes, add rows to the dataset and repeat.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-971" data-section="971" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">971</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="target" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Define the Task and Target</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Define the task and the target. That means what workflow we are targeting, and what the task is. Here the target workflow is email routing. The task is a classification task. Three labels. Billing. Technical. General. The cards below are that pair.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="route" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Target</p>
+                <p class="concept-card__desc">The email routing workflow. Email, then LLM, then route.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="tags" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Task</p>
+                <p class="concept-card__desc">Classification. Pick one label for each email.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-972" data-section="972" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">972</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="badge-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Define Success Criteria</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Then we define success criteria. For this workflow the success criteria is classification quality, and the metric is accuracy. How many labels match the expected label? That is the number we will track. The table below is that choice.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">What we name</th>
+                    <th scope="col">What we pick here</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Success criteria</td>
+                    <td>Classification. The route label is right.</td>
+                  </tr>
+                  <tr>
+                    <td>Metric</td>
+                    <td>Accuracy.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-973" data-section="973" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">973</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="table-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Build a Dataset</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This is the most important step. We need to build a dataset. Two columns. Input message. Expected label. We need 50 to 500 rows. The table below is the shape, with a few teaching rows. A real Pathao Food set would be much larger.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Input message</th>
+                    <th scope="col">Expected label</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>I was charged twice for my last order.</td>
+                    <td>billing</td>
+                  </tr>
+                  <tr>
+                    <td>The app crashes when I open the cart.</td>
+                    <td>technical</td>
+                  </tr>
+                  <tr>
+                    <td>What time do you close today?</td>
+                    <td>general</td>
+                  </tr>
+                  <tr>
+                    <td>Can I get an invoice for order 441?</td>
+                    <td>billing</td>
+                  </tr>
+                  <tr>
+                    <td>My login code never arrives.</td>
+                    <td>technical</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-974" data-section="974" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">974</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="award" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Golden Dataset</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The best option is we keep those 50 to 500 rows from real past conversations. That set is called a golden dataset, because it is real, from previous customer email. We do not invent the labels from a vibe test. We use what staff already routed. The cards below are why this set is golden.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="history" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Real</p>
+                <p class="concept-card__desc">Rows come from previous conversations, not from made up prompts.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="hash" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">50 to 500</p>
+                <p class="concept-card__desc">Enough rows to cover common cases and some edge cases.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="lock" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Fixed labels</p>
+                <p class="concept-card__desc">Each message has an expected label we trust.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-975" data-section="975" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">975</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="settings" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Define an Evaluation Method</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Then we define an evaluation method. There are multiple ways. Automated. Human. Or using a different LLM model. For this classification task we write Python and automate it. We do not need a human judge, and we do not need another LLM, just to check accuracy. The cards below are those three ways. We pick automated here.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="code" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Automated</p>
+                <p class="concept-card__desc">Python compares predicted label to expected label. We use this.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="user" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Human</p>
+                <p class="concept-card__desc">A person reads each answer and scores it.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="bot" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Another LLM</p>
+                <p class="concept-card__desc">A different model judges the answer. We do not need that for this accuracy check.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-976" data-section="976" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">976</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="play" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Run the Model</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Run the model means we send the dataset through the LLM. Each input message gets a predicted label. We store that predicted label next to the expected label. We do not score by feel. We score in the next step. The steps below are that run.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">One run</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Dataset</span>
+                  <span class="workflow__step-desc">Send every input message.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="cpu" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">LLM</span>
+                  <span class="workflow__step-desc">The model returns a predicted label.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="clipboard-list" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Log</span>
+                  <span class="workflow__step-desc">Keep expected and predicted side by side.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-977" data-section="977" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">977</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="percent" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Evaluate the Result</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Now we evaluate the result with Python. Count how many predicted labels match the expected labels. Divide by the number of rows. That is accuracy. The five rows below are a tiny demo of the golden shape. Four match. One miss. Accuracy is 80%. A real run uses 50 to 500 rows. The block below is that check. The first list is expected and predicted. The loop counts matches. Then we print the score.</p>
+            <div class="code-io">
+              <p class="code-io__label code-io__label--input">Accuracy check</p>
+              <pre class="code-input"><code>rows = [
+    {"expected": "billing", "predicted": "billing"},
+    {"expected": "technical", "predicted": "technical"},
+    {"expected": "general", "predicted": "general"},
+    {"expected": "billing", "predicted": "general"},
+    {"expected": "technical", "predicted": "technical"},
+]
+
+correct = sum(1 for r in rows if r["expected"] == r["predicted"])
+accuracy = correct / len(rows)
+print(f"{correct} of {len(rows)} correct")
+print(f"accuracy: {accuracy:.0%}")</code></pre>
+              <p class="code-io__label code-io__label--output">What you get</p>
+              <pre class="code-output"><code>4 of 5 correct
+accuracy: 80%</code></pre>
+              <p class="code-io__note">Row 4 is the miss. Expected billing. Predicted general. Four matches out of five is 80%.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-978" data-section="978" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">978</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Analyze and Improve</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Then we analyze the result. Look at the misses. In the demo, the invoice email should be billing, but the model said general. The main thing after that is to improve the system. Change the prompt. Or change the LLM. Then go back and run the model again. It works in a loop. The steps below are that improve cycle.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Improve</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Analyze</span>
+                  <span class="workflow__step-desc">Read the misses. Invoice went to general, not billing.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="pencil" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Improve</span>
+                  <span class="workflow__step-desc">Change the prompt, or change the LLM.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="play" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Run again</span>
+                  <span class="workflow__step-desc">Send the same dataset. Score accuracy again.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-979" data-section="979" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">979</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="rocket" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Deploy and Monitor</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Once the loop is finished, we deploy and monitor. We ship the router. We watch it on real emails. Deploy is not the last day of work. Monitor stays on. The cards below are that pair.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="rocket" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Deploy</p>
+                <p class="concept-card__desc">The email router goes to production.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="activity" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Monitor</p>
+                <p class="concept-card__desc">Watch real traffic. Accuracy can drop later.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-980" data-section="980" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">980</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Production Failure</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If there is a production failure, we go back to build a dataset and repeat the process. New real emails that failed become new golden rows. We run the loop again. Then we deploy the model again, and we monitor again. The steps below are that return path.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">If production fails</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="siren" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Failure</span>
+                  <span class="workflow__step-desc">Real emails are routed wrong, or users complain.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="database" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">New rows</span>
+                  <span class="workflow__step-desc">Add those emails to the golden dataset.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="repeat" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Repeat</span>
+                  <span class="workflow__step-desc">Eval method, run, score, improve, then deploy and monitor.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-981" data-section="981" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">981</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="share-2" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Same Loop for RAG and Agents</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>This workflow is applied in RAG, AI agents, and other LLM based applications as well. The Pathao Food router is one target. A RAG app is another target. An agent is another target. The loop stays the same. Task. Criteria. Dataset. Method. Run. Score. Improve. Deploy. Monitor.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-982" data-section="982" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">982</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Several Evals Per App</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Important. One LLM based app might have several LLM evals. That means one RAG app might have multiple evals running. One for retrieval. One for the embedding model and text. One for the whole RAG workflow. One for latency. And more. We do not stop at a single score. The cards below are those evals on one RAG app.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="search" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Retrieval</p>
+                <p class="concept-card__desc">Did we fetch the right docs?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="scan-text" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Embedding and text</p>
+                <p class="concept-card__desc">Is the embedding model and the split text doing a good job?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="workflow" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Whole RAG workflow</p>
+                <p class="concept-card__desc">Does the full path, retrieve then generate, work?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="timer" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Latency</p>
+                <p class="concept-card__desc">How long does the answer take?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-983" data-section="983" data-chapter="day-72">
+        <span class="lesson-card__marker" aria-hidden="true">983</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 72 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 72 takeaways</h3>
+              <ul>
+                <li>We evaluate an LLM based app with a loop. Task and target. Success criteria. Dataset. Method. Run. Score. Improve. Deploy. Monitor.</li>
+                <li>Pathao Food email routing is a classification task. Labels are billing, technical, and general. The metric here is accuracy.</li>
+                <li>The dataset is the most important step. Two columns, input message and expected label. Keep 50 to 500 real rows. That is the golden dataset.</li>
+                <li>For this task we automate with Python, not a human judge and not another LLM. Four of five demo rows match, so accuracy is 80%. Then we analyze misses and improve the prompt or the LLM.</li>
+                <li>If production fails, add those emails to the dataset and repeat. One RAG app can run several evals, retrieval, embedding and text, the whole workflow, and latency.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
