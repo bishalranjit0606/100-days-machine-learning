@@ -1,0 +1,403 @@
+      <div class="chapter-divider reveal" id="chapter-day-73" data-chapter="day-73">
+        <span class="chapter-divider__pill">Day 73</span>
+        <h2 class="chapter-divider__title">Why Multiple Evals Pipelines</h2>
+        <p class="chapter-divider__note">One RAG chatbot has more than one place to fail. We eval the retriever, the generator, the workflow, and the whole app, plus quality, safety, and operations.</p>
+      </div>
+
+      <article class="lesson-card reveal" id="section-984" data-section="984" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">984</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-ordered" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">What We Will Learn</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Previously we said that one LLM based application can have multiple evals pipelines. Today we ask why. Why can we not do it with one evals pipeline? We use a RAG chatbot. Then we add workflow level evals, latency, and three risk categories. The steps below are that plan.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Today</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="alert-triangle" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Failure points</span>
+                  <span class="workflow__step-desc">A RAG chatbot can fail at the retriever or at the generator.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="git-branch" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Two pipelines</span>
+                  <span class="workflow__step-desc">One evals pipeline for retrieval. One for generation.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="layers" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">More levels</span>
+                  <span class="workflow__step-desc">Component, workflow, and the entire application. Latency too.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="shield" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Three risks</span>
+                  <span class="workflow__step-desc">Application quality. Safety. Operations.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-985" data-section="985" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">985</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="help-circle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Why Not One Pipeline</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>If we already evaluate the app, why do we need more than one evals pipeline? One score on the final answer hides where the break happened. A bad reply can come from retrieval, from generation, from the whole workflow, or from the live app. The cards below are that gap.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="circle" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">One pipeline</p>
+                <p class="concept-card__desc">We only see the last answer. We do not see which step failed.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="layers" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Multiple pipelines</p>
+                <p class="concept-card__desc">Each step has its own test. We know what to fix.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-986" data-section="986" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">986</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="alert-triangle" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Multiple Failure Points</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>The most important reason is this. In an LLM app there can be multiple failure points. In a RAG chatbot the retriever fetches the docs, then the generator writes the answer. Either step can fail. So we need one evals pipeline for the retriever, and one for the generator. The flow below is those two points.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">RAG chatbot</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="search" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Retriever</span>
+                  <span class="workflow__step-desc">It can fetch the wrong docs. One evals pipeline here.</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="sparkles" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Generator</span>
+                  <span class="workflow__step-desc">It can write a wrong or ungrounded answer. One evals pipeline here.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-987" data-section="987" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">987</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="search" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Retriever Evals Pipeline</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the retriever, the job is to find similar docs for the query. In the evals pipeline we set up the correct pipeline for that retriever. We test retrieval on its own, not the final chat reply. The cards below are that split.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="file-search" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Retriever job</p>
+                <p class="concept-card__desc">Find docs that are similar to the query.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="clipboard-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Retriever evals</p>
+                <p class="concept-card__desc">A pipeline built for that job. Did it fetch the right docs?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-988" data-section="988" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">988</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="sparkles" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Generator Evals Pipeline</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>In the generator, the job is to generate the answer based on the retrieved documents. In the evals pipeline we set up the correct pipeline for that generator. We check, given this context, is the answer correct or not. The cards below are that split.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="pen-line" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Generator job</p>
+                <p class="concept-card__desc">Write the answer from the retrieved docs.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="clipboard-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Generator evals</p>
+                <p class="concept-card__desc">Given the context, is the answer correct? Is it grounded?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-989" data-section="989" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">989</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="anchor" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">The Answer Should Be Grounded</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Like this. The query is, what is the duration of the Gen AI course? The answer given was 3 weeks. It should not add extra lines like it is a great course. The answer should be grounded in the retrieved context. The table below is that miss.</p>
+            <div class="comparison-table-wrap tts-skip" aria-hidden="true">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Grounded</th>
+                    <th scope="col">Not grounded</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>The duration is 3 weeks.</td>
+                    <td>The duration is 3 weeks. It is a great course.</td>
+                  </tr>
+                  <tr>
+                    <td>The reply stays in the retrieved context.</td>
+                    <td>The extra praise is not in the docs. Generator evals catch this.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-990" data-section="990" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">990</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="waypoints" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Two Evals Are Not Enough</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Using only two evals, one for retrieval and one for generation, does not mean the LLM application is complete. Component level evals might not always work well on their own. We also need pipeline level evals for the workflow. The cards below are that jump.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="boxes" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Component evals</p>
+                <p class="concept-card__desc">Retriever alone. Generator alone. Useful, but not the full app.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="workflow" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Workflow evals</p>
+                <p class="concept-card__desc">The full RAG path, retrieve then generate, as one pipeline.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-991" data-section="991" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">991</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="layers" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Levels to Evaluate</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Component, workflow, and the entire application all need an evals pipeline. We also eval different levels, like taking a lot of time to reply. Latency must stay under a certain threshold. The cards below are those three levels.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="box" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Component</p>
+                <p class="concept-card__desc">Retriever. Generator. Each piece on its own.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="git-merge" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Workflow</p>
+                <p class="concept-card__desc">The pipeline as a whole. Retrieve then generate.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="app-window" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Entire application</p>
+                <p class="concept-card__desc">The live product. Latency and other app level checks.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-992" data-section="992" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">992</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="timer" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Latency Needs Its Own Check</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>A retriever can fetch good docs. A generator can write a grounded answer. The app can still fail if it takes a long time to reply. Latency must come under a certain threshold. That is a different evals pipeline from retrieval or generation. The flow below is that extra check.</p>
+            <div class="workflow" aria-hidden="true">
+              <p class="workflow__title">Time to reply</p>
+              <ol class="workflow__steps">
+                <li class="workflow__step">
+                  <i data-lucide="clock" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Measure</span>
+                  <span class="workflow__step-desc">How long did the chatbot take to answer?</span>
+                </li>
+                <li class="workflow__step">
+                  <i data-lucide="gauge" class="workflow__step-icon" aria-hidden="true"></i>
+                  <span class="workflow__step-label">Threshold</span>
+                  <span class="workflow__step-desc">Is that time under the limit we set?</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-993" data-section="993" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">993</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Three Risk Categories</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Another reason we need multiple evals is risk categories. A RAG chatbot should also be safe, and token cost matters too. There are three types of risk. Application quality. Safety. Operations. The cards below are those three.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="badge-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Application quality</p>
+                <p class="concept-card__desc">Is the answer good?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="shield-check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Safety</p>
+                <p class="concept-card__desc">Is the app safe to use?</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="activity" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Operations</p>
+                <p class="concept-card__desc">Is it fast, easy, cheap, and reliable?</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-994" data-section="994" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">994</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="badge-check" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Application Quality</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Application quality asks, is the application answer good? We want a correct answer, a relevant answer, and a complete answer. The cards below are those three checks.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="check" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Correct</p>
+                <p class="concept-card__desc">The facts in the answer are right.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="focus" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Relevant</p>
+                <p class="concept-card__desc">The answer matches the question.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="list-checks" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Complete</p>
+                <p class="concept-card__desc">The answer covers what the user asked.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-995" data-section="995" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">995</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="shield-off" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Safety</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Safety means the RAG chatbot should not accept prompt injection, and it should not use bad words. A quality score can look fine while the app is still unsafe. That is why safety is its own evals pipeline. The cards below are those two checks.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="unplug" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Prompt injection</p>
+                <p class="concept-card__desc">A user tries to break the prompt. The app must not follow that.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="ban" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Bad words</p>
+                <p class="concept-card__desc">The reply must not use abusive or unsafe language.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-996" data-section="996" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">996</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="gauge" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Operations</h2>
+          </header>
+          <div class="lesson-card__body">
+            <p>Operations asks, is it fast, easy, cheap, and reliable? Token cost sits here, because cheap is part of operations. A correct and safe answer can still fail this check if it is slow or expensive. The cards below are those four.</p>
+            <div class="concept-grid">
+              <article class="concept-card">
+                <i data-lucide="zap" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Fast</p>
+                <p class="concept-card__desc">The reply comes in time. Latency stays under the threshold.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="smile" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Easy</p>
+                <p class="concept-card__desc">People can use the app without friction.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="wallet" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Cheap</p>
+                <p class="concept-card__desc">Token cost stays in a range we can pay.</p>
+              </article>
+              <article class="concept-card">
+                <i data-lucide="heart-pulse" class="concept-card__icon" aria-hidden="true"></i>
+                <p class="concept-card__name">Reliable</p>
+                <p class="concept-card__desc">The app keeps working. It does not drop randomly.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson-card reveal" id="section-997" data-section="997" data-chapter="day-73">
+        <span class="lesson-card__marker" aria-hidden="true">997</span>
+        <div class="lesson-card__inner">
+          <header class="lesson-card__header">
+            <i data-lucide="list-checks" class="lesson-card__icon" aria-hidden="true"></i>
+            <h2 class="lesson-card__title">Day 73 takeaways</h2>
+          </header>
+          <div class="lesson-card__body">
+            <aside class="summary-callout">
+              <h3>Day 73 takeaways</h3>
+              <ul>
+                <li>One evals pipeline is not enough. An LLM app has multiple failure points, so we cannot see the break from the last answer alone.</li>
+                <li>A RAG chatbot needs a retriever evals pipeline and a generator evals pipeline. Retrieval finds similar docs. Generation must be correct in context and grounded, not extra lines like it is a great course.</li>
+                <li>Two component evals still do not finish the job. We also eval the workflow and the entire application, including latency under a threshold.</li>
+                <li>Risk comes in three categories. Application quality is correct, relevant, and complete. Safety is no prompt injection and no bad words. Operations is fast, easy, cheap, and reliable, including token cost.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </article>
